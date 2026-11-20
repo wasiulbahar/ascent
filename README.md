@@ -30,6 +30,14 @@ Then open http://localhost:8796/.
 4. Copy the Project URL and the anon public key into `src/config.js`.
 5. Sign in once, then make yourself admin with the line at the end of `schema.sql`.
 
+## Checks
+
+```
+node tests/status.test.mjs
+```
+
+Checks the stage rules (pass mark, locked stages, continue anyway).
+
 ## Releasing
 
 Bump the `?v=N` on the script and stylesheet links in `index.html` and on the imports in `src/app.js`, so browsers don't mix old and new files.

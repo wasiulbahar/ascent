@@ -128,6 +128,36 @@ ul.timeline li strong{display:block;font-family:var(--display);font-weight:600;f
 a.pathlink{font-weight:700;color:var(--lilac-ink);text-decoration:none;border-bottom:2px solid var(--lilac)}
 a.pathlink::after{content:" →"}
 
+/* stage status */
+.chip{display:inline-flex;align-items:center;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--surface);color:var(--muted);white-space:nowrap}
+.chip.ok{color:var(--mint-ink)} .chip.warn{background:var(--flag);color:var(--flag-ink)} .chip.lock{color:var(--muted)}
+.status{display:grid;gap:8px;border-radius:16px;padding:14px 16px;font-size:15px;background:var(--surface);border:1px solid var(--line)}
+.status.ok{background:var(--mint);color:var(--mint-ink);border-color:transparent}
+.status.warn{background:var(--flag);color:var(--flag-ink);border-color:transparent}
+.status.warn a{color:inherit;font-weight:700}
+.status.lock{color:var(--muted)}
+.card.locked{opacity:.6}
+.node.lockd{opacity:.6}
+.score{display:grid;gap:8px}
+
+/* collection */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:14px}
+.bdg{display:grid;justify-items:center;gap:6px;text-align:center;font-size:13px;font-weight:700;color:var(--ink);text-decoration:none}
+.bdg .m{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;border:5px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.bdg .m svg.i{width:30px;height:30px}
+.bdg.off .m{opacity:.3} .bdg.off{color:var(--muted)}
+.bdg.warn .m{box-shadow:0 0 0 3px var(--flag-ink)}
+.bdg small{color:var(--flag-ink);font-size:12px}
+.stamps{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px}
+.stamp{aspect-ratio:3/4;border-radius:12px;display:grid;place-items:center;text-decoration:none}
+.stamp svg.i{width:20px;height:20px}
+.stamp.off{border:2px dashed var(--line)}
+.celebrate{text-align:center;align-items:center;justify-content:center}
+.celebrate canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.medal{width:140px;height:140px;border-radius:50%;background:var(--surface);display:grid;place-items:center;border:8px solid var(--butter);flex:none}
+.medal svg.i{width:60px;height:60px}
+@media (prefers-reduced-motion:no-preference){.celebrate .medal{animation:pop .5s cubic-bezier(.3,1.6,.5,1)} @keyframes pop{from{scale:.6}}}
+
 /* map */
 .mapgrid{display:grid;gap:22px}
 .mapgrid>*{min-width:0}

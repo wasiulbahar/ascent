@@ -1,40 +1,90 @@
-// Which works a learner has ticked off. Saved to their account when signed in,
-// otherwise kept in this browser and moved into the account at the next sign-in.
-import { sb, auth } from "./auth.js?v=3";
+// A learner's record: ticked works, best quiz scores, and stages they continued past.
+// Saved to their account when signed in; otherwise kept in this browser and moved into
+// the account at the next sign-in.
+import { sb, auth } from "./auth.js?v=4";
+import { PASS_MARK } from "./status.js?v=4";
 
-const LOCAL = "ascent-progress";
-const key = (path, work) => `${path}:${work}`;
-export const progress = { done: new Set() };
+const LOCAL = { done: "ascent-progress", attempts: "ascent-attempts", skips: "ascent-skips" };
+const key = (...parts) => parts.join(":");
+export const progress = { done: new Set(), best: new Map(), skips: new Set() };
 
-const readLocal = () => { try { return new Set(JSON.parse(localStorage.getItem(LOCAL) || "[]")); } catch { return new Set(); } };
-const writeLocal = s => { try { localStorage.setItem(LOCAL, JSON.stringify([...s])); } catch { /* storage blocked: ticks last this visit only */ } };
+const read = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch { return []; } };
+const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage blocked: kept for this visit only */ } };
+const clearLocal = () => Object.values(LOCAL).forEach(k => write(k, []));
+
+function keepBest(path, work, score, total) {
+  const k = key(path, work), cur = progress.best.get(k);
+  if (!cur || score / total > cur.score / cur.total) progress.best.set(k, { score, total });
+}
 
 export async function loadProgress() {
-  const local = readLocal();
+  const local = { done: read(LOCAL.done), attempts: read(LOCAL.attempts), skips: read(LOCAL.skips) };
+  progress.done = new Set(); progress.best = new Map(); progress.skips = new Set();
   if (sb && auth.user) {
-    const { data, error } = await sb.from("progress").select("path,work_id");
-    if (!error) {
-      progress.done = new Set(data.map(r => key(r.path, r.work_id)));
-      const missing = [...local].filter(k => !progress.done.has(k));
-      if (missing.length) {
-        const rows = missing.map(k => { const [path, work_id] = k.split(":"); return { user_id: auth.user.id, path, work_id }; });
-        const { error: upErr } = await sb.from("progress").upsert(rows);
-        if (!upErr) { missing.forEach(k => progress.done.add(k)); writeLocal(new Set()); }
-      } else writeLocal(new Set());
+    const [d, a, s] = await Promise.all([
+      sb.from("progress").select("path,work_id"),
+      sb.from("quiz_attempts").select("path,work_id,score,total"),
+      sb.from("stage_skips").select("path,stage"),
+    ]);
+    if (!d.error && !a.error && !s.error) {
+      d.data.forEach(r => progress.done.add(key(r.path, r.work_id)));
+      a.data.forEach(r => keepBest(r.path, r.work_id, r.score, r.total));
+      s.data.forEach(r => progress.skips.add(key(r.path, r.stage)));
+      // move anything done while signed out into the account
+      const uid = auth.user.id;
+      const ups = [];
+      const newDone = local.done.filter(k => !progress.done.has(k));
+      if (newDone.length) ups.push(sb.from("progress").upsert(newDone.map(k => { const [path, work_id] = k.split(":"); return { user_id: uid, path, work_id }; })));
+      if (local.attempts.length) ups.push(sb.from("quiz_attempts").insert(local.attempts.map(r => ({ ...r, user_id: uid }))));
+      const newSkips = local.skips.filter(k => !progress.skips.has(k));
+      if (newSkips.length) ups.push(sb.from("stage_skips").upsert(newSkips.map(k => { const [path, stage] = k.split(":"); return { user_id: uid, path, stage: +stage }; })));
+      const results = await Promise.all(ups);
+      if (results.every(r => !r.error)) {
+        newDone.forEach(k => progress.done.add(k));
+        local.attempts.forEach(r => keepBest(r.path, r.work_id, r.score, r.total));
+        newSkips.forEach(k => progress.skips.add(k));
+        clearLocal();
+      }
       return;
     }
   }
-  progress.done = local;
+  local.done.forEach(k => progress.done.add(k));
+  local.attempts.forEach(r => keepBest(r.path, r.work_id, r.score, r.total));
+  local.skips.forEach(k => progress.skips.add(k));
 }
 
+const signedIn = () => sb && auth.user;
+
 export const isDone = (path, work) => progress.done.has(key(path, work));
+export const best = (path, work) => progress.best.get(key(path, work)) || null;
+export const isSkipped = (path, stage) => progress.skips.has(key(path, stage));
 
 export async function setDone(path, work, on) {
   const k = key(path, work);
   on ? progress.done.add(k) : progress.done.delete(k);
-  if (sb && auth.user) {
+  if (signedIn()) {
     const row = { user_id: auth.user.id, path, work_id: work };
     const { error } = on ? await sb.from("progress").upsert(row) : await sb.from("progress").delete().match(row);
     if (error) { on ? progress.done.delete(k) : progress.done.add(k); throw error; }
-  } else writeLocal(progress.done);
+  } else write(LOCAL.done, [...progress.done]);
+}
+
+export async function recordAttempt(path, work, score, total) {
+  const passed = score / total >= PASS_MARK;
+  const row = { path, work_id: work, score, total, passed };
+  if (signedIn()) {
+    const { error } = await sb.from("quiz_attempts").insert({ ...row, user_id: auth.user.id });
+    if (error) throw error;
+  } else write(LOCAL.attempts, [...read(LOCAL.attempts), row]);
+  keepBest(path, work, score, total);
+  return passed;
+}
+
+export async function skipStage(path, stage) {
+  const k = key(path, stage);
+  if (signedIn()) {
+    const { error } = await sb.from("stage_skips").upsert({ user_id: auth.user.id, path, stage });
+    if (error) throw error;
+  } else write(LOCAL.skips, [...progress.skips, k]);
+  progress.skips.add(k);
 }

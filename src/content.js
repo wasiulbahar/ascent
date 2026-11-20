@@ -85,6 +85,3 @@ export function parseQuiz(body) {
   }
   return qs;
 }
-
-// The quiz's pass mark, shared by work quizzes and stage gates (docs/depth-framework.md).
-export const PASS_MARK = 0.7;

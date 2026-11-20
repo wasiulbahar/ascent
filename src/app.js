@@ -1,8 +1,9 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, norm, PASS_MARK } from "./content.js?v=3";
-import { PATHS } from "./paths.js?v=3";
-import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=3";
-import { loadProgress, isDone, setDone } from "./progress.js?v=3";
+import { parsePath, norm } from "./content.js?v=4";
+import { PATHS } from "./paths.js?v=4";
+import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=4";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=4";
+import { pathStatuses, PASS_MARK } from "./status.js?v=4";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -27,6 +28,8 @@ const IC = {
   link: '<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',
   branch: '<path d="M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9"/>',
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
 };
 const ico = (k, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k] || IC.read}</svg>`;
 
@@ -36,7 +39,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=3`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=4`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -67,6 +70,10 @@ const stageColor = s => STAGE_COLORS[s.index % STAGE_COLORS.length];
 const doneCount = (slug, works) => works.filter(w => isDone(slug, w.id)).length;
 const nextWork = (slug, p) => p.works.find(w => !isDone(slug, w.id));
 const bar = (n, total) => `<div class="bar"><i style="width:${total ? (n / total) * 100 : 0}%"></i></div>`;
+const statuses = (slug, p) => pathStatuses(p, { isDone: id => isDone(slug, id), best: id => best(slug, id), isSkipped: n => isSkipped(slug, n) });
+const CHIP = { passed: ["ok", "Passed"], notfinished: ["warn", "Not finished"], failed: ["warn", "Not finished yet"], locked: ["lock", "Locked"], open: ["", ""] };
+const chip = st => CHIP[st.state][1] ? `<span class="chip ${CHIP[st.state][0]}">${CHIP[st.state][1]}</span>` : "";
+const pct = x => `${Math.round(x * 100)}%`;
 
 // --- screens -----------------------------------------------------------------
 async function homeView() {
@@ -94,7 +101,7 @@ async function pathView(slug) {
   const sections = p.blocks.filter(b => b.type === "section" && b.kind !== "internal");
   const about = sections.find(s => s.kind === "about"), goals = sections.find(s => s.kind === "goals");
   const rest = sections.filter(s => s !== about && s !== goals);
-  const n = doneCount(slug, p.works), nx = nextWork(slug, p);
+  const n = doneCount(slug, p.works), nx = nextWork(slug, p), sts = statuses(slug, p);
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<span>${esc(p.title)}</span></div>
     <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1><p class="lede">${inline(p.lede)}</p>
@@ -102,9 +109,9 @@ async function pathView(slug) {
       <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a></div></div>
     ${about ? `<section class="section about"><h2>${esc(about.title)}</h2><div class="txt${/!\[/.test(about.body) ? " with-img" : ""}">${md(about.body)}</div></section>` : ""}
     <section><p class="label">Stages</p>
-      <div class="stages">${p.stages.map(s => { const d = doneCount(slug, s.works);
-        return `<a class="card stage-card" href="#/path/${slug}/stage/${s.num}" style="${C(stageColor(s))}">
-        <small>Stage ${s.num} · ${esc(s.level || "")}${d === s.works.length ? " · complete" : ""}</small>
+      <div class="stages">${p.stages.map(s => { const st = sts[s.index];
+        return `<a class="card stage-card${st.state === "locked" ? " locked" : ""}" href="#/path/${slug}/stage/${s.num}" style="${C(stageColor(s))}">
+        <span class="row" style="justify-content:space-between;align-items:center"><small>Stage ${s.num} · ${esc(s.level || "")}</small>${chip(st)}</span>
         <div style="display:grid;gap:6px"><h3>${esc(s.name)}</h3><small>${inline(s.intent || "")}</small><div class="dots">${s.works.map(w => `<i class="${isDone(slug, w.id) ? "on" : ""}"></i>`).join("")}</div></div></a>`; }).join("")}</div>
     </section>
     ${goals ? `<section class="section goals"><h2>${esc(goals.title)}</h2><div class="txt">${md(goals.body)}</div></section>` : ""}
@@ -114,18 +121,38 @@ async function pathView(slug) {
 
 async function stageView(slug, num) {
   const p = await getPath(slug); const s = p.stages[num - 1]; if (!s) return notFound();
-  const color = stageColor(s), d = doneCount(slug, s.works);
+  const color = stageColor(s), d = doneCount(slug, s.works), st = statuses(slug, p)[s.index];
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<span>Stage ${s.num}</span></div>
-    <div class="hero" style="${C(color)}"><small style="font-weight:700">Stage ${s.num} · Level: ${esc(s.level || "")} · ${d} of ${s.works.length} done</small><h1>${esc(s.name)}</h1><p>${inline(s.intent || "")}</p>${bar(d, s.works.length)}</div>
+    <div class="hero" style="${C(color)}"><span class="row" style="justify-content:space-between;align-items:center"><small style="font-weight:700">Stage ${s.num} · Level: ${esc(s.level || "")} · ${d} of ${s.works.length} done</small>${chip(st)}</span><h1>${esc(s.name)}</h1><p>${inline(s.intent || "")}</p>${bar(d, s.works.length)}</div>
+    ${stageBox(slug, p, s, st)}
     ${s.intro ? `<div class="txt">${md(s.intro)}</div>` : ""}
     <section><p class="label">Works in this stage</p><div class="worklist">${s.works.map(w => `<a class="work${isDone(slug, w.id) ? " isdone" : ""}" href="#/path/${slug}/work/${w.id}">
       <span class="ic" style="${C(color)}">${ico(w.type)}</span><span><b>${esc(w.title)}${accessBadge(w.access)}</b><span>${esc([VERB[w.type], w.creator, w.length].filter(Boolean).join(" · "))}</span></span>
       ${isDone(slug, w.id) ? `<span class="tick" title="${DONE_VERB[w.type]}">${ico("check")}</span>` : ico("chev")}</a>`).join("")}</div></section>
     ${s.extras.map(x => `<section class="layer"><span class="tag" style="${C(color)}">${esc(x.title)}</span><div class="txt">${md(x.body)}</div></section>`).join("")}
-    ${s.gate ? `<p class="muted">To pass this stage: ${esc(s.gate)}</p>` : ""}
     <a class="btn ghost" href="#/path/${slug}/map" style="justify-self:start">${ico("tree")}See it on the map</a>
   </div>`;
+}
+
+// What the learner needs to know about passing this stage, and the continue-anyway choice.
+const confirming = new Set();
+function stageBox(slug, p, s, st) {
+  const quizLine = st.quizzes ? `Quizzes taken: ${st.taken} of ${st.quizzes} · score so far ${st.taken ? pct(st.pct) : "–"} · pass mark ${pct(PASS_MARK)}` : "This stage has no quizzes: tick every work to pass it.";
+  const prev = p.stages[s.index - 1];
+  if (st.state === "passed") return `<div class="status ok"><b>Stage passed${st.quizzes ? ` with ${pct(st.pct)}` : ""}.</b> ${p.stages[s.index + 1] ? `Stage ${s.num + 1} is open.` : "You've finished the path's stages."}</div>`;
+  if (st.state === "locked") return `<div class="status lock"><b>Locked.</b> Finish Stage ${prev.num} first, or choose to continue anyway on its page. You can still look around.</div>`;
+  if (st.state === "notfinished") return `<div class="status warn"><b>Not finished.</b> You continued past this stage without passing it. Come back and raise your quiz score to ${pct(PASS_MARK)} to complete it. ${quizLine}.</div>`;
+  if (st.state === "failed") {
+    const weak = s.works.filter(w => w.quiz.length && best(slug, w.id) && best(slug, w.id).score / best(slug, w.id).total < PASS_MARK);
+    return `<div class="status warn"><b>You haven't finished this stage properly yet.</b> Your score across its quizzes is ${pct(st.pct)}; the pass mark is ${pct(PASS_MARK)}.
+      ${weak.length ? `<span>Retry these: ${weak.map(w => `<a href="#/path/${slug}/work/${w.id}">${esc(w.title)}</a>`).join(", ")}.</span>` : ""}
+      ${p.stages[s.index + 1] ? (confirming.has(`${slug}:${s.num}`)
+        ? `<span><b>Are you sure?</b> Later stages build on this one. Stage ${s.num} will stay marked "Not finished", and the Mastery certificate stays locked until you pass it.</span>
+           <span class="row"><button class="btn small" type="button" data-skip="${s.num}" data-confirm="1">Yes, continue anyway</button><button class="btn small ghost" type="button" data-skip="${s.num}" data-confirm="0">Stay and retry</button></span>`
+        : `<span class="row"><button class="btn small ghost" type="button" data-skip="${s.num}">Continue anyway</button></span>`) : ""}</div>`;
+  }
+  return `<div class="status"><b>To pass this stage:</b> score ${pct(PASS_MARK)} or more across its quizzes. ${quizLine}</div>`;
 }
 
 const LAYER_COLOR = { Introduction: "mint", Understand: "sky", Analyse: "lilac", Scholar: "butter", Quiz: "peach" };
@@ -140,7 +167,8 @@ async function workView(slug, id) {
       ${w.edition ? `<p><b>Edition:</b> ${inline(w.edition)}</p>` : ""}${w.access.note ? `<p><b>Where to get it:</b> ${inline(w.access.note)}</p>` : ""}
       <div class="row">${hasStory ? `<button class="btn" type="button" data-story="${w.id}">${ico("play")}Start with the story</button>` : ""}
         <button class="btn ghost donebtn" type="button" data-done="${w.id}" aria-pressed="${done}">${done ? ico("check") : ""}${done ? DONE_VERB[w.type] : `Mark as ${DONE_VERB[w.type].toLowerCase()}`}</button></div></div>
-    ${w.layers.map(l => l.name === "Quiz" ? `<section class="layer" id="quiz"><span class="tag" style="${C("peach")}">Quiz</span><div class="quiz" data-quiz="${w.id}"></div></section>`
+    ${statuses(slug, p)[s.index].state === "locked" ? `<div class="status lock"><b>This work is in a locked stage.</b> You can read it and try the quiz, but Stage ${s.num} opens properly once Stage ${s.num - 1} is passed.</div>` : ""}
+    ${w.layers.map(l => l.name === "Quiz" ?`<section class="layer" id="quiz"><span class="tag" style="${C("peach")}">Quiz</span><div class="quiz" data-quiz="${w.id}"></div></section>`
       : `<section class="layer"><span class="tag" style="${C(LAYER_COLOR[l.name])}">${l.name}</span><div class="txt">${md(l.body)}</div></section>`).join("")}
     <nav class="pager">${prev ? `<a href="#/path/${slug}/work/${prev.id}">‹ ${esc(prev.title)}</a>` : "<span></span>"}${next ? `<a href="#/path/${slug}/work/${next.id}">${esc(next.title)} ›</a>` : ""}</nav>
   </div>`;
@@ -166,7 +194,7 @@ async function mapView(slug) {
   const branches = parseBranches(p), bridges = parseBridges(p);
   const nx = nextWork(slug, p), here = nx ? nx.stage.index : p.stages.length - 1;
   if (!mapOpen.has(slug)) mapOpen.set(slug, new Set([here + 1]));
-  const open = mapOpen.get(slug), n = doneCount(slug, p.works);
+  const open = mapOpen.get(slug), n = doneCount(slug, p.works), sts = statuses(slug, p);
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<span>Map</span></div>
     <div><h1>Your map</h1><p class="muted">How deep you've gone, what's left, and the side roads you can take.</p></div>
@@ -181,10 +209,10 @@ async function mapView(slug) {
         <div class="row"><button class="btn small ghost" type="button" data-expand="all">Expand all</button><button class="btn small ghost" type="button" data-expand="none">Collapse all</button></div>
       </aside>
       <ul class="tree" aria-label="Path map"><li><span class="node root" style="${C(meta.color)}"><span class="ni">${ico(meta.icon)}</span><span><b>${esc(p.title)}</b><small>${p.stages.length} stages · ${p.works.length} works</small></span></span>
-        <ul>${p.stages.map(s => { const ex = open.has(s.num), d = doneCount(slug, s.works), full = d === s.works.length;
+        <ul>${p.stages.map(s => { const ex = open.has(s.num), d = doneCount(slug, s.works), st = sts[s.index];
           const side = branches.filter(b => b.after === s.num);
-          return `<li><button class="node" type="button" style="${C(stageColor(s))}" data-toggle="${s.num}" aria-expanded="${ex}">
-            <span class="ni">${ico(full ? "check" : "spark")}</span><span><b>Stage ${s.num}: ${esc(s.name)}</b><small>${d} of ${s.works.length} done · ${esc(s.level || "")}${side.length ? ` · ${side.length} side branch${side.length > 1 ? "es" : ""}` : ""}</small></span>${ico("chev", "i chev")}</button>
+          return `<li><button class="node${st.state === "locked" ? " lockd" : ""}" type="button" style="${C(stageColor(s))}" data-toggle="${s.num}" aria-expanded="${ex}">
+            <span class="ni">${ico(st.state === "passed" ? "check" : st.state === "locked" ? "lock" : "spark")}</span><span><b>Stage ${s.num}: ${esc(s.name)}</b><small>${CHIP[st.state][1] ? CHIP[st.state][1] + " · " : ""}${d} of ${s.works.length} done · ${esc(s.level || "")}${side.length ? ` · ${side.length} side branch${side.length > 1 ? "es" : ""}` : ""}</small></span>${ico("chev", "i chev")}</button>
             ${ex ? `<ul>${s.works.map(w => { const dn = isDone(slug, w.id), at = w === nx;
               return `<li><a class="node wn${dn ? " done" : ""}${at ? " here" : ""}" href="#/path/${slug}/work/${w.id}"><span class="ni" style="${C(stageColor(s))}">${ico(dn ? "check" : w.type)}</span><span><b>${esc(w.title)}</b><small>${esc([w.creator, w.length].filter(Boolean).join(" · "))}${at ? " · you are here" : ""}</small></span></a></li>`; }).join("")}
               ${side.map(b => `<li class="br"><span class="node branch" style="color:var(--${stageColor(s)}-ink)"><span class="ni" style="${C(stageColor(s))}">${ico("branch")}</span><span><b>${linkPathNames(esc(b.name), slug)}</b><small>Side branch · ${inline(b.works)}</small></span></span></li>`).join("")}</ul>` : ""}</li>`; }).join("")}
@@ -198,19 +226,32 @@ async function mapView(slug) {
 // --- quiz ------------------------------------------------------------------------
 function mountQuizzes(slug) {
   document.querySelectorAll("[data-quiz]").forEach(async box => {
-    const p = await getPath(slug); renderQuiz(box, p.works.find(x => x.id === box.dataset.quiz).quiz);
+    const p = await getPath(slug); const w = p.works.find(x => x.id === box.dataset.quiz);
+    renderQuiz(box, w.quiz, { slug, p, w });
   });
 }
-function renderQuiz(box, qs) {
+function renderQuiz(box, qs, ctx) {
   box.innerHTML = ""; let right = 0, done = 0;
+  const { slug, p, w } = ctx, prevBest = best(slug, w.id);
   const score = document.createElement("div"); score.className = "score";
-  const update = () => {
-    if (done < qs.length) { score.className = "score"; score.textContent = `${done} of ${qs.length} answered · pass mark ${PASS_MARK * 100}%`; return; }
-    const pass = right / qs.length >= PASS_MARK;
+  const update = async () => {
+    if (done < qs.length) {
+      score.className = "score";
+      score.textContent = `${done} of ${qs.length} answered · pass mark ${pct(PASS_MARK)}${prevBest ? ` · your best so far: ${prevBest.score} of ${prevBest.total}` : ""}`;
+      return;
+    }
+    const before = statuses(slug, p)[w.stage.index].state;
+    let pass;
+    try { pass = await recordAttempt(slug, w.id, right, qs.length); }
+    catch (err) { score.className = "score fail"; score.textContent = `${right} of ${qs.length} right, but your score couldn't be saved: ${err.message}`; return; }
+    if (pass && !isDone(slug, w.id)) { await setDone(slug, w.id, true).catch(() => {}); markHeroDone(w); }
+    const after = statuses(slug, p)[w.stage.index];
     score.className = "score " + (pass ? "pass" : "fail");
-    score.innerHTML = pass ? `${right} of ${qs.length} right. Passed.`
-      : `${right} of ${qs.length} right. You haven't finished this work properly yet. <button class="btn small ghost" type="button">Retry</button>`;
-    score.querySelector("button")?.addEventListener("click", () => renderQuiz(box, qs));
+    score.innerHTML = pass
+      ? `<span>${right} of ${qs.length} right. Passed, and ticked off.</span>`
+      : `<span>${right} of ${qs.length} right. You haven't finished this work properly yet: the pass mark is ${pct(PASS_MARK)}.</span><span class="row"><button class="btn small ghost" type="button" data-retry>Retry the quiz</button>${after.state === "failed" ? `<a class="btn small ghost" href="#/path/${slug}/stage/${w.stage.num}">See your options for this stage</a>` : ""}</span>`;
+    score.querySelector("[data-retry]")?.addEventListener("click", () => renderQuiz(box, qs, ctx));
+    if (after.state === "passed" && before !== "passed") celebrate(slug, p, w.stage, after);
   };
   for (const q of qs) {
     const d = document.createElement("div"); d.className = "qq";
@@ -231,6 +272,61 @@ function renderQuiz(box, qs) {
     d.append(fb); box.append(d);
   }
   box.append(score); update();
+}
+
+function markHeroDone(w) {
+  const b = $(".hero [data-done]"); if (!b) return;
+  b.setAttribute("aria-pressed", "true"); b.innerHTML = ico("check") + DONE_VERB[w.type];
+}
+
+// --- celebration when a stage is passed ---------------------------------------------
+function celebrate(slug, p, s, st) {
+  const nx = p.stages[s.index + 1];
+  $("#layer").innerHTML = `<div class="scrim"></div><div class="full celebrate enter" style="${C(stageColor(s))}" role="dialog" aria-modal="true" aria-label="Stage passed"><canvas id="confetti"></canvas>
+    <div class="medal">${ico("check")}</div><small style="font-weight:700">Badge earned${nx ? ` · you're now at ${esc(nx.level || "the next level")}` : ""}</small><h1>${esc(s.name)} passed</h1>
+    <p>${st.quizzes ? `You scored ${pct(st.pct)} across the stage's quizzes.` : "You finished every work in this stage."}${nx ? ` Stage ${nx.num}, ${esc(nx.name)}, is now open.` : " That was the last stage."}</p>
+    <div style="display:grid;gap:10px;width:100%">${nx ? `<a class="btn" href="#/path/${slug}/stage/${nx.num}" data-close>Go to Stage ${nx.num}</a>` : ""}<a class="btn ghost" href="#/collection" data-close>See my badges</a><button class="btn ghost" type="button" data-close>Keep reading</button></div>
+  </div>`;
+  confetti();
+}
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = $("#confetti"); if (!cv) return;
+  const x = cv.getContext("2d"), r = cv.getBoundingClientRect(); cv.width = r.width; cv.height = r.height;
+  const cs = getComputedStyle(document.documentElement), cols = ["--mint-ink", "--peach-ink", "--sky-ink", "--rose-ink", "--butter-ink", "--lilac-ink"].map(v => cs.getPropertyValue(v).trim());
+  const P = Array.from({ length: 110 }, () => ({ x: Math.random() * r.width, y: -20 - Math.random() * r.height * 0.5, vy: 2 + Math.random() * 3, vx: -1.5 + Math.random() * 3, s: 5 + Math.random() * 6, a: Math.random() * 6, c: cols[Math.floor(Math.random() * cols.length)] }));
+  let f = 0;
+  (function tick() {
+    if (!document.body.contains(cv)) return;
+    x.clearRect(0, 0, cv.width, cv.height);
+    P.forEach(q => { q.x += q.vx; q.y += q.vy; q.a += 0.1; x.save(); x.translate(q.x, q.y); x.rotate(q.a); x.fillStyle = q.c; x.fillRect(-q.s / 2, -q.s / 4, q.s, q.s / 2); x.restore(); });
+    if (++f < 170) requestAnimationFrame(tick); else x.clearRect(0, 0, cv.width, cv.height);
+  })();
+}
+
+// --- collection: badges and collected works across all paths ------------------------
+async function collectionView() {
+  const all = await Promise.all(PATHS.map(async m => ({ ...m, p: await getPath(m.slug).catch(() => null) })));
+  const rows = all.filter(x => x.p).map(x => ({ ...x, sts: statuses(x.slug, x.p) }));
+  const passedCount = rows.reduce((a, r) => a + r.sts.filter(s => s.state === "passed").length, 0);
+  const worksDone = rows.reduce((a, r) => a + doneCount(r.slug, r.p.works), 0);
+  const unfinished = rows.flatMap(r => r.p.stages.filter((s, i) => r.sts[i].state === "notfinished").map(s => ({ r, s })));
+  const anyQuiz = rows.some(r => r.p.works.some(w => best(r.slug, w.id)?.score / best(r.slug, w.id)?.total >= PASS_MARK));
+  return `<div class="stack">
+    <div><h1>Your collection</h1><p class="muted">${passedCount} stage badge${passedCount === 1 ? "" : "s"} · ${worksDone} work${worksDone === 1 ? "" : "s"} collected</p></div>
+    ${!auth.user && sb ? `<p class="notice">You're not signed in, so this collection lives in this browser only. <a href="#/signin">Sign in</a> to keep it on every device.</p>` : ""}
+    ${unfinished.length ? `<div class="status warn"><b>Not finished.</b> You continued past ${unfinished.length === 1 ? "this stage" : "these stages"}: ${unfinished.map(({ r, s }) => `<a href="#/path/${r.slug}/stage/${s.num}">${esc(r.title)}, Stage ${s.num}</a>`).join(", ")}. Pass ${unfinished.length === 1 ? "it" : "them"} to complete the badge${unfinished.length === 1 ? "" : "s"}.</div>` : ""}
+    <section><p class="label">Special badges</p><div class="badges">
+      <div class="bdg${anyQuiz ? "" : " off"}"><div class="m" style="${C("butter")}">${ico("spark")}</div>First quiz passed</div>
+      ${rows.map(r => { const all3 = r.sts.every(s => s.state === "passed"); return `<div class="bdg${all3 ? "" : " off"}"><div class="m" style="${C(r.color)}">${ico(r.icon)}</div>${esc(r.title)}: every stage passed</div>`; }).join("")}
+    </div></section>
+    ${rows.map(r => `<section class="section"><div class="row" style="justify-content:space-between;align-items:baseline"><h2>${esc(r.title)}</h2><a href="#/path/${r.slug}" class="muted" style="font-weight:700">Open the path ›</a></div>
+      <p class="label" style="margin:0">Stage badges</p>
+      <div class="badges">${r.p.stages.map((s, i) => { const st = r.sts[i].state; return `<a class="bdg ${st === "passed" ? "" : st === "notfinished" ? "warn" : "off"}" href="#/path/${r.slug}/stage/${s.num}"><div class="m" style="${C(stageColor(s))}">${ico(st === "passed" ? "check" : "spark")}</div>${esc(s.name)}${st === "notfinished" ? "<small>Not finished</small>" : ""}</a>`; }).join("")}</div>
+      <p class="label" style="margin:0">Works collected · ${doneCount(r.slug, r.p.works)} of ${r.p.works.length}</p>
+      <div class="stamps">${r.p.works.map(w => isDone(r.slug, w.id) ? `<a class="stamp" href="#/path/${r.slug}/work/${w.id}" style="${C(stageColor(w.stage))}" title="${esc(w.title)}">${ico(w.type)}</a>` : `<span class="stamp off" title="${esc(w.title)}"></span>`).join("")}</div>
+    </section>`).join("")}
+  </div>`;
 }
 
 // --- story cards: the Introduction layer told one card at a time --------------------
@@ -324,12 +420,13 @@ const ROUTES = [
   [/^#\/path\/([\w-]+)\/map$/, m => mapView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/stage\/(\d+)$/, m => stageView(m[1], +m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)$/, m => workView(m[1], m[2]), "home"],
+  [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/signin$/, () => signinView(), "account"],
   [/^#\/account$/, () => accountView(), "account"],
 ];
 
 function renderNav(tab) {
-  const items = [["#/", "Home", "home", "home"], [auth.user ? "#/account" : "#/signin", auth.user ? "Account" : "Sign in", "user", "account"]];
+  const items = [["#/", "Home", "home", "home"], ["#/collection", "Collection", "trophy", "collection"], [auth.user ? "#/account" : "#/signin", auth.user ? "Account" : "Sign in", "user", "account"]];
   $("#tabs").innerHTML = `<a class="brand side-brand" href="#/">${ico("logo")}Ascent</a>` +
     items.map(([h, l, i, t]) => `<a href="${h}" ${t === tab ? 'aria-current="page"' : ""}>${ico(i)}${l}</a>`).join("");
   $("#who").textContent = auth.user?.email || "";
@@ -372,6 +469,15 @@ document.addEventListener("click", async e => {
     await refresh();
     if (!was) offerNext(slug); else toast("Unticked");
     return;
+  }
+  if (d.skip) {
+    const k = `${slug}:${d.skip}`;
+    if (d.confirm === "1") {
+      try { await skipStage(slug, +d.skip); } catch (err) { toast(`Couldn't save: ${err.message}`); return; }
+      confirming.delete(k); toast(`Stage ${+d.skip + 1} is open. Stage ${d.skip} stays marked Not finished.`);
+    } else if (d.confirm === "0") confirming.delete(k);
+    else confirming.add(k);
+    refresh(); return;
   }
   if (d.story) { openStory(slug, d.story); return; }
   if (d.step) { const n = story.n + +d.step; if (n >= 0 && n < story.cards.length) { story.n = n; drawStory(); } return; }
