@@ -1,7 +1,7 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, norm, PASS_MARK } from "./content.js?v=1";
-import { PATHS } from "./paths.js?v=1";
-import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=1";
+import { parsePath, norm, PASS_MARK } from "./content.js?v=2";
+import { PATHS } from "./paths.js?v=2";
+import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=2";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -29,7 +29,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=1`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=2`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -159,9 +159,20 @@ function signinView() {
       <button class="btn" type="submit">${ico("mail")}Email me a sign-in link</button>
     </form></div>`;
 }
-function accountView() {
+const ROLE_TEXT = {
+  learner: "Learner",
+  reviewer: "Reviewer: the review portal arrives in week 5.",
+  editor: "Editor: the editor tools arrive in week 5.",
+  admin: "Admin: the admin dashboard arrives in week 5.",
+};
+async function accountView() {
   if (!auth.user) return signinView();
-  return `<div class="stack signin"><h1>Your account</h1><p>Signed in as <b>${esc(auth.user.email)}</b>.</p>
+  const { data, error } = await sb.from("profiles").select("role").eq("id", auth.user.id).maybeSingle();
+  const role = data?.role;
+  const roleLine = error ? `<p class="err">Couldn't read your role: ${esc(error.message)}</p>`
+    : role ? `<p><b>Role:</b> ${esc(ROLE_TEXT[role] || role)}</p>`
+    : `<p class="notice">Your profile wasn't created. This happens if you signed up before the database was set up: ask the admin to add it.</p>`;
+  return `<div class="stack signin"><h1>Your account</h1><p>Signed in as <b>${esc(auth.user.email)}</b>.</p>${roleLine}
     <button class="btn ghost" id="signout" type="button">Sign out</button></div>`;
 }
 const notFound = () => `<div class="stack"><h1>Page not found</h1><p><a href="#/">Go to the home page</a></p></div>`;

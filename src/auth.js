@@ -9,7 +9,8 @@ export const auth = { user: null, ready: false };
 
 export async function initAuth(onChange) {
   if (!sb) { auth.ready = true; return; }
-  sb.auth.onAuthStateChange((_event, session) => { auth.user = session?.user || null; onChange(); });
+  // Run onChange after the callback: Supabase calls made inside it wait on its own lock and hang.
+  sb.auth.onAuthStateChange((_event, session) => { auth.user = session?.user || null; setTimeout(onChange, 0); });
   const { data } = await sb.auth.getSession();
   auth.user = data.session?.user || null;
   auth.ready = true;
