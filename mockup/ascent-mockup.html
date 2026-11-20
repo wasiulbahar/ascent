@@ -1,0 +1,579 @@
+<title>Ascent Learning Paths</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+/* Layout: phone = one column + bottom tabs; desktop (>=960px) = left sidebar + wide content, overlays become centred modals. Soft pastel cards throughout. */
+:root{
+  --bg:#F6F5FB; --surface:#FFFFFF; --ink:#23222F; --muted:#6B6A7B; --line:#E2E0EC; --btn:#23222F; --on-btn:#FFFFFF;
+  --mint:#DDF2E6; --mint-ink:#1F5A3A; --lilac:#E6E1FB; --lilac-ink:#3B2F86; --peach:#FDE6DA; --peach-ink:#7A3518;
+  --sky:#DCEBFA; --sky-ink:#1D4673; --butter:#FBF0CF; --butter-ink:#6B4E0B; --rose:#F9E0E8; --rose-ink:#7A2443;
+  --good:#2F8F5B; --bad:#C2483A;
+  --display:"Outfit", "Segoe UI", system-ui, sans-serif; --body:"Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15141C; --surface:#1F1E29; --ink:#EDECF5; --muted:#A3A2B5; --line:#33323F; --btn:#EDECF5; --on-btn:#15141C;
+  --mint:#1D3A2B; --mint-ink:#BDE8CF; --lilac:#2B2650; --lilac-ink:#D3CCFA; --peach:#43271B; --peach-ink:#F7CDB8;
+  --sky:#1B2F47; --sky-ink:#C2DBF5; --butter:#3A3016; --butter-ink:#F2DE9F; --rose:#41212D; --rose-ink:#F3C3D3;
+  --good:#6CC994; --bad:#EE8576; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15141C; --surface:#1F1E29; --ink:#EDECF5; --muted:#A3A2B5; --line:#33323F; --btn:#EDECF5; --on-btn:#15141C;
+  --mint:#1D3A2B; --mint-ink:#BDE8CF; --lilac:#2B2650; --lilac-ink:#D3CCFA; --peach:#43271B; --peach-ink:#F7CDB8;
+  --sky:#1B2F47; --sky-ink:#C2DBF5; --butter:#3A3016; --butter-ink:#F2DE9F; --rose:#41212D; --rose-ink:#F3C3D3;
+  --good:#6CC994; --bad:#EE8576; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:30px;line-height:1.15} h2{font-size:22px;line-height:1.2} h3{font-size:17px;line-height:1.25}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;text-align:left}
+:focus-visible{outline:2.5px solid var(--lilac-ink);outline-offset:2px;border-radius:8px}
+svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--muted)}
+.label{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between;gap:8px}
+
+.app{max-width:460px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:20px 110px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px}
+.brand{font-family:var(--display);font-weight:600;font-size:20px;display:flex;align-items:center;gap:8px}
+.xp{display:flex;align-items:center;gap:6px;background:var(--butter);color:var(--butter-ink);padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.xp svg.i{width:18px;height:18px}
+.stack{display:grid;gap:26px;min-width:0}
+.homegrid,.mapgrid{display:grid;gap:26px}
+.homegrid>*,.mapgrid>*{min-width:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--btn);color:var(--on-btn);border-radius:16px;padding:14px 20px;font-weight:700;font-size:16px;width:100%;text-align:center}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:8px 14px;font-size:14px;border-radius:12px;width:auto}
+.btn svg.i{width:20px;height:20px}
+
+/* stories row */
+.stories{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
+.stories::-webkit-scrollbar{display:none}
+.sb{display:grid;justify-items:center;gap:6px;width:68px;flex:none;font-size:12px;font-weight:700;text-align:center;line-height:1.2}
+.sb .ring{width:64px;height:64px;border-radius:50%;padding:3px;background:conic-gradient(var(--lilac-ink),var(--peach-ink),var(--mint-ink),var(--lilac-ink))}
+.sb.seen .ring{background:var(--line)}
+.sb .in{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;border:3px solid var(--bg)}
+
+.hero{border-radius:26px;padding:20px;display:grid;gap:14px}
+.hero .art{display:flex;align-items:center;gap:14px}
+.blob{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;background:var(--surface);flex:none}
+.blob svg.i{width:32px;height:32px}
+.bar{height:8px;border-radius:999px;background:var(--surface);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:currentColor}
+.nudge{display:flex;gap:10px;align-items:center;font-size:14px;font-weight:600;background:var(--surface);border-radius:14px;padding:10px 12px;color:var(--ink)}
+.nudge svg.i{width:18px;height:18px;color:var(--peach-ink)}
+
+.proof{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.faces{display:flex}
+.faces i{width:26px;height:26px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px;display:block}
+.faces i:first-child{margin-left:0}
+
+.subjects{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{border-radius:22px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-height:128px;width:100%}
+.card svg.i{width:28px;height:28px}
+.card small{font-size:13px;font-weight:600;opacity:.85}
+
+/* feed */
+.feed{display:grid;gap:14px}
+.post{background:var(--surface);border-radius:22px;overflow:hidden}
+.post .pic{height:120px;display:grid;place-items:center}
+.post .pic svg.i{width:48px;height:48px}
+.post .txt{padding:14px 16px;display:grid;gap:6px}
+.post .tag{font-size:12px;font-weight:700;color:var(--muted)}
+.post .acts{display:flex;gap:16px;padding:0 16px 14px;font-size:14px;font-weight:700;color:var(--muted)}
+.post .acts button{display:flex;align-items:center;gap:6px}
+.post .acts svg.i{width:20px;height:20px}
+.post .acts .liked{color:var(--rose-ink)}
+.post .acts .liked svg.i{fill:currentColor}
+.endfeed{text-align:center;border:2px dashed var(--line);border-radius:22px;padding:22px;display:grid;gap:6px;justify-items:center}
+.endfeed svg.i{width:30px;height:30px;color:var(--mint-ink)}
+
+.activity{background:var(--surface);border-radius:22px;padding:16px;display:grid;gap:12px;font-size:14px}
+.activity div{display:flex;gap:10px;align-items:center}
+.activity i.dot{width:30px;height:30px;border-radius:50%;flex:none;display:block}
+
+.stages{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stages .card{min-height:150px}
+.stages .card:last-child{grid-column:span 2;min-height:110px}
+.card.locked{opacity:.55}
+.dots{display:flex;gap:5px}
+.dots i{width:9px;height:9px;border-radius:50%;background:currentColor;opacity:.25}
+.dots i.on{opacity:1}
+.endorse{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--mint-ink);background:var(--mint);padding:5px 11px;border-radius:999px;justify-self:start}
+.endorse svg.i{width:16px;height:16px}
+
+/* map */
+.gauge{background:var(--surface);border-radius:22px;padding:18px;display:grid;gap:14px}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.levels div{height:12px;border-radius:999px;background:var(--line)}
+.levels div.on{background:var(--mint-ink)}
+.levels div.here{background:var(--lilac-ink)}
+.lvlnames{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;font-size:11px;font-weight:700;color:var(--muted)}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mstats div{border-radius:16px;padding:12px;display:grid;gap:2px}
+.mstats b{font-family:var(--display);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.mstats span{font-size:12px;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted);font-weight:600}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:50%;display:block}
+.tree,.tree ul{list-style:none;margin:0;padding:0}
+.tree ul{padding-left:22px}
+.tree li{position:relative;padding:5px 0 5px 24px}
+.tree li::before{content:"";position:absolute;left:0;top:0;bottom:0;border-left:2px solid var(--line)}
+.tree li:last-child::before{bottom:auto;height:29px}
+.tree li::after{content:"";position:absolute;left:0;top:29px;width:20px;border-top:2px solid var(--line)}
+.tree li.br::after,.tree li.br::before{border-style:dashed}
+.tree>li{padding-left:0}.tree>li::before,.tree>li::after{display:none}
+.node{display:inline-flex;align-items:center;gap:10px;border-radius:16px;padding:8px 12px 8px 8px;max-width:100%;text-align:left;border:2px solid transparent}
+.node .ni{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--surface);flex:none}
+.node .ni svg.i{width:18px;height:18px}
+.node b{display:block;font-weight:700;font-size:15px;line-height:1.25}
+.node small{display:block;font-size:12px;font-weight:600;opacity:.8}
+.node.wn{background:var(--surface);color:var(--ink)}
+.node.done{border-color:var(--mint-ink)}
+.node.here{border-color:var(--lilac-ink);box-shadow:0 0 0 4px var(--lilac)}
+.node.lockd{opacity:.5}
+.node.branch{background:transparent;border:2px dashed currentColor}
+.node .chev{width:18px;height:18px;transition:transform .2s}
+.node[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.node.root{padding:12px 16px 12px 12px}
+.node.root b{font-family:var(--display);font-size:20px}
+
+/* sheet + overlays */
+.scrim{position:fixed;inset:0;background:rgb(15 14 22 / .45);z-index:20}
+.sheet{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(460px,100%);max-height:85vh;overflow-y:auto;background:var(--bg);z-index:21;border-radius:26px 26px 0 0;
+  padding:12px max(18px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:grid;gap:14px}
+.grab{width:44px;height:5px;border-radius:999px;background:var(--line);justify-self:center}
+.work{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface);border-radius:18px;padding:12px;width:100%}
+.work .ic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center}
+.work b{font-weight:700;display:block;line-height:1.3}
+.work span{font-size:14px;color:var(--muted)}
+.warnchip{font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--butter);color:var(--butter-ink);white-space:nowrap}
+.tick{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--mint);color:var(--mint-ink)}
+.tick svg.i{width:16px;height:16px}
+.countdown{width:56px;height:56px;flex:none}
+.countdown circle{fill:none;stroke-width:5}
+.countdown text{font-family:var(--display);font-size:18px;font-weight:600;fill:var(--ink)}
+
+.full{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:min(460px,100%);z-index:22;display:flex;flex-direction:column;overflow-y:auto;
+  padding:calc(14px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));gap:16px}
+.segs{display:flex;gap:5px}
+.segs i{flex:1;height:4px;border-radius:999px;background:currentColor;opacity:.25}
+.segs i.on{opacity:1}
+.fullhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.close{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--ink);flex:none}
+.story{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;position:relative;min-height:320px}
+.story .kicker{font-size:14px;font-weight:700;opacity:.8}
+.story h2{font-size:30px;line-height:1.15}
+.story p{font-size:19px;line-height:1.5;max-width:30ch}
+.story .big{width:96px;height:96px;border-radius:30px;display:grid;place-items:center;background:var(--surface)}
+.story .big svg.i{width:46px;height:46px}
+.tapzones{position:absolute;inset:0;display:grid;grid-template-columns:1fr 2fr}
+.hint{font-size:13px;text-align:center;opacity:.7}
+.quiz{background:var(--bg)}
+.qopts{display:grid;gap:10px}
+.qopt{display:flex;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px;font-weight:700;width:100%}
+.qopt.right{border-color:var(--good);background:var(--mint);color:var(--mint-ink)}
+.qopt.wrong{border-color:var(--bad)}
+.qopt svg.r{height:18px;width:auto;flex:none}
+.feedback{border-radius:18px;padding:14px 16px;font-weight:600}
+.celebrate{text-align:center;align-items:center;justify-content:center}
+.celebrate canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.medal{width:150px;height:150px;border-radius:50%;background:var(--surface);display:grid;place-items:center;border:8px solid var(--butter);flex:none}
+.medal svg.i{width:64px;height:64px}
+
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bdg{display:grid;justify-items:center;gap:8px;text-align:center;font-size:13px;font-weight:700}
+.bdg .m{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;border:5px solid var(--surface)}
+.bdg .m svg.i{width:32px;height:32px}
+.bdg.off .m{opacity:.35}
+.stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stamp{aspect-ratio:3/4;border-radius:14px;display:grid;place-items:center;max-width:100%}
+.stamp svg.i{width:26px;height:26px}
+.stamp.off{background:var(--surface);color:var(--line);border:2px dashed var(--line)}
+
+nav.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(460px,100%);z-index:10;background:var(--surface);border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);padding:8px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+nav.tabs .side-brand{display:none}
+nav.tabs button{display:grid;justify-items:center;gap:2px;font-size:12px;font-weight:700;color:var(--muted);padding:6px 0;border-radius:12px;text-align:center}
+nav.tabs button[aria-current="page"]{color:var(--ink);background:var(--bg)}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));background:var(--btn);color:var(--on-btn);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:30;max-width:calc(100% - 32px);text-align:center}
+
+/* desktop */
+@media (min-width:960px){
+  .app{max-width:1180px;margin:0 0 0 240px;padding:28px 40px 60px}
+  .topbar .brand{visibility:hidden}
+  nav.tabs{left:0;top:0;bottom:0;transform:none;width:240px;border-top:0;border-right:1px solid var(--line);grid-template-columns:1fr;align-content:start;gap:4px;padding:28px 16px}
+  nav.tabs .side-brand{display:flex;margin:0 0 22px 10px}
+  nav.tabs button{grid-auto-flow:column;justify-content:start;align-items:center;gap:12px;padding:11px 14px;font-size:15px}
+  .homegrid{grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+  .homegrid aside{position:sticky;top:28px;display:grid;gap:26px}
+  .mapgrid{grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+  .mapgrid aside{position:sticky;top:28px;display:grid;gap:16px;order:2}
+  .subjects{grid-template-columns:repeat(3,1fr)}
+  .stages{grid-template-columns:repeat(3,1fr)}
+  .stages .card:last-child{grid-column:span 1}
+  .stages .card:nth-child(4){grid-column:span 2}
+  .feed{grid-template-columns:1fr 1fr}
+  .feed .endfeed{grid-column:1/-1}
+  .badges{grid-template-columns:repeat(6,1fr)}
+  .stamps{grid-template-columns:repeat(10,1fr)}
+  .sheet,.full{top:50%;bottom:auto;transform:translate(-50%,-50%);width:520px;height:min(780px,92vh);max-height:92vh;border-radius:28px;box-shadow:0 30px 80px rgb(0 0 0 / .25)}
+  .sheet{height:auto}
+  #toast{bottom:28px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .enter{animation:fade .22s ease-out} .medal{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes fade{from{opacity:0}} @keyframes pop{from{scale:.6}}
+}
+</style>
+
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><svg class="i" viewBox="0 0 24 24" style="color:var(--lilac-ink)"><path d="M3 20l6-8 4 4 8-11"/></svg>Ascent</div>
+    <div class="xp" aria-label="Experience points"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><span id="xp"></span></div>
+  </div>
+  <main id="view"></main>
+</div>
+<nav class="tabs" id="tabs" aria-label="Main"></nav>
+<div id="layer"></div>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+const IC={
+  music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
+  atom:'<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  listen:'<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/>',
+  watch:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M10 9l4 2-4 2z"/>',
+  read:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/>',
+  course:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
+  play:'<path d="M7 4v16l13-8z"/>', check:'<path d="M5 12l5 5L20 7"/>', x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  home:'<path d="M3 11l9-8 9 8v10H3z"/>', path:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  tree:'<circle cx="12" cy="4.5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="12" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7v9.5M12 12H5v4.5M12 12h7v4.5"/>',
+  trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/>',
+  ear:'<path d="M6 9a6 6 0 1 1 12 0c0 4-4 5-4 9a3 3 0 0 1-6 0"/>', eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  hand:'<path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 11V3.5a1.5 1.5 0 0 1 3 0V11M14 11V5a1.5 1.5 0 0 1 3 0v8c0 4-3 8-7 8-3 0-5-2-6-4l-2-4a1.5 1.5 0 0 1 2.6-1.5L8 15"/>',
+  heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
+  layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>', spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  gift:'<rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8S10 3 7.5 4.5 9 8 12 8zM12 8s2-5 4.5-3.5S15 8 12 8z"/>',
+  share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/>',
+  bookmark:'<path d="M6 3h12v18l-6-4-6 4z"/>', chev:'<path d="M9 6l6 6-6 6"/>', link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',
+  film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>', piano:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v10M12 4v10M16 4v10M8 14v6M12 14v6M16 14v6"/>',
+  mask:'<path d="M4 5h16v6a8 8 0 0 1-16 0z"/><path d="M8 10h2M14 10h2M9 15c2 1.5 4 1.5 6 0"/>', repeat:'<path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/>',
+  wave:'<path d="M2 12c2-5 4-5 6 0s4 5 6 0 4-5 6 0 2 3 2 3"/>', city:'<path d="M3 21V9l6-4v16M9 21V3h8v18M17 21v-9h4v9M2 21h20"/>'
+};
+const ico=(k,cls="i")=>`<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
+const C=c=>`background:var(--${c});color:var(--${c}-ink)`;
+
+const SUBJECTS=[["Classical music","lilac","music",20],["Dostoevsky","peach","book",11],["Geopolitics","sky","globe",16],["Philosophy","butter","bulb",14],["Physics","mint","atom",15],["Economics","rose","chart",13]];
+
+const STAGES=[
+ {name:"First Encounters",color:"mint",icon:"heart",line:"Famous, joyful and short",level:"Beginner",items:[
+  {id:"a1",type:"listen",title:"Spring",creator:"Vivaldi",time:"10 min",who:"Antonio Vivaldi, a Venetian violinist and priest, wrote it around 1720.",why:"Three short movements, each painting a scene: birdsong, a storm, a dance.",notice:"In the first minute, the violin trills are birds singing."},
+  {id:"a2",type:"listen",title:"Eine kleine Nachtmusik",creator:"Mozart",time:"6 min",who:"Wolfgang Amadeus Mozart wrote this serenade in 1787, aged 31.",why:"Pure melody. It shows how a piece states a tune, plays with it and brings it home.",notice:"Hum the opening tune, then catch it when it returns."},
+  {id:"a3",type:"listen",title:"Symphony No. 5",creator:"Beethoven",time:"8 min",quiz:true,
+   who:"Ludwig van Beethoven wrote it in his late thirties, while he was going deaf.",
+   why:"Four notes, short-short-short-long, build the whole movement. It may be the most famous opening in music.",
+   notice:"Count the da-da-da-DUM. It jumps from instrument to instrument.",
+   fact:"In the Second World War the BBC opened broadcasts with it. The rhythm matches Morse code for V, for victory."},
+  {id:"a4",type:"watch",title:"What Does Music Mean?",creator:"Leonard Bernstein",time:"55 min",who:"A 1958 TV concert where conductor Leonard Bernstein talks to a hall full of children.",why:"He shows how to listen, with the orchestra right there.",notice:"His idea that music means itself, not a story."}
+ ],branches:[{name:"Film music",icon:"film",works:6,line:"From Star Wars to Studio Ghibli"}]},
+ {name:"Familiar depth",color:"lilac",icon:"listen",line:"Longer, still full of tunes",level:"Explorer",items:[
+  {id:"b1",type:"listen",title:"New World Symphony",creator:"Dvořák",time:"42 min",who:"Antonín Dvořák, a Czech composer, wrote it in 1893 while living in New York.",why:"Your first full symphony. Every movement has a tune you can hold on to.",notice:"The slow movement’s gentle cor anglais melody."},
+  {id:"b2",type:"listen",title:"The Nutcracker Suite",creator:"Tchaikovsky",time:"22 min"},
+  {id:"b3",type:"read",title:"What to Listen For in Music",creator:"Aaron Copland",time:"5 hr"},{id:"b4",type:"listen",title:"Peer Gynt Suite",creator:"Grieg",time:"15 min"}],
+  branches:[{name:"Ballet",icon:"spark",works:5,line:"Swan Lake, Firebird, Giselle"},{name:"Opera’s greatest hits",icon:"mask",works:7,line:"Short arias first, full operas later"}]},
+ {name:"Emotional range",color:"peach",icon:"spark",line:"Deeper, darker, bigger",level:"Listener",items:[
+  {id:"c1",type:"listen",title:"Piano Concerto No. 2",creator:"Rachmaninoff",time:"34 min"},{id:"c2",type:"listen",title:"Requiem",creator:"Mozart",time:"50 min"},
+  {id:"c3",type:"course",title:"Listening to Music",creator:"Open Yale Courses",time:"23 lectures"}],
+  branches:[{name:"Piano romantics",icon:"piano",works:6,line:"Chopin, Liszt, Schumann"}]},
+ {name:"Architecture",color:"sky",icon:"layers",line:"How great music is built",level:"Connoisseur",items:[
+  {id:"d1",type:"listen",title:"Goldberg Variations",creator:"Bach",time:"51 min"},{id:"d2",type:"listen",title:"String Quartet Op. 131",creator:"Beethoven",time:"40 min"},
+  {id:"d3",type:"listen",title:"Resurrection Symphony",creator:"Mahler",time:"85 min"}],
+  branches:[{name:"Baroque deep dive",icon:"layers",works:8,line:"Bach, Handel, Purcell, Monteverdi"}]},
+ {name:"Frontier",color:"rose",icon:"globe",line:"Music that broke the rules",level:"Expert",items:[
+  {id:"e1",type:"read",title:"The Rest Is Noise",creator:"Alex Ross",time:"18 hr"},{id:"e2",type:"listen",title:"Verklärte Nacht",creator:"Schoenberg",time:"30 min"},
+  {id:"e3",type:"listen",title:"Atmosphères",creator:"Ligeti",time:"9 min"}],
+  branches:[{name:"Minimalism",icon:"repeat",works:5,line:"Reich, Glass, Pärt"}]}
+];
+const BRIDGES=[{name:"The physics of sound",subject:"Physics",color:"mint",icon:"wave"},{name:"Vienna, 1780 to 1910",subject:"History",color:"butter",icon:"city"},{name:"Dostoevsky’s Russia",subject:"Dostoevsky",color:"peach",icon:"book"}];
+STAGES.forEach(s=>s.items.forEach(it=>{it.stage=s;
+  it.who??=`${it.creator}. The real app shows who made it and when.`;
+  it.why??="Why it sits at this point in the path, in one or two sentences.";
+  it.notice??="One thing to listen, look or read for.";}));
+const ITEMS=Object.fromEntries(STAGES.flatMap(s=>s.items).map(i=>[i.id,i]));
+
+const QUIZ=[
+ {q:"Which rhythm opens the symphony?",opts:[["sssl","Short, short, short, long",true],["lls","Long, long, short"],["slsl","Short, long, short, long"]],why:"Da-da-da-DUM: three short notes and one long one."},
+ {q:"Which sense was Beethoven losing while he wrote it?",opts:[["ear","Hearing",true],["eye","Sight"],["hand","Touch"]],why:"His deafness grew worse through his thirties. He kept composing anyway."},
+ {q:"When was it first performed?",opts:[["y","1708"],["y","1808",true],["y","1908"]],why:"December 1808, in Vienna, at a four-hour concert."}
+];
+
+const FEED=[
+ {id:"p1",color:"lilac",icon:"spark",tag:"Did you know · Classical music",title:"Mozart wrote his first symphony at eight.",text:"He composed it in London in 1764, while his father was ill and the family had to stay quiet.",likes:2140},
+ {id:"p2",color:"peach",icon:"book",tag:"Because you liked Spring",title:"Vivaldi wrote poems for The Four Seasons.",text:"Each concerto comes with a sonnet. The storm, the sleeping goatherd and the barking dog are all in the music.",likes:986},
+ {id:"p3",color:"sky",icon:"listen",tag:"60-second listen",title:"Hear the storm in “Summer”.",text:"Skip to the last movement of Summer. It is two and a half minutes of pure weather.",likes:1532,cta:"a1"},
+ {id:"p4",color:"butter",icon:"bulb",tag:"From Philosophy",title:"Why does sad music feel good?",text:"Philosophers call it the paradox of tragedy. Stage 3 of your path is built around it.",likes:3307},
+ {id:"p5",color:"mint",icon:"gift",tag:"Mystery card",title:"Tap to reveal a surprise",text:"",likes:0,mystery:true}
+];
+const MYSTERIES=["Beethoven poured cold water over his head to stay alert while composing.","The Nutcracker’s celesta was so new in 1892 that Tchaikovsky kept it secret from rivals.","Bach once walked about 400 km to hear the organist Buxtehude play."];
+const ACTIVITY=[["mint","Rafi in Dhaka","collected Symphony No. 5"],["lilac","Amara in Lagos","finished First Encounters"],["peach","Lena in Berlin","started Familiar depth"],["sky","Tomás in Lima","earned the Explorer level"]];
+
+/* sample learner: three First Encounters works done, Beethoven 5 is next */
+const S={view:"home",done:new Set(["a1","a2","a4"]),warn:new Set(),xp:240,badges:new Set(),layer:null,liked:new Set(),seen:new Set(),open:new Set(),revealed:null,timer:null};
+
+const $=s=>document.querySelector(s);
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2600)}
+const doneIn=s=>s.items.filter(i=>S.done.has(i.id)).length;
+const complete=s=>doneIn(s)===s.items.length;
+const isOpen=i=>i===0||complete(STAGES[i-1]);
+function nextItem(){for(const s of STAGES)for(const it of s.items)if(!S.done.has(it.id))return it}
+const total=STAGES.reduce((a,s)=>a+s.items.length,0);
+const curStage=()=>STAGES.indexOf((nextItem()||ITEMS.e3).stage);
+const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(".0","")+"k":String(n);
+
+function rhythm(code){
+  if(code==="sssl")return `<svg class="r" viewBox="0 0 70 18"><circle cx="7" cy="9" r="6" fill="currentColor"/><circle cx="23" cy="9" r="6" fill="currentColor"/><circle cx="39" cy="9" r="6" fill="currentColor"/><rect x="50" y="3" width="20" height="12" rx="6" fill="currentColor"/></svg>`;
+  if(code==="lls")return `<svg class="r" viewBox="0 0 70 18"><rect x="0" y="3" width="20" height="12" rx="6" fill="currentColor"/><rect x="26" y="3" width="20" height="12" rx="6" fill="currentColor"/><circle cx="59" cy="9" r="6" fill="currentColor"/></svg>`;
+  if(code==="slsl")return `<svg class="r" viewBox="0 0 70 18"><circle cx="6" cy="9" r="6" fill="currentColor"/><rect x="16" y="3" width="18" height="12" rx="6" fill="currentColor"/><circle cx="44" cy="9" r="6" fill="currentColor"/><rect x="54" y="3" width="16" height="12" rx="6" fill="currentColor"/></svg>`;
+  return IC[code]?ico(code):ico("spark");
+}
+
+const VIEWS={
+home(){const it=nextItem()||ITEMS.a1,s=it.stage,si=STAGES.indexOf(s),left=s.items.length-doneIn(s),nx=STAGES[si+1];
+  const storyItems=[...s.items.filter(x=>!S.done.has(x.id)),...(nx?nx.items.slice(0,2):[]),...s.items.filter(x=>S.done.has(x.id))];
+  return `
+<div class="homegrid">
+ <div class="stack">
+  <div><p class="muted" style="font-weight:700">Good evening</p><h1>Ready for today’s piece?</h1></div>
+  <div class="stories" aria-label="Stories">${storyItems.map(x=>`<button class="sb ${S.seen.has(x.id)||S.done.has(x.id)?"seen":""}" data-story="${x.id}"><span class="ring"><span class="in" style="${C(x.stage.color)}">${ico(x.type)}</span></span>${x.title.length>14?x.title.slice(0,13)+"…":x.title}</button>`).join("")}</div>
+  <div class="hero" style="${C(s.color)}">
+    <div class="art"><div class="blob">${ico(it.type)}</div><div><small style="font-weight:700;opacity:.8">Classical music · ${s.name}</small><h2>${it.title}</h2><span style="font-weight:600">${it.creator} · ${it.time}</span></div></div>
+    ${nx&&left>0?`<div class="nudge">${ico("lock")}${left===1?`One more work unlocks ${nx.name}`:`${left} more works unlock ${nx.name}`}</div>`:""}
+    <button class="btn" data-story="${it.id}">${ico("play")}Start with the story</button>
+  </div>
+  <div class="proof"><span class="faces"><i style="background:var(--mint-ink)"></i><i style="background:var(--peach-ink)"></i><i style="background:var(--sky-ink)"></i></span>1,240 people are on this path · 86 finished First Encounters this week</div>
+  <section><p class="label"><span>For you</span><span>${FEED.length} new today</span></p>
+   <div class="feed">${FEED.map(p=>{const liked=S.liked.has(p.id);
+    if(p.mystery){const r=S.revealed;return `<article class="post"><div class="pic" style="${C(p.color)}">${ico(r?"spark":"gift")}</div><div class="txt"><span class="tag">${p.tag}</span><h3>${r?"Surprise fact":p.title}</h3>${r?`<p>${r}</p>`:`<button class="btn small" data-mystery style="justify-self:start">Reveal</button>`}</div></article>`}
+    return `<article class="post"><div class="pic" style="${C(p.color)}">${ico(p.icon)}</div><div class="txt"><span class="tag">${p.tag}</span><h3>${p.title}</h3><p class="muted">${p.text}</p></div>
+     <div class="acts"><button data-like="${p.id}" class="${liked?"liked":""}" aria-pressed="${liked}">${ico("heart")}${fmt(p.likes+(liked?1:0))}</button><button data-toast="Saved to your collection">${ico("bookmark")}Save</button><button data-toast="Share card copied">${ico("share")}Share</button></div></article>`}).join("")}
+    <div class="endfeed">${ico("check")}<h3>You’re all caught up</h3><p class="muted">New cards arrive tomorrow. Your next piece is waiting.</p><button class="btn small" data-story="${it.id}" style="margin-top:6px">Go to ${it.title}</button></div>
+   </div>
+  </section>
+ </div>
+ <aside class="stack">
+  <section><p class="label">Your path</p>
+    <button class="card" data-go="path" style="${C("lilac")};min-height:0;flex-direction:row;align-items:center">
+      <div style="flex:1;display:grid;gap:8px"><h3>Classical music</h3><div class="bar"><i style="width:${S.done.size/total*100}%"></i></div><small>${S.done.size} of ${total} works · Level: ${s.level}</small></div>${ico("music")}
+    </button>
+  </section>
+  <section><p class="label">Happening now</p>
+    <div class="activity">${ACTIVITY.map(([c,n,a])=>`<div><i class="dot" style="background:var(--${c})"></i><span><b>${n}</b> ${a}</span></div>`).join("")}<small class="muted">Sample activity</small></div>
+  </section>
+  <section><p class="label">Explore subjects</p>
+    <div class="subjects" style="grid-template-columns:1fr 1fr">${SUBJECTS.map(([n,c,i,w])=>`<button class="card" style="${C(c)};min-height:104px" ${n==="Classical music"?'data-go="path"':`data-toast="Only Classical music is built in this mockup"`}>${ico(i)}<div><h3>${n}</h3><small>${w} works</small></div></button>`).join("")}</div>
+  </section>
+ </aside>
+</div>`},
+
+path(){return `
+<div class="stack">
+  <div style="display:grid;gap:10px"><h1>Classical music</h1>
+    <span class="endorse">${ico("shield")}Endorsed by 4 experts</span>
+    <div style="color:var(--lilac-ink);display:grid;gap:6px;max-width:520px"><div class="bar" style="background:var(--lilac)"><i style="width:${S.done.size/total*100}%"></i></div><small class="muted" style="font-weight:700">${S.done.size} of ${total} works · about 60 hours</small></div>
+  </div>
+  <div class="stages">${STAGES.map((s,i)=>{const o=isOpen(i);return `
+    <button class="card ${o?"":"locked"}" style="${C(s.color)}" data-stage="${i}">
+      <div style="display:flex;justify-content:space-between;align-items:center">${ico(o?(complete(s)?"check":s.icon):"lock")}<small>Stage ${i+1}</small></div>
+      <div style="display:grid;gap:6px"><h3>${s.name}</h3><small>${s.line}</small><div class="dots">${s.items.map(it=>`<i class="${S.done.has(it.id)?"on":""}"></i>`).join("")}</div></div>
+    </button>`}).join("")}</div>
+  <button class="btn ghost" data-go="map" style="max-width:520px">${ico("tree")}See the full map, with side branches</button>
+</div>`},
+
+map(){const cs=curStage(),core=S.done.size,brTotal=STAGES.reduce((a,s)=>a+s.branches.length,0);
+  const st=(it)=>S.done.has(it.id)?"done":(nextItem()===it?"here":(isOpen(STAGES.indexOf(it.stage))?"":"lockd"));
+  return `
+<div class="stack">
+ <div><h1>Your map</h1><p class="muted">See how deep you’ve gone, what’s left, and the side roads you can take.</p></div>
+ <div class="mapgrid">
+  <aside>
+   <div class="gauge">
+    <div><p class="label" style="margin:0">How deep you are</p><h2>${STAGES[cs].level}</h2></div>
+    <div class="levels">${STAGES.map((s,i)=>`<div class="${i<cs?"on":i===cs?"here":""}"></div>`).join("")}</div>
+    <div class="lvlnames">${STAGES.map(s=>`<span>${s.level}</span>`).join("")}</div>
+    <div class="mstats">
+     <div style="${C("mint")}"><b>${core}</b><span>works done</span></div>
+     <div style="${C("lilac")}"><b>${total-core}</b><span>left on path</span></div>
+     <div style="${C("peach")}"><b>${brTotal}</b><span>side branches</span></div>
+    </div>
+    <p class="muted" style="font-size:14px">Beyond the main path: ${STAGES.reduce((a,s)=>a+s.branches.reduce((b,x)=>b+x.works,0),0)} works in side branches and ${BRIDGES.length} bridges to other subjects.</p>
+   </div>
+   <div class="legend"><span><i style="background:var(--mint-ink)"></i>Done</span><span><i style="background:var(--lilac-ink)"></i>You are here</span><span><i style="border:2px dashed var(--muted)"></i>Side branch</span><span><i style="background:var(--line)"></i>Locked</span></div>
+   <div style="display:flex;gap:8px"><button class="btn small ghost" data-expand="all">Expand all</button><button class="btn small ghost" data-expand="none">Collapse all</button></div>
+  </aside>
+  <ul class="tree" aria-label="Path map">
+   <li><span class="node root" style="${C("lilac")}"><span class="ni">${ico("music")}</span><span><b>Classical music</b><small>5 stages · ${total} core works</small></span></span>
+    <ul>
+    ${STAGES.map((s,i)=>{const ex=S.open.has(i),o=isOpen(i);return `
+     <li><button class="node ${o?"":"lockd"}" style="${C(s.color)}" data-toggle="${i}" aria-expanded="${ex}">
+        <span class="ni">${ico(o?(complete(s)?"check":s.icon):"lock")}</span><span><b>Stage ${i+1}: ${s.name}</b><small>${doneIn(s)}/${s.items.length} done · ${s.level}${s.branches.length?` · ${s.branches.length} side branch${s.branches.length>1?"es":""}`:""}</small></span>${ico("chev","i chev")}</button>
+      ${ex?`<ul>
+        ${s.items.map(it=>`<li><button class="node wn ${st(it)}" data-story="${it.id}"><span class="ni" style="${C(s.color)}">${ico(S.done.has(it.id)?"check":it.type)}</span><span><b>${it.title}</b><small>${it.creator} · ${it.time}${st(it)==="here"?" · you are here":""}</small></span></button></li>`).join("")}
+        ${s.branches.map(b=>`<li class="br"><button class="node branch" style="color:var(--${s.color}-ink)" data-toast="Side branch: ${b.name}. ${b.works} works. Opens once you finish ${s.name}."><span class="ni" style="${C(s.color)}">${ico(b.icon)}</span><span><b>${b.name}</b><small>Side branch · ${b.works} works · ${b.line}</small></span></button></li>`).join("")}
+      </ul>`:""}
+     </li>`}).join("")}
+     <li class="br"><span class="node branch" style="color:var(--muted)"><span class="ni">${ico("link")}</span><span><b>Bridges to other subjects</b><small>Where this path connects</small></span></span>
+      <ul>${BRIDGES.map(b=>`<li class="br"><button class="node branch" style="color:var(--${b.color}-ink)" data-toast="Opens the ${b.subject} map"><span class="ni" style="${C(b.color)}">${ico(b.icon)}</span><span><b>${b.name}</b><small>${b.subject}</small></span></button></li>`).join("")}</ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+</div>`},
+
+collection(){const B=STAGES.map((s,i)=>({s,i,on:S.badges.has(i)||complete(s)}));return `
+<div class="stack">
+  <div><h1>Your collection</h1><p class="muted">${S.xp} XP · ${B.filter(b=>b.on).length} badges · ${S.done.size} works</p></div>
+  <section><p class="label">Badges</p><div class="badges">${B.map(b=>`<div class="bdg ${b.on?"":"off"}"><div class="m" style="${C(b.s.color)}">${ico(b.on?b.s.icon:"lock")}</div>${b.s.name}</div>`).join("")}
+    <div class="bdg"><div class="m" style="${C("butter")}">${ico("trophy")}</div>First quiz</div></div></section>
+  <section><p class="label">Works collected</p><div class="stamps">${STAGES.flatMap(s=>s.items).map(it=>S.done.has(it.id)?`<div class="stamp" style="${C(it.stage.color)}" title="${it.title}">${ico(it.type)}</div>`:`<div class="stamp off">${ico("lock")}</div>`).join("")}</div></section>
+</div>`}
+};
+
+/* fade in only when a new kind of overlay opens, never on re-draws inside it */
+function layer(){
+  const L=S.layer,fresh=!!L&&L.t!==layer.prev;layer.prev=L?L.t:null;
+  draw();
+  if(fresh)$("#layer .full, #layer .sheet")?.classList.add("enter");
+}
+function draw(){
+  const L=S.layer,root=$("#layer");
+  if(!L){root.innerHTML="";return}
+  if(L.t==="sheet"){const s=STAGES[L.i],o=isOpen(L.i);
+    root.innerHTML=`<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="${s.name}"><div class="grab"></div>
+      <div><small class="muted" style="font-weight:700">Stage ${L.i+1} · ${s.level}</small><h2>${s.name}</h2><p class="muted">${s.line}</p></div>
+      ${o?"":`<p style="${C(s.color)};border-radius:14px;padding:10px 14px;font-weight:600;font-size:14px">Finish Stage ${L.i} to unlock. You can still peek.</p>`}
+      ${s.items.map(it=>`<button class="work" data-story="${it.id}"><div class="ic" style="${C(s.color)}">${ico(it.type)}</div><div><b>${it.title}</b><span>${it.creator} · ${it.time}</span></div>${S.warn.has(it.id)?`<span class="warnchip">Not finished</span>`:S.done.has(it.id)?`<span class="tick">${ico("check")}</span>`:""}</button>`).join("")}
+    </div>`;return}
+  if(L.t==="story"){const it=ITEMS[L.id],s=it.stage;S.seen.add(it.id);
+    const cards=[["The story","Who made it",it.who],["Why it matters","Why now",it.why],["What to notice","Listen for",it.notice]];
+    if(it.fact)cards.push(["Did you know?","A little extra",it.fact]);
+    cards.push(["Your turn",`${it.time} · any streaming service`,it.quiz?"Enjoy it, then answer 3 quick questions to collect it.":"Enjoy it, then mark it as done to collect it."]);
+    const c=cards[L.n],last=L.n===cards.length-1;
+    root.innerHTML=`<div class="scrim" data-close></div><div class="full" style="${C(s.color)}" role="dialog" aria-modal="true" aria-label="${it.title}">
+      <div class="segs">${cards.map((_,k)=>`<i class="${k<=L.n?"on":""}"></i>`).join("")}</div>
+      <div class="fullhead"><small style="font-weight:700">${it.creator} · ${it.title}</small><button class="close" data-close aria-label="Close">${ico("x")}</button></div>
+      <div class="story">
+        ${last?"":`<div class="tapzones"><button data-n="${L.n-1}" aria-label="Previous card"></button><button data-n="${L.n+1}" aria-label="Next card"></button></div>`}
+        <div class="big">${ico(L.n===0?it.type:L.n===1?"heart":L.n===2?"ear":L.n===3&&it.fact?"spark":"play")}</div>
+        <span class="kicker">${c[1]}</span><h2>${c[0]}</h2><p>${c[2]}</p>
+      </div>
+      ${last?(S.warn.has(it.id)?`<button class="btn" data-quiz="${it.id}">Not finished · retry the quiz</button>`:S.done.has(it.id)?`<button class="btn" data-close>Already collected</button>`:it.quiz?`<button class="btn" data-quiz="${it.id}">I’ve listened · take the quiz</button>`:`<button class="btn" data-finish="${it.id}">I’ve finished it</button>`)
+        :`<p class="hint">Tap the right side, or press →, to continue</p>`}
+    </div>`;return}
+  if(L.t==="quiz"){const q=QUIZ[L.q],a=L.a;
+    root.innerHTML=`<div class="scrim" data-close></div><div class="full quiz" role="dialog" aria-modal="true" aria-label="Quiz">
+      <div class="segs" style="color:var(--good)">${QUIZ.map((_,k)=>`<i class="${k<L.q||(k===L.q&&a!=null)?"on":""}"></i>`).join("")}</div>
+      <div class="fullhead"><small class="muted" style="font-weight:700">Question ${L.q+1} of ${QUIZ.length}</small><button class="close" data-close aria-label="Close">${ico("x")}</button></div>
+      <h2 style="font-size:26px">${q.q}</h2>
+      <div class="qopts">${q.opts.map(([v,l,ok],k)=>`<button class="qopt ${a!=null&&ok?"right":""} ${a===k&&!ok?"wrong":""}" data-ans="${k}" ${a!=null?"disabled":""}>${rhythm(v)}${l}</button>`).join("")}</div>
+      ${a!=null?`<div class="feedback" style="${q.opts[a][2]?C("mint"):C("peach")}">${q.opts[a][2]?"Nice! ":"Not quite. "}${q.why}</div>
+        <button class="btn" data-qnext style="margin-top:auto">${L.q<QUIZ.length-1?"Next question":"Collect it"}</button>`:""}
+    </div>`;return}
+  if(L.t==="fail"){const it=ITEMS[L.id];
+    root.innerHTML=`<div class="scrim"></div><div class="full" style="${C("butter")}" role="dialog" aria-modal="true" aria-label="Not finished yet">
+      <div class="fullhead"><small style="font-weight:700">${it.creator} · ${it.title}</small><button class="close" data-close aria-label="Close">${ico("x")}</button></div>
+      <div class="story"><div class="big">${ico("bookmark")}</div><span class="kicker">${L.right} of ${QUIZ.length} right · pass mark 70%</span><h2>Not finished yet</h2>
+        <p>You haven’t finished ${it.title} properly. A quick second look at the story cards usually does it.</p></div>
+      ${L.confirm?`<div class="nudge" style="display:block">Later works build on this one. If you continue, ${it.title} and its stage stay marked “Not finished”, and the Mastery certificate stays locked until you pass.</div>
+        <button class="btn" data-skipok="${it.id}">Continue anyway</button><button class="btn ghost" data-quiz="${it.id}">Retry the quiz instead</button>`
+      :`<button class="btn" data-quiz="${it.id}">Retry the quiz</button><button class="btn ghost" data-story="${it.id}">Review the story cards</button><button class="btn ghost" data-skip>Continue anyway</button>`}
+    </div>`;return}
+  if(L.t==="celebrate"){const s=STAGES[L.i],nx=STAGES[L.i+1];
+    root.innerHTML=`<div class="scrim"></div><div class="full celebrate" style="${C(s.color)}" role="dialog" aria-modal="true" aria-label="Stage complete"><canvas id="confetti"></canvas>
+      <div class="medal">${ico(s.icon)}</div><small style="font-weight:700">Badge earned · you’re now an ${nx?nx.level:"Expert"}</small><h1>${s.name} complete</h1>
+      <p style="max-width:28ch">+${L.gain} XP. You finished all ${s.items.length} works in Stage ${L.i+1}.${nx?` ${nx.name} is now open.`:""}</p>
+      <div style="display:grid;gap:10px;width:100%;margin-top:12px">${nx?`<button class="btn" data-story="${nx.items[0].id}">${ico("play")}Start ${nx.items[0].title}</button>`:""}<button class="btn ghost" data-toast="Badge card copied. Share it anywhere.">${ico("share")}Share my badge</button><button class="btn ghost" data-go="map">See it on my map</button></div>
+    </div>`;confetti();return}
+  if(L.t==="upnext"){const it=ITEMS[L.id];
+    root.innerHTML=`<div class="scrim" data-cancel></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Up next"><div class="grab"></div>
+      ${L.bonus?`<div class="nudge" style="background:var(--butter);color:var(--butter-ink)">${ico("gift")}Surprise bonus: +${L.bonus} XP</div>`:""}
+      <div style="display:flex;gap:14px;align-items:center">
+        <svg class="countdown" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" stroke="var(--line)"/><circle cx="28" cy="28" r="24" stroke="var(--lilac-ink)" stroke-dasharray="${150.8*L.sec/5} 150.8" transform="rotate(-90 28 28)"/><text x="28" y="34" text-anchor="middle">${L.sec}</text></svg>
+        <div><small class="muted" style="font-weight:700">Up next</small><h2>${it.title}</h2><span class="muted">${it.creator} · ${it.time}</span></div>
+      </div>
+      <button class="btn" data-story="${it.id}">${ico("play")}Start now</button><button class="btn ghost" data-cancel>Not now</button>
+    </div>`;return}
+}
+
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const cv=$("#confetti");if(!cv)return;const x=cv.getContext("2d"),r=cv.getBoundingClientRect();cv.width=r.width;cv.height=r.height;
+  const cs=getComputedStyle(document.documentElement),cols=["--mint-ink","--peach-ink","--sky-ink","--rose-ink","--butter-ink","--lilac-ink"].map(v=>cs.getPropertyValue(v).trim());
+  const P=Array.from({length:110},()=>({x:Math.random()*r.width,y:-20-Math.random()*r.height*.5,vy:2+Math.random()*3,vx:-1.5+Math.random()*3,s:5+Math.random()*6,a:Math.random()*6,c:cols[Math.floor(Math.random()*cols.length)]}));
+  let f=0;(function tick(){if(!document.body.contains(cv))return;x.clearRect(0,0,cv.width,cv.height);
+    P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
+    if(++f<170)requestAnimationFrame(tick);else x.clearRect(0,0,cv.width,cv.height)})();
+}
+
+function stopTimer(){clearInterval(S.timer);S.timer=null}
+function collect(id,gain){
+  S.done.add(id);S.xp+=gain;const s=ITEMS[id].stage,i=STAGES.indexOf(s),warned=s.items.some(x=>S.warn.has(x.id));
+  if(complete(s)&&!S.badges.has(i)&&!warned){S.badges.add(i);S.open.add(i+1);S.layer={t:"celebrate",i,gain};render();return}
+  const bonus=warned?0:(Math.random()<.5?5+Math.floor(Math.random()*4)*5:0);S.xp+=bonus;
+  const nx=nextItem();render();
+  toast(S.warn.has(id)?`${ITEMS[id].title} is marked Not finished. Come back any time.`:complete(s)&&warned?`${STAGES[i+1]?.name||"Next stage"} is open, but this stage isn't finished yet`:`Collected: ${ITEMS[id].title} · +${gain} XP`);
+  if(!nx)return;
+  S.layer={t:"upnext",id:nx.id,sec:5,bonus};layer();
+  // ponytail: autoplay-style countdown, the learner can always cancel; tune the 5s after testing
+  S.timer=setInterval(()=>{if(S.layer?.t!=="upnext")return stopTimer();if(--S.layer.sec<=0){stopTimer();S.layer={t:"story",id:nx.id,n:0}}layer()},1000);
+}
+
+const TABS=[["home","Home","home"],["path","Path","path"],["map","Map","tree"],["collection","Collection","trophy"]];
+function render(){
+  $("#xp").textContent=`${S.xp} XP`;
+  $("#tabs").innerHTML=`<div class="brand side-brand"><svg class="i" viewBox="0 0 24 24" style="color:var(--lilac-ink)"><path d="M3 20l6-8 4 4 8-11"/></svg>Ascent</div>`+
+    TABS.map(([v,l,i])=>`<button data-go="${v}" ${v===S.view?'aria-current="page"':""}>${ico(i)}${l}</button>`).join("");
+  $("#view").innerHTML=VIEWS[S.view]();layer();
+}
+function go(v){if(!VIEWS[v])v="home";stopTimer();S.view=v;S.layer=null;if(v==="map"&&!S.open.size)S.open.add(curStage());if(location.hash.slice(1)!==v)history.replaceState(null,"","#"+v);render();window.scrollTo(0,0)}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,[data-close],[data-cancel]");if(!t)return;const d=t.dataset;
+  if(d.go){go(d.go);return}
+  if(d.toast){toast(d.toast);return}
+  if("close" in d){S.layer=null;layer();render();return}
+  if("cancel" in d){stopTimer();S.layer=null;layer();return}
+  if(d.stage){S.layer={t:"sheet",i:+d.stage};layer();return}
+  if(d.story){stopTimer();S.layer={t:"story",id:d.story,n:0};layer();return}
+  if(d.n!=null){const n=+d.n;if(n>=0)S.layer.n=n;layer();return}
+  if(d.quiz){S.layer={t:"quiz",id:d.quiz,q:0,a:null,right:0};layer();return}
+  if(d.ans){const L=S.layer;L.a=+d.ans;if(QUIZ[L.q].opts[L.a][2])L.right++;layer();return}
+  if("qnext" in d){const L=S.layer;if(L.q<QUIZ.length-1){L.q++;L.a=null;layer()}
+    else if(L.right/QUIZ.length<0.7){S.layer={t:"fail",id:L.id,right:L.right,confirm:false};layer()}
+    else{S.warn.delete(L.id);collect(L.id,10+L.right*10)}return}
+  if("skip" in d){S.layer.confirm=true;layer();return}
+  if(d.skipok){S.warn.add(d.skipok);collect(d.skipok,0);return}
+  if(d.finish){collect(d.finish,20);return}
+  if(d.like){S.liked.has(d.like)?S.liked.delete(d.like):S.liked.add(d.like);render();return}
+  if("mystery" in d){S.revealed=MYSTERIES[Math.floor(Math.random()*MYSTERIES.length)];S.xp+=5;render();toast("Surprise unlocked · +5 XP");return}
+  if(d.toggle!=null){const i=+d.toggle;S.open.has(i)?S.open.delete(i):S.open.add(i);render();return}
+  if(d.expand){S.open=new Set(d.expand==="all"?STAGES.map((_,i)=>i):[]);render();return}
+});
+document.addEventListener("keydown",e=>{
+  if(!S.layer)return;
+  if(e.key==="Escape"){stopTimer();S.layer=null;layer();render()}
+  if(S.layer?.t==="story"&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){const b=document.querySelector(`.tapzones button:${e.key==="ArrowRight"?"last":"first"}-child`);b&&b.click()}
+});
+window.addEventListener("hashchange",()=>go(location.hash.slice(1)));
+go(location.hash.slice(1)||"home");
+</script>
