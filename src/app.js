@@ -1,9 +1,9 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, norm } from "./content.js?v=4";
-import { PATHS } from "./paths.js?v=4";
-import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=4";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=4";
-import { pathStatuses, PASS_MARK } from "./status.js?v=4";
+import { parsePath, norm } from "./content.js?v=5";
+import { PATHS, AREAS } from "./paths.js?v=5";
+import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=5";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=5";
+import { pathStatuses, PASS_MARK } from "./status.js?v=5";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -11,6 +11,7 @@ const C = c => `background:var(--${c});color:var(--${c}-ink)`;
 const STAGE_COLORS = ["mint", "lilac", "peach", "sky", "butter", "rose"];
 const ACCESS = { free: ["free", "Free"], "free-and-paid": ["mixed", "Free + paid"], paid: ["paid", "Paid"] };
 const VERB = { read: "Read", listen: "Listen", watch: "Watch", course: "Course" };
+const GET_TITLE = { read: "Read it", listen: "Listen to it", watch: "Watch it", course: "Take the course" };
 const DONE_VERB = { read: "Read", listen: "Listened", watch: "Watched", course: "Done" };
 
 const IC = {
@@ -28,6 +29,9 @@ const IC = {
   link: '<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',
   branch: '<path d="M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9"/>',
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  atom: '<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  layers: '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>', quiz: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/>',
   trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/>',
   lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
 };
@@ -39,7 +43,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=4`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=5`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -87,11 +91,24 @@ async function homeView() {
       <small style="font-weight:700">${esc(cont.title)} · Stage ${nx.stage.num}: ${esc(nx.stage.name)}</small><h2>${esc(nx.title)}</h2>
       <span>${esc([VERB[nx.type], nx.creator, nx.length].filter(Boolean).join(" · "))}</span><span class="btn" style="justify-self:start">${ico("play")}Continue</span></a>` : ""}
     ${!auth.user && sb ? `<div class="hero" style="${C("lilac")}"><h2>Save your progress</h2><p>Sign in with your email to keep your place on every device. No password needed.</p><a class="btn" href="#/signin" style="justify-self:start">${ico("mail")}Sign in with email</a></div>` : ""}
-    <section><p class="label">Paths</p>
-      <div class="grid">${paths.map(p => { const n = p.data ? doneCount(p.slug, p.data.works) : 0, t = p.data?.works.length || 0;
-        return `<a class="card" href="#/path/${p.slug}" style="${C(p.color)}">${ico(p.icon)}
-        <div style="display:grid;gap:6px"><small>${esc(p.domain)}</small><h2>${esc(p.title)}</h2>${p.data ? `${bar(n, t)}<small>${n} of ${t} works done</small>` : "<small>Not available</small>"}</div></a>`; }).join("")}</div>
+    <section><p class="label">Choose an area</p>
+      <div class="grid">${AREAS.map(a => { const k = a.disciplines.reduce((n, d) => n + d.paths.length, 0);
+        return `<a class="card" href="#/area/${a.slug}" style="${C(a.color)}">${ico(a.icon)}
+        <div style="display:grid;gap:6px"><h2>${esc(a.title)}</h2><small>${esc(a.blurb)}</small><small>${k ? `${k} path${k > 1 ? "s" : ""} ready` : "Coming soon"}</small></div></a>`; }).join("")}</div>
     </section>
+  </div>`;
+}
+
+async function areaView(slug) {
+  const a = AREAS.find(x => x.slug === slug); if (!a) return notFound();
+  const metas = Object.fromEntries(await Promise.all(a.disciplines.flatMap(d => d.paths).map(async s => [s, { meta: PATHS.find(p => p.slug === s), p: await getPath(s).catch(() => null) }])));
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<span>${esc(a.title)}</span></div>
+    <div class="hero" style="${C(a.color)}">${ico(a.icon)}<h1>${esc(a.title)}</h1><p>${esc(a.blurb)}</p></div>
+    ${a.disciplines.map(d => `<section><p class="label">${esc(d.title)}</p>
+      ${d.paths.length ? `<div class="grid">${d.paths.map(s => { const { meta, p } = metas[s]; const n = p ? doneCount(s, p.works) : 0, t = p?.works.length || 0;
+        return `<a class="card" href="#/path/${s}" style="${C(meta.color)}">${ico(meta.icon)}<div style="display:grid;gap:6px"><h2>${esc(meta.title)}</h2>${p ? `${bar(n, t)}<small>${p.stages.length} stages · ${n} of ${t} works done</small>` : "<small>Not available</small>"}</div></a>`; }).join("")}</div>`
+      : `<p class="soon">Paths in ${esc(d.title.toLowerCase())} are being written.</p>`}</section>`).join("")}
   </div>`;
 }
 
@@ -103,7 +120,7 @@ async function pathView(slug) {
   const rest = sections.filter(s => s !== about && s !== goals);
   const n = doneCount(slug, p.works), nx = nextWork(slug, p), sts = statuses(slug, p);
   return `<div class="stack">
-    <div class="crumbs"><a href="#/">Home</a>›<span>${esc(p.title)}</span></div>
+    <div class="crumbs"><a href="#/">Home</a>›${(a => a ? `<a href="#/area/${a.slug}">${esc(a.title)}</a>›` : "")(AREAS.find(a => a.disciplines.some(d => d.paths.includes(slug))))}<span>${esc(p.title)}</span></div>
     <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1><p class="lede">${inline(p.lede)}</p>
       <div class="pills"><span class="pill draft">Draft · not yet endorsed</span><span class="pill">${n} of ${p.works.length} works done</span><span class="pill">${p.stages.length} stages</span></div>
       <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a></div></div>
@@ -155,23 +172,64 @@ function stageBox(slug, p, s, st) {
   return `<div class="status"><b>To pass this stage:</b> score ${pct(PASS_MARK)} or more across its quizzes. ${quizLine}</div>`;
 }
 
-const LAYER_COLOR = { Introduction: "mint", Understand: "sky", Analyse: "lilac", Scholar: "butter", Quiz: "peach" };
+// --- a work is a short lesson: a path of steps, each on its own screen ----------------
+// Visited steps are a per-browser convenience; ticks and quiz scores are the real record.
+const VISITED = "ascent-visited";
+const visited = () => { try { return new Set(JSON.parse(localStorage.getItem(VISITED) || "[]")); } catch { return new Set(); } };
+const markVisited = k => { try { const s = visited(); s.add(k); localStorage.setItem(VISITED, JSON.stringify([...s])); } catch { /* storage blocked */ } };
+const layerOf = (w, name) => w.layers.find(l => l.name === name);
+
+function lessonSteps(slug, w) {
+  const v = visited(), k = s => `${slug}:${w.id}:${s}`, b = best(slug, w.id);
+  const steps = [];
+  if (layerOf(w, "Introduction")) steps.push({ id: "story", title: "The story", sub: "Who made it, and why it matters", icon: "play", done: v.has(k("story")) });
+  steps.push({ id: "get", title: GET_TITLE[w.type] || "Get it", sub: w.length ? `${w.length} · where to find it` : "Where to find it", icon: w.type, done: isDone(slug, w.id) });
+  if (layerOf(w, "Understand")) steps.push({ id: "understand", title: "Understand", sub: "Context and a guide", icon: "eye", done: v.has(k("understand")) });
+  if (layerOf(w, "Analyse")) steps.push({ id: "analyse", title: "Analyse", sub: "Themes and debates", icon: "layers", done: v.has(k("analyse")) });
+  if (w.quiz.length) steps.push({ id: "quiz", title: "Quiz", sub: `${w.quiz.length} questions${b ? ` · best ${b.score} of ${b.total}` : ""}`, icon: "quiz", done: !!b && b.score / b.total >= PASS_MARK });
+  if (layerOf(w, "Scholar")) steps.push({ id: "scholar", title: "Go deeper", sub: "Optional: scholarship and an essay question", icon: "course", done: v.has(k("scholar")), optional: true });
+  return steps;
+}
+
 async function workView(slug, id) {
   const p = await getPath(slug); const w = p.works.find(x => x.id === id); if (!w) return notFound();
-  const s = w.stage, i = p.works.indexOf(w), prev = p.works[i - 1], next = p.works[i + 1];
+  const s = w.stage, i = p.works.indexOf(w), next = p.works[i + 1];
+  const steps = lessonSteps(slug, w), nextStep = steps.find(x => !x.done && !x.optional);
   const facts = [VERB[w.type], w.creator, w.year, w.length].filter(Boolean).join(" · ");
-  const done = isDone(slug, w.id), hasStory = w.layers.some(l => l.name === "Introduction");
-  return `<div class="stack">
-    <div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<a href="#/path/${slug}/stage/${s.num}">Stage ${s.num}</a></div>
-    <div class="hero" style="${C(stageColor(s))}"><small style="font-weight:700">${esc(facts)}</small><h1>${esc(w.title)}${accessBadge(w.access)}</h1>
-      ${w.edition ? `<p><b>Edition:</b> ${inline(w.edition)}</p>` : ""}${w.access.note ? `<p><b>Where to get it:</b> ${inline(w.access.note)}</p>` : ""}
-      <div class="row">${hasStory ? `<button class="btn" type="button" data-story="${w.id}">${ico("play")}Start with the story</button>` : ""}
-        <button class="btn ghost donebtn" type="button" data-done="${w.id}" aria-pressed="${done}">${done ? ico("check") : ""}${done ? DONE_VERB[w.type] : `Mark as ${DONE_VERB[w.type].toLowerCase()}`}</button></div></div>
-    ${statuses(slug, p)[s.index].state === "locked" ? `<div class="status lock"><b>This work is in a locked stage.</b> You can read it and try the quiz, but Stage ${s.num} opens properly once Stage ${s.num - 1} is passed.</div>` : ""}
-    ${w.layers.map(l => l.name === "Quiz" ?`<section class="layer" id="quiz"><span class="tag" style="${C("peach")}">Quiz</span><div class="quiz" data-quiz="${w.id}"></div></section>`
-      : `<section class="layer"><span class="tag" style="${C(LAYER_COLOR[l.name])}">${l.name}</span><div class="txt">${md(l.body)}</div></section>`).join("")}
-    <nav class="pager">${prev ? `<a href="#/path/${slug}/work/${prev.id}">‹ ${esc(prev.title)}</a>` : "<span></span>"}${next ? `<a href="#/path/${slug}/work/${next.id}">${esc(next.title)} ›</a>` : ""}</nav>
+  const color = stageColor(s);
+  return `<div class="stack lesson">
+    <div class="crumbs"><a href="#/path/${slug}">${esc(p.title)}</a>›<a href="#/path/${slug}/stage/${s.num}">Stage ${s.num}</a></div>
+    <div class="hero" style="${C(color)}"><span class="blob">${ico(w.type)}</span><small style="font-weight:700">${esc(facts)}</small><h1>${esc(w.title)}${accessBadge(w.access)}</h1></div>
+    ${statuses(slug, p)[s.index].state === "locked" ? `<div class="status lock"><b>This work is in a locked stage.</b> You can explore it, but Stage ${s.num} opens properly once Stage ${s.num - 1} is passed.</div>` : ""}
+    <ol class="steps" aria-label="Lesson steps">${steps.map((st, k) => {
+      const href = st.id === "story" ? "" : `#/path/${slug}/work/${w.id}/${st.id}`, cur = st === nextStep;
+      const inner = `<span class="node-c${st.done ? " done" : ""}${cur ? " cur" : ""}" style="${st.done || cur ? C(color) : ""}">${ico(st.done ? "check" : st.icon)}</span><span class="st-t"><b>${esc(st.title)}</b><small>${esc(st.sub)}</small>${cur ? `<span class="go-pill">${k === 0 ? "Start" : "Next"}</span>` : ""}</span>`;
+      return `<li class="step s${k % 2}${st.optional ? " opt" : ""}">${st.id === "story" ? `<button type="button" data-story="${w.id}">${inner}</button>` : `<a href="${href}">${inner}</a>`}</li>`; }).join("")}</ol>
+    ${next ? `<a class="nextwork" href="#/path/${slug}/work/${next.id}"><small>Next work</small><b>${esc(next.title)}</b>${ico("chev")}</a>` : ""}
   </div>`;
+}
+
+async function stepView(slug, id, step) {
+  const p = await getPath(slug); const w = p.works.find(x => x.id === id); if (!w) return notFound();
+  const steps = lessonSteps(slug, w), k = steps.findIndex(x => x.id === step); if (k < 0) return notFound();
+  if (["understand", "analyse", "scholar"].includes(step)) markVisited(`${slug}:${w.id}:${step}`);
+  const after = steps.slice(k + 1).find(x => x.id !== "story");
+  const back = `#/path/${slug}/work/${w.id}`, color = stageColor(w.stage);
+  const head = `<div class="stephead"><a class="close" href="${back}" aria-label="Back to the lesson">${ico("x")}</a>
+    <div class="stepbar">${steps.map((x, j) => `<i class="${j <= k ? "on" : ""}" style="${j <= k ? `background:var(--${color}-ink)` : ""}"></i>`).join("")}</div></div>`;
+  const foot = after ? `<a class="btn wide" href="#/path/${slug}/work/${w.id}/${after.id}">Continue: ${esc(after.title)}</a>` : `<a class="btn wide" href="${back}">Back to the lesson</a>`;
+  if (step === "quiz") return `<div class="stack steppage">${head}<div class="quizrun" data-quizrun="${w.id}"></div></div>`;
+  if (step === "get") {
+    const done = isDone(slug, w.id);
+    return `<div class="stack steppage">${head}<p class="kick" style="color:var(--${color}-ink)">${esc(steps[k].title)}</p><h1>${esc(w.title)}</h1>
+      <div class="getcard">${[["Length", esc(w.length)], ["Edition", w.edition && inline(w.edition)], ["Where to get it", w.access.note && `${accessBadge(w.access)} ${inline(w.access.note)}`], ["Note", w.note && inline(w.note)]].filter(([, v]) => v).map(([t, v]) => `<div><small>${t}</small><p>${v}</p></div>`).join("")}</div>
+      <p class="muted">Take your time with it. Come back and tick it off when you've finished.</p>
+      <button class="btn wide ${done ? "ghost " : ""}donebtn" type="button" data-done="${w.id}" aria-pressed="${done}">${done ? ico("check") + DONE_VERB[w.type] : `I've finished it: mark as ${DONE_VERB[w.type].toLowerCase()}`}</button>
+      ${foot}</div>`;
+  }
+  const name = { understand: "Understand", analyse: "Analyse", scholar: "Scholar" }[step];
+  return `<div class="stack steppage">${head}<p class="kick" style="color:var(--${color}-ink)">${esc(steps[k].title)}</p><h1>${esc(w.title)}</h1>
+    <div class="txt">${md(layerOf(w, name).body)}</div>${foot}</div>`;
 }
 
 // --- the map: depth gauge, stages, works, side branches and bridges ---------------
@@ -223,60 +281,59 @@ async function mapView(slug) {
   </div>`;
 }
 
-// --- quiz ------------------------------------------------------------------------
-function mountQuizzes(slug) {
-  document.querySelectorAll("[data-quiz]").forEach(async box => {
-    const p = await getPath(slug); const w = p.works.find(x => x.id === box.dataset.quiz);
-    renderQuiz(box, w.quiz, { slug, p, w });
-  });
+// --- quiz: one question at a time, check, then a feedback bar ---------------------------
+async function mountQuizRun(slug) {
+  const box = $("[data-quizrun]"); if (!box) return;
+  const p = await getPath(slug); const w = p.works.find(x => x.id === box.dataset.quizrun);
+  runQuiz(box, { slug, p, w });
 }
-function renderQuiz(box, qs, ctx) {
-  box.innerHTML = ""; let right = 0, done = 0;
-  const { slug, p, w } = ctx, prevBest = best(slug, w.id);
-  const score = document.createElement("div"); score.className = "score";
-  const update = async () => {
-    if (done < qs.length) {
-      score.className = "score";
-      score.textContent = `${done} of ${qs.length} answered · pass mark ${pct(PASS_MARK)}${prevBest ? ` · your best so far: ${prevBest.score} of ${prevBest.total}` : ""}`;
-      return;
-    }
+function runQuiz(box, ctx) {
+  const { slug, p, w } = ctx, qs = w.quiz, color = stageColor(w.stage);
+  let i = 0, right = 0;
+  const show = () => {
+    const q = qs[i];
+    box.innerHTML = `<div class="qprog"><i style="width:${(i / qs.length) * 100}%;background:var(--${color}-ink)"></i></div>
+      <div class="qcard"><span class="kind">${q.kind === "mc" ? "Choose the answer" : "Fill in the blank"} · ${i + 1} of ${qs.length}</span>
+        <h2 class="qt">${q.kind === "mc" ? inline(q.q) : inline(q.q).replace(/_{3,}|<strong>_<\/strong>|<em>_<\/em>/, '<input type="text" id="blank" aria-label="Your answer" autocomplete="off" spellcheck="false">')}</h2>
+        ${q.kind === "mc" ? `<div class="opts">${q.opts.map((o, k) => `<button type="button" data-opt="${k}">${inline(o.text)}</button>`).join("")}</div>` : ""}</div>
+      <div class="qfoot"><button class="btn wide" type="button" data-check disabled>Check</button></div>`;
+    const check = box.querySelector("[data-check]");
+    let pick = null;
+    box.querySelectorAll("[data-opt]").forEach(b => b.addEventListener("click", () => {
+      box.querySelectorAll("[data-opt]").forEach(x => x.classList.remove("picked")); b.classList.add("picked"); pick = +b.dataset.opt; check.disabled = false; }));
+    const inp = box.querySelector("#blank");
+    if (inp) { inp.addEventListener("input", () => (check.disabled = !inp.value.trim())); inp.addEventListener("keydown", e => { if (e.key === "Enter" && inp.value.trim()) check.click(); }); setTimeout(() => inp.focus(), 50); }
+    check.addEventListener("click", () => {
+      const ok = q.kind === "mc" ? q.opts[pick].ok : q.answers.includes(norm(inp.value));
+      if (ok) right++;
+      const shown = q.kind === "mc" ? inline(q.opts.find(o => o.ok).text) : esc(q.shown);
+      box.querySelectorAll("[data-opt]").forEach((b, k) => { b.disabled = true; if (q.opts[k].ok) b.classList.add("right"); else if (k === pick) b.classList.add("wrong"); });
+      if (inp) { inp.disabled = true; inp.classList.add(ok ? "right" : "wrong"); }
+      box.querySelector(".qfoot").outerHTML = `<div class="qfoot fb ${ok ? "ok" : "no"}"><div><b>${ok ? "Right!" : "Not quite."}</b> ${ok ? "" : `The answer is “${shown}”. `}${inline(q.why)}</div>
+        <button class="btn wide" type="button" data-nextq>${i + 1 < qs.length ? "Continue" : "See your result"}</button></div>`;
+      const nx = box.querySelector("[data-nextq]"); nx.focus();
+      nx.addEventListener("click", () => { i++; i < qs.length ? show() : finish(); });
+    });
+  };
+  const finish = async () => {
     const before = statuses(slug, p)[w.stage.index].state;
+    box.innerHTML = `<div class="qprog"><i style="width:100%;background:var(--${color}-ink)"></i></div><p class="status">Saving your result…</p>`;
     let pass;
     try { pass = await recordAttempt(slug, w.id, right, qs.length); }
-    catch (err) { score.className = "score fail"; score.textContent = `${right} of ${qs.length} right, but your score couldn't be saved: ${err.message}`; return; }
-    if (pass && !isDone(slug, w.id)) { await setDone(slug, w.id, true).catch(() => {}); markHeroDone(w); }
-    const after = statuses(slug, p)[w.stage.index];
-    score.className = "score " + (pass ? "pass" : "fail");
-    score.innerHTML = pass
-      ? `<span>${right} of ${qs.length} right. Passed, and ticked off.</span>`
-      : `<span>${right} of ${qs.length} right. You haven't finished this work properly yet: the pass mark is ${pct(PASS_MARK)}.</span><span class="row"><button class="btn small ghost" type="button" data-retry>Retry the quiz</button>${after.state === "failed" ? `<a class="btn small ghost" href="#/path/${slug}/stage/${w.stage.num}">See your options for this stage</a>` : ""}</span>`;
-    score.querySelector("[data-retry]")?.addEventListener("click", () => renderQuiz(box, qs, ctx));
+    catch (err) { box.innerHTML = `<p class="status warn">${right} of ${qs.length} right, but your score couldn't be saved: ${esc(err.message)}</p>`; return; }
+    if (pass && !isDone(slug, w.id)) await setDone(slug, w.id, true).catch(() => {});
+    const after = statuses(slug, p)[w.stage.index], i2 = p.works.indexOf(w), nextW = p.works[i2 + 1];
+    box.innerHTML = `<div class="qresult ${pass ? "pass" : "fail"}" style="${pass ? C(color) : ""}">
+      <span class="medal small">${ico(pass ? "check" : "quiz")}</span>
+      <h1>${right} of ${qs.length}</h1><p>${pass ? "Passed, and ticked off. Well done." : `You haven't finished this work properly yet. The pass mark is ${pct(PASS_MARK)}.`}</p></div>
+      <div class="stack" style="gap:10px">
+        ${pass ? (nextW ? `<a class="btn wide" href="#/path/${slug}/work/${nextW.id}">Next work: ${esc(nextW.title)}</a>` : "") : `<button class="btn wide" type="button" data-retryquiz>Try again</button>`}
+        ${!pass && after.state === "failed" ? `<a class="btn wide ghost" href="#/path/${slug}/stage/${w.stage.num}">See your options for this stage</a>` : ""}
+        <a class="btn wide ghost" href="#/path/${slug}/work/${w.id}">Back to the lesson</a></div>`;
+    box.querySelector("[data-retryquiz]")?.addEventListener("click", () => runQuiz(box, ctx));
     if (after.state === "passed" && before !== "passed") celebrate(slug, p, w.stage, after);
   };
-  for (const q of qs) {
-    const d = document.createElement("div"); d.className = "qq";
-    const fb = document.createElement("div"); fb.className = "fb"; fb.hidden = true;
-    const answer = (ok, shown) => { done++; if (ok) right++; fb.hidden = false; fb.className = "fb " + (ok ? "ok" : "no"); fb.innerHTML = (ok ? "Right. " : `Not quite. The answer is ${shown}. `) + inline(q.why); update(); };
-    if (q.kind === "mc") {
-      d.innerHTML = `<span class="kind">Multiple choice</span><div class="qt">${inline(q.q)}</div><div class="opts"></div>`;
-      const opts = d.querySelector(".opts");
-      q.opts.forEach(o => { const b = document.createElement("button"); b.type = "button"; b.innerHTML = inline(o.text); opts.append(b);
-        b.addEventListener("click", () => { opts.querySelectorAll("button").forEach((x, k) => { x.disabled = true; if (q.opts[k].ok) x.classList.add("right"); });
-          if (!o.ok) b.classList.add("wrong"); answer(o.ok, `“${inline(q.opts.find(x => x.ok)?.text || "")}”`); }); });
-    } else {
-      d.innerHTML = `<span class="kind">Fill in the blank</span><div class="qt">${inline(q.q).replace(/_{3,}|<strong>_<\/strong>|<em>_<\/em>/, '<input type="text" aria-label="Your answer" autocomplete="off">')}<button type="button" class="go">Check</button></div>`;
-      const inp = d.querySelector("input"), go = d.querySelector(".go");
-      const check = () => { if (!inp.value.trim()) { inp.focus(); return; } const ok = q.answers.includes(norm(inp.value)); inp.disabled = go.disabled = true; answer(ok, `“${esc(q.shown)}”`); };
-      go.addEventListener("click", check); inp.addEventListener("keydown", e => { if (e.key === "Enter") check(); });
-    }
-    d.append(fb); box.append(d);
-  }
-  box.append(score); update();
-}
-
-function markHeroDone(w) {
-  const b = $(".hero [data-done]"); if (!b) return;
-  b.setAttribute("aria-pressed", "true"); b.innerHTML = ico("check") + DONE_VERB[w.type];
+  show();
 }
 
 // --- celebration when a stage is passed ---------------------------------------------
@@ -350,19 +407,34 @@ const story = { w: null, n: 0, cards: [], slug: "" };
 async function openStory(slug, id) {
   const p = await getPath(slug); const w = p.works.find(x => x.id === id); if (!w) return;
   Object.assign(story, { w, slug, n: 0, cards: storyCards(w) });
-  drawStory(true);
+  drawStory(0);
 }
-function drawStory(fresh = false) {
+const storyCard = () => {
   const { w, n, cards, slug } = story, c = cards[n], done = isDone(slug, w.id);
-  $("#layer").innerHTML = `<div class="scrim" data-close></div><div class="full${fresh ? " enter" : ""}" style="${C(stageColor(w.stage))}" role="dialog" aria-modal="true" aria-label="${esc(w.title)}">
-    <div class="segs">${cards.map((_, k) => `<i class="${k <= n ? "on" : ""}"></i>`).join("")}</div>
-    <div class="fullhead"><small style="font-weight:700">${esc(w.title)}</small><button class="close" type="button" data-close aria-label="Close">${ico("x")}</button></div>
-    <div class="story">${c.last ? "" : `<div class="tapzones"><button type="button" data-step="-1" aria-label="Previous card"></button><button type="button" data-step="1" aria-label="Next card"></button></div>`}
+  return `<div class="story">${c.last ? "" : `<div class="tapzones"><button type="button" data-step="-1" aria-label="Previous card"></button><button type="button" data-step="1" aria-label="Next card"></button></div>`}
       <span class="kicker">${esc(c.kicker)}</span>${c.title ? `<h2>${esc(c.title)}</h2>` : ""}<div class="storytxt">${c.html}</div></div>
-    ${c.last ? `<div class="row" style="flex-direction:column">${w.quiz.length ? `<button class="btn" type="button" data-toquiz>Take the quiz</button>` : ""}
+    ${c.last ? `<div class="row" style="flex-direction:column">${w.quiz.length ? `<a class="btn" href="#/path/${slug}/work/${w.id}/quiz">Take the quiz</a>` : ""}
+        <a class="btn ghost" href="#/path/${slug}/work/${w.id}/get">${esc(GET_TITLE[w.type] || "Get it")}: where to find it</a>
         <button class="btn ghost donebtn" type="button" data-done="${w.id}" aria-pressed="${done}">${done ? ico("check") + DONE_VERB[w.type] : `Mark as ${DONE_VERB[w.type].toLowerCase()}`}</button></div>`
-      : `<p class="hint">Tap the right side, or press →, to continue</p>`}
-  </div>`;
+      : `<p class="hint">Tap the right side, or press →, to continue</p>`}`;
+};
+// dir: 0 opens the cards (one fade), 1 or -1 slides the next or previous card in; the frame stays put.
+function drawStory(dir) {
+  const { w, n, cards, slug } = story;
+  if (n === cards.length - 1) markVisited(`${slug}:${w.id}:story`);
+  const frame = $("#layer .full");
+  if (dir === 0 || !frame) {
+    $("#layer").innerHTML = `<div class="scrim" data-close></div><div class="full enter" style="${C(stageColor(w.stage))}" role="dialog" aria-modal="true" aria-label="${esc(w.title)}">
+      <div class="segs">${cards.map((_, k) => `<i class="${k <= n ? "on" : ""}"></i>`).join("")}</div>
+      <div class="fullhead"><small style="font-weight:700">${esc(w.title)}</small><button class="close" type="button" data-close aria-label="Close">${ico("x")}</button></div>
+      <div class="cardslot">${storyCard()}</div></div>`;
+    return;
+  }
+  frame.querySelectorAll(".segs i").forEach((s, k) => s.classList.toggle("on", k <= n));
+  const slot = frame.querySelector(".cardslot");
+  slot.innerHTML = storyCard();
+  slot.classList.remove("in-next", "in-prev"); void slot.offsetWidth;
+  slot.classList.add(dir > 0 ? "in-next" : "in-prev");
 }
 const closeLayer = () => { clearInterval(upnext.timer); $("#layer").innerHTML = ""; };
 
@@ -416,10 +488,12 @@ const notFound = () => `<div class="stack"><h1>Page not found</h1><p><a href="#/
 // --- router --------------------------------------------------------------------
 const ROUTES = [
   [/^#?\/?$/, () => homeView(), "home"],
+  [/^#\/area\/([\w-]+)$/, m => areaView(m[1]), "home"],
   [/^#\/path\/([\w-]+)$/, m => pathView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/map$/, m => mapView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/stage\/(\d+)$/, m => stageView(m[1], +m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)$/, m => workView(m[1], m[2]), "home"],
+  [/^#\/path\/([\w-]+)\/work\/([\w-]+)\/(get|understand|analyse|quiz|scholar)$/, m => stepView(m[1], m[2], m[3]), "home"],
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/signin$/, () => signinView(), "account"],
   [/^#\/account$/, () => accountView(), "account"],
@@ -443,7 +517,7 @@ async function route({ keepScroll = false } = {}) {
   catch (e) { view.innerHTML = `<p class="status">${esc(e.message)} Refresh the page to try again.</p>`; }
   if (hash !== lastRoute) { view.classList.remove("enter"); void view.offsetWidth; view.classList.add("enter"); window.scrollTo(0, 0); lastRoute = hash; }
   else if (keepScroll) window.scrollTo(0, y);
-  if (/\/work\//.test(hash)) mountQuizzes(m[1]);
+  if (/\/work\/[\w-]+\/quiz$/.test(hash)) mountQuizRun(m[1]);
 }
 const refresh = () => route({ keepScroll: true });
 
@@ -454,7 +528,11 @@ document.addEventListener("submit", async e => {
   if (!/^\S+@\S+\.\S+$/.test(email)) { err.textContent = "Enter a valid email address."; err.hidden = false; return; }
   err.hidden = true; btn.disabled = true; btn.textContent = "Sending…";
   const error = await sendLink(email);
-  if (error) { err.textContent = `Couldn't send the link: ${error.message}. Try again in a minute.`; err.hidden = false; btn.disabled = false; btn.innerHTML = `${ico("mail")}Email me a sign-in link`; return; }
+  if (error) {
+    err.textContent = /rate limit/i.test(error.message)
+      ? "Too many sign-in emails have been sent in the last hour. Please try again later. If you already have a link from earlier, use that one."
+      : `Couldn't send the link: ${error.message}. Try again in a few minutes.`;
+    err.hidden = false; btn.disabled = false; btn.innerHTML = `${ico("mail")}Email me a sign-in link`; return; }
   $("#view").innerHTML = `<div class="stack signin"><h1>Check your email</h1><p>We sent a sign-in link to <b>${esc(email)}</b>. Open it on this device to finish signing in.</p><p class="muted">No email after a few minutes? Check your spam folder, or <a href="#/signin">try again</a>.</p></div>`;
 });
 
@@ -467,7 +545,10 @@ document.addEventListener("click", async e => {
     try { await setDone(slug, d.done, !was); } catch (err) { toast(`Couldn't save: ${err.message}`); return; }
     if ($("#layer .full")) closeLayer();
     await refresh();
-    if (!was) offerNext(slug); else toast("Unticked");
+    if (was) { toast("Unticked"); return; }
+    // a work with a quiz isn't over yet: the lesson continues; otherwise offer the next work
+    const w = (await getPath(slug)).works.find(x => x.id === d.done);
+    w.quiz.length ? toast(`${DONE_VERB[w.type]}: ticked off. The quiz is next.`) : offerNext(slug);
     return;
   }
   if (d.skip) {
@@ -480,8 +561,7 @@ document.addEventListener("click", async e => {
     refresh(); return;
   }
   if (d.story) { openStory(slug, d.story); return; }
-  if (d.step) { const n = story.n + +d.step; if (n >= 0 && n < story.cards.length) { story.n = n; drawStory(); } return; }
-  if ("toquiz" in d) { closeLayer(); $("#quiz")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
+  if (d.step) { const n = story.n + +d.step; if (n >= 0 && n < story.cards.length) { story.n = n; drawStory(+d.step); } return; }
   if ("close" in d) { closeLayer(); return; }
   if (d.toggle) { const set = mapOpen.get(slug); set.has(+d.toggle) ? set.delete(+d.toggle) : set.add(+d.toggle); refresh(); return; }
   if (d.expand) { const p = await getPath(slug); mapOpen.set(slug, new Set(d.expand === "all" ? p.stages.map(s => s.num) : [])); refresh(); return; }

@@ -108,6 +108,12 @@ A lonely young man who calls himself the Dreamer meets a young woman crying besi
 - The heroine always wears white
 > Around midsummer the sun barely sets in St Petersburg.
 
+**Multiple choice.** Where does the Dreamer first meet Nastenka?
+- At a ball
+- Beside a canal at night ✓
+- In a bookshop
+> She is crying beside a St Petersburg canal.
+
 ## The Gambler
 - id: d2 · type: read · year: 1866 · length: short novel, about 5 hours
 - edition: Garnett. Modern translations are available from several publishers. [verify: name a recommended modern translator]
@@ -151,6 +157,11 @@ In 1866 Dostoevsky signed a contract that said: deliver a new novel by 1 Novembe
 - Apollinaria Suslova
 - Anna Snitkina, who later became his wife ✓
 
+**Multiple choice.** What is the name of the narrator, a tutor in a general's household?
+- Alexei ✓
+- Raskolnikov
+- Myshkin
+
 ## The Dream of a Ridiculous Man
 - id: d3 · type: read · year: 1877 · length: short story, about 1 hour
 - edition: Garnett. Also in most modern collections of his short fiction.
@@ -190,6 +201,12 @@ A man who has decided that nothing matters plans to shoot himself tonight. On th
 - He is driven out of it
 
 **Fill in the blank.** The corruption of paradise begins with a single ___. [answer: lie]
+
+**Multiple choice.** Where did the story first appear?
+- *The Russian Messenger*
+- *A Writer's Diary* ✓
+- *Time*
+> His one-man magazine, in 1877.
 
 ---
 
@@ -262,6 +279,22 @@ A British television adaptation with John Simm as Raskolnikov. Watching after yo
 - The murder scene
 - Raskolnikov's inner fever and arguments with himself ✓
 - The Petersburg streets
+
+**Multiple choice.** Who plays Raskolnikov in the 2002 BBC adaptation?
+- John Simm ✓
+- Benedict Cumberbatch
+- Ralph Fiennes
+
+**Multiple choice.** When does the path suggest watching it?
+- Before reading the novel
+- Instead of the novel
+- After finishing the novel ✓
+> So you can compare what a screen version must cut.
+
+**Multiple choice.** Which broadcaster made it?
+- The BBC ✓
+- HBO
+- Mosfilm
 
 ---
 
@@ -358,6 +391,11 @@ Dostoevsky set himself the hardest task he could imagine: to portray a "positive
 - His mock execution in 1849 ✓
 - His gambling at Baden-Baden
 
+**Multiple choice.** Where is Prince Myshkin returning from at the start of the novel?
+- A clinic in Switzerland ✓
+- A prison in Siberia
+- A school in Paris
+
 ## Demons
 - id: d8 · type: read · year: 1871–72 · length: about 30 hours
 - edition: Pevear and Volokhonsky (1994), or Michael R. Katz (Oxford World's Classics). Older translations call it *The Possessed* or *The Devils*.
@@ -397,6 +435,12 @@ In 1869 a revolutionary cell led by Sergei Nechayev murdered one of its own memb
 - That he is completely free ✓
 - That the revolution has failed
 
+**Multiple choice.** What do older English translations call *Demons*?
+- *The Insulted*
+- *The Possessed* ✓
+- *The Dreamers*
+> Some also call it *The Devils*.
+
 ## Notes from the House of the Dead
 - id: d9 · type: read · year: 1860–62 · length: about 12 hours
 - edition: Garnett, or a modern translation.
@@ -416,6 +460,16 @@ A semi-fictional account of the four years Dostoevsky spent in the prison camp a
 - Irkutsk
 
 **Fill in the blank.** He spent ___ years in the prison camp. [answer: four / 4]
+
+**Multiple choice.** What crime is the book's fictional narrator convicted of?
+- Murdering his wife ✓
+- Political conspiracy
+- Theft
+
+**Multiple choice.** Why, scholars think, did Dostoevsky use a fictional narrator?
+- He never went to prison himself
+- Partly to get the book past the censor ✓
+- His publisher demanded a novel
 
 ### Scholar challenge (optional)
 Compare the Underground Man's freedom with Myshkin's goodness. What does each cost, and who pays? (300 words. Required for the Mastery certificate.)
@@ -494,6 +548,20 @@ In June 1880, at the unveiling of the Pushkin monument in Moscow, Dostoevsky gav
 - The unveiling of the Pushkin monument in Moscow ✓
 - The funeral of Nekrasov
 
+**Fill in the blank.** The speech was given in ___ in June 1880. [answer: Moscow]
+> At the unveiling of the Pushkin monument.
+
+**Multiple choice.** Which great literary rival sat in the audience?
+- Leo Tolstoy
+- Ivan Turgenev ✓
+- Anton Chekhov
+
+**Multiple choice.** Where is the speech printed?
+- In *A Writer's Diary* ✓
+- In *The Brothers Karamazov*
+- In *Notes of the Fatherland*
+> In the August 1880 issue.
+
 ### Scholar challenge (optional)
 "Book VI does not answer the Grand Inquisitor; it changes the question." Argue for or against, engaging with Dostoevsky's letter of 1879. (300 to 500 words. Required for the Mastery certificate.)
 
@@ -529,6 +597,13 @@ His first novel: letters between a poor copying clerk and a young woman he quiet
 - Nikolai Nekrasov ✓
 - Leo Tolstoy
 
+**Fill in the blank.** *Poor Folk* made Dostoevsky famous at the age of ___. [answer: 24 / twenty-four]
+
+**Multiple choice.** Which critic greeted him as a new Gogol?
+- Mikhail Katkov
+- Vissarion Belinsky ✓
+- Nikolai Strakhov
+
 ## The Double
 - id: d13 · type: read · year: 1846 · length: about 5 hours
 - edition: a modern translation.
@@ -547,6 +622,17 @@ A minor civil servant, Mr Golyadkin, meets a man who looks exactly like him and 
 - Kafka ✓
 - Dickens
 - Hemingway
+
+**Multiple choice.** What happens to Mr Golyadkin?
+- A man who looks exactly like him takes over his life ✓
+- He wins a fortune at roulette
+- He is exiled to Siberia
+
+**Multiple choice.** How did critics receive *The Double* in 1846?
+- They called it his masterpiece
+- They hated it ✓
+- They ignored it
+> Today it reads like a forerunner of Kafka.
 
 ## The Adolescent
 - id: d14 · type: read · year: 1875 · length: about 25 hours
@@ -568,6 +654,20 @@ The least read of his five great novels, narrated by a 20-year-old illegitimate 
 - A Rothschild ✓
 - The Tsar
 
+**Multiple choice.** In which journal did *The Adolescent* appear?
+- *The Russian Messenger*
+- *Notes of the Fatherland* ✓
+- *Epoch*
+> A radical journal.
+
+**Multiple choice.** Who edited that journal?
+- Nikolai Nekrasov ✓
+- Mikhail Katkov
+- Ivan Turgenev
+> The same man who had discovered Dostoevsky thirty years earlier.
+
+**Fill in the blank.** Older translations call the novel *A Raw ___*. [answer: Youth]
+
 ## The Eternal Husband
 - id: d15 · type: read · year: 1870 · length: about 4 hours
 - edition: Pevear and Volokhonsky, in *The Eternal Husband and Other Stories* (1997).
@@ -581,6 +681,15 @@ A man discovers that his old lover's widowed husband has come looking for him, p
 - His former lover's widowed husband ✓
 - A police investigator
 - His long-lost brother
+
+**Fill in the blank.** The hero of *The Eternal Husband* is named ___. [answer: Velchaninov]
+
+**Fill in the blank.** The visitor is polite, drunk and possibly ___. [answer: murderous]
+
+**Multiple choice.** What kind of story is it?
+- A war novel
+- A tight psychological duel between two men ✓
+- A comic travel diary
 
 ## A Gentle Creature and Bobok
 - id: d16 · type: read · year: 1876 and 1873 · length: about 2 hours
@@ -597,6 +706,15 @@ Two short pieces first published in *A Writer's Diary*. In "A Gentle Creature" a
 - On a train
 
 **Fill in the blank.** The narrator of "A Gentle Creature" is a ___, like the victim in *Crime and Punishment*. [answer: pawnbroker]
+
+**Multiple choice.** Where were both pieces first published?
+- *A Writer's Diary* ✓
+- *The Russian Messenger*
+- *Time*
+
+**Multiple choice.** Which of the two is grotesquely funny?
+- "A Gentle Creature"
+- "Bobok" ✓
 
 ## A Writer's Diary (selections)
 - id: d17 · type: read · year: 1873–81 · length: about 10 hours
@@ -615,6 +733,23 @@ His monthly one-man magazine: court reports, memories, stories, and political op
 - A magazine he wrote himself, with stories, memories, court reports and opinions ✓
 - Anna's shorthand notes of his dictation
 
+**Multiple choice.** Which uncomfortable side of the *Diary* does the path ask you to face?
+- Its poetry
+- Its xenophobic and antisemitic passages ✓
+- Its length
+> Specialists treat this directly.
+
+**Multiple choice.** Which years does *A Writer's Diary* span?
+- 1846–49
+- 1860–62
+- 1873–81 ✓
+
+**Multiple choice.** Besides opinions and court reports, what else did the *Diary* print?
+- Short stories ✓
+- Recipes
+- Crossword puzzles
+> "Bobok" and "A Gentle Creature" appeared there.
+
 ## Winter Notes on Summer Impressions
 - id: d18 · type: read · year: 1863 · length: about 3 hours
 - access: paid | modern translations only, or borrow from a library
@@ -629,6 +764,13 @@ A sarcastic travel diary of his first trip to Western Europe in 1862, including 
 - *Notes from Underground* ✓
 - *The Idiot*
 - *The Gambler*
+
+**Fill in the blank.** Dostoevsky's first trip to Western Europe was in ___. [answer: 1862]
+
+**Multiple choice.** What kind of book is *Winter Notes on Summer Impressions*?
+- A novel
+- A sarcastic travel diary ✓
+- A book of poems
 
 ### Scholar challenge (optional)
 Draw the map of his career. Choose five works from five different decades of his life and explain what changes in his idea of freedom from one to the next. (500 to 800 words. Required for the Mastery certificate.)
@@ -655,6 +797,21 @@ The most influential theory of the Dostoevsky novel. Bakhtin argues that his cha
 ### Quiz
 **Fill in the blank.** Bakhtin called Dostoevsky's novels "___", meaning many independent voices. [answer: polyphonic]
 
+**Multiple choice.** In Bakhtin's reading, the characters' voices are…
+- the author's own opinions in disguise
+- independent, never overruled by the author ✓
+- copied from real people
+
+**Multiple choice.** Who translated the English edition recommended here?
+- Caryl Emerson ✓
+- Joseph Frank
+- Rowan Williams
+
+**Multiple choice.** What happened to Bakhtin soon after the first version?
+- He emigrated to Paris
+- He was sent into internal exile ✓
+- He became a priest
+
 ## Dostoevsky (Joseph Frank)
 - id: d20 · type: read · creator: Joseph Frank · Princeton University Press, 1976–2002, five volumes
 - access: paid | buy, or borrow from a library; the one-volume edition is cheaper
@@ -667,6 +824,22 @@ The standard critical biography, which reads every work against the intellectual
 - Three
 - Five ✓
 - Seven
+
+**Multiple choice.** Frank reads each work against what?
+- Freudian psychology
+- The intellectual history of its moment ✓
+- Its film adaptations
+
+**Multiple choice.** Who publishes Frank's biography?
+- Penguin
+- Princeton University Press ✓
+- Oxford University Press
+
+**Multiple choice.** What is the final volume called?
+- *The Seeds of Revolt*
+- *The Mantle of the Prophet* ✓
+- *The Years of Ordeal*
+> It covers 1871 to 1881.
 
 ## Dostoevsky: An Interpretation
 - id: d21 · type: read · creator: Nikolai Berdyaev · Russian 1923, English 1934
@@ -681,6 +854,18 @@ A Russian religious philosopher, exiled by the Bolsheviks, reads Dostoevsky as a
 - Economics
 - Russian history
 
+**Multiple choice.** Who was Nikolai Berdyaev?
+- A Soviet novelist
+- A Russian religious philosopher ✓
+- A German critic
+
+**Multiple choice.** Who exiled him?
+- The Tsar
+- The Bolsheviks ✓
+- The Nazis
+
+**Fill in the blank.** His book on Dostoevsky first appeared in Russian in ___. [answer: 1923]
+
 ## Resurrection from the Underground
 - id: d22 · type: read · creator: René Girard · French 1963, English trans. James G. Williams (1997)
 - access: paid | buy, or borrow from a library
@@ -690,6 +875,18 @@ Girard reads the novels through mimetic desire, the theory that we want what oth
 
 ### Quiz
 **Fill in the blank.** Girard's theory that we want what others want is called ___ desire. [answer: mimetic]
+
+**Multiple choice.** What does "mimetic desire" mean?
+- We want what others want ✓
+- We want only what we need
+- We imitate our parents' politics
+
+**Fill in the blank.** Girard's book first appeared in French in ___. [answer: 1963]
+
+**Multiple choice.** The path presents Girard as a counter-lens to which two critics?
+- Freud and Nabokov
+- Bakhtin and Frank ✓
+- Berdyaev and Steiner
 
 ## Dostoevsky: Language, Faith and Fiction
 - id: d23 · type: read · creator: Rowan Williams · Baylor University Press, 2008
@@ -704,6 +901,18 @@ A former Archbishop of Canterbury reads the novels as a theologian who takes bot
 - A theologian, former Archbishop of Canterbury ✓
 - A psychoanalyst
 
+**Multiple choice.** What does Rowan Williams take seriously in the novels?
+- Only their politics
+- Both the faith and the doubt ✓
+- Only their plots
+
+**Multiple choice.** Which critic does he engage directly?
+- Bakhtin ✓
+- Nabokov
+- Girard
+
+**Fill in the blank.** Williams's book was published in ___. [answer: 2008]
+
 ## Tolstoy or Dostoevsky
 - id: d24 · type: read · creator: George Steiner · 1959
 - access: paid | buy, or borrow from a library
@@ -717,6 +926,18 @@ A brilliant comparison of the two giants of Russian fiction: epic against drama,
 - Drama, like Shakespeare ✓
 - Lyric poetry
 
+**Multiple choice.** In Steiner's comparison, Tolstoy is closest to what?
+- Epic, like Homer ✓
+- Drama, like Shakespeare
+- Lyric poetry
+
+**Fill in the blank.** *Tolstoy or Dostoevsky* was published in ___. [answer: 1959]
+
+**Multiple choice.** Why does the path include Steiner?
+- To learn Russian grammar
+- To place Dostoevsky in world literature, not only Russian ✓
+- To compare their biographies
+
 ## Lectures on Russian Literature (the Dostoevsky lecture)
 - id: d25 · type: read · creator: Vladimir Nabokov · 1981
 - access: paid | buy, or borrow from a library
@@ -729,6 +950,18 @@ The dissent. Nabokov, himself a great novelist, thought Dostoevsky melodramatic 
 - The greatest novelist who ever lived
 - Melodramatic and sentimental ✓
 - Too religious to be read today
+
+**Multiple choice.** Who was Vladimir Nabokov?
+- A Soviet censor
+- Himself a great novelist ✓
+- A theologian
+
+**Multiple choice.** Why read a critic who disliked Dostoevsky?
+- You know a writer properly only once you can answer his best critic ✓
+- Because Nabokov was always right
+- To avoid reading the novels
+
+**Fill in the blank.** Nabokov's *Lectures on Russian Literature* were published in ___. [answer: 1981]
 
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words, engaging two critics. Required for the Mastery certificate, where it becomes the capstone essay.

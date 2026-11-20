@@ -97,6 +97,12 @@ Three short movements that paint a picture: birds singing, a spring storm, a she
 - A piece for solo piano
 - A piece for choir without instruments
 
+**Multiple choice.** In which city did Vivaldi work with the girls' orchestra?
+- Rome
+- Venice ✓
+- Vienna
+> At the Ospedale della Pietà, an orphanage.
+
 ## Eine kleine Nachtmusik, first movement
 - id: m2 · type: listen · creator: Wolfgang Amadeus Mozart · year: 1787 · length: 6 minutes
 - edition: any major chamber orchestra or string quartet recording.
@@ -131,6 +137,14 @@ Six minutes of pure melody. The opening rocket of a theme is one of the most fam
 - A new piece begins
 - The themes are taken apart and transformed ✓
 - The orchestra tunes up
+
+**Multiple choice.** Which opera was Mozart writing at the same time?
+- *Don Giovanni* ✓
+- *The Magic Flute*
+- *L'Orfeo*
+
+**Fill in the blank.** The serenade was not published until ___. [answer: 1827]
+> Decades after Mozart's death.
 
 ## Symphony No. 5, first movement
 - id: m3 · type: listen · creator: Ludwig van Beethoven · year: 1808 · length: 7 to 8 minutes
@@ -170,6 +184,12 @@ Four notes, short-short-short-long, and possibly the most famous opening in all 
 
 **Fill in the blank.** A short musical idea that a whole piece is built from is called a ___. [answer: motif / motive]
 
+**Multiple choice.** What else premiered at the same 1808 concert?
+- His Ninth Symphony
+- His Sixth Symphony and Fourth Piano Concerto ✓
+- The "Moonlight" Sonata
+> A concert of about four hours in a freezing hall.
+
 ## Young People's Concerts: "What Does Music Mean?"
 - id: m4 · type: watch · creator: Leonard Bernstein · year: 1958 · length: about 1 hour
 - access: free-and-paid | episodes appear on video platforms; the full series is sold on DVD
@@ -186,6 +206,19 @@ A televised concert where the conductor Leonard Bernstein talks to a hall full o
 - It always tells a hidden story
 - It means itself: the notes and how they move ✓
 - It means whatever the composer's life was like
+
+**Multiple choice.** Which orchestra plays in the *Young People's Concerts*?
+- The Berlin Philharmonic
+- The New York Philharmonic ✓
+- The London Symphony Orchestra
+
+**Fill in the blank.** Bernstein gave ___ *Young People's Concerts* on television. [answer: 53 / fifty-three]
+> Between 1958 and 1972.
+
+**Multiple choice.** Who was in the hall?
+- Music critics
+- Children ✓
+- Soldiers
 
 ---
 
@@ -228,6 +261,17 @@ Your first complete symphony: four movements, each with tunes you can hold on to
 - The music repeats in a loop
 - The orchestra plays in a circle
 
+**Multiple choice.** How many movements does the symphony have?
+- Three
+- Four ✓
+- Six
+
+**Multiple choice.** Which song did a pupil of Dvořák make from the slow movement?
+- "Goin' Home" ✓
+- "Amazing Grace"
+- "Shenandoah"
+> Many people now assume it is a traditional spiritual.
+
 ## The Nutcracker Suite
 - id: m6 · type: listen · creator: Pyotr Ilyich Tchaikovsky · year: 1892 · length: about 22 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -251,6 +295,13 @@ Eight short dances from Tchaikovsky's Christmas ballet, each built around a diff
 
 **Fill in the blank.** A set of pieces drawn from a longer ballet or opera is called a ___. [answer: suite]
 
+**Fill in the blank.** The full ballet premiered in St Petersburg in December ___. [answer: 1892]
+
+**Multiple choice.** What did Tchaikovsky do after finding the celesta in Paris?
+- Kept it secret from rival composers ✓
+- Gave it to Rimsky-Korsakov
+- Left it in Paris
+
 ## Peer Gynt Suite No. 1
 - id: m7 · type: listen · creator: Edvard Grieg · year: 1876 (suite 1888) · length: about 15 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -273,6 +324,13 @@ Music for Henrik Ibsen's play about a Norwegian adventurer. It moves from the ca
 - August Strindberg
 - Anton Chekhov
 
+**Multiple choice.** In the play, where does "Morning Mood" take place?
+- A Norwegian fjord
+- Sunrise in the Moroccan desert ✓
+- A Paris street
+
+**Fill in the blank.** Edvard Grieg was a composer from ___. [answer: Norway]
+
 ## What to Listen For in Music
 - id: m8 · type: read · creator: Aaron Copland · year: 1939, revised 1957 · length: about 5 hours
 - access: paid | buy, or borrow from a library
@@ -288,6 +346,18 @@ The composer of *Appalachian Spring* explains rhythm, melody, harmony, tone colo
 - The sensuous plane ✓
 - The historical plane
 - The technical plane
+
+**Multiple choice.** Which ballet did Aaron Copland compose?
+- *Swan Lake*
+- *Appalachian Spring* ✓
+- *The Firebird*
+
+**Multiple choice.** Copland's "sheerly musical" plane means hearing what?
+- The pleasure of the sound itself
+- What the music makes you feel
+- How the music is built ✓
+
+**Fill in the blank.** Copland describes three ___ of listening. [answer: planes]
 
 ---
 
@@ -322,6 +392,13 @@ Huge, yearning melodies over a crashing piano. It is one of the most loved conce
 - *Brief Encounter* ✓
 - *Fantasia*
 
+**Multiple choice.** Why could Rachmaninoff barely compose before this concerto?
+- He was in prison
+- His First Symphony had failed and he fell into depression ✓
+- He had lost his hearing
+
+**Fill in the blank.** Rachmaninoff recorded the concerto with Stokowski in ___. [answer: 1929]
+
 ## Requiem in D minor
 - id: m10 · type: listen · creator: Wolfgang Amadeus Mozart, completed by Franz Xaver Süssmayr · year: 1791 · length: about 50 minutes
 - edition: John Eliot Gardiner, English Baroque Soloists (1986), on period instruments.
@@ -350,6 +427,16 @@ Mozart's last work, a mass for the dead, left unfinished when he died at 35. It 
 
 **Fill in the blank.** Mozart's pupil ___ completed the Requiem after his death. [answer: Süssmayr / Sussmayr]
 
+**Multiple choice.** How old was Mozart when he died?
+- 27
+- 35 ✓
+- 45
+
+**Multiple choice.** What does the film *Amadeus* wrongly suggest?
+- That Salieri commissioned the Requiem ✓
+- That Mozart finished it
+- That it was never performed
+
 ## "Moonlight" Sonata, complete
 - id: m11 · type: listen · creator: Ludwig van Beethoven · year: 1801 · length: about 15 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -371,6 +458,13 @@ Everyone knows the calm, hypnotic first movement. Far fewer have heard the whole
 - Calm and dreamy, like the first movement
 - Fast, stormy and furious ✓
 - A slow funeral march
+
+**Multiple choice.** What was Beethoven's own title for the sonata?
+- "Moonlight"
+- *Sonata quasi una fantasia* ✓
+- *Pathétique*
+
+**Fill in the blank.** Rellstab compared the first movement to moonlight on Lake ___. [answer: Lucerne]
 
 ## Erlkönig
 - id: m12 · type: listen · creator: Franz Schubert, words by Goethe · year: 1815 · length: about 4 minutes
@@ -395,6 +489,16 @@ A father rides through the night with his sick child in his arms, while the Elf 
 - Six
 
 **Fill in the blank.** A German art song for voice and piano is called a ___. [answer: Lied]
+
+**Multiple choice.** Who wrote the poem Schubert set?
+- Goethe ✓
+- Schiller
+- Heine
+
+**Multiple choice.** What is the boy's father doing throughout the song?
+- Riding through the night with his son in his arms ✓
+- Sleeping by the fire
+- Chasing the Elf King
 
 ## La bohème
 - id: m13 · type: watch · creator: Giacomo Puccini · year: 1896 · length: about 2 hours
@@ -422,6 +526,17 @@ Young, poor artists in Paris fall in love, quarrel and lose each other. *La boh�
 - The opera's overture
 - A chorus for the whole cast
 
+**Multiple choice.** Where is *La bohème* set?
+- Rome
+- Paris ✓
+- Vienna
+
+**Multiple choice.** Who conducted the premiere?
+- Arturo Toscanini ✓
+- Giuseppe Verdi
+- Puccini himself
+> He was 28.
+
 ## Listening to Music (MUSI 112)
 - id: m14 · type: course · creator: Craig Wright, Open Yale Courses · length: 23 lectures
 - access: free | Open Yale Courses, free online
@@ -434,6 +549,19 @@ A complete Yale University course, free online. Professor Craig Wright gives you
 - How many layers of sound there are, and how they relate ✓
 - How loud the music is
 - How fast the music is
+
+**Multiple choice.** Who teaches the Yale course?
+- Leonard Bernstein
+- Craig Wright ✓
+- Charles Rosen
+
+**Fill in the blank.** The course has ___ lectures. [answer: 23 / twenty-three]
+
+**Multiple choice.** What does the course cost?
+- It's free ✓
+- A one-off fee
+- A monthly subscription
+> It's on Open Yale Courses.
 
 ### Scholar challenge (optional)
 Choose two pieces from this stage that express grief. How does each make you feel it: through melody, harmony, rhythm or instrumentation? (300 words. Required for the Mastery certificate.)
@@ -471,6 +599,13 @@ A gentle aria, thirty variations on its bass line, and the aria again. Every thi
 
 **Fill in the blank.** In a ___, one voice imitates another, starting a little later. [answer: canon]
 
+**Multiple choice.** What are the variations built on?
+- A folk song
+- The aria's bass line ✓
+- A Lutheran hymn
+
+**Fill in the blank.** Glenn Gould first made his name with the Goldbergs in ___. [answer: 1955]
+
 ## String Quartet Op. 76 No. 3 "Emperor"
 - id: m16 · type: listen · creator: Joseph Haydn · year: 1797 · length: about 25 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -487,6 +622,18 @@ Haydn invented the string quartet as we know it: four instruments in conversatio
 - The British national anthem
 - The German national anthem ✓
 - The French national anthem
+
+**Multiple choice.** How many players are in a string quartet?
+- Three
+- Four ✓
+- Five
+
+**Multiple choice.** Who was the hymn originally written for?
+- The Austrian emperor ✓
+- The Pope
+- The King of England
+
+**Fill in the blank.** Haydn's musicians called him "___ Haydn". [answer: Papa]
 
 ## String Quartet No. 14, Op. 131
 - id: m17 · type: listen · creator: Ludwig van Beethoven · year: 1826 · length: about 40 minutes
@@ -511,6 +658,14 @@ Seven movements played without a break, written when Beethoven was completely de
 - A fast march
 - A waltz
 
+**Fill in the blank.** Beethoven wrote Op. 131 in ___. [answer: 1826]
+> Near the end of his life, when he was completely deaf.
+
+**Multiple choice.** How are the seven movements played?
+- With long pauses
+- Without a break ✓
+- In any order the players like
+
 ## Symphony No. 2 "Resurrection"
 - id: m18 · type: listen · creator: Gustav Mahler · year: 1894 · length: about 80 to 85 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -528,6 +683,19 @@ Seven movements played without a break, written when Beethoven was completely de
 - With choir, organ and full orchestra ✓
 - With a single piano chord
 
+**Multiple choice.** How does the "Resurrection" Symphony begin?
+- With a funeral ✓
+- With a wedding
+- With a storm at sea
+
+**Multiple choice.** Where are some of the brass players in the finale?
+- Offstage ✓
+- In the audience
+- On the conductor's podium
+> So the sound seems to come from far away.
+
+**Fill in the blank.** Mahler said a symphony must be like the ___. [answer: world]
+
 ## The Classical Style
 - id: m19 · type: read · creator: Charles Rosen · year: 1971, expanded 1997 · length: about 15 hours
 - access: paid | buy, or borrow from a library
@@ -544,6 +712,18 @@ The standard study of Haydn, Mozart and Beethoven, by a pianist who could explai
 - Haydn, Mozart and Beethoven ✓
 - Schubert, Chopin and Liszt
 
+**Fill in the blank.** *The Classical Style* won the US National Book Award in ___. [answer: 1972]
+
+**Multiple choice.** Besides writing, what was Charles Rosen?
+- A pianist ✓
+- A film composer
+- An opera singer
+
+**Multiple choice.** Which part does the path suggest reading first?
+- Part I, on the style itself ✓
+- The index
+- The final chapter
+
 ## Reading a score
 - id: m20 · type: course · creator: free online lessons · length: about 10 hours
 - access: free | free lessons online, for example musictheory.net; scores free on IMSLP [verify: recommended free course]
@@ -555,6 +735,21 @@ You don't need to play an instrument to follow a score. Learn to read the treble
 **Multiple choice.** Which clef is usually used for low instruments such as the cello?
 - Treble clef
 - Bass clef ✓
+
+**Multiple choice.** Which clef is usually used for high instruments such as the violin?
+- Treble clef ✓
+- Bass clef
+
+**Multiple choice.** Where can you find scores for free?
+- IMSLP ✓
+- A streaming service
+- The radio
+> The public-domain score library.
+
+**Multiple choice.** Do you need to play an instrument to follow a score?
+- Yes, always
+- No ✓
+- Only the piano
 
 ### Scholar challenge (optional)
 "Absolute music" versus "programme music": using the Goldberg Variations and "Spring" from Stage 1, argue whether instrumental music can mean anything beyond itself. (500 words. Required for the Mastery certificate.)
@@ -582,6 +777,18 @@ A twelfth-century German abbess, mystic, scientist and composer, whose soaring c
 ### Quiz
 **Fill in the blank.** Hildegard's sung drama of the soul is the *Ordo ___*. [answer: Virtutum]
 
+**Multiple choice.** Who was Hildegard of Bingen?
+- A twelfth-century German abbess ✓
+- A Renaissance Italian singer
+- A Baroque harpsichordist
+
+**Fill in the blank.** She was declared a Doctor of the Church in ___. [answer: 2012]
+
+**Multiple choice.** Besides music, what did she write about?
+- Medicine and natural history ✓
+- Naval warfare
+- Banking
+
 ## Missa Papae Marcelli
 - id: m22 · type: listen · creator: Giovanni Pierluigi da Palestrina · year: published 1567 · length: about 30 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -597,6 +804,19 @@ The model of Renaissance church music: six voices weaving together with perfect 
 - It was written in one night
 - It persuaded the Church not to ban polyphony ✓
 - It was the first music ever printed
+
+**Multiple choice.** How many voices sing the *Missa Papae Marcelli*?
+- Two
+- Six ✓
+- Twelve
+
+**Fill in the blank.** The mass was published in ___. [answer: 1567]
+
+**Multiple choice.** Which opera did the famous legend inspire?
+- Pfitzner's *Palestrina* ✓
+- Verdi's *Requiem*
+- Monteverdi's *L'Orfeo*
+> Premiered in 1917.
 
 ## L'Orfeo
 - id: m23 · type: watch · creator: Claudio Monteverdi · year: 1607 · length: about 2 hours
@@ -614,6 +834,18 @@ One of the very first operas, and the earliest still regularly performed. Orpheu
 - It was the first symphony
 - It was the first piece for piano
 
+**Fill in the blank.** *L'Orfeo* premiered in ___ in 1607. [answer: Mantua]
+
+**Multiple choice.** Whom does Orpheus try to bring back from the underworld?
+- His brother
+- His wife, Eurydice ✓
+- His teacher
+
+**Multiple choice.** At which family's court was it first performed?
+- The Medici
+- The Gonzaga ✓
+- The Habsburgs
+
 ## Messiah
 - id: m24 · type: listen · creator: George Frideric Handel · year: 1741 · length: about 2 hours 30 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -627,6 +859,20 @@ The best-loved oratorio in English, composed at astonishing speed and first perf
 
 ### Quiz
 **Fill in the blank.** *Messiah* was first performed in the city of ___. [answer: Dublin]
+
+**Multiple choice.** About how long did Handel take to write *Messiah*?
+- About 24 days ✓
+- About a year
+- Two days
+
+**Multiple choice.** What do audiences traditionally do during the "Hallelujah" chorus?
+- Sing along
+- Stand ✓
+- Clap the rhythm
+
+**Multiple choice.** Is there reliable evidence that King George II stood for it?
+- Yes
+- No ✓
 
 ## Don Giovanni
 - id: m25 · type: watch · creator: Wolfgang Amadeus Mozart, libretto by Lorenzo Da Ponte · year: 1787 · length: about 3 hours
@@ -644,6 +890,18 @@ A seducer who refuses to repent is finally dragged down to hell by the statue of
 - A statue drags him down to hell ✓
 - He marries and settles down
 
+**Fill in the blank.** *Don Giovanni* premiered in ___ in 1787. [answer: Prague]
+
+**Multiple choice.** Who wrote the libretto?
+- Lorenzo Da Ponte ✓
+- Goethe
+- Schikaneder
+
+**Multiple choice.** Whose statue drags Don Giovanni to hell?
+- A man he murdered ✓
+- His father
+- A saint
+
 ## Prelude to Tristan und Isolde
 - id: m26 · type: listen · creator: Richard Wagner · year: 1865 · length: about 10 minutes
 - access: free-and-paid | free to stream with adverts; the score is free on IMSLP
@@ -653,6 +911,18 @@ The opening chord of this prelude, known simply as the "Tristan chord", refuses 
 
 ### Quiz
 **Fill in the blank.** The famous unresolved opening harmony of this prelude is called the ___ chord. [answer: Tristan]
+
+**Multiple choice.** Who composed *Tristan und Isolde*?
+- Verdi
+- Wagner ✓
+- Brahms
+
+**Fill in the blank.** *Tristan und Isolde* premiered in ___. [answer: 1865]
+
+**Multiple choice.** What is special about the Tristan chord?
+- It is the loudest chord ever written
+- It refuses to resolve the way harmony always had ✓
+- It is played by a choir
 
 ## Prélude à l'après-midi d'un faune
 - id: m27 · type: listen · creator: Claude Debussy · year: 1894 · length: about 10 minutes
@@ -670,6 +940,18 @@ A lazy, sensuous flute melody opens a piece inspired by a poem by Stéphane Mall
 - Violin
 - Clarinet
 
+**Multiple choice.** Whose poem inspired the piece?
+- Stéphane Mallarmé ✓
+- Victor Hugo
+- Charles Baudelaire
+
+**Fill in the blank.** Debussy composed it in ___. [answer: 1894]
+
+**Multiple choice.** What is the faun doing in the poem?
+- Hunting
+- Dozing in the afternoon heat ✓
+- Dancing at a festival
+
 ## The Rite of Spring
 - id: m28 · type: listen · creator: Igor Stravinsky · year: 1913 · length: about 35 minutes
 - access: free-and-paid | free to stream with adverts
@@ -686,6 +968,18 @@ A ballet about a pagan sacrifice, with pounding rhythms, savage dissonance and a
 - Bassoon ✓
 - Oboe
 - Trumpet
+
+**Fill in the blank.** *The Rite of Spring* premiered in Paris in ___. [answer: 1913]
+
+**Multiple choice.** Who was the choreographer?
+- Vaslav Nijinsky ✓
+- George Balanchine
+- Marius Petipa
+
+**Multiple choice.** What is the ballet about?
+- A royal wedding
+- A pagan sacrifice ✓
+- A toy that comes to life
 
 ### Scholar challenge (optional)
 Map the tradition: choose one work from each of five different periods in this path and explain what changed in how music is built, from one to the next. (500 to 800 words. Required for the Mastery certificate.)
@@ -715,6 +1009,18 @@ Schoenberg before he left tonality: lush and late-Romantic, based on a poem abou
 - It used a chord the textbooks said did not exist ✓
 - It had no melody
 
+**Multiple choice.** What is *Verklärte Nacht* based on?
+- A poem about a couple walking through a moonlit forest ✓
+- A Greek myth
+- A Bible story
+
+**Fill in the blank.** Schoenberg wrote it in ___. [answer: 1899]
+
+**Multiple choice.** Does *Verklärte Nacht* still have a home key?
+- Yes: it is lush and late-Romantic ✓
+- No: it is atonal
+> He left tonality later.
+
 ## Pierrot lunaire
 - id: m30 · type: listen · creator: Arnold Schoenberg · year: 1912 · length: about 35 minutes
 - edition: listen with the texts and a translation in front of you.
@@ -735,6 +1041,17 @@ Twenty-one short poems about a moonstruck clown, half-spoken and half-sung over 
 - A singer
 - Rhythm
 
+**Multiple choice.** How many poems does *Pierrot lunaire* set?
+- 7
+- 12
+- 21 ✓
+> Three groups of seven.
+
+**Multiple choice.** Who is Pierrot?
+- A moonstruck clown ✓
+- A Russian prince
+- A sailor
+
 ## Atmosphères
 - id: m31 · type: listen · creator: György Ligeti · year: 1961 · length: about 9 minutes
 - access: free-and-paid | free to stream with adverts
@@ -751,6 +1068,17 @@ No melody, no beat: slowly shifting clouds of sound made by dozens of instrument
 - *Star Wars*
 - *Jaws*
 
+**Multiple choice.** What does *Atmosphères* lack?
+- Instruments
+- Melody and beat ✓
+- A conductor
+
+**Fill in the blank.** Ligeti composed *Atmosphères* in ___. [answer: 1961]
+
+**Multiple choice.** Did Kubrick have Ligeti's permission to use it?
+- Yes
+- No ✓
+
 ## Music for 18 Musicians
 - id: m32 · type: listen · creator: Steve Reich · year: 1976 · length: about 1 hour
 - access: free-and-paid | free to stream with adverts
@@ -764,6 +1092,18 @@ A cycle of eleven chords, each stretched into a shimmering, pulsing section, pla
 - Serialism
 - Impressionism
 
+**Fill in the blank.** *Music for 18 Musicians* is built on a cycle of ___ chords. [answer: 11 / eleven]
+
+**Multiple choice.** Who composed it?
+- Philip Glass
+- Steve Reich ✓
+- Arvo Pärt
+
+**Multiple choice.** Which instruments are prominent?
+- Marimbas, pianos, voices and clarinets ✓
+- A full symphony orchestra
+- Electric guitars
+
 ## Spiegel im Spiegel
 - id: m33 · type: listen · creator: Arvo Pärt · year: 1978 · length: about 10 minutes
 - access: free-and-paid | free to stream with adverts
@@ -773,6 +1113,18 @@ A slow, simple piano and violin piece, built with Pärt's "tintinnabuli" (little
 
 ### Quiz
 **Fill in the blank.** Pärt's technique of bell-like simplicity is called ___. [answer: tintinnabuli]
+
+**Multiple choice.** Which instruments play *Spiegel im Spiegel*?
+- Piano and violin ✓
+- Organ and choir
+- Two guitars
+
+**Fill in the blank.** Pärt composed it in ___. [answer: 1978]
+
+**Multiple choice.** What does "tintinnabuli" mean?
+- Little bells ✓
+- Mirrors
+- Slow steps
 
 ## The Rest Is Noise
 - id: m34 · type: read · creator: Alex Ross · year: 2007 · length: about 18 hours
@@ -790,6 +1142,18 @@ A vivid history of twentieth-century music by *The New Yorker*'s music critic. I
 - Rock and roll
 - Medieval chant
 
+**Multiple choice.** Where does Alex Ross work as music critic?
+- *The Guardian*
+- *The New Yorker* ✓
+- *The Times*
+
+**Fill in the blank.** *The Rest Is Noise* was published in ___. [answer: 2007]
+
+**Multiple choice.** Which prize was it a finalist for?
+- The Pulitzer Prize ✓
+- The Booker Prize
+- The Nobel Prize
+
 ## A History of Western Music
 - id: m35 · type: read · creator: J. Peter Burkholder, Donald Jay Grout and Claude V. Palisca · Norton · length: reference
 - access: paid | buy, or borrow from a library [verify: current edition]
@@ -802,6 +1166,21 @@ The standard university textbook. Use it as a reference spine for the whole path
 - A standard university textbook ✓
 - A novel about composers
 - A book of scores
+
+**Multiple choice.** Who publishes *A History of Western Music*?
+- Norton ✓
+- Penguin
+- Faber
+
+**Multiple choice.** How does the path suggest using it?
+- As a reference spine, reading each period as you reach it ✓
+- Read it cover to cover first
+- Skip it
+
+**Multiple choice.** Which of these is one of its authors?
+- Alex Ross
+- J. Peter Burkholder ✓
+- Charles Rosen
 
 ## The Oxford History of Western Music
 - id: m36 · type: read · creator: Richard Taruskin · year: 2005 · length: multi-volume
@@ -816,6 +1195,19 @@ A vast, opinionated history by one of the most combative musicologists of his ti
 - Vast and opinionated ✓
 - A picture book
 
+**Fill in the blank.** Taruskin's *Oxford History of Western Music* was published in ___. [answer: 2005]
+
+**Multiple choice.** Which book does the path suggest reading beside its twentieth-century volume?
+- *The Rest Is Noise* ✓
+- *The Classical Style*
+- *What to Listen For in Music*
+> Notice where Ross and Taruskin disagree.
+
+**Multiple choice.** Taruskin was one of the most ___ musicologists of his time.
+- combative ✓
+- silent
+- reclusive
+
 ## Philosophy of New Music
 - id: m37 · type: read · creator: Theodor W. Adorno · year: 1949 · length: about 8 hours
 - access: paid | buy, or borrow from a library
@@ -828,6 +1220,18 @@ The dissent, from the other direction. The philosopher Adorno championed Schoenb
 - Schoenberg ✓
 - Puccini
 - Vivaldi
+
+**Multiple choice.** Whom did Adorno attack as regressive?
+- Schoenberg
+- Stravinsky ✓
+- Bach
+
+**Fill in the blank.** *Philosophy of New Music* was published in ___. [answer: 1949]
+
+**Multiple choice.** Who was Theodor Adorno?
+- A philosopher ✓
+- A conductor
+- A composer of film music
 
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words, engaging two writers. Required for the Mastery certificate, where it becomes the capstone essay.

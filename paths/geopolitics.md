@@ -97,6 +97,11 @@ Ten maps, ten regions, and a simple argument: leaders are constrained by mountai
 - The flat North European Plain offers invaders an open route ✓
 - It has no army in the west
 
+**Multiple choice.** Which country, according to Marshall, is especially hard to attack?
+- Belgium
+- The United States ✓
+- Poland
+
 ## The Melian Dialogue
 - id: g2 · type: read · creator: Thucydides, *History of the Peloponnesian War*, Book 5 · year: about 400 BCE · length: about 30 minutes
 - edition: Richard Crawley's translation (1874).
@@ -124,6 +129,13 @@ In 416 BCE the mighty Athenian empire demands that the small island of Melos sub
 - Athens besieged it, killed its men and enslaved its women and children ✓
 - Sparta rescued it
 
+**Multiple choice.** Who wrote the *History of the Peloponnesian War*?
+- Herodotus
+- Thucydides ✓
+- Plato
+
+**Fill in the blank.** Athens demanded Melos's submission in ___ BCE. [answer: 416]
+
 ## The Silk Roads
 - id: g3 · type: read · creator: Peter Frankopan · year: 2015 · length: about 20 hours
 - access: paid | buy, or borrow from a library
@@ -141,6 +153,18 @@ A history of the world told from its centre, the lands between Europe and China,
 - The lands between Europe and China have been the world's crossroads ✓
 - Trade has never mattered to empires
 
+**Multiple choice.** Who wrote *The Silk Roads*?
+- Peter Frankopan ✓
+- Tim Marshall
+- Robert Kaplan
+
+**Fill in the blank.** *The Silk Roads* was published in ___. [answer: 2015]
+
+**Multiple choice.** What surprised people about the book?
+- It became a bestseller despite being a long academic history ✓
+- It was written in a week
+- It has no maps
+
 ## The Fog of War
 - id: g4 · type: watch · creator: Errol Morris · year: 2003 · length: about 1 hour 45 minutes
 - access: paid | rent or stream; availability varies by country
@@ -157,6 +181,18 @@ Robert McNamara, US Secretary of Defense during the Vietnam War, looks back on h
 - Henry Kissinger
 - Robert McNamara ✓
 - George Kennan
+
+**Fill in the blank.** *The Fog of War* is built around ___ lessons. [answer: 11 / eleven]
+
+**Multiple choice.** Which job did McNamara hold during the Vietnam War?
+- US Secretary of State
+- US Secretary of Defense ✓
+- US President
+
+**Multiple choice.** Which award did the film win?
+- The Palme d'Or
+- The Academy Award for Best Documentary Feature ✓
+- A Pulitzer Prize
 
 ---
 
@@ -181,6 +217,21 @@ A short, sharp guide to what geopolitics is, where it came from and why it is co
 - Its ideas have been used to justify empire and expansion ✓
 - It refuses to use maps
 
+**Multiple choice.** Who publishes the *Very Short Introductions*?
+- Oxford University Press ✓
+- Penguin
+- Norton
+
+**Multiple choice.** Why read Dodds first in Stage 2?
+- It helps you read the founders critically ✓
+- It replaces the founders
+- It is the oldest text
+
+**Multiple choice.** What kind of book is it?
+- A multi-volume history
+- A short, sharp guide ✓
+- A novel
+
 ## The Influence of Sea Power upon History (introduction and chapter 1)
 - id: g6 · type: read · creator: Alfred Thayer Mahan · year: 1890 · length: about 3 hours
 - access: free | public domain, on Project Gutenberg
@@ -200,6 +251,18 @@ An American naval officer argues that control of the seas, through navies, bases
 - Control of the seas ✓
 - Control of mountain passes
 - The size of the population
+
+**Fill in the blank.** Mahan's book was published in ___. [answer: 1890]
+
+**Multiple choice.** Who was Alfred Thayer Mahan?
+- An American naval officer ✓
+- A British geographer
+- A German general
+
+**Multiple choice.** Which US president used his ideas to build up the navy?
+- Abraham Lincoln
+- Theodore Roosevelt ✓
+- Woodrow Wilson
 
 ## The Geographical Pivot of History
 - id: g7 · type: read · creator: Halford Mackinder · year: 1904 · length: about 1 hour
@@ -223,6 +286,13 @@ A lecture to the Royal Geographical Society in London that became the most famou
 - Aircraft carriers
 - The telegraph
 
+**Fill in the blank.** Mackinder gave his famous lecture in ___. [answer: 1904]
+
+**Multiple choice.** To which body did he give it?
+- The Royal Geographical Society ✓
+- The House of Commons
+- The League of Nations
+
 ## The Geography of the Peace (selections)
 - id: g8 · type: read · creator: Nicholas Spykman · year: 1944 · length: about 3 hours
 - access: paid | buy, or borrow from a library [verify: whether a free copy is available]
@@ -235,6 +305,21 @@ A Dutch-American scholar answers Mackinder: the decisive zone is not Eurasia's h
 
 ### Quiz
 **Fill in the blank.** Spykman argued that Eurasia's coastal ring, the ___, mattered more than its heartland. [answer: rimland]
+
+**Multiple choice.** When was *The Geography of the Peace* published?
+- In 1944, after Spykman's death ✓
+- In 1904
+- In 1990
+
+**Multiple choice.** Which regions form Spykman's rimland?
+- Siberia and Central Asia
+- Western Europe, the Middle East and East Asia ✓
+- The Americas
+
+**Multiple choice.** Whose strategy did the rimland idea shape?
+- American strategy in the Cold War ✓
+- Napoleon's campaigns
+- The Ottoman Empire's
 
 ## The Long Telegram and the "X" Article
 - id: g9 · type: read · creator: George F. Kennan · year: 1946 and 1947 · length: about 2 hours
@@ -255,6 +340,16 @@ A US diplomat in Moscow sends a very long telegram home explaining how the Sovie
 
 **Fill in the blank.** Kennan signed his famous 1947 article with a single letter: ___. [answer: X]
 
+**Multiple choice.** Where was Kennan posted when he sent the Long Telegram?
+- Berlin
+- Moscow ✓
+- Beijing
+
+**Multiple choice.** How did Kennan say containment had been misread?
+- As mainly military, when he meant it to be mostly political ✓
+- As too gentle
+- As a plan to invade
+
 ## The Revenge of Geography
 - id: g10 · type: read · creator: Robert D. Kaplan · year: 2012 · length: about 12 hours
 - access: paid | buy, or borrow from a library
@@ -267,6 +362,18 @@ A journalist revisits the founders of geopolitics and applies them to the twenty
 - The idea that geography no longer matters in a globalised world ✓
 - The importance of maps
 - The study of history
+
+**Fill in the blank.** *The Revenge of Geography* was published in ___. [answer: 2012]
+
+**Multiple choice.** What is Robert Kaplan's profession?
+- Journalist ✓
+- General
+- Diplomat
+
+**Multiple choice.** How is the book organised?
+- Region by region ✓
+- Year by year
+- Thinker by thinker
 
 ---
 
@@ -293,6 +400,18 @@ The founding text of classical realism. Morgenthau, a refugee from Nazi Germany,
 - In terms of religion
 - In terms of human rights
 
+**Fill in the blank.** Morgenthau sets out ___ principles of realism. [answer: 6 / six]
+
+**Multiple choice.** Which war did Morgenthau criticise early and openly?
+- The Korean War
+- The Vietnam War ✓
+- The Gulf War
+
+**Multiple choice.** Where had Morgenthau fled from?
+- Nazi Germany ✓
+- Soviet Russia
+- Fascist Italy
+
 ## The Twenty Years' Crisis
 - id: g12 · type: read · creator: E. H. Carr · year: 1939 · length: about 8 hours
 - access: paid | buy, or borrow from a library
@@ -305,6 +424,19 @@ Written on the eve of the Second World War, Carr's book attacks the "utopians" w
 - Military dictators
 - The "utopians" who trusted the League of Nations to keep peace ✓
 - Economists
+
+**Fill in the blank.** *The Twenty Years' Crisis* was published in ___. [answer: 1939]
+> On the eve of the Second World War.
+
+**Multiple choice.** Which institution did Carr's "utopians" trust to keep the peace?
+- NATO
+- The League of Nations ✓
+- The United Nations
+
+**Multiple choice.** What else does Carr warn against?
+- A realism with no moral purpose ✓
+- Reading history
+- International trade
 
 ## Theory of International Politics (chapters 5 and 6)
 - id: g13 · type: read · creator: Kenneth Waltz · year: 1979 · length: about 4 hours for the chapters
@@ -324,6 +456,14 @@ The founding text of structural realism, also called neorealism. Waltz argues th
 - The absence of any government above states ✓
 - A world run by rebels
 
+**Multiple choice.** What are Waltz's three "images" of war?
+- Human nature, the state, and the international system ✓
+- Land, sea and air
+- Past, present and future
+> From *Man, the State and War* (1959).
+
+**Fill in the blank.** *Theory of International Politics* was published in ___. [answer: 1979]
+
 ## Power and Interdependence
 - id: g14 · type: read · creator: Robert O. Keohane and Joseph S. Nye · year: 1977 · length: about 6 hours for the key chapters
 - access: paid | buy, or borrow from a library
@@ -342,6 +482,13 @@ The liberal answer to realism. When countries are tied together by trade, financ
 - A weak army
 - Power from natural resources
 
+**Fill in the blank.** *Power and Interdependence* was published in ___. [answer: 1977]
+
+**Multiple choice.** Under complex interdependence, what becomes less useful?
+- Trade
+- Military force ✓
+- Diplomacy
+
 ## "Anarchy Is What States Make of It"
 - id: g15 · type: read · creator: Alexander Wendt · year: 1992 · length: about 2 hours
 - access: paid | in the journal *International Organization*; free through many libraries
@@ -354,6 +501,18 @@ The founding article of constructivism. Wendt accepts that there is no world gov
 - Only military power matters
 - What anarchy means depends on states' identities and ideas about each other ✓
 - States always cooperate
+
+**Multiple choice.** Which school of thought does Wendt's article found?
+- Realism
+- Constructivism ✓
+- Liberalism
+
+**Fill in the blank.** Wendt's article appeared in ___. [answer: 1992]
+
+**Multiple choice.** Besides power, what shapes world politics for Wendt?
+- Weather
+- Identities and ideas ✓
+- Population size
 
 ## The Clash of Civilizations? and The End of History?
 - id: g16 · type: read · creator: Samuel P. Huntington; Francis Fukuyama · year: 1993; 1989 · length: about 2 hours for both articles
@@ -370,6 +529,18 @@ Two famous forecasts from the end of the Cold War, read as a pair. Fukuyama argu
 - Liberal democracy is the end point of history
 - Future conflicts will run along the lines between civilisations ✓
 - The Soviet Union will last forever
+
+**Multiple choice.** Which forecast belongs to Fukuyama?
+- Conflict will run between civilisations
+- Liberal democracy may be the end point of ideological evolution ✓
+- The Cold War will last forever
+
+**Multiple choice.** What do both original titles end with?
+- An exclamation mark
+- A question mark ✓
+- A date
+
+**Fill in the blank.** Fukuyama's article "The End of History?" appeared in ___. [answer: 1989]
 
 ## The Tragedy of Great Power Politics
 - id: g17 · type: read · creator: John J. Mearsheimer · year: 2001, updated 2014 · length: about 15 hours
@@ -389,6 +560,18 @@ The founding text of offensive realism: great powers seek not just security but 
 - Only enough power to survive
 - Dominance, because being strongest is the safest position ✓
 - Cooperation above all
+
+**Multiple choice.** What is Mearsheimer's theory called?
+- Offensive realism ✓
+- Constructivism
+- Liberal institutionalism
+
+**Multiple choice.** What did Mearsheimer predict about China?
+- It could not rise peacefully ✓
+- It would become a democracy
+- It would collapse by 2010
+
+**Fill in the blank.** His *Foreign Affairs* article blaming the West for the Ukraine crisis appeared in ___. [answer: 2014]
 
 ### Scholar challenge (optional)
 Take one recent event and explain it three ways: as a realist, a liberal and a constructivist would. Which explanation is most convincing, and why? (300 words. Required for the Mastery certificate.)
@@ -422,6 +605,13 @@ An ancient Indian treatise on statecraft, traditionally attributed to Kautilya, 
 
 **Fill in the blank.** Kautilya's circle-of-kingdoms model is called the ___ theory. [answer: mandala]
 
+**Multiple choice.** Whom was Kautilya traditionally adviser to?
+- Ashoka
+- Chandragupta Maurya ✓
+- Akbar
+
+**Fill in the blank.** The lost manuscript of the *Arthashastra* was found in ___. [answer: 1905]
+
 ## The Muqaddimah (selections)
 - id: g19 · type: read · creator: Ibn Khaldun · year: 1377 · length: about 6 hours for selections
 - edition: Franz Rosenthal's translation, abridged edition (Princeton). [verify: edition]
@@ -435,6 +625,19 @@ A North African scholar's introduction to world history, and one of the first at
 
 ### Quiz
 **Fill in the blank.** Ibn Khaldun's word for the group solidarity that lifts dynasties to power is ___. [answer: asabiyya / asabiyyah]
+
+**Fill in the blank.** Ibn Khaldun wrote the *Muqaddimah* in ___. [answer: 1377]
+
+**Multiple choice.** What happens to dynasties, according to Ibn Khaldun?
+- They last forever
+- They grow soft in luxury and fall within a few generations ✓
+- They are always destroyed by foreign invaders
+
+**Multiple choice.** Where did he write it?
+- In a remote fortress in present-day Algeria ✓
+- In Baghdad's House of Wisdom
+- In Cordoba
+> In about five months.
 
 ## The Grand Chessboard
 - id: g20 · type: read · creator: Zbigniew Brzezinski · year: 1997 · length: about 8 hours
@@ -452,6 +655,18 @@ President Carter's former national security adviser sets out a strategy for Amer
 - Ukraine ✓
 - Kazakhstan
 
+**Multiple choice.** Which president had Brzezinski served as national security adviser?
+- Jimmy Carter ✓
+- Ronald Reagan
+- Bill Clinton
+
+**Fill in the blank.** *The Grand Chessboard* was published in ___. [answer: 1997]
+
+**Multiple choice.** How does the path suggest reading it?
+- As a primary source: the kind of thinking other powers reacted to ✓
+- As neutral scholarship
+- As fiction
+
 ## Ancient Chinese Thought, Modern Chinese Power
 - id: g21 · type: read · creator: Yan Xuetong · year: 2011 · length: about 8 hours
 - access: paid | buy, or borrow from a library
@@ -464,6 +679,18 @@ A leading Chinese scholar of international relations at Tsinghua University draw
 - Military force alone
 - Moral legitimacy, or "humane authority" ✓
 - Isolation from the world
+
+**Multiple choice.** Where does Yan Xuetong teach?
+- Peking University
+- Tsinghua University ✓
+- Fudan University
+
+**Multiple choice.** Which thinkers does he draw on?
+- Pre-Qin Chinese philosophers ✓
+- Western Enlightenment writers
+- Soviet strategists
+
+**Fill in the blank.** *Ancient Chinese Thought, Modern Chinese Power* appeared in ___. [answer: 2011]
 
 ## Has China Won?
 - id: g22 · type: read · creator: Kishore Mahbubani · year: 2020 · length: about 8 hours
@@ -478,6 +705,18 @@ A former Singaporean diplomat looks at the US–China rivalry from Southeast Asi
 - Southeast Asia ✓
 - Latin America
 
+**Multiple choice.** What was Kishore Mahbubani's career?
+- A Singaporean diplomat ✓
+- A Chinese general
+- An American journalist
+
+**Fill in the blank.** *Has China Won?* was published in ___. [answer: 2020]
+
+**Multiple choice.** What does Mahbubani see as America's biggest weakness?
+- Its geography
+- Its assumptions about its own superiority ✓
+- Its population
+
 ## The End of American World Order
 - id: g23 · type: read · creator: Amitav Acharya · year: 2014 · length: about 6 hours
 - access: paid | buy, or borrow from a library
@@ -487,6 +726,18 @@ An Indian-born scholar argues that the world is becoming not multipolar in the o
 
 ### Quiz
 **Fill in the blank.** Acharya describes the emerging world as "___", like a cinema with many screens. [answer: multiplex]
+
+**Fill in the blank.** *The End of American World Order* was published in ___. [answer: 2014]
+
+**Multiple choice.** What does a "multiplex" world mean?
+- One superpower
+- Several centres of power, ideas and institutions at once ✓
+- A world without states
+
+**Multiple choice.** Where was Amitav Acharya born?
+- India ✓
+- Singapore
+- Canada
 
 ### Scholar challenge (optional)
 Compare Kautilya's mandala with Waltz's structural realism. What does each explain that the other misses? (500 words. Required for the Mastery certificate.)
@@ -516,6 +767,18 @@ How the shale revolution, Russia's gas, China's rise and the climate transition 
 - Medieval cartography
 - Space exploration
 
+**Multiple choice.** What is Yergin's earlier book, *The Prize*, about?
+- The history of oil ✓
+- The Nobel Prize
+- Gold mining
+
+**Fill in the blank.** *The New Map* was published in ___. [answer: 2020]
+
+**Multiple choice.** Which of these does *The New Map* cover?
+- The shale revolution ✓
+- Medieval trade fairs
+- The space race
+
 ## Water: Asia's New Battleground
 - id: g25 · type: read · creator: Brahma Chellaney · year: 2011 · length: about 12 hours
 - access: paid | buy, or borrow from a library
@@ -529,6 +792,18 @@ An Indian strategist argues that rivers rising on the Tibetan Plateau, which fee
 - The Tibetan Plateau ✓
 - The Gobi Desert
 
+**Multiple choice.** Which rivers does the book help you understand?
+- The Nile and the Congo
+- The Brahmaputra, the Ganges and the Mekong ✓
+- The Rhine and the Danube
+
+**Fill in the blank.** *Water: Asia's New Battleground* was published in ___. [answer: 2011]
+
+**Multiple choice.** Which countries depend on rivers rising on the Tibetan Plateau?
+- China, India, Bangladesh and Southeast Asia ✓
+- Japan and Korea
+- Russia and Mongolia
+
 ## Monsoon
 - id: g26 · type: read · creator: Robert D. Kaplan · year: 2010 · length: about 10 hours
 - access: paid | buy, or borrow from a library
@@ -541,6 +816,18 @@ A journey around the Indian Ocean, from Oman to Bangladesh, Myanmar and Indonesi
 - The Arctic Ocean
 - The Indian Ocean ✓
 - The Southern Ocean
+
+**Fill in the blank.** *Monsoon* was published in ___. [answer: 2010]
+
+**Multiple choice.** Which places does Kaplan's journey include?
+- Oman, Bangladesh, Myanmar and Indonesia ✓
+- Brazil and Argentina
+- Norway and Iceland
+
+**Multiple choice.** Which book does the path suggest reading alongside it?
+- Chellaney's *Water* ✓
+- *Chip War*
+- *Orientalism*
 
 ## Chip War
 - id: g27 · type: read · creator: Chris Miller · year: 2022 · length: about 12 hours
@@ -558,6 +845,18 @@ How the microchip became the world's most critical technology, why so much of th
 - Brazil
 - Switzerland
 
+**Multiple choice.** Who wrote *Chip War*?
+- Chris Miller ✓
+- Daniel Yergin
+- Henry Farrell
+
+**Fill in the blank.** *Chip War* was published in ___. [answer: 2022]
+
+**Multiple choice.** Which two powers are fighting over chips, in the book?
+- The US and China ✓
+- France and Germany
+- India and Pakistan
+
 ## Underground Empire
 - id: g28 · type: read · creator: Henry Farrell and Abraham Newman · year: 2023 · length: about 10 hours
 - access: paid | buy, or borrow from a library
@@ -571,6 +870,18 @@ How the United States turned the hidden infrastructure of the global economy, th
 - Hollywood films
 - Tourism
 
+**Multiple choice.** Who wrote *Underground Empire*?
+- Henry Farrell and Abraham Newman ✓
+- Keohane and Nye
+- Chris Miller
+
+**Fill in the blank.** *Underground Empire* was published in ___. [answer: 2023]
+
+**Multiple choice.** Which of these is part of the economy's hidden infrastructure?
+- Undersea cables ✓
+- Football leagues
+- Folk music
+
 ## Working with the data
 - id: g29 · type: course · creator: SIPRI, World Bank and others · length: about 6 hours
 - access: free | the SIPRI Military Expenditure Database and the World Bank's open data are free online
@@ -583,6 +894,21 @@ Analysts don't just read; they count. Use the free SIPRI Military Expenditure Da
 - Military expenditure by country ✓
 - Population growth
 - Football results
+
+**Multiple choice.** Which free source does the exercise use to compare economies?
+- World Bank open data ✓
+- A newspaper paywall
+- Social media
+
+**Multiple choice.** How many countries does the exercise ask you to compare?
+- Two
+- Five ✓
+- Fifty
+
+**Multiple choice.** What should you ask once you have the numbers?
+- What they explain, and what they don't ✓
+- Nothing more: numbers are enough
+- Which country is best
 
 ### Scholar challenge (optional)
 Write a full case analysis of one live issue: the war in Ukraine, the South China Sea, or water in South Asia. Explain it through geography, through at least two schools of thought, and with data. (800 words. Required for the Mastery certificate.)
@@ -609,6 +935,18 @@ The founding text of critical geopolitics. Ó Tuathail argues that geopolitics i
 - They are ways of seeing the world that serve particular interests ✓
 - They are irrelevant to politics
 
+**Fill in the blank.** *Critical Geopolitics* was published in ___. [answer: 1996]
+
+**Multiple choice.** What does Ó Tuathail say maps, speeches and strategies do?
+- Describe a fixed reality neutrally
+- Create the reality they claim to describe ✓
+- Have no effect
+
+**Multiple choice.** Which school does the book found?
+- Classical geopolitics
+- Critical geopolitics ✓
+- Offensive realism
+
 ## Orientalism
 - id: g31 · type: read · creator: Edward W. Said · year: 1978 · length: about 15 hours
 - access: paid | buy, or borrow from a library
@@ -628,6 +966,18 @@ A Palestinian-American literary scholar shows how Western writers, scholars and 
 - Built an image of it that justified domination ✓
 - Ignored it completely
 
+**Fill in the blank.** *Orientalism* was published in ___. [answer: 1978]
+
+**Multiple choice.** Which field did *Orientalism* help found?
+- Postcolonial studies ✓
+- Game theory
+- Behavioural economics
+
+**Multiple choice.** Which scholar was a leading critic of Said?
+- Bernard Lewis ✓
+- Joseph Nye
+- Robert Kaplan
+
 ## Reading current research
 - id: g32 · type: read · creator: journals: *International Security*, *Geopolitics*, *Foreign Affairs* · length: ongoing
 - access: free-and-paid | some articles are open access; most need a subscription or a library
@@ -640,6 +990,21 @@ Choose three recent articles on a region you care about, one from a scholarly jo
 - To get a fuller range of perspectives on the same events ✓
 - Because Western research is always wrong
 - It is not needed
+
+**Multiple choice.** How many articles does the task ask you to read?
+- One
+- Three ✓
+- Ten
+
+**Multiple choice.** Which of these is a scholarly journal named in the path?
+- *International Security* ✓
+- *Vogue*
+- *Wired*
+
+**Multiple choice.** After summarising each article, what should you note?
+- Where they disagree ✓
+- Their word counts
+- Their authors' ages
 
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words, engaging two scholars. Required for the Mastery certificate, where it becomes the capstone essay.

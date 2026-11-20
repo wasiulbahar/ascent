@@ -128,6 +128,79 @@ ul.timeline li strong{display:block;font-family:var(--display);font-weight:600;f
 a.pathlink{font-weight:700;color:var(--lilac-ink);text-decoration:none;border-bottom:2px solid var(--lilac)}
 a.pathlink::after{content:" →"}
 
+/* area pages */
+.soon{color:var(--muted);font-size:15px;padding:14px 16px;border:2px dashed var(--line);border-radius:16px}
+
+/* lesson: a work as a path of steps */
+.lesson{max-width:640px}
+.hero .blob{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:var(--surface)}
+.hero .blob svg.i{width:28px;height:28px}
+.steps{list-style:none;margin:0;padding:6px 0;display:grid;gap:14px}
+.step{display:flex}
+.step.s1{justify-content:flex-end}
+.step>a,.step>button{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);background:none;border:0;padding:0;text-align:left;font:inherit;max-width:85%}
+.step.s1>a,.step.s1>button{flex-direction:row-reverse;text-align:right}
+.node-c{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--surface);color:var(--muted);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.node-c svg.i{width:30px;height:30px}
+.node-c.done{border-color:transparent;box-shadow:0 5px 0 rgb(0 0 0 / .12)}
+.node-c.cur{border-color:transparent;box-shadow:0 5px 0 rgb(0 0 0 / .18),0 0 0 6px var(--surface),0 0 0 9px currentColor}
+.step a:active .node-c,.step button:active .node-c{transform:translateY(3px);box-shadow:0 2px 0 var(--line)}
+.st-t{display:grid;gap:2px}
+.st-t b{font-family:var(--display);font-size:18px}
+.st-t small{color:var(--muted);font-size:14px}
+.step.opt .node-c{border-style:dashed}
+.go-pill{justify-self:start;margin-top:4px;font-size:12px;font-weight:700;background:var(--btn);color:var(--on-btn);border-radius:999px;padding:3px 10px}
+.step.s1 .go-pill{justify-self:end}
+.nextwork{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.nextwork small{grid-column:1;color:var(--muted);font-weight:700;font-size:13px}
+.nextwork b{grid-column:1}
+.nextwork svg{grid-column:2;grid-row:1/3}
+
+/* a single step on its own screen */
+.steppage{max-width:640px}
+.stephead{display:flex;align-items:center;gap:14px}
+.stephead .close{text-decoration:none}
+.stepbar{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.stepbar i{height:10px;border-radius:999px;background:var(--line);transition:background .3s}
+.kick{font-weight:700;font-size:14px;margin-bottom:-14px}
+.btn.wide{width:100%;padding:15px 20px}
+.getcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:14px}
+.getcard small{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+
+/* quiz, one question at a time */
+.quizrun{display:grid;gap:22px}
+.qprog{height:12px;border-radius:999px;background:var(--line);overflow:hidden}
+.qprog i{display:block;height:100%;border-radius:999px;transition:width .35s ease}
+.qcard{display:grid;gap:16px}
+.qcard .kind{font-size:13px;font-weight:700;color:var(--muted)}
+.qcard .qt{font-size:24px;line-height:1.35}
+.qcard .opts{display:grid;gap:10px}
+.qcard .opts button{text-align:left;background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:14px 16px;font-weight:700;font-size:16px;color:var(--ink);transition:border-color .15s,background .15s}
+.qcard .opts button.picked{border-color:var(--sky-ink);background:var(--sky);color:var(--sky-ink)}
+.qcard .opts button.right{border-color:var(--mint-ink);background:var(--mint);color:var(--mint-ink)}
+.qcard .opts button.wrong{border-color:var(--rose-ink);background:var(--rose);color:var(--rose-ink)}
+.qcard input{font:inherit;font-weight:700;width:7em;max-width:100%;padding:2px 10px;border:0;border-bottom:3px solid var(--line);background:transparent;color:var(--ink);text-align:center}
+.qcard input:focus{outline:none;border-color:var(--sky-ink)}
+.qcard input.right{border-color:var(--mint-ink);color:var(--mint-ink)} .qcard input.wrong{border-color:var(--rose-ink);color:var(--rose-ink)}
+.qfoot{display:grid;gap:12px;border-radius:20px;padding:4px 0}
+.qfoot.fb{padding:16px}
+.qfoot.fb.ok{background:var(--mint);color:var(--mint-ink)} .qfoot.fb.no{background:var(--rose);color:var(--rose-ink)}
+.qresult{border-radius:24px;padding:28px 20px;display:grid;justify-items:center;gap:8px;text-align:center;background:var(--butter);color:var(--butter-ink)}
+.qresult h1{font-size:44px}
+.medal.small{width:84px;height:84px;border-width:6px;border-radius:50%;background:var(--surface);display:grid;place-items:center;border:6px solid var(--butter)}
+.medal.small svg.i{width:38px;height:38px}
+@media (prefers-reduced-motion:no-preference){ .qfoot.fb{animation:rise .2s ease-out} @keyframes rise{from{transform:translateY(12px);opacity:0}} }
+
+/* story cards: the frame stays, cards slide */
+.cardslot{flex:1;display:flex;flex-direction:column;gap:16px}
+.segs i{transition:opacity .3s}
+@media (prefers-reduced-motion:no-preference){
+  .cardslot.in-next{animation:in-next .28s cubic-bezier(.2,.8,.2,1)}
+  .cardslot.in-prev{animation:in-prev .28s cubic-bezier(.2,.8,.2,1)}
+  @keyframes in-next{from{opacity:0;transform:translateX(28px)}}
+  @keyframes in-prev{from{opacity:0;transform:translateX(-28px)}}
+}
+
 /* stage status */
 .chip{display:inline-flex;align-items:center;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--surface);color:var(--muted);white-space:nowrap}
 .chip.ok{color:var(--mint-ink)} .chip.warn{background:var(--flag);color:var(--flag-ink)} .chip.lock{color:var(--muted)}
