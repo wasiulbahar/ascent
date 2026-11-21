@@ -19,8 +19,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=14";
-import { PATHS } from "../src/paths.js?v=14";
+import { parsePath } from "../src/content.js?v=15";
+import { PATHS } from "../src/paths.js?v=15";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -126,6 +126,40 @@ const TESTS = {
     const inp = $("#blank"); inp.value = "1"; inp.dispatchEvent(new Event("input")); $("[data-check]").click();
     await until(() => $(".qfoot.fb"), "feedback");
     ok($(".qfoot.fb.no"), "1 should be marked wrong when the answer is -1");
+  },
+  async "welcome tour: pick interests and level, then see picked paths"() {
+    localStorage.removeItem("ascent-prefs");
+    await fresh(); localStorage.removeItem("ascent-welcomed");
+    const loaded = new Promise(r => frame.addEventListener("load", r, { once: true })); frame.contentWindow.location.reload(); await loaded;
+    (await until(() => $("[data-tstep='1']"), "the tour to open")).click();
+    await until(() => $(".climb"), "the climb card"); $("[data-tstep='1']").click();
+    (await until(() => $("[data-tarea='natural-sciences']"), "interest choices")).click();
+    ok($("[data-tarea='natural-sciences']").getAttribute("aria-pressed") === "true", "interest should toggle on");
+    $("[data-tstep='1']").click();
+    (await until(() => $("[data-tlevel='1']"), "level choices")).click();
+    $("[data-tstep='1']").click();
+    await until(() => $(".tpick"), "picked paths");
+    const picks = $$(".tpick b").map(b => b.textContent);
+    ok(picks.includes("Physics") && picks.includes("Biology"), `picks were ${picks}`);
+    ok($(".tpick a[href$='/placement']"), "level 'I know a little' should offer the placement test");
+    const pr = JSON.parse(localStorage.getItem("ascent-prefs"));
+    ok(pr.areas.includes("natural-sciences") && pr.level === 1 && localStorage.getItem("ascent-welcomed"), "choices should be saved");
+    $("button[data-close]").click();
+    await go("#/collection"); await go("#/");
+    await until(() => $$(".label").some(l => l.textContent === "Picked for you"), "Picked for you on the home page");
+    localStorage.removeItem("ascent-prefs");
+  },
+  async "map of knowledge: expands areas and finds subjects"() {
+    await fresh("#/atlas");
+    await until(() => $("#atlastree [data-atlas]"), "the map");
+    ok($$("#atlastree [data-atlas]").length === 6, "six areas");
+    $("[data-atlas='natural-sciences']").click();
+    await until(() => $("#atlastree a[href='#/path/physics']"), "Physics under Natural sciences");
+    const q = $("#atlasq"); q.value = "genetics"; q.dispatchEvent(new Event("input", { bubbles: true }));
+    await until(() => $("#atlastree mark"), "a highlighted match");
+    ok($$("#atlastree .subs span.hit").length >= 1 && $("#atlastree a[href='#/path/biology']"), "genetics should show Biology");
+    q.value = "zzqx"; q.dispatchEvent(new Event("input", { bubbles: true }));
+    await until(() => /Nothing matches/.test($("#atlastree").textContent), "the no-match message");
   },
   async "answer options are shuffled"() {
     await fresh();

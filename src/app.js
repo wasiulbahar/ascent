@@ -1,10 +1,11 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk } from "./content.js?v=14";
-import { PATHS, AREAS } from "./paths.js?v=14";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=14";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=14";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=14";
-import { pathStatuses, PASS_MARK, placementId } from "./status.js?v=14";
+import { parsePath, blankOk } from "./content.js?v=15";
+import { PATHS, AREAS } from "./paths.js?v=15";
+import { OUTLINE } from "./outline.js?v=15";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=15";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=15";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=15";
+import { pathStatuses, PASS_MARK, placementId } from "./status.js?v=15";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -44,7 +45,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=14`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=15`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -92,11 +93,13 @@ async function homeView() {
       <small style="font-weight:700">${esc(cont.title)} · Stage ${nx.stage.num}: ${esc(nx.stage.name)}</small><h2>${esc(nx.title)}</h2>
       <span>${esc([VERB[nx.type], nx.creator, nx.length].filter(Boolean).join(" · "))}</span><span class="btn" style="justify-self:start">${ico("play")}Continue</span></a>` : ""}
     ${!auth.user && sb ? `<div class="hero" style="${C("lilac")}"><h2>Save your progress</h2><p>Sign in with your email to keep your place on every device. No password needed.</p><a class="btn" href="#/signin" style="justify-self:start">${ico("mail")}Sign in with email</a></div>` : ""}
+    ${!cont && prefs() ? `<section><p class="label">Picked for you</p><div class="grid">${picksFor(prefs()).map(m => `<a class="card" href="#/path/${m.slug}" style="${C(m.color)}">${ico(m.icon)}<div style="display:grid;gap:6px"><h2>${esc(m.title)}</h2><small>${prefs().level ? "Start, or take the placement test" : "Start with Stage 1"}</small></div></a>`).join("")}</div></section>` : ""}
     <section><p class="label">Choose an area</p>
       <div class="grid">${AREAS.map(a => { const k = a.disciplines.reduce((n, d) => n + d.paths.length, 0);
         return `<a class="card" href="#/area/${a.slug}" style="${C(a.color)}">${ico(a.icon)}
         <div style="display:grid;gap:6px"><h2>${esc(a.title)}</h2><small>${esc(a.blurb)}</small><small>${k ? `${k} path${k > 1 ? "s" : ""} ready` : "Coming soon"}</small></div></a>`; }).join("")}</div>
     </section>
+    <a class="hero maplink" href="#/atlas" style="${C("sky")}"><span class="row" style="align-items:center;gap:12px;flex-wrap:nowrap">${ico("tree")}<span><b>See the map of all knowledge</b><br><small>Every area, discipline and subfield, and where the paths are</small></span></span></a>
     ${footer()}
   </div>`;
 }
@@ -119,25 +122,99 @@ function privacyView() {
   </div>`;
 }
 
-// --- welcome cards, shown once on a first visit ---------------------------------------
-const WELCOME = [
-  ["Welcome to Ascent", "Pick a subject, and Ascent guides you from works anyone can enjoy all the way to the level of a university seminar."],
-  ["One step at a time", "Every work is a short lesson: a story to start, the work itself, a guide to understand it, and a quick quiz."],
-  ["Go as deep as you like", "Pass a stage's quizzes to open the next one. Experts check each path before it's marked as endorsed."],
-];
-const welcome = { n: 0 };
-function openWelcome() {
-  welcome.n = 0;
-  $("#layer").innerHTML = `<div class="scrim" data-close data-welcomedone></div><div class="full enter" style="${C("lilac")}" role="dialog" aria-modal="true" aria-label="Welcome to Ascent">
-    <div class="segs">${WELCOME.map((_, k) => `<i class="${k === 0 ? "on" : ""}"></i>`).join("")}</div>
-    <div class="fullhead"><small style="font-weight:700">Ascent</small><button class="close" type="button" data-close data-welcomedone aria-label="Close">${ico("x")}</button></div>
-    <div class="cardslot">${welcomeCard()}</div></div>`;
+// --- welcome tour, shown once on a first visit (replay: footer or account page) ----------
+// Five cards: how it works, the climb, interests, level, and picked paths. Choices are kept
+// in this browser (ascent-prefs) to pick paths for the home page.
+const LEVELS = ["New to all of this", "I know a little", "I've studied some of it"];
+const tour = { n: 0, areas: new Set(), level: 0 };
+const TOUR_N = 5;
+function prefs() { try { return JSON.parse(localStorage.getItem("ascent-prefs") || "null"); } catch { return null; } }
+function savePrefs() { try { localStorage.setItem("ascent-prefs", JSON.stringify({ areas: [...tour.areas], level: tour.level })); localStorage.setItem("ascent-welcomed", "1"); } catch { /* storage blocked */ } }
+// up to n live paths in the chosen areas (all areas if none chosen, or if those have none yet)
+function picksFor(pr, n = 3) {
+  // take turns between the chosen areas, so every choice is represented
+  const from = areas => { const ls = areas.map(a => a.disciplines.flatMap(d => d.paths)), out = [];
+    for (let r = 0; ls.some(l => l[r]); r++) ls.forEach(l => l[r] && !out.includes(l[r]) && out.push(l[r])); return out; };
+  let s = from(AREAS.filter(a => pr?.areas?.includes(a.slug)));
+  if (!s.length) s = from(AREAS);
+  return s.slice(0, n).map(x => PATHS.find(p => p.slug === x)).filter(Boolean);
 }
-function welcomeCard() {
-  const [h, p] = WELCOME[welcome.n], last = welcome.n === WELCOME.length - 1;
-  return `<div class="story"><span class="medal small">${ico(["logo", "play", "trophy"][welcome.n])}</span><h2>${h}</h2><div class="storytxt"><p>${p}</p></div></div>
-    <div class="row" style="flex-direction:column">${last ? `<button class="btn" type="button" data-close data-welcomedone>Let's start</button>${!auth.user && sb ? `<a class="btn ghost" href="#/signin" data-close data-welcomedone>Sign in to save progress</a>` : ""}`
-      : `<button class="btn" type="button" data-wnext>Next</button>`}</div>`;
+function openWelcome() {
+  const pr = prefs();
+  Object.assign(tour, { n: 0, areas: new Set(pr?.areas || []), level: pr?.level || 0 });
+  $("#layer").innerHTML = `<div class="scrim" data-close data-welcomedone></div><div class="full enter" style="${C("lilac")}" role="dialog" aria-modal="true" aria-label="Welcome to Ascent">
+    <div class="segs">${Array.from({ length: TOUR_N }, (_, k) => `<i class="${k === 0 ? "on" : ""}"></i>`).join("")}</div>
+    <div class="fullhead"><small style="font-weight:700">Ascent</small><button class="close" type="button" data-close data-welcomedone aria-label="Close">${ico("x")}</button></div>
+    <div class="cardslot">${tourCard()}</div></div>`;
+}
+function drawTour(dir) {
+  const f = $("#layer .full"); if (!f) return;
+  f.querySelectorAll(".segs i").forEach((s, k) => s.classList.toggle("on", k <= tour.n));
+  const slot = f.querySelector(".cardslot"); slot.innerHTML = tourCard();
+  slot.classList.remove("in-next", "in-prev"); void slot.offsetWidth; slot.classList.add(dir > 0 ? "in-next" : "in-prev");
+  slot.querySelector("h2")?.focus({ preventScroll: true });
+}
+function tourCard() {
+  const n = tour.n, back = n ? `<button class="btn ghost" type="button" data-tstep="-1">Back</button>` : `<button class="btn ghost" type="button" data-close data-welcomedone>Skip</button>`;
+  const nav = label => `<div class="row tournav">${back}<button class="btn" type="button" data-tstep="1">${label}</button></div>`;
+  const card = (icon, h, p, body) => `<div class="story"><span class="medal small">${ico(icon)}</span><h2 tabindex="-1">${h}</h2><p class="lede">${p}</p>${body}</div>`;
+  if (n === 0) return card("logo", "Welcome to Ascent", "Guided paths that take you from curious beginner to someone who really knows a subject.",
+    `<ol class="tsteps">${["Pick a path", "Read, watch or listen, one work at a time", "Pass a short quiz after each work", "Earn stage badges, all the way to mastery"].map(s => `<li>${s}</li>`).join("")}</ol>`) + nav("Show me how");
+  if (n === 1) return card("trophy", "Every path is a climb", "Six stages, from First Encounters to Expert. Each work is a short lesson: a story, the work itself, a guide, and a quiz.",
+    `<div class="climb" aria-hidden="true">${[1, 2, 3, 4, 5, 6].map(k => `<i style="height:${12 + k * 13}%"${k < 3 ? ' class="on"' : ""}></i>`).join("")}</div>
+     <p class="muted">Score 70% across a stage's quizzes to pass it. Fall short? Retry, or continue anyway. Already know some? A placement test lets you skip ahead.</p>`) + nav("Got it");
+  if (n === 2) return card("globe", "What are you curious about?", "Pick as many as you like.",
+    `<div class="picks">${AREAS.map(a => `<button type="button" class="pick${tour.areas.has(a.slug) ? " on" : ""}" aria-pressed="${tour.areas.has(a.slug)}" data-tarea="${a.slug}">${ico(a.icon)}${esc(a.title)}</button>`).join("")}</div>`)
+    + nav(tour.areas.size ? "Next" : "Show me everything");
+  if (n === 3) return card("spark", "Where are you starting from?", "There's no wrong answer, and you can change it later.",
+    `<div class="levels" role="radiogroup" aria-label="Your level">${LEVELS.map((l, k) => `<button type="button" role="radio" class="level${tour.level === k ? " on" : ""}" aria-checked="${tour.level === k}" data-tlevel="${k}">${l}</button>`).join("")}</div>`) + nav("Show my paths");
+  const picks = picksFor({ areas: [...tour.areas] });
+  return card("check", "Your first climb", tour.level ? "Picked for you. Start a path, or take its placement test to skip what you know." : "Picked for you. Start with Stage 1: every path begins with works anyone can enjoy.",
+    `<div class="tpicks">${picks.map(m => `<div class="tpick"><span class="ni" style="${C(m.color)}">${ico(m.icon)}</span><span><b>${esc(m.title)}</b>
+      <span class="row"><a href="#/path/${m.slug}" data-close>Start</a>${tour.level ? `<a href="#/path/${m.slug}/placement" data-close>Placement test</a>` : ""}</span></span></div>`).join("")}</div>
+     <p class="badgeline">${ico("trophy")}Badge earned: Explorer</p>`)
+    + `<div class="row tournav" style="flex-direction:column"><a class="btn" href="#/atlas" data-close>${ico("tree")}See the map of all knowledge</a>${!auth.user && sb ? `<a class="btn ghost" href="#/signin" data-close>Sign in to save progress</a>` : `<button class="btn ghost" type="button" data-close>Close</button>`}</div>`;
+}
+
+// --- map of knowledge: every area, discipline and subfield, with live paths lit up ------
+const atlas = { open: new Set(), q: "", live: {} };
+async function atlasView() {
+  atlas.live = Object.fromEntries(await Promise.all(PATHS.map(async m => {
+    const p = await getPath(m.slug).catch(() => null);
+    return [m.slug, { m, stages: p?.stages.length || 0, passed: p ? statuses(m.slug, p).filter(s => s.state === "passed").length : 0, started: p ? doneCount(m.slug, p.works) > 0 : false }];
+  })));
+  const discs = Object.values(OUTLINE).flat(), subs = discs.reduce((n, [, s]) => n + s.split(";").length, 0);
+  const L = Object.values(atlas.live), passed = L.reduce((n, x) => n + x.passed, 0), total = L.reduce((n, x) => n + x.stages, 0);
+  const explored = L.filter(x => x.started).length;
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<span>Map of knowledge</span></div>
+    <div style="display:grid;gap:8px"><h1>Map of knowledge</h1><p class="lede">Every field Ascent will cover, from the outline of academic disciplines. Lit-up paths are ready to start; the rest are being written.</p></div>
+    <div class="stats">${[["Areas", AREAS.length], ["Disciplines", discs.length], ["Subfields", subs], ["Paths ready", PATHS.length], ["Paths you've started", explored], ["Stages you've passed", `${passed} of ${total}`]]
+      .map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join("")}</div>
+    <div class="row atlasbar"><input type="search" id="atlasq" placeholder="Find a subject, such as genetics" aria-label="Find a subject" value="${esc(atlas.q)}" autocomplete="off">
+      <button class="btn small ghost" type="button" data-atlasall="1">Expand all</button><button class="btn small ghost" type="button" data-atlasall="0">Collapse all</button></div>
+    <ul class="tree atlas" id="atlastree" aria-label="Map of knowledge">${atlasTree()}</ul>
+  </div>`;
+}
+function atlasTree() {
+  const q = atlas.q.trim().toLowerCase(), hit = s => !!q && s.toLowerCase().includes(q);
+  const mark = s => { const i = q ? s.toLowerCase().indexOf(q) : -1; return i < 0 ? esc(s) : esc(s.slice(0, i)) + `<mark>${esc(s.slice(i, i + q.length))}</mark>` + esc(s.slice(i + q.length)); };
+  const rows = AREAS.map(a => {
+    const ds = (OUTLINE[a.slug] || []).map(([title, s]) => {
+      const paths = a.disciplines.find(d => d.title === title)?.paths || [], subs = s.split(";").map(x => x.trim());
+      const show = !q || hit(title) || subs.some(hit) || paths.some(p => hit(atlas.live[p]?.m.title || ""));
+      return { title, paths, subs, show };
+    }).filter(d => d.show);
+    if (q && !ds.length) return "";
+    const ex = q ? true : atlas.open.has(a.slug), np = ds.reduce((n, d) => n + d.paths.length, 0);
+    return `<li><button class="node" type="button" style="${C(a.color)}" data-atlas="${a.slug}" aria-expanded="${ex}"><span class="ni">${ico(a.icon)}</span>
+      <span><b>${esc(a.title)}</b><small>${(OUTLINE[a.slug] || []).length} disciplines · ${np ? `${np} path${np > 1 ? "s" : ""} ready` : "paths coming"}</small></span>${ico("chev", "i chev")}</button>
+      ${ex ? `<ul>${ds.map(d => `<li><div class="disc${d.paths.length ? "" : " soon"}"><b>${mark(d.title)}</b>${d.paths.length ? "" : "<small>Path coming</small>"}
+        <div class="subs">${d.subs.map(x => `<span${hit(x) ? ' class="hit"' : ""}>${mark(x)}</span>`).join("")}</div></div>
+        ${d.paths.length ? `<ul>${d.paths.map(s => { const L = atlas.live[s]; if (!L) return ""; return `<li><a class="node" href="#/path/${s}" style="${C(L.m.color)}"><span class="ni">${ico(L.m.icon)}</span>
+          <span><b>${mark(L.m.title)}</b><small>${L.passed ? `${L.passed} of ${L.stages} stages passed` : L.started ? "Started" : "Ready to start"}</small></span></a></li>`; }).join("")}</ul>` : ""}</li>`).join("")}</ul>` : ""}</li>`;
+  }).join("");
+  return rows || `<li><p class="muted">Nothing matches “${esc(atlas.q)}” yet. Try a broader word.</p></li>`;
 }
 
 async function areaView(slug) {
@@ -461,6 +538,7 @@ async function collectionView() {
     ${!auth.user && sb ? `<p class="notice">You're not signed in, so this collection lives in this browser only. <a href="#/signin">Sign in</a> to keep it on every device.</p>` : ""}
     ${unfinished.length ? `<div class="status warn"><b>Not finished.</b> You continued past ${unfinished.length === 1 ? "this stage" : "these stages"}: ${unfinished.map(({ r, s }) => `<a href="#/path/${r.slug}/stage/${s.num}">${esc(r.title)}, Stage ${s.num}</a>`).join(", ")}. Pass ${unfinished.length === 1 ? "it" : "them"} to complete the badge${unfinished.length === 1 ? "" : "s"}.</div>` : ""}
     <section><p class="label">Special badges</p><div class="badges">
+      <div class="bdg${prefs() ? "" : " off"}"><div class="m" style="${C("lilac")}">${ico("globe")}</div>Explorer: took the tour</div>
       <div class="bdg${anyQuiz ? "" : " off"}"><div class="m" style="${C("butter")}">${ico("spark")}</div>First quiz passed</div>
       ${rows.map(r => { const all3 = r.sts.every(s => s.state === "passed"); return `<div class="bdg${all3 ? "" : " off"}"><div class="m" style="${C(r.color)}">${ico(r.icon)}</div>${esc(r.title)}: every stage passed</div>`; }).join("")}
     </div></section>
@@ -582,6 +660,7 @@ async function accountView() {
       ${"affiliation" in pr ? `<div class="field"><label for="paff">Affiliation</label><input id="paff" value="${esc(pr.affiliation || "")}" placeholder="For example: Lecturer in musicology, University of Dhaka"></div>` : ""}
       <button class="btn ghost" type="submit">Save</button></form>` : ""}
     ${apply}
+    <button class="btn ghost" type="button" data-welcome>Replay the welcome tour</button>
     <button class="btn ghost" id="signout" type="button">Sign out</button>
     <details class="danger"><summary>Delete my account</summary><p>This permanently deletes your email, progress, quiz scores, reports and reviews. It can't be undone.</p>
       <button class="btn small" type="button" data-deleteme>Yes, delete my account</button></details>
@@ -613,6 +692,7 @@ const ROUTES = [
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)$/, m => workView(m[1], m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)\/(get|understand|analyse|quiz|scholar)$/, m => stepView(m[1], m[2], m[3]), "home"],
   [/^#\/path\/([\w-]+)\/placement$/, m => placementView(m[1]), "home"],
+  [/^#\/atlas$/, () => atlasView(), "atlas"],
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
   [/^#\/review(?:\/([\w-]+))?$/, m => reviewView(m[1]), "review"],
@@ -622,7 +702,7 @@ const ROUTES = [
 ];
 
 function renderNav(tab) {
-  const items = [["#/", "Home", "home", "home"], ["#/collection", "Collection", "trophy", "collection"]];
+  const items = [["#/", "Home", "home", "home"], ["#/atlas", "Map", "tree", "atlas"], ["#/collection", "Collection", "trophy", "collection"]];
   if (isReviewer()) items.push(["#/review", "Review", "eye", "review"]);
   if (isStaff()) items.push(["#/admin", "Admin", "layers", "admin"]);
   items.push([auth.user ? "#/account" : "#/signin", auth.user ? "Account" : "Sign in", "user", "account"]);
@@ -689,8 +769,12 @@ document.addEventListener("click", async e => {
   if (t.id === "signout") { await signOut(); toast("Signed out"); location.hash = "#/"; return; }
   if ("welcomedone" in d) { try { localStorage.setItem("ascent-welcomed", "1"); } catch { /* storage blocked */ } }
   if ("welcome" in d) { openWelcome(); return; }
-  if ("wnext" in d) { welcome.n++; const f = $("#layer .full"); f.querySelectorAll(".segs i").forEach((s, k) => s.classList.toggle("on", k <= welcome.n));
-    const slot = f.querySelector(".cardslot"); slot.innerHTML = welcomeCard(); slot.classList.remove("in-next"); void slot.offsetWidth; slot.classList.add("in-next"); return; }
+  if (d.tstep) { const n = tour.n + +d.tstep; if (n < 0 || n >= TOUR_N) return; if (n === TOUR_N - 1) savePrefs(); tour.n = n; drawTour(+d.tstep); return; }
+  if (d.tarea) { tour.areas.has(d.tarea) ? tour.areas.delete(d.tarea) : tour.areas.add(d.tarea); const on = tour.areas.has(d.tarea);
+    t.classList.toggle("on", on); t.setAttribute("aria-pressed", on); $("#layer [data-tstep='1']").textContent = tour.areas.size ? "Next" : "Show me everything"; return; }
+  if (d.tlevel) { tour.level = +d.tlevel; document.querySelectorAll("#layer [data-tlevel]").forEach(b => { const on = +b.dataset.tlevel === tour.level; b.classList.toggle("on", on); b.setAttribute("aria-checked", on); }); return; }
+  if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); $("#atlastree").innerHTML = atlasTree(); $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
+  if (d.atlasall) { atlas.open = new Set(d.atlasall === "1" ? AREAS.map(a => a.slug) : []); $("#atlastree").innerHTML = atlasTree(); return; }
   if ("feedback" in d) { openReport("app", null); return; }
   if ("deleteme" in d) {
     t.disabled = true; t.textContent = "Deleting…";
@@ -729,9 +813,10 @@ document.addEventListener("click", async e => {
 document.addEventListener("keydown", e => {
   if (!$("#layer").innerHTML) return;
   if (e.key === "Escape") closeLayer();
-  if ($("#layer .full") && (e.key === "ArrowRight" || e.key === "ArrowLeft")) $(`[data-step="${e.key === "ArrowRight" ? 1 : -1}"]`)?.click();
+  if ($("#layer .full") && (e.key === "ArrowRight" || e.key === "ArrowLeft")) { const k = e.key === "ArrowRight" ? 1 : -1; ($(`[data-step="${k}"]`) || $(`[data-tstep="${k}"]`))?.click(); }
 });
 
+document.addEventListener("input", e => { if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlastree").innerHTML = atlasTree(); } });
 window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").focus({ preventScroll: true }); });
 // installable app and offline reading (sw.js), over https or on this computer
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
