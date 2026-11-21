@@ -4,7 +4,7 @@ export const AREAS = [
   { slug: "humanities", title: "Humanities", color: "peach", icon: "book", blurb: "Literature, history, philosophy, religion and languages",
     disciplines: [
       { title: "Literature", paths: ["dostoevsky"] },
-      { title: "History", paths: [] },
+      { title: "History", paths: ["history"] },
       { title: "Philosophy", paths: ["philosophy"] },
       { title: "Religion", paths: [] },
       { title: "Languages and linguistics", paths: [] },
@@ -57,4 +57,5 @@ export const PATHS = [
   { slug: "geopolitics", title: "Geopolitics", color: "sky", icon: "globe", domain: "Political science" },
   { slug: "philosophy", title: "Philosophy", color: "butter", icon: "bulb", domain: "Philosophy" },
   { slug: "economics", title: "Economics", color: "mint", icon: "chart", domain: "Economics" },
+  { slug: "history", title: "History", color: "lilac", icon: "globe", domain: "History" },
 ];
