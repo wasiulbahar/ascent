@@ -30,3 +30,12 @@ export function pathStatuses(path, acc) {
   let open = true;
   return path.stages.map(s => { const st = stageStatus(s, acc, open); open = st.opensNext; return st; });
 }
+
+// Mastery: every stage passed, plus the grand quiz (work id "mastery") at MASTERY_MARK or better.
+export const MASTERY_MARK = 0.8;
+export const masteryId = "mastery";
+export function masteryState(path, acc) {
+  const sts = pathStatuses(path, acc), left = sts.filter(s => s.state !== "passed");
+  const b = acc.best(masteryId);
+  return { ready: !left.length, left: left.length, leftStages: path.stages.filter((s, i) => sts[i].state !== "passed"), best: b, passed: !left.length && !!b && b.score / b.total >= MASTERY_MARK };
+}

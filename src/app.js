@@ -1,11 +1,11 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk } from "./content.js?v=15";
-import { PATHS, AREAS } from "./paths.js?v=15";
-import { OUTLINE } from "./outline.js?v=15";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=15";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=15";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=15";
-import { pathStatuses, PASS_MARK, placementId } from "./status.js?v=15";
+import { parsePath, blankOk } from "./content.js?v=16";
+import { PATHS, AREAS } from "./paths.js?v=16";
+import { OUTLINE } from "./outline.js?v=16";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=16";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=16";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=16";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=16";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -45,7 +45,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=15`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=16`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -76,7 +76,8 @@ const stageColor = s => STAGE_COLORS[s.index % STAGE_COLORS.length];
 const doneCount = (slug, works) => works.filter(w => isDone(slug, w.id)).length;
 const nextWork = (slug, p) => p.works.find(w => !isDone(slug, w.id));
 const bar = (n, total) => `<div class="bar"><i style="width:${total ? (n / total) * 100 : 0}%"></i></div>`;
-const statuses = (slug, p) => pathStatuses(p, { isDone: id => isDone(slug, id), best: id => best(slug, id), isSkipped: n => isSkipped(slug, n) });
+const accOf = slug => ({ isDone: id => isDone(slug, id), best: id => best(slug, id), isSkipped: n => isSkipped(slug, n) });
+const statuses = (slug, p) => pathStatuses(p, accOf(slug));
 const CHIP = { passed: ["ok", "Passed"], notfinished: ["warn", "Not finished"], failed: ["warn", "Not finished yet"], locked: ["lock", "Locked"], open: ["", ""] };
 const chip = st => CHIP[st.state][1] ? `<span class="chip ${CHIP[st.state][0]}">${CHIP[st.state][1]}</span>` : "";
 const pct = x => `${Math.round(x * 100)}%`;
@@ -181,7 +182,7 @@ const atlas = { open: new Set(), q: "", live: {} };
 async function atlasView() {
   atlas.live = Object.fromEntries(await Promise.all(PATHS.map(async m => {
     const p = await getPath(m.slug).catch(() => null);
-    return [m.slug, { m, stages: p?.stages.length || 0, passed: p ? statuses(m.slug, p).filter(s => s.state === "passed").length : 0, started: p ? doneCount(m.slug, p.works) > 0 : false }];
+    return [m.slug, { m, stages: p?.stages.length || 0, passed: p ? statuses(m.slug, p).filter(s => s.state === "passed").length : 0, started: p ? doneCount(m.slug, p.works) > 0 : false, mastered: p ? mastery(m.slug, p).passed : false }];
   })));
   const discs = Object.values(OUTLINE).flat(), subs = discs.reduce((n, [, s]) => n + s.split(";").length, 0);
   const L = Object.values(atlas.live), passed = L.reduce((n, x) => n + x.passed, 0), total = L.reduce((n, x) => n + x.stages, 0);
@@ -212,7 +213,7 @@ function atlasTree() {
       ${ex ? `<ul>${ds.map(d => `<li><div class="disc${d.paths.length ? "" : " soon"}"><b>${mark(d.title)}</b>${d.paths.length ? "" : "<small>Path coming</small>"}
         <div class="subs">${d.subs.map(x => `<span${hit(x) ? ' class="hit"' : ""}>${mark(x)}</span>`).join("")}</div></div>
         ${d.paths.length ? `<ul>${d.paths.map(s => { const L = atlas.live[s]; if (!L) return ""; return `<li><a class="node" href="#/path/${s}" style="${C(L.m.color)}"><span class="ni">${ico(L.m.icon)}</span>
-          <span><b>${mark(L.m.title)}</b><small>${L.passed ? `${L.passed} of ${L.stages} stages passed` : L.started ? "Started" : "Ready to start"}</small></span></a></li>`; }).join("")}</ul>` : ""}</li>`).join("")}</ul>` : ""}</li>`;
+          <span><b>${mark(L.m.title)}</b><small>${L.mastered ? "Mastery earned" : L.passed ? `${L.passed} of ${L.stages} stages passed` : L.started ? "Started" : "Ready to start"}</small></span></a></li>`; }).join("")}</ul>` : ""}</li>`).join("")}</ul>` : ""}</li>`;
   }).join("");
   return rows || `<li><p class="muted">Nothing matches “${esc(atlas.q)}” yet. Try a broader word.</p></li>`;
 }
@@ -248,6 +249,9 @@ async function pathView(slug) {
         return `<a class="card stage-card${st.state === "locked" ? " locked" : ""}" href="#/path/${slug}/stage/${s.num}" style="${C(stageColor(s))}">
         <span class="row" style="justify-content:space-between;align-items:center"><small>Stage ${s.num} · ${esc(s.level || "")}</small>${chip(st)}</span>
         <div style="display:grid;gap:6px"><h3>${esc(s.name)}</h3><small>${inline(s.intent || "")}</small><div class="dots">${s.works.map(w => `<i class="${isDone(slug, w.id) ? "on" : ""}"></i>`).join("")}</div></div></a>`; }).join("")}</div>
+      ${(m => `<a class="card mastery-card${m.ready ? "" : " locked"}" href="#/path/${slug}/${m.passed ? "certificate" : "mastery"}" style="${C(meta.color)}">
+        <span class="row" style="justify-content:space-between;align-items:center"><small>Final · Mastery</small>${m.passed ? '<span class="chip ok">Earned</span>' : ""}</span>
+        <div style="display:grid;gap:6px"><h3>${ico("trophy")} Mastery check</h3><small>${m.passed ? "Certificate earned: see it" : m.ready ? `Ready: take the grand quiz (${pct(MASTERY_MARK)} to pass)` : `Pass all ${p.stages.length} stages to unlock: ${m.left} to go`}</small></div></a>`)(mastery(slug, p))}
     </section>
     ${goals ? `<section class="section goals"><h2>${esc(goals.title)}</h2><div class="txt">${md(goals.body)}</div></section>` : ""}
     ${rest.map(s => `<section class="section"><h2>${esc(s.title)}</h2><div class="txt">${md(s.body, { linkPaths: s.kind === "branches", here: slug })}</div></section>`).join("")}
@@ -440,7 +444,7 @@ function runQuiz(box, ctx) {
     const before = statuses(slug, p)[w.stage.index].state;
     box.innerHTML = `<div class="qprog"><i style="width:100%;background:var(--${color}-ink)"></i></div><p class="status">Saving your result…</p>`;
     let pass;
-    try { pass = await recordAttempt(slug, w.id, right, qs.length); }
+    try { pass = await recordAttempt(slug, w.id, right, qs.length, ctx.mark); }
     catch (err) { box.innerHTML = `<p class="status warn">${right} of ${qs.length} right, but your score couldn't be saved: ${esc(err.message)}</p>`; return; }
     if (ctx.onDone) return ctx.onDone(pass, right);
     if (pass && !isDone(slug, w.id)) await setDone(slug, w.id, true).catch(() => {});
@@ -462,10 +466,10 @@ function runQuiz(box, ctx) {
 // Stops at the first stage not passed. Passed sections are saved as quiz attempts
 // (work id "placement-s<N>"), which status.js counts as passing that stage.
 const PLACE_Q = 4;
-function placementSample(s) {
+function placementSample(s, n = PLACE_Q) {
   // round-robin over the stage's works so the questions cover as many works as possible
   const pools = shuffle(s.works.filter(w => w.quiz.length)).map(w => shuffle(w.quiz)), out = [];
-  for (let r = 0; out.length < PLACE_Q && pools.some(q => q[r]); r++) pools.forEach(q => q[r] && out.length < PLACE_Q && out.push(q[r]));
+  for (let r = 0; out.length < n && pools.some(q => q[r]); r++) pools.forEach(q => q[r] && out.length < n && out.push(q[r]));
   return out;
 }
 async function placementView(slug) {
@@ -498,6 +502,88 @@ async function mountPlacement(slug) {
   };
   if (startAt >= p.stages.length) return result(p.stages.length);
   root.querySelector("[data-placestart]")?.addEventListener("click", () => runStage(startAt));
+}
+
+// --- mastery: the grand quiz (40 questions across every stage, 80%) and the certificate ----
+// Saved as a quiz attempt with work id "mastery"; status.js masteryState() decides.
+const MASTERY_Q = 40;
+const mastery = (slug, p) => masteryState(p, accOf(slug));
+function masterySample(p) {
+  // spread the questions across the stages, in order, so the quiz climbs like the path
+  const per = p.stages.map((s, i) => Math.floor(MASTERY_Q / p.stages.length) + (i < MASTERY_Q % p.stages.length ? 1 : 0));
+  return p.stages.flatMap((s, i) => placementSample(s, per[i]));
+}
+async function masteryView(slug) {
+  const meta = PATHS.find(x => x.slug === slug); if (!meta) return notFound();
+  const p = await getPath(slug), m = mastery(slug, p), b = m.best;
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<span>Mastery check</span></div>
+    <div data-mastery="${slug}"><div class="hero" style="${C(meta.color)}"><span class="medal small">${ico("trophy")}</span><h1>Mastery check: ${esc(p.title)}</h1>
+      <p>The grand quiz: ${MASTERY_Q} questions from all ${p.stages.length} stages, getting harder as it goes. Score ${pct(MASTERY_MARK)} to earn your certificate. You can retake it as often as you like.</p>
+      ${b ? `<p><b>Your best so far: ${b.score} of ${b.total} (${pct(b.score / b.total)}).</b></p>` : ""}
+      ${m.passed ? `<a class="btn" href="#/path/${slug}/certificate">${ico("trophy")}See your certificate</a><button class="btn ghost" type="button" data-masterystart>Take it again</button>`
+        : m.ready ? `<button class="btn" type="button" data-masterystart>${ico("play")}Start the grand quiz</button>`
+        : `<div class="status lock"><b>Pass every stage first.</b> Still to do: ${m.leftStages.map(s => `<a href="#/path/${slug}/stage/${s.num}">Stage ${s.num}, ${esc(s.name)}</a>`).join("; ")}. Already know them? <a href="#/path/${slug}/placement">Take the placement test</a>.</div>`}
+    </div></div>
+    <p class="muted">The written parts of the mastery check (the source analysis and capstone essay) will be added when reviewer marking opens. Until then, the certificate records the grand quiz.</p>
+  </div>`;
+}
+async function mountMastery(slug) {
+  const root = $("[data-mastery]"); if (!root) return;
+  const p = await getPath(slug), color = PATHS.find(x => x.slug === slug).color;
+  root.addEventListener("click", e => {
+    if (!e.target.closest("[data-masterystart]") || !mastery(slug, p).ready) return;
+    root.innerHTML = `<p class="label">Grand quiz · ${esc(p.title)}</p><div class="quizrun"></div>`;
+    runQuiz(root.querySelector(".quizrun"), { slug, p, w: { id: masteryId, quiz: masterySample(p), stage: p.stages[p.stages.length - 1] }, mark: MASTERY_MARK,
+      onDone: (pass, right) => {
+        const need = Math.ceil(MASTERY_Q * MASTERY_MARK);
+        root.innerHTML = `<div class="qresult ${pass ? "pass" : "fail"}" style="${pass ? C(color) : ""}"><span class="medal small">${ico(pass ? "trophy" : "quiz")}</span>
+          <h1>${right} of ${MASTERY_Q}</h1><p>${pass ? "You passed the grand quiz." : `Not yet: you need ${need}. Look back at the stages where you missed questions, then try again.`}</p></div>
+          <div class="stack" style="gap:10px">${pass ? `<a class="btn wide" href="#/path/${slug}/certificate">See your certificate</a>` : `<button class="btn wide" type="button" data-masterystart>Try again</button>`}
+          <a class="btn wide ghost" href="#/path/${slug}">Back to the path</a></div>`;
+        if (pass) celebrateMastery(slug, p, color);
+      } });
+  });
+}
+function celebrateMastery(slug, p, color) {
+  $("#layer").innerHTML = `<div class="scrim"></div><div class="full celebrate enter" style="${C(color)}" role="dialog" aria-modal="true" aria-label="Mastery earned"><canvas id="confetti"></canvas>
+    <div class="medal">${ico("trophy")}</div><small style="font-weight:700">Mastery badge earned</small><h1>${esc(p.title)}: mastery</h1>
+    <p>You've passed every stage and the grand quiz. Your certificate is ready.</p>
+    <div style="display:grid;gap:10px;width:100%"><a class="btn" href="#/path/${slug}/certificate" data-close>See your certificate</a><button class="btn ghost" type="button" data-close>Close</button></div></div>`;
+  confetti();
+}
+const certName = () => { try { return localStorage.getItem("ascent-certname") || auth.profile?.display_name || ""; } catch { return auth.profile?.display_name || ""; } };
+const certDate = at => (at ? new Date(at) : new Date()).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+async function certView(slug) {
+  const meta = PATHS.find(x => x.slug === slug); if (!meta) return notFound();
+  const p = await getPath(slug), m = mastery(slug, p);
+  if (!m.passed) return `<div class="stack"><div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<span>Certificate</span></div>
+    <h1>No certificate yet</h1><p>Pass every stage and the grand quiz to earn it.</p><a class="btn" href="#/path/${slug}/mastery" style="justify-self:start">Go to the mastery check</a></div>`;
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<span>Certificate</span></div>
+    <div class="cert" style="${C(meta.color)}" data-cert="${slug}" data-score="${m.best.score}" data-total="${m.best.total}" data-date="${esc(certDate(m.best.at))}">${certInner(p.title, certName(), m.best, certDate(m.best.at), meta.icon)}</div>
+    <div class="field"><label for="certname">Name on the certificate</label><input id="certname" value="${esc(certName())}" autocomplete="name" maxlength="60"></div>
+    <div class="row"><button class="btn" type="button" data-certimg>${ico("trophy")}Download as an image</button>${navigator.share ? `<button class="btn ghost" type="button" data-certshare>Share</button>` : ""}</div>
+    <p class="muted">The image is made on your device. Ascent doesn't yet offer a verification link; that comes with the written parts of the mastery check.</p>
+  </div>`;
+}
+function certInner(title, name, b, date, icon) {
+  return `<span class="medal small">${ico(icon)}</span><small>Ascent · Certificate of mastery</small><h1>${esc(title)}</h1>
+    <p>This certifies that</p><h2 class="certname">${esc(name) || "Your name"}</h2>
+    <p>passed every stage of the ${esc(title)} path and its grand quiz, scoring ${b.score} of ${b.total}.</p><small>${esc(date)}</small>`;
+}
+// the certificate as a PNG, drawn on a canvas with the page's own colours
+function certCanvas(card) {
+  const cs = getComputedStyle(card), W = 1200, H = 800, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const x = cv.getContext("2d"), ink = cs.color, bg = cs.backgroundColor, font = getComputedStyle(document.body).fontFamily;
+  x.fillStyle = bg; x.fillRect(0, 0, W, H); x.strokeStyle = ink; x.lineWidth = 6; x.strokeRect(30, 30, W - 60, H - 60); x.lineWidth = 2; x.strokeRect(48, 48, W - 96, H - 96);
+  x.fillStyle = ink; x.textAlign = "center";
+  const t = (s, y, size, w = 700) => { x.font = `${w} ${size}px ${font}`; x.fillText(s, W / 2, y, W - 160); };
+  const d = card.dataset, name = $("#certname")?.value.trim() || "Your name", title = card.querySelector("h1").textContent;
+  t("ASCENT · CERTIFICATE OF MASTERY", 150, 26); t(title, 260, 84); t("This certifies that", 350, 30, 400); t(name, 440, 64);
+  t(`passed every stage of the ${title} path and its grand quiz,`, 530, 30, 400); t(`scoring ${d.score} of ${d.total}.`, 575, 30, 400);
+  t(d.date, 670, 28); t("wasiulbahar.com/ascent", 715, 22, 400);
+  return cv;
 }
 
 // --- celebration when a stage is passed ---------------------------------------------
@@ -541,6 +627,7 @@ async function collectionView() {
       <div class="bdg${prefs() ? "" : " off"}"><div class="m" style="${C("lilac")}">${ico("globe")}</div>Explorer: took the tour</div>
       <div class="bdg${anyQuiz ? "" : " off"}"><div class="m" style="${C("butter")}">${ico("spark")}</div>First quiz passed</div>
       ${rows.map(r => { const all3 = r.sts.every(s => s.state === "passed"); return `<div class="bdg${all3 ? "" : " off"}"><div class="m" style="${C(r.color)}">${ico(r.icon)}</div>${esc(r.title)}: every stage passed</div>`; }).join("")}
+      ${rows.map(r => `<div class="bdg${mastery(r.slug, r.p).passed ? "" : " off"}"><div class="m" style="${C(r.color)}">${ico("trophy")}</div>${esc(r.title)}: mastery</div>`).join("")}
     </div></section>
     ${rows.map(r => `<section class="section"><div class="row" style="justify-content:space-between;align-items:baseline"><h2>${esc(r.title)}</h2><a href="#/path/${r.slug}" class="muted" style="font-weight:700">Open the path ›</a></div>
       <p class="label" style="margin:0">Stage badges</p>
@@ -692,6 +779,8 @@ const ROUTES = [
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)$/, m => workView(m[1], m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)\/(get|understand|analyse|quiz|scholar)$/, m => stepView(m[1], m[2], m[3]), "home"],
   [/^#\/path\/([\w-]+)\/placement$/, m => placementView(m[1]), "home"],
+  [/^#\/path\/([\w-]+)\/mastery$/, m => masteryView(m[1]), "home"],
+  [/^#\/path\/([\w-]+)\/certificate$/, m => certView(m[1]), "home"],
   [/^#\/atlas$/, () => atlasView(), "atlas"],
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
@@ -728,6 +817,7 @@ async function route({ keepScroll = false } = {}) {
   if (/\/work\/[\w-]+\/quiz$/.test(hash)) mountQuizRun(m[1]);
   if (/^#\/path\/[\w-]+$/.test(hash)) fillTrust(m[1]);
   if (/\/placement$/.test(hash)) mountPlacement(m[1]);
+  if (/\/mastery$/.test(hash)) mountMastery(m[1]);
 }
 const refresh = () => route({ keepScroll: true });
 
@@ -774,6 +864,13 @@ document.addEventListener("click", async e => {
     t.classList.toggle("on", on); t.setAttribute("aria-pressed", on); $("#layer [data-tstep='1']").textContent = tour.areas.size ? "Next" : "Show me everything"; return; }
   if (d.tlevel) { tour.level = +d.tlevel; document.querySelectorAll("#layer [data-tlevel]").forEach(b => { const on = +b.dataset.tlevel === tour.level; b.classList.toggle("on", on); b.setAttribute("aria-checked", on); }); return; }
   if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); $("#atlastree").innerHTML = atlasTree(); $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
+  if ("certimg" in d || "certshare" in d) {
+    const card = $("[data-cert]"), cv = certCanvas(card), file = `ascent-${card.dataset.cert}-certificate.png`;
+    if ("certimg" in d) { const a = document.createElement("a"); a.href = cv.toDataURL("image/png"); a.download = file; a.click(); return; }
+    cv.toBlob(async b => { const f = new File([b], file, { type: "image/png" });
+      try { await navigator.share(navigator.canShare?.({ files: [f] }) ? { files: [f], title: "My Ascent certificate" } : { title: "Ascent", url: "https://wasiulbahar.com/ascent/" }); } catch { /* share cancelled */ } });
+    return;
+  }
   if (d.atlasall) { atlas.open = new Set(d.atlasall === "1" ? AREAS.map(a => a.slug) : []); $("#atlastree").innerHTML = atlasTree(); return; }
   if ("feedback" in d) { openReport("app", null); return; }
   if ("deleteme" in d) {
@@ -816,7 +913,10 @@ document.addEventListener("keydown", e => {
   if ($("#layer .full") && (e.key === "ArrowRight" || e.key === "ArrowLeft")) { const k = e.key === "ArrowRight" ? 1 : -1; ($(`[data-step="${k}"]`) || $(`[data-tstep="${k}"]`))?.click(); }
 });
 
-document.addEventListener("input", e => { if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlastree").innerHTML = atlasTree(); } });
+document.addEventListener("input", e => {
+  if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlastree").innerHTML = atlasTree(); }
+  if (e.target.id === "certname") { const v = e.target.value.trim(); $(".certname").textContent = v || "Your name"; try { localStorage.setItem("ascent-certname", v); } catch { /* storage blocked */ } }
+});
 window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").focus({ preventScroll: true }); });
 // installable app and offline reading (sw.js), over https or on this computer
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});

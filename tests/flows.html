@@ -19,8 +19,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=15";
-import { PATHS } from "../src/paths.js?v=15";
+import { parsePath } from "../src/content.js?v=16";
+import { PATHS } from "../src/paths.js?v=16";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -72,6 +72,7 @@ async function answerAll(path, want, boxSel = ".quizrun", suffix = "") {
   }
   throw new Error("quiz never finished");
 }
+const certOk = () => { const c = doc().createElement("canvas").getContext("2d"); return !!c && !!$("[data-cert]")?.dataset.score; };
 const chips = () => $$(".stage-card").map(c => c.querySelector(".chip")?.textContent || "open");
 
 const TESTS = {
@@ -160,6 +161,25 @@ const TESTS = {
     ok($$("#atlastree .subs span.hit").length >= 1 && $("#atlastree a[href='#/path/biology']"), "genetics should show Biology");
     q.value = "zzqx"; q.dispatchEvent(new Event("input", { bubbles: true }));
     await until(() => /Nothing matches/.test($("#atlastree").textContent), "the no-match message");
+  },
+  async "mastery: locked until every stage passes, then grand quiz and certificate"() {
+    await fresh("#/path/physics/mastery");
+    await until(() => /Pass every stage first/.test($("#view").textContent), "the locked message");
+    ok(!$("[data-masterystart]"), "no start button while stages remain");
+    localStorage.setItem("ascent-attempts", JSON.stringify([1, 2, 3, 4, 5, 6].map(n => ({ path: "physics", work_id: `placement-s${n}`, score: 4, total: 4, passed: true }))));
+    const loaded = new Promise(r => frame.addEventListener("load", r, { once: true })); frame.contentWindow.location.reload(); await loaded;
+    (await until(() => $("[data-masterystart]"), "the start button")).click();
+    const res = await answerAll(await getPath("physics"), () => true, "[data-mastery]");
+    ok(/40 of 40/.test(res), `result was "${res}"`);
+    (await until(() => $("#layer [data-close]"), "the mastery celebration")).click();
+    await go("#/path/physics/certificate");
+    await until(() => $(".cert h1")?.textContent === "Physics", "the certificate");
+    const inp = $("#certname"); inp.value = "Test Learner"; inp.dispatchEvent(new Event("input", { bubbles: true }));
+    ok($(".certname").textContent === "Test Learner", "the name should update on the certificate");
+    ok(certOk(), "the certificate image should draw");
+    await go("#/path/physics");
+    await until(() => /Certificate earned/.test($(".mastery-card")?.textContent || ""), "the mastery card to show it's earned");
+    localStorage.removeItem("ascent-certname");
   },
   async "answer options are shuffled"() {
     await fresh();

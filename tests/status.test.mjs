@@ -1,6 +1,6 @@
 // Run with: node tests/status.test.mjs
 import assert from "node:assert/strict";
-import { pathStatuses } from "../src/status.js";
+import { pathStatuses, masteryState } from "../src/status.js";
 
 const w = (id, n) => ({ id, quiz: Array(n).fill({}) });
 const path = { stages: [
@@ -20,4 +20,10 @@ assert.deepEqual(states(acc({ a: { score: 3, total: 3 }, b: { score: 3, total: 3
 assert.deepEqual(states(acc({ a: { score: 3, total: 3 }, b: { score: 3, total: 3 }, c: { score: 2, total: 2 } }, ["e"])), ["passed", "passed", "passed"], "a stage with no quizzes passes when every work is ticked");
 assert.deepEqual(states(acc({ "placement-s1": { score: 3, total: 4 }, "placement-s2": { score: 4, total: 4 } })), ["passed", "passed", "open"], "placement passes stages 1 and 2");
 assert.deepEqual(states(acc({ "placement-s1": { score: 2, total: 4 } })), ["open", "locked", "locked"], "failed placement changes nothing");
+const allPlaced = { "placement-s1": { score: 4, total: 4 }, "placement-s2": { score: 4, total: 4 }, "placement-s3": { score: 4, total: 4 } };
+assert.equal(masteryState(path, acc({ mastery: { score: 40, total: 40 } })).passed, false, "mastery needs every stage passed first");
+assert.equal(masteryState(path, acc(allPlaced)).ready, true, "all stages passed: the grand quiz is ready");
+assert.equal(masteryState(path, acc({ ...allPlaced, mastery: { score: 31, total: 40 } })).passed, false, "31 of 40 = 77.5%: not mastery");
+assert.equal(masteryState(path, acc({ ...allPlaced, mastery: { score: 32, total: 40 } })).passed, true, "32 of 40 = 80%: mastery");
+assert.equal(masteryState(path, acc()).left, 3, "three stages still to pass");
 console.log("status rules: all checks passed");
