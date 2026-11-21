@@ -426,7 +426,7 @@ For eight centuries, much of South Asia belonged to a wider Persian-speaking wor
 **Multiple choice.** Which earlier book did Eaton write about Bengal?
 - *The Rise of Islam and the Bengal Frontier* ✓
 - *The Anarchy*
-- *1971*
+- *The Great Partition*
 
 **Fill in the blank.** The book ends in ___, when the East India Company took Bengal's revenues. [answer: 1765]
 
@@ -559,10 +559,10 @@ Was British rule in India mainly a story of trade, or of conquest? Use Dalrymple
 
 # Stage 5: The Twentieth Century
 level: Specialist
-intent: World wars, genocide, partition, liberation and the fall of an empire.
+intent: World wars, genocide, the end of empire, and the fall of the Soviet Union.
 gate: Score 70% or more across this stage's quizzes.
 
-The twentieth century was the most violent in human history, and the one that most shaped the world you live in. This stage gives you a great overview, a global history of Bangladesh's creation in 1971, a survivor's testimony from Auschwitz, and an oral history of the people who lived through the end of the Soviet Union.
+The twentieth century was the most violent in human history, and the one that most shaped the world you live in. This stage gives you a great overview, the Partition of India in 1947, a survivor's testimony from Auschwitz, and an oral history of the people who lived through the end of the Soviet Union.
 
 ## The Age of Extremes, 1914–1991
 - id: h17 · type: read · creator: Eric Hobsbawm · year: 1994 · length: about 20 hours
@@ -589,30 +589,37 @@ Hobsbawm's "short twentieth century" runs from the outbreak of the First World W
 - A dark age
 - A stone age
 
-## 1971: A Global History of the Creation of Bangladesh
-- id: h18 · type: read · creator: Srinath Raghavan · year: 2013 · length: about 12 hours
+## The Great Partition: The Making of India and Pakistan
+- id: h18 · type: read · creator: Yasmin Khan · year: 2007 · length: about 10 hours
 - access: paid | buy, or borrow from a library
 
 ### Introduction
-The birth of Bangladesh was not only a South Asian story. Raghavan shows how the Cold War, the United States, China, the Soviet Union, India and world opinion all shaped the crisis of 1971, the liberation war and its outcome. Essential reading for understanding Bangladesh's place in world history.
+In August 1947 British India was divided into two new states, India and Pakistan. The end of empire came with one of the largest migrations in history and terrible violence. Khan, a British historian, follows the politicians who decided it and the ordinary people who lived through it, and shows how a rushed decision became a catastrophe whose effects still shape South Asia and its diaspora around the world.
+
+**Trivia**
+- The border was drawn in about five weeks by a British lawyer, Cyril Radcliffe, who had never been to India before.
+- Historians estimate that between ten and twenty million people were displaced, and hundreds of thousands, perhaps a million or more, were killed.
+
+### Analyse
+- **Debate:** who was most responsible for Partition: British haste, the Muslim League, the Congress party, or the logic of religious politics? Historians still disagree. Read Khan alongside Urvashi Butalia's oral history (see the Partition side branch).
 
 ### Quiz
-**Multiple choice.** What does Raghavan argue about 1971?
-- It was shaped by global powers and the Cold War, not only by South Asia ✓
-- It was a purely local event
-- It had no international effects
+**Fill in the blank.** British India was divided into India and Pakistan in ___. [answer: 1947]
 
-**Fill in the blank.** Bangladesh came into being in ___. [answer: 1971]
+**Multiple choice.** Who drew the new border?
+- Cyril Radcliffe, a British lawyer who had never been to India before ✓
+- A commission of Indian and Pakistani historians
+- The United Nations
 
-**Multiple choice.** Which of these powers does the book discuss?
-- The United States, China and the Soviet Union ✓
-- Only Britain
-- Only Japan
+**Multiple choice.** What does Khan follow, alongside the politicians?
+- The ordinary people who lived through Partition ✓
+- Only the British army
+- Only the economy
 
-**Multiple choice.** What was East Pakistan before 1971?
-- The territory that became Bangladesh ✓
-- Part of Burma
-- A British colony until 1971
+**Multiple choice.** Roughly how many people were displaced?
+- Between ten and twenty million ✓
+- About ten thousand
+- About a hundred thousand
 
 ## If This Is a Man
 - id: h19 · type: read · creator: Primo Levi · year: 1947 · length: about 6 hours
@@ -850,7 +857,7 @@ The certificate needs every stage passed. Stages you continued past with a warni
 |---|---|---|---|
 | Africa | Stage 3 | John Reader, *Africa: A Biography of the Continent* (1997); Toby Green, *A Fistful of Shells* (2019) | Paid |
 | The Americas | Stage 4 | Charles C. Mann, *1491* (2005); John Elliott, *Empires of the Atlantic World* (2006) | Paid |
-| Partition | Stage 5 | Yasmin Khan, *The Great Partition* (2007); Urvashi Butalia, *The Other Side of Silence* (1998) | Paid |
+| Partition | Stage 5 | Urvashi Butalia, *The Other Side of Silence* (1998); Srinath Raghavan, *1971: A Global History of the Creation of Bangladesh* (2013) | Paid |
 | History of science | Stage 6 | Steven Shapin, *The Scientific Revolution* (1996); James Poskett, *Horizons* (2022) | Paid |
 
 # Bridges to other subjects
@@ -864,6 +871,6 @@ The certificate needs every stage passed. Stages you continued past with a warni
 
 - [ ] Every `[verify]` item resolved
 - [ ] Reviewed by historians from more than one region, including South Asia
-- [ ] Contested topics (empire, Partition, 1971, slavery) presented carefully, with named positions
+- [ ] Contested topics (empire, Partition, slavery) presented carefully, with named positions
 - [ ] Every access label checked: free sources exist and links are legal
 - [ ] Every quiz question has exactly one correct answer
