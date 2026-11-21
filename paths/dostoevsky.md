@@ -404,6 +404,9 @@ Dostoevsky set himself the hardest task he could imagine: to portray a "positive
 ### Introduction
 In 1869 a revolutionary cell led by Sergei Nechayev murdered one of its own members, a student named Ivan Ivanov, in Moscow. Dostoevsky turned the case into a dark comedy that becomes a tragedy: a quiet provincial town where fashionable ideas possess people one by one until they end in murder. Twentieth-century readers saw it as a prophecy of revolutionary terror.
 
+![Oval photograph of Sergei Nechayev: a young man with swept-back dark hair and a short beard, in a jacket and tie](media/dostoevsky/nechayev-1870.jpg)
+*Sergei Nechayev, about 1870. Photographer unknown. Public domain, via Wikimedia Commons.*
+
 **Trivia**
 - The title comes from a Pushkin poem and from the Gospel story of demons driven into a herd of pigs, which rush into a lake.
 - His editor refused to print the chapter in which the hero, Stavrogin, confesses a terrible crime. It stayed unpublished until 1922.

@@ -19,8 +19,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=16";
-import { PATHS } from "../src/paths.js?v=16";
+import { parsePath } from "../src/content.js?v=17";
+import { PATHS } from "../src/paths.js?v=17";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -150,17 +150,26 @@ const TESTS = {
     await until(() => $$(".label").some(l => l.textContent === "Picked for you"), "Picked for you on the home page");
     localStorage.removeItem("ascent-prefs");
   },
-  async "map of knowledge: expands areas and finds subjects"() {
+  async "map of knowledge: 17 domains, search, field pages with several homes"() {
     await fresh("#/atlas");
-    await until(() => $("#atlastree [data-atlas]"), "the map");
-    ok($$("#atlastree [data-atlas]").length === 6, "six areas");
-    $("[data-atlas='natural-sciences']").click();
-    await until(() => $("#atlastree a[href='#/path/physics']"), "Physics under Natural sciences");
+    await until(() => $("#atlasbody [data-atlas]"), "the map");
+    ok($$("#atlasbody [data-atlas]").length === 17, `17 domains, found ${$$("#atlasbody [data-atlas]").length}`);
+    $("[data-atlas='d:natural-sciences']").click();
+    await until(() => $("#atlasbody a[href='#/path/physics']"), "the Physics path under Natural sciences");
     const q = $("#atlasq"); q.value = "genetics"; q.dispatchEvent(new Event("input", { bubbles: true }));
-    await until(() => $("#atlastree mark"), "a highlighted match");
-    ok($$("#atlastree .subs span.hit").length >= 1 && $("#atlastree a[href='#/path/biology']"), "genetics should show Biology");
+    await until(() => $("#atlasbody .results mark"), "highlighted search results");
+    ok($("#atlasbody .results a").getAttribute("href") === "#/field/genetics", "the exact match comes first");
     q.value = "zzqx"; q.dispatchEvent(new Event("input", { bubbles: true }));
-    await until(() => /Nothing matches/.test($("#atlastree").textContent), "the no-match message");
+    await until(() => /Nothing matches/.test($("#atlasbody").textContent), "the no-match message");
+    await go("#/field/game-theory");
+    await until(() => $("h1")?.textContent === "Game theory", "the Game theory page");
+    ok($$(".homes li").length === 3, `game theory should show 3 routes, found ${$$(".homes li").length}`);
+    await go("#/field/biological-sciences");
+    await until(() => $("a[href='#/path/biology']"), "Biology's field page links its path");
+    await go("#/area/natural-sciences");
+    await until(() => $("a.card[href='#/path/physics']") && $("a.card[href='#/path/biology']"), "both natural-science paths on the domain page");
+    await go("#/");
+    ok($$("a.card[href^='#/area/']").length === 17, "17 domain cards on the home page");
   },
   async "mastery: locked until every stage passes, then grand quiz and certificate"() {
     await fresh("#/path/physics/mastery");

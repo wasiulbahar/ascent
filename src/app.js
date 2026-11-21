@@ -1,11 +1,11 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk } from "./content.js?v=16";
-import { PATHS, AREAS } from "./paths.js?v=16";
-import { OUTLINE } from "./outline.js?v=16";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=16";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=16";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=16";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=16";
+import { parsePath, blankOk } from "./content.js?v=17";
+import { PATHS, DOMAINS } from "./paths.js?v=17";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL } from "./taxonomy.js?v=17";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=17";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=17";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=17";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=17";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -31,6 +31,10 @@ const IC = {
   link: '<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',
   branch: '<path d="M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9"/>',
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+  heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', scale: '<path d="M12 4v16M7 20h10M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
+  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>', briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>',
   sigma: '<path d="M18 5H6l6 7-6 7h12"/>', leaf: '<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8"/>', atom: '<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
   chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   layers: '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>', quiz: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/>',
@@ -45,7 +49,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=16`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=17`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -95,8 +99,8 @@ async function homeView() {
       <span>${esc([VERB[nx.type], nx.creator, nx.length].filter(Boolean).join(" · "))}</span><span class="btn" style="justify-self:start">${ico("play")}Continue</span></a>` : ""}
     ${!auth.user && sb ? `<div class="hero" style="${C("lilac")}"><h2>Save your progress</h2><p>Sign in with your email to keep your place on every device. No password needed.</p><a class="btn" href="#/signin" style="justify-self:start">${ico("mail")}Sign in with email</a></div>` : ""}
     ${!cont && prefs() ? `<section><p class="label">Picked for you</p><div class="grid">${picksFor(prefs()).map(m => `<a class="card" href="#/path/${m.slug}" style="${C(m.color)}">${ico(m.icon)}<div style="display:grid;gap:6px"><h2>${esc(m.title)}</h2><small>${prefs().level ? "Start, or take the placement test" : "Start with Stage 1"}</small></div></a>`).join("")}</div></section>` : ""}
-    <section><p class="label">Choose an area</p>
-      <div class="grid">${AREAS.map(a => { const k = a.disciplines.reduce((n, d) => n + d.paths.length, 0);
+    <section><p class="label">Choose a domain</p>
+      <div class="grid">${DOMAINS.map(a => { const k = PATHS.filter(p => p.doms.includes(a.slug)).length;
         return `<a class="card" href="#/area/${a.slug}" style="${C(a.color)}">${ico(a.icon)}
         <div style="display:grid;gap:6px"><h2>${esc(a.title)}</h2><small>${esc(a.blurb)}</small><small>${k ? `${k} path${k > 1 ? "s" : ""} ready` : "Coming soon"}</small></div></a>`; }).join("")}</div>
     </section>
@@ -134,10 +138,10 @@ function savePrefs() { try { localStorage.setItem("ascent-prefs", JSON.stringify
 // up to n live paths in the chosen areas (all areas if none chosen, or if those have none yet)
 function picksFor(pr, n = 3) {
   // take turns between the chosen areas, so every choice is represented
-  const from = areas => { const ls = areas.map(a => a.disciplines.flatMap(d => d.paths)), out = [];
+  const from = ds => { const ls = ds.map(d => PATHS.filter(p => p.doms.includes(d.slug)).map(p => p.slug)), out = [];
     for (let r = 0; ls.some(l => l[r]); r++) ls.forEach(l => l[r] && !out.includes(l[r]) && out.push(l[r])); return out; };
-  let s = from(AREAS.filter(a => pr?.areas?.includes(a.slug)));
-  if (!s.length) s = from(AREAS);
+  let s = from(DOMAINS.filter(a => pr?.areas?.includes(a.slug)));
+  if (!s.length) s = from(DOMAINS);
   return s.slice(0, n).map(x => PATHS.find(p => p.slug === x)).filter(Boolean);
 }
 function openWelcome() {
@@ -165,7 +169,7 @@ function tourCard() {
     `<div class="climb" aria-hidden="true">${[1, 2, 3, 4, 5, 6].map(k => `<i style="height:${12 + k * 13}%"${k < 3 ? ' class="on"' : ""}></i>`).join("")}</div>
      <p class="muted">Score 70% across a stage's quizzes to pass it. Fall short? Retry, or continue anyway. Already know some? A placement test lets you skip ahead.</p>`) + nav("Got it");
   if (n === 2) return card("globe", "What are you curious about?", "Pick as many as you like.",
-    `<div class="picks">${AREAS.map(a => `<button type="button" class="pick${tour.areas.has(a.slug) ? " on" : ""}" aria-pressed="${tour.areas.has(a.slug)}" data-tarea="${a.slug}">${ico(a.icon)}${esc(a.title)}</button>`).join("")}</div>`)
+    `<div class="picks">${DOMAINS.map(a => `<button type="button" class="pick${tour.areas.has(a.slug) ? " on" : ""}" aria-pressed="${tour.areas.has(a.slug)}" data-tarea="${a.slug}">${ico(a.icon)}${esc(a.short)}</button>`).join("")}</div>`)
     + nav(tour.areas.size ? "Next" : "Show me everything");
   if (n === 3) return card("spark", "Where are you starting from?", "There's no wrong answer, and you can change it later.",
     `<div class="levels" role="radiogroup" aria-label="Your level">${LEVELS.map((l, k) => `<button type="button" role="radio" class="level${tour.level === k ? " on" : ""}" aria-checked="${tour.level === k}" data-tlevel="${k}">${l}</button>`).join("")}</div>`) + nav("Show my paths");
@@ -177,57 +181,97 @@ function tourCard() {
     + `<div class="row tournav" style="flex-direction:column"><a class="btn" href="#/atlas" data-close>${ico("tree")}See the map of all knowledge</a>${!auth.user && sb ? `<a class="btn ghost" href="#/signin" data-close>Sign in to save progress</a>` : `<button class="btn ghost" type="button" data-close>Close</button>`}</div>`;
 }
 
-// --- map of knowledge: every area, discipline and subfield, with live paths lit up ------
-const atlas = { open: new Set(), q: "", live: {} };
-async function atlasView() {
+// --- map of knowledge: 17 domains, their fields as a graph, and cross-cutting collections ---
+// Data and rules: src/taxonomy.js. A field with several homes appears under each of them,
+// but it is one entity with one page (#/field/<id>).
+const atlas = { open: new Set(), q: "", view: "domains", live: {}, t: null };
+const domSlug = id => id.replace(/^d:/, "");
+async function liveStats() {
   atlas.live = Object.fromEntries(await Promise.all(PATHS.map(async m => {
     const p = await getPath(m.slug).catch(() => null);
     return [m.slug, { m, stages: p?.stages.length || 0, passed: p ? statuses(m.slug, p).filter(s => s.state === "passed").length : 0, started: p ? doneCount(m.slug, p.works) > 0 : false, mastered: p ? mastery(m.slug, p).passed : false }];
   })));
-  const discs = Object.values(OUTLINE).flat(), subs = discs.reduce((n, [, s]) => n + s.split(";").length, 0);
+}
+const pathNode = s => { const L = atlas.live[s]; if (!L) return "";
+  return `<a class="node" href="#/path/${s}" style="${C(L.m.color)}"><span class="ni">${ico(L.m.icon)}</span><span><b>${esc(L.m.title)}</b><small>${L.mastered ? "Mastery earned" : L.passed ? `${L.passed} of ${L.stages} stages passed` : L.started ? "Started" : "Path ready to start"}</small></span></a>`; };
+async function atlasView() {
+  const [t] = await Promise.all([loadTax(), liveStats()]); atlas.t = t;
+  const E = Object.values(t.entities), fields = E.filter(e => ["discipline", "subdiscipline", "specialisation"].includes(e.t)).length;
   const L = Object.values(atlas.live), passed = L.reduce((n, x) => n + x.passed, 0), total = L.reduce((n, x) => n + x.stages, 0);
-  const explored = L.filter(x => x.started).length;
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<span>Map of knowledge</span></div>
-    <div style="display:grid;gap:8px"><h1>Map of knowledge</h1><p class="lede">Every field Ascent will cover, from the outline of academic disciplines. Lit-up paths are ready to start; the rest are being written.</p></div>
-    <div class="stats">${[["Areas", AREAS.length], ["Disciplines", discs.length], ["Subfields", subs], ["Paths ready", PATHS.length], ["Paths you've started", explored], ["Stages you've passed", `${passed} of ${total}`]]
+    <div style="display:grid;gap:8px"><h1>Map of knowledge</h1><p class="lede">Every field Ascent will cover, in ${t.domains.length} domains. Lit-up paths are ready to start; the rest are being written. Many fields belong to more than one domain.</p></div>
+    <div class="stats">${[["Domains", t.domains.length], ["Fields", fields], ["Methods and topics", E.length - fields], ["Paths ready", PATHS.length], ["Paths you've started", L.filter(x => x.started).length], ["Stages you've passed", `${passed} of ${total}`]]
       .map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join("")}</div>
-    <div class="row atlasbar"><input type="search" id="atlasq" placeholder="Find a subject, such as genetics" aria-label="Find a subject" value="${esc(atlas.q)}" autocomplete="off">
-      <button class="btn small ghost" type="button" data-atlasall="1">Expand all</button><button class="btn small ghost" type="button" data-atlasall="0">Collapse all</button></div>
-    <ul class="tree atlas" id="atlastree" aria-label="Map of knowledge">${atlasTree()}</ul>
+    <div class="row atlasbar"><input type="search" id="atlasq" placeholder="Find a subject, such as genetics" aria-label="Find a subject" value="${esc(atlas.q)}" autocomplete="off"></div>
+    <div class="row seg" role="group" aria-label="Browse by">${[["domains", "By domain"], ["collections", "Across domains"]].map(([v, l]) => `<button type="button" class="btn small ${atlas.view === v ? "" : "ghost"}" data-atlasview="${v}" aria-pressed="${atlas.view === v}">${l}</button>`).join("")}</div>
+    <div id="atlasbody">${atlasBody()}</div>
+    <p class="muted">Source: the Universal Academic Knowledge Base, version 1.1 (draft, 21 November 2026). Every field is marked <b>Proposed</b> until reviewed.</p>
   </div>`;
 }
-function atlasTree() {
-  const q = atlas.q.trim().toLowerCase(), hit = s => !!q && s.toLowerCase().includes(q);
-  const mark = s => { const i = q ? s.toLowerCase().indexOf(q) : -1; return i < 0 ? esc(s) : esc(s.slice(0, i)) + `<mark>${esc(s.slice(i, i + q.length))}</mark>` + esc(s.slice(i + q.length)); };
-  const rows = AREAS.map(a => {
-    const ds = (OUTLINE[a.slug] || []).map(([title, s]) => {
-      const paths = a.disciplines.find(d => d.title === title)?.paths || [], subs = s.split(";").map(x => x.trim());
-      const show = !q || hit(title) || subs.some(hit) || paths.some(p => hit(atlas.live[p]?.m.title || ""));
-      return { title, paths, subs, show };
-    }).filter(d => d.show);
-    if (q && !ds.length) return "";
-    const ex = q ? true : atlas.open.has(a.slug), np = ds.reduce((n, d) => n + d.paths.length, 0);
-    return `<li><button class="node" type="button" style="${C(a.color)}" data-atlas="${a.slug}" aria-expanded="${ex}"><span class="ni">${ico(a.icon)}</span>
-      <span><b>${esc(a.title)}</b><small>${(OUTLINE[a.slug] || []).length} disciplines · ${np ? `${np} path${np > 1 ? "s" : ""} ready` : "paths coming"}</small></span>${ico("chev", "i chev")}</button>
-      ${ex ? `<ul>${ds.map(d => `<li><div class="disc${d.paths.length ? "" : " soon"}"><b>${mark(d.title)}</b>${d.paths.length ? "" : "<small>Path coming</small>"}
-        <div class="subs">${d.subs.map(x => `<span${hit(x) ? ' class="hit"' : ""}>${mark(x)}</span>`).join("")}</div></div>
-        ${d.paths.length ? `<ul>${d.paths.map(s => { const L = atlas.live[s]; if (!L) return ""; return `<li><a class="node" href="#/path/${s}" style="${C(L.m.color)}"><span class="ni">${ico(L.m.icon)}</span>
-          <span><b>${mark(L.m.title)}</b><small>${L.mastered ? "Mastery earned" : L.passed ? `${L.passed} of ${L.stages} stages passed` : L.started ? "Started" : "Ready to start"}</small></span></a></li>`; }).join("")}</ul>` : ""}</li>`).join("")}</ul>` : ""}</li>`;
-  }).join("");
-  return rows || `<li><p class="muted">Nothing matches “${esc(atlas.q)}” yet. Try a broader word.</p></li>`;
+function atlasBody() {
+  const t = atlas.t, q = atlas.q.trim();
+  if (q) {
+    const ids = search(t, q);
+    return ids.length ? `<p class="label">${ids.length === 40 ? "First 40 matches" : `${ids.length} match${ids.length > 1 ? "es" : ""}`}</p><ul class="results">${ids.map(id => { const e = t.entities[id], r = routes(t, id)[0];
+      return `<li><a href="#/field/${id}"><b>${markQ(e.n, q)}</b><small>${TYPE_LABEL[e.t] || e.t}${r.length > 1 ? " · " + r.slice(0, -1).map(x => esc(nameOf(t, x))).join(" › ") : ""}${pathsFor(id).length ? " · path ready" : ""}</small></a></li>`; }).join("")}</ul>`
+      : `<p class="muted">Nothing matches “${esc(q)}” yet. Try a broader word.</p>`;
+  }
+  if (atlas.view === "collections") return `<ul class="tree atlas">${t.collections.map(c => { const ex = atlas.open.has(c.id);
+    return `<li><button class="node" type="button" style="${C("lilac")}" data-atlas="${c.id}" aria-expanded="${ex}"><span class="ni">${ico("layers")}</span><span><b>${esc(c.n)}</b><small>${c.members.length} items</small></span>${ico("chev", "i chev")}</button>
+      ${ex ? `<div class="subs">${c.members.map(m => `<a href="#/field/${m}">${esc(nameOf(t, m))}</a>`).join("")}</div>` : ""}</li>`; }).join("")}</ul>`;
+  return `<ul class="tree atlas">${DOMAINS.map(D => { const id = "d:" + D.slug, ex = atlas.open.has(id), ds = children(atlas.t, id), np = PATHS.filter(p => p.doms.includes(D.slug)).length;
+    return `<li><button class="node" type="button" style="${C(D.color)}" data-atlas="${id}" aria-expanded="${ex}"><span class="ni">${ico(D.icon)}</span>
+      <span><b>${esc(D.title)}</b><small>${ds.length} disciplines · ${np ? `${np} path${np > 1 ? "s" : ""} ready` : "paths coming"}</small></span>${ico("chev", "i chev")}</button>
+      ${ex ? `<ul>${ds.map(f => fieldRow(f)).join("")}</ul>` : ""}</li>`; }).join("")}</ul>`;
+}
+// a discipline (or field) row: its branches as links, their own branches folded into a count
+function fieldRow(id) {
+  const t = atlas.t, kids = children(t, id), ex = atlas.open.has(id), homes = (t.ups[id] || []).length, ps = pathsFor(id);
+  return `<li><div class="disc${ps.length ? "" : " soon"}">
+    <span class="row" style="align-items:center;gap:8px"><a href="#/field/${id}"><b>${esc(nameOf(t, id))}</b></a>${homes > 1 ? `<small class="also">also in ${homes - 1} other place${homes > 2 ? "s" : ""}</small>` : ""}</span>
+    ${kids.length ? `<div class="subs">${kids.slice(0, ex ? kids.length : 12).map(k => { const n = (t.downs[k] || []).length; return `<a href="#/field/${k}">${esc(nameOf(t, k))}${n ? ` <i>${n}</i>` : ""}</a>`; }).join("")}
+      ${kids.length > 12 ? `<button class="linkbtn" type="button" data-atlas="${id}" aria-expanded="${ex}">${ex ? "Show fewer" : `Show all ${kids.length}`}</button>` : ""}</div>` : ""}</div>
+    ${ps.length ? `<ul>${ps.map(p => `<li>${pathNode(p.slug)}</li>`).join("")}</ul>` : ""}</li>`;
+}
+const markQ = (s, q) => { const i = s.toLowerCase().indexOf(q.toLowerCase()); return i < 0 ? esc(s) : esc(s.slice(0, i)) + `<mark>${esc(s.slice(i, i + q.length))}</mark>` + esc(s.slice(i + q.length)); };
+
+// --- one field: where it sits (every home), its branches, collections, paths and source ----
+async function fieldView(id) {
+  const [t] = await Promise.all([loadTax(), liveStats()]); atlas.t = t;
+  const e = t.entities[id]; if (!e) return notFound();
+  const kids = children(t, id), cols = t.inCol[id] || [], ps = pathsFor(id), rs = routes(t, id);
+  const link = x => t.dom[x] ? `<a href="#/area/${domSlug(x)}">${esc(nameOf(t, x))}</a>` : x === id ? `<span>${esc(e.n)}</span>` : `<a href="#/field/${x}">${esc(nameOf(t, x))}</a>`;
+  const ed = (t.ups[id] || []).filter(u => u.src === "editorial");
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<a href="#/atlas">Map</a>›<span>${esc(e.n)}</span></div>
+    <div style="display:grid;gap:10px"><h1>${esc(e.n)}</h1>
+      <div class="pills"><span class="pill">${TYPE_LABEL[e.t] || e.t}</span><span class="pill draft">Proposed</span>${e.src === "editorial" ? '<span class="pill">Ascent addition</span>' : ""}${e.a ? `<span class="pill">Also called ${e.a.map(esc).join(", ")}</span>` : ""}</div></div>
+    ${ps.length ? `<section><p class="label">Learn it</p><div class="row">${ps.map(p => pathNode(p.slug)).join("")}</div></section>` : ""}
+    <section class="section"><h2>Where it sits</h2>${rs.length > 1 ? `<p class="muted">${esc(e.n)} belongs to more than one field, so it appears in ${rs.length} places on the map.</p>` : ""}
+      <ul class="homes">${rs.map(r => `<li>${r.map(link).join(" › ")}</li>`).join("")}</ul></section>
+    ${kids.length ? `<section class="section"><h2>Branches (${kids.length})</h2><div class="subs">${kids.map(k => { const n = (t.downs[k] || []).length; return `<a href="#/field/${k}">${esc(nameOf(t, k))}${n ? ` <i>${n}</i>` : ""}</a>`; }).join("")}</div></section>` : ""}
+    ${cols.length ? `<section class="section"><h2>Also part of</h2><div class="subs">${cols.map(c => `<span>${esc(c.n)}</span>`).join("")}</div></section>` : ""}
+    <section class="section"><h2>Source and status</h2>
+      <p>${e.src === "editorial" ? `Added by Ascent's editors: ${esc(e.note || "")}` : `From the Universal Academic Knowledge Base, version 1.1 (draft, 21 November 2026).`}</p>
+      ${ed.map(u => `<p>Its link to ${esc(nameOf(t, u.p))} was added by Ascent's editors: ${esc(u.note || "")}</p>`).join("")}
+      <p class="muted">Status: proposed. Fields stay proposed until subject experts review them. <button class="linkbtn" type="button" data-feedback>Suggest a correction</button></p></section>
+  </div>`;
 }
 
-async function areaView(slug) {
-  const a = AREAS.find(x => x.slug === slug); if (!a) return notFound();
-  const metas = Object.fromEntries(await Promise.all(a.disciplines.flatMap(d => d.paths).map(async s => [s, { meta: PATHS.find(p => p.slug === s), p: await getPath(s).catch(() => null) }])));
+// --- one domain: its paths, then all its disciplines --------------------------------------
+async function domainView(slug) {
+  const D = DOMAINS.find(x => x.slug === slug); if (!D) return notFound();
+  const [t] = await Promise.all([loadTax(), liveStats()]); atlas.t = t;
+  const ps = PATHS.filter(p => p.doms.includes(slug)), ds = children(t, "d:" + slug);
   return `<div class="stack">
-    <div class="crumbs"><a href="#/">Home</a>›<span>${esc(a.title)}</span></div>
-    <div class="hero" style="${C(a.color)}">${ico(a.icon)}<h1>${esc(a.title)}</h1><p>${esc(a.blurb)}</p></div>
-    ${a.disciplines.map(d => `<section><p class="label">${esc(d.title)}</p>
-      ${d.paths.length ? `<div class="grid">${d.paths.map(s => { const { meta, p } = metas[s]; const n = p ? doneCount(s, p.works) : 0, t = p?.works.length || 0;
-        return `<a class="card" href="#/path/${s}" style="${C(meta.color)}">${ico(meta.icon)}<div style="display:grid;gap:6px"><h2>${esc(meta.title)}</h2>${p ? `${bar(n, t)}<small>${p.stages.length} stages · ${n} of ${t} works done</small>` : "<small>Not available</small>"}</div></a>`; }).join("")}</div>`
-      : `<p class="soon">Paths in ${esc(d.title.toLowerCase())} are being written.</p>`}</section>`).join("")}
+    <div class="crumbs"><a href="#/">Home</a>›<span>${esc(D.title)}</span></div>
+    <div class="hero" style="${C(D.color)}">${ico(D.icon)}<h1>${esc(D.title)}</h1><p>${esc(D.blurb)}</p></div>
+    <section><p class="label">Paths</p>${ps.length ? `<div class="grid">${await Promise.all(ps.map(async m => { const p = await getPath(m.slug).catch(() => null), n = p ? doneCount(m.slug, p.works) : 0, tot = p?.works.length || 0;
+      return `<a class="card" href="#/path/${m.slug}" style="${C(m.color)}">${ico(m.icon)}<div style="display:grid;gap:6px"><h2>${esc(m.title)}</h2>${p ? `${bar(n, tot)}<small>${p.stages.length} stages · ${n} of ${tot} works done</small>` : "<small>Not available</small>"}</div></a>`; })).then(a => a.join(""))}</div>`
+      : `<p class="soon">Paths in this domain are being written. Explore its fields below in the meantime.</p>`}</section>
+    <section><p class="label">Fields in this domain (${ds.length})</p><ul class="tree atlas">${ds.map(f => fieldRow(f)).join("")}</ul></section>
+    <a class="btn ghost" href="#/atlas" style="justify-self:start">${ico("tree")}See the whole map</a>
   </div>`;
 }
 
@@ -236,14 +280,16 @@ async function pathView(slug) {
   const p = await getPath(slug);
   const sections = p.blocks.filter(b => b.type === "section" && b.kind !== "internal");
   const about = sections.find(s => s.kind === "about"), goals = sections.find(s => s.kind === "goals");
-  const rest = sections.filter(s => s !== about && s !== goals);
+  const prereq = sections.find(s => /^Before you start/i.test(s.title)); // science paths: what you need, before the climb
+  const rest = sections.filter(s => s !== about && s !== goals && s !== prereq);
   const n = doneCount(slug, p.works), nx = nextWork(slug, p), sts = statuses(slug, p);
   return `<div class="stack">
-    <div class="crumbs"><a href="#/">Home</a>›${(a => a ? `<a href="#/area/${a.slug}">${esc(a.title)}</a>›` : "")(AREAS.find(a => a.disciplines.some(d => d.paths.includes(slug))))}<span>${esc(p.title)}</span></div>
+    <div class="crumbs"><a href="#/">Home</a>›${(a => a ? `<a href="#/area/${a.slug}">${esc(a.title)}</a>›` : "")(DOMAINS.find(a => a.slug === meta.doms[0]))}<span>${esc(p.title)}</span></div>
     <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1><p class="lede">${inline(p.lede)}</p>
       <div class="pills"><span class="pill draft" id="trust">Draft · not yet endorsed</span><span class="pill">${n} of ${p.works.length} works done</span><span class="pill">${p.stages.length} stages</span></div>
       <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a>${sts[0]?.state !== "passed" ? `<a class="btn ghost" href="#/path/${slug}/placement">${ico("quiz")}Already know some? Take the placement test</a>` : ""}</div></div>
     ${about ? `<section class="section about"><h2>${esc(about.title)}</h2><div class="txt${/!\[/.test(about.body) ? " with-img" : ""}">${md(about.body)}</div></section>` : ""}
+    ${prereq ? `<section class="section prereq"><h2>${esc(prereq.title)}</h2><div class="txt">${md(prereq.body)}</div></section>` : ""}
     <section><p class="label">Stages</p>
       <div class="stages">${p.stages.map(s => { const st = sts[s.index];
         return `<a class="card stage-card${st.state === "locked" ? " locked" : ""}" href="#/path/${slug}/stage/${s.num}" style="${C(stageColor(s))}">
@@ -772,7 +818,8 @@ async function fillTrust(slug) {
 // --- router --------------------------------------------------------------------
 const ROUTES = [
   [/^#?\/?$/, () => homeView(), "home"],
-  [/^#\/area\/([\w-]+)$/, m => areaView(m[1]), "home"],
+  [/^#\/area\/([\w-]+)$/, m => domainView(m[1]), "home"],
+  [/^#\/field\/([\w-]+)$/, m => fieldView(m[1]), "atlas"],
   [/^#\/path\/([\w-]+)$/, m => pathView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/map$/, m => mapView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/stage\/(\d+)$/, m => stageView(m[1], +m[2]), "home"],
@@ -863,7 +910,9 @@ document.addEventListener("click", async e => {
   if (d.tarea) { tour.areas.has(d.tarea) ? tour.areas.delete(d.tarea) : tour.areas.add(d.tarea); const on = tour.areas.has(d.tarea);
     t.classList.toggle("on", on); t.setAttribute("aria-pressed", on); $("#layer [data-tstep='1']").textContent = tour.areas.size ? "Next" : "Show me everything"; return; }
   if (d.tlevel) { tour.level = +d.tlevel; document.querySelectorAll("#layer [data-tlevel]").forEach(b => { const on = +b.dataset.tlevel === tour.level; b.classList.toggle("on", on); b.setAttribute("aria-checked", on); }); return; }
-  if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); $("#atlastree").innerHTML = atlasTree(); $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
+  if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); const body = $("#atlasbody");
+    if (body) { body.innerHTML = atlasBody(); } else { await refresh(); } $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
+  if (d.atlasview) { atlas.view = d.atlasview; atlas.open.clear(); refresh(); return; }
   if ("certimg" in d || "certshare" in d) {
     const card = $("[data-cert]"), cv = certCanvas(card), file = `ascent-${card.dataset.cert}-certificate.png`;
     if ("certimg" in d) { const a = document.createElement("a"); a.href = cv.toDataURL("image/png"); a.download = file; a.click(); return; }
@@ -871,7 +920,6 @@ document.addEventListener("click", async e => {
       try { await navigator.share(navigator.canShare?.({ files: [f] }) ? { files: [f], title: "My Ascent certificate" } : { title: "Ascent", url: "https://wasiulbahar.com/ascent/" }); } catch { /* share cancelled */ } });
     return;
   }
-  if (d.atlasall) { atlas.open = new Set(d.atlasall === "1" ? AREAS.map(a => a.slug) : []); $("#atlastree").innerHTML = atlasTree(); return; }
   if ("feedback" in d) { openReport("app", null); return; }
   if ("deleteme" in d) {
     t.disabled = true; t.textContent = "Deleting…";
@@ -914,7 +962,7 @@ document.addEventListener("keydown", e => {
 });
 
 document.addEventListener("input", e => {
-  if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlastree").innerHTML = atlasTree(); }
+  if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlasbody").innerHTML = atlasBody(); }
   if (e.target.id === "certname") { const v = e.target.value.trim(); $(".certname").textContent = v || "Your name"; try { localStorage.setItem("ascent-certname", v); } catch { /* storage blocked */ } }
 });
 window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").focus({ preventScroll: true }); });

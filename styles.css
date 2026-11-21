@@ -418,3 +418,14 @@ nav.tabs a[aria-current="page"]{color:var(--ink);background:var(--bg)}
 .cert h1{font-size:clamp(30px,6vw,48px)}.cert .certname{font-size:clamp(24px,5vw,36px)}
 .cert p{margin:0;max-width:46ch}
 .hero .medal.small,.cert .medal.small{border-color:currentColor}
+/* taxonomy map, field and domain pages */
+.subs a{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none}
+.subs a:hover{border-color:var(--ink)}.subs a i{font-style:normal;color:var(--muted);font-size:11px}
+.subs .linkbtn{font-size:12px}
+.disc a{color:inherit;text-decoration:none}.disc a:hover b{text-decoration:underline}
+.also{font-size:11px;font-weight:700;color:var(--muted)}
+.results{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.results a{display:grid;gap:2px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none}
+.results a:hover{border-color:var(--ink)}.results small{color:var(--muted);font-weight:600;font-size:12px}
+.homes{margin:0;padding-left:20px;display:grid;gap:6px}
+.seg{gap:8px}
