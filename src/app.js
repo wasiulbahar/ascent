@@ -1,9 +1,10 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, norm } from "./content.js?v=5";
-import { PATHS, AREAS } from "./paths.js?v=5";
-import { sb, auth, initAuth, sendLink, signOut } from "./auth.js?v=5";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=5";
-import { pathStatuses, PASS_MARK } from "./status.js?v=5";
+import { parsePath, norm } from "./content.js?v=7";
+import { PATHS, AREAS } from "./paths.js?v=7";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=7";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=7";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=7";
+import { pathStatuses, PASS_MARK } from "./status.js?v=7";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -43,7 +44,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=5`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=7`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -122,7 +123,7 @@ async function pathView(slug) {
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›${(a => a ? `<a href="#/area/${a.slug}">${esc(a.title)}</a>›` : "")(AREAS.find(a => a.disciplines.some(d => d.paths.includes(slug))))}<span>${esc(p.title)}</span></div>
     <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1><p class="lede">${inline(p.lede)}</p>
-      <div class="pills"><span class="pill draft">Draft · not yet endorsed</span><span class="pill">${n} of ${p.works.length} works done</span><span class="pill">${p.stages.length} stages</span></div>
+      <div class="pills"><span class="pill draft" id="trust">Draft · not yet endorsed</span><span class="pill">${n} of ${p.works.length} works done</span><span class="pill">${p.stages.length} stages</span></div>
       <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a></div></div>
     ${about ? `<section class="section about"><h2>${esc(about.title)}</h2><div class="txt${/!\[/.test(about.body) ? " with-img" : ""}">${md(about.body)}</div></section>` : ""}
     <section><p class="label">Stages</p>
@@ -206,6 +207,7 @@ async function workView(slug, id) {
       const inner = `<span class="node-c${st.done ? " done" : ""}${cur ? " cur" : ""}" style="${st.done || cur ? C(color) : ""}">${ico(st.done ? "check" : st.icon)}</span><span class="st-t"><b>${esc(st.title)}</b><small>${esc(st.sub)}</small>${cur ? `<span class="go-pill">${k === 0 ? "Start" : "Next"}</span>` : ""}</span>`;
       return `<li class="step s${k % 2}${st.optional ? " opt" : ""}">${st.id === "story" ? `<button type="button" data-story="${w.id}">${inner}</button>` : `<a href="${href}">${inner}</a>`}</li>`; }).join("")}</ol>
     ${next ? `<a class="nextwork" href="#/path/${slug}/work/${next.id}"><small>Next work</small><b>${esc(next.title)}</b>${ico("chev")}</a>` : ""}
+    <button class="linkbtn" type="button" data-report="${w.id}">Report a problem with this work</button>
   </div>`;
 }
 
@@ -217,7 +219,8 @@ async function stepView(slug, id, step) {
   const back = `#/path/${slug}/work/${w.id}`, color = stageColor(w.stage);
   const head = `<div class="stephead"><a class="close" href="${back}" aria-label="Back to the lesson">${ico("x")}</a>
     <div class="stepbar">${steps.map((x, j) => `<i class="${j <= k ? "on" : ""}" style="${j <= k ? `background:var(--${color}-ink)` : ""}"></i>`).join("")}</div></div>`;
-  const foot = after ? `<a class="btn wide" href="#/path/${slug}/work/${w.id}/${after.id}">Continue: ${esc(after.title)}</a>` : `<a class="btn wide" href="${back}">Back to the lesson</a>`;
+  const foot = (after ? `<a class="btn wide" href="#/path/${slug}/work/${w.id}/${after.id}">Continue: ${esc(after.title)}</a>` : `<a class="btn wide" href="${back}">Back to the lesson</a>`)
+    + `<button class="linkbtn" type="button" data-report="${w.id}">Report a problem</button>`;
   if (step === "quiz") return `<div class="stack steppage">${head}<div class="quizrun" data-quizrun="${w.id}"></div></div>`;
   if (step === "get") {
     const done = isDone(slug, w.id);
@@ -469,21 +472,49 @@ function signinView() {
 }
 const ROLE_TEXT = {
   learner: "Learner",
-  reviewer: "Reviewer: the review portal arrives in week 5.",
-  editor: "Editor: the editor tools arrive in week 5.",
-  admin: "Admin: the admin dashboard arrives in week 5.",
+  reviewer: "Reviewer: you can review the paths assigned to you under Review.",
+  editor: "Editor: you can use the Admin dashboard and review any path.",
+  admin: "Admin: you can use the Admin dashboard, manage roles and review any path.",
 };
 async function accountView() {
   if (!auth.user) return signinView();
-  const { data, error } = await sb.from("profiles").select("role").eq("id", auth.user.id).maybeSingle();
-  const role = data?.role;
-  const roleLine = error ? `<p class="err">Couldn't read your role: ${esc(error.message)}</p>`
-    : role ? `<p><b>Role:</b> ${esc(ROLE_TEXT[role] || role)}</p>`
-    : `<p class="notice">Your profile wasn't created. This happens if you signed up before the database was set up: ask the admin to add it.</p>`;
+  await loadProfile();
+  const pr = auth.profile, role = auth.role;
+  const roleLine = !pr ? `<p class="notice">Your profile wasn't created. This happens if you signed up before the database was set up: ask the admin to add it.</p>`
+    : `<p><b>Role:</b> ${esc(ROLE_TEXT[role] || role)}</p>`;
+  let apply = "";
+  if (pr && role === "learner") {
+    const [{ data: st }, { data: mine }] = await Promise.all([sb.from("settings").select("value").eq("key", "reviewer_applications").maybeSingle(), sb.from("applications").select("status,created_at").eq("user_id", auth.user.id).order("created_at", { ascending: false }).limit(1)]);
+    const last = mine?.[0];
+    if (last?.status === "pending") apply = `<p class="status">Your application to review is waiting for a decision.</p>`;
+    else if (st?.value === "open") apply = `<form id="applyform" class="stack section" style="gap:12px" novalidate><h2>Apply to review paths</h2><p class="muted">Experts check and endorse paths in their field. Tell us about yours.</p>
+      <div class="field"><label for="afield">Your field</label><input id="afield" placeholder="For example: Russian literature"></div>
+      <div class="field"><label for="aev">Evidence</label><textarea id="aev" rows="3" placeholder="Your role, institution, ORCID or publications"></textarea></div>
+      <p class="err" id="aerr" hidden></p><button class="btn" type="submit">Send my application</button></form>`;
+  }
   return `<div class="stack signin"><h1>Your account</h1><p>Signed in as <b>${esc(auth.user.email)}</b>.</p>${roleLine}
+    ${pr ? `<form id="profileform" class="stack section" style="gap:12px" novalidate><h2>Your name</h2><p class="muted">${isReviewer() ? "Learners see your name and affiliation on the paths you endorse." : "Used if you ever review paths."}</p>
+      <div class="field"><label for="pname">Name</label><input id="pname" value="${esc(pr.display_name || "")}" autocomplete="name"></div>
+      ${"affiliation" in pr ? `<div class="field"><label for="paff">Affiliation</label><input id="paff" value="${esc(pr.affiliation || "")}" placeholder="For example: Lecturer in musicology, University of Dhaka"></div>` : ""}
+      <button class="btn ghost" type="submit">Save</button></form>` : ""}
+    ${apply}
     <button class="btn ghost" id="signout" type="button">Sign out</button></div>`;
 }
 const notFound = () => `<div class="stack"><h1>Page not found</h1><p><a href="#/">Go to the home page</a></p></div>`;
+
+// Endorsement badge on a path page, from the public endorsements_for() function (week4.sql).
+async function fillTrust(slug) {
+  const el = $("#trust"); if (!el || !sb) return;
+  const p = await getPath(slug), v = +(p.fm.version || 1);
+  const [{ data: ends, error }, { data: st }] = await Promise.all([sb.rpc("endorsements_for", { p: slug }), sb.from("path_status").select("status").eq("path", slug).maybeSingle()]);
+  if (error) return; // database update not installed yet: keep the draft label
+  const cur = (ends || []).filter(e => e.version === v);
+  if (st?.status === "verified" || cur.length) {
+    el.className = "pill endorsed";
+    el.textContent = `${st?.status === "verified" ? "Verified · " : ""}Endorsed by ${cur.length} expert${cur.length === 1 ? "" : "s"}`;
+    if (cur.length) el.insertAdjacentHTML("afterend", `<details class="endorsers"><summary>Who endorsed it</summary><ul>${cur.map(e => `<li><b>${esc(e.name)}</b>${e.affiliation ? `, ${esc(e.affiliation)}` : ""}</li>`).join("")}</ul></details>`);
+  } else if (st?.status && st.status !== "draft") el.textContent = { "editor-reviewed": "Editor reviewed · awaiting experts", "in-review": "In expert review" }[st.status] || el.textContent;
+}
 
 // --- router --------------------------------------------------------------------
 const ROUTES = [
@@ -495,33 +526,58 @@ const ROUTES = [
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)$/, m => workView(m[1], m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)\/(get|understand|analyse|quiz|scholar)$/, m => stepView(m[1], m[2], m[3]), "home"],
   [/^#\/collection$/, () => collectionView(), "collection"],
+  [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
+  [/^#\/review(?:\/([\w-]+))?$/, m => reviewView(m[1]), "review"],
   [/^#\/signin$/, () => signinView(), "account"],
   [/^#\/account$/, () => accountView(), "account"],
 ];
 
 function renderNav(tab) {
-  const items = [["#/", "Home", "home", "home"], ["#/collection", "Collection", "trophy", "collection"], [auth.user ? "#/account" : "#/signin", auth.user ? "Account" : "Sign in", "user", "account"]];
+  const items = [["#/", "Home", "home", "home"], ["#/collection", "Collection", "trophy", "collection"]];
+  if (isReviewer()) items.push(["#/review", "Review", "eye", "review"]);
+  if (isStaff()) items.push(["#/admin", "Admin", "layers", "admin"]);
+  items.push([auth.user ? "#/account" : "#/signin", auth.user ? "Account" : "Sign in", "user", "account"]);
   $("#tabs").innerHTML = `<a class="brand side-brand" href="#/">${ico("logo")}Ascent</a>` +
     items.map(([h, l, i, t]) => `<a href="${h}" ${t === tab ? 'aria-current="page"' : ""}>${ico(i)}${l}</a>`).join("");
   $("#who").textContent = auth.user?.email || "";
 }
 
-let lastRoute = null;
+let lastRoute = null, routeSeq = 0;
 async function route({ keepScroll = false } = {}) {
-  const hash = location.hash || "#/";
+  const hash = location.hash || "#/", mySeq = ++routeSeq;
   const hit = ROUTES.map(([re, fn, tab]) => [hash.match(re), fn, tab]).find(([m]) => m);
   const [m, fn, tab] = hit || [null, notFound, "home"];
   renderNav(tab);
   const view = $("#view"), y = scrollY;
-  try { view.innerHTML = await fn(m || []); }
-  catch (e) { view.innerHTML = `<p class="status">${esc(e.message)} Refresh the page to try again.</p>`; }
+  let html;
+  try { html = await fn(m || []); }
+  catch (e) { html = `<p class="status">${esc(e.message)} Refresh the page to try again.</p>`; }
+  if (mySeq !== routeSeq) return; // a newer page was asked for while this one loaded: don't overwrite it
+  view.innerHTML = html;
   if (hash !== lastRoute) { view.classList.remove("enter"); void view.offsetWidth; view.classList.add("enter"); window.scrollTo(0, 0); lastRoute = hash; }
   else if (keepScroll) window.scrollTo(0, y);
   if (/\/work\/[\w-]+\/quiz$/.test(hash)) mountQuizRun(m[1]);
+  if (/^#\/path\/[\w-]+$/.test(hash)) fillTrust(m[1]);
 }
 const refresh = () => route({ keepScroll: true });
 
 document.addEventListener("submit", async e => {
+  if (e.target.id === "profileform") {
+    e.preventDefault();
+    const row = { display_name: $("#pname").value.trim() || null };
+    if ($("#paff")) row.affiliation = $("#paff").value.trim() || null;
+    const { error } = await sb.from("profiles").update(row).eq("id", auth.user.id);
+    toast(error ? `Couldn't save: ${error.message}` : "Saved"); if (!error) await loadProfile();
+    return;
+  }
+  if (e.target.id === "applyform") {
+    e.preventDefault();
+    const field = $("#afield").value.trim(), evidence = $("#aev").value.trim(), err = $("#aerr");
+    if (!field || !evidence) { err.textContent = "Fill in both your field and your evidence."; err.hidden = false; return; }
+    const { error } = await sb.from("applications").insert({ user_id: auth.user.id, field, evidence });
+    if (error) { err.textContent = `Couldn't send: ${error.message}`; err.hidden = false; return; }
+    toast("Application sent"); refresh(); return;
+  }
   if (e.target.id !== "signin") return;
   e.preventDefault();
   const email = $("#email").value.trim(), err = $("#err"), btn = e.target.querySelector("button");
@@ -560,6 +616,7 @@ document.addEventListener("click", async e => {
     else confirming.add(k);
     refresh(); return;
   }
+  if (d.report) { openReport(slug, d.report); return; }
   if (d.story) { openStory(slug, d.story); return; }
   if (d.step) { const n = story.n + +d.step; if (n >= 0 && n < story.cards.length) { story.n = n; drawStory(+d.step); } return; }
   if ("close" in d) { closeLayer(); return; }
@@ -573,6 +630,7 @@ document.addEventListener("keydown", e => {
 });
 
 window.addEventListener("hashchange", () => { closeLayer(); route(); });
-await initAuth(async () => { await loadProgress(); route({ keepScroll: true }); });
-await loadProgress();
+useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() });
+await initAuth(async () => { await Promise.all([loadProgress(), loadProfile()]); route({ keepScroll: true }); });
+await Promise.all([loadProgress(), loadProfile()]);
 route();

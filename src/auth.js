@@ -5,7 +5,19 @@ export const sb = SUPABASE_URL && SUPABASE_ANON_KEY
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { flowType: "pkce" } })
   : null;
 
-export const auth = { user: null, ready: false };
+export const auth = { user: null, ready: false, role: null, profile: null };
+
+// The signed-in person's profile: role decides which tabs they see (the database enforces the rest).
+export async function loadProfile() {
+  auth.role = null; auth.profile = null;
+  if (!sb || !auth.user) return;
+  let { data, error } = await sb.from("profiles").select("role,display_name,affiliation").eq("id", auth.user.id).maybeSingle();
+  if (error) ({ data } = await sb.from("profiles").select("role,display_name").eq("id", auth.user.id).maybeSingle()); // before week4.sql adds affiliation
+  auth.profile = data || null;
+  auth.role = data?.role || "learner";
+}
+export const isStaff = () => ["editor", "admin"].includes(auth.role);
+export const isReviewer = () => ["reviewer", "editor", "admin"].includes(auth.role);
 
 export async function initAuth(onChange) {
   if (!sb) { auth.ready = true; return; }
