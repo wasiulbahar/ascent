@@ -23,4 +23,8 @@ assert.ok(descendants(t, "mathematics").has("group-theory"), "descendants reach 
 assert.deepEqual(pathsFor("physics").map(p => p.slug), ["physics"], "paths attach to fields");
 assert.equal(t.entities["russian-literature"].src, "editorial", "Ascent's additions are marked as editorial");
 assert.ok(Object.values(t.entities).every(e => e.s === "proposed"), "everything starts as proposed");
+import { codesFor } from "../src/taxonomy.js";
+assert.ok(Object.values(t.entities).filter(e => e.t === "discipline").every(e => e.x?.length), "every discipline has crosswalk codes");
+assert.equal(codesFor(t, "genetics").via, "biological-sciences", "fields inherit codes from their discipline");
+assert.ok(codesFor(t, "physics").codes.some(([s, c]) => s === "UNESCO_ISCED_F" && c === "0533"), "physics maps to ISCED 0533");
 console.log("taxonomy: all checks passed");

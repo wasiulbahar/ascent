@@ -19,8 +19,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=17";
-import { PATHS } from "../src/paths.js?v=17";
+import { parsePath } from "../src/content.js?v=18";
+import { PATHS } from "../src/paths.js?v=18";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -170,6 +170,24 @@ const TESTS = {
     await until(() => $("a.card[href='#/path/physics']") && $("a.card[href='#/path/biology']"), "both natural-science paths on the domain page");
     await go("#/");
     ok($$("a.card[href^='#/area/']").length === 17, "17 domain cards on the home page");
+  },
+  async "points of interest: on field pages, searchable, with their own page"() {
+    await fresh("#/field/physics");
+    await until(() => /Points of interest \(\d+\)/.test($("#poisec")?.textContent || ""), "the points of interest on Physics");
+    const total = +$("#poisec h2").textContent.match(/\((\d+)\)/)[1];
+    ok(total > 50, `physics should gather many points of interest, found ${total}`);
+    (await until(() => $("[data-poitype='person']"), "the People filter")).click();
+    await until(() => $("[data-poitype='person'][aria-pressed='true']"), "the filter to apply");
+    const q = $("#poiq"); q.value = "einstein"; q.dispatchEvent(new Event("input", { bubbles: true }));
+    await until(() => $("#poisec a[href='#/poi/albert-einstein']"), "Albert Einstein in the filtered list");
+    ok(doc().activeElement?.id === "poiq", "typing keeps focus in the search box");
+    $("#poisec a[href='#/poi/albert-einstein']").click();
+    await until(() => $("h1")?.textContent === "Albert Einstein", "Einstein's page");
+    await until(() => $$(".homes li").length >= 2, "his homes");
+    ok($("a[href^='https://en.wikipedia.org/wiki/Albert_Einstein']"), "a link to the Wikipedia article");
+    await go("#/atlas");
+    const s = await until(() => $("#atlasq"), "the map search"); s.value = "mona lisa"; s.dispatchEvent(new Event("input", { bubbles: true }));
+    await until(() => $("#atlasbody a[href='#/poi/mona-lisa']"), "Mona Lisa in map search");
   },
   async "mastery: locked until every stage passes, then grand quiz and certificate"() {
     await fresh("#/path/physics/mastery");

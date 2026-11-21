@@ -106,8 +106,23 @@ assert not bad, f"links to unknown entities: {bad[:5]}"
 assert len(domains) == 17, f"expected 17 domains, found {len(domains)}"
 assert not homeless, f"entities with no home: {homeless[:5]}"
 
+# crosswalks (spec section 8): every discipline gets OECD FORD and UNESCO ISCED-F codes where one fits
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from crosswalks import FORD, ISCED, MAP
+discs = [i for i, e in entities.items() if e["t"] == "discipline"]
+missing = [i for i in discs if i not in MAP]
+assert not missing, f"disciplines without a crosswalk entry: {missing}"
+for i, maps in MAP.items():
+    assert i in entities, f"crosswalk for unknown entity {i}"
+    for scheme, code, typ in maps: assert code in (FORD if scheme == "OECD_FORD" else ISCED), f"unknown {scheme} code {code}"
+    entities[i]["x"] = [[s, c, t, "needs_verification"] for s, c, t in maps]
+
 out = {
     "version": "1.1-seed",
+    "schemes": {
+        "OECD_FORD": {"title": "OECD Fields of Research and Development (Frascati Manual 2015)", "url": "https://www.oecd.org/en/publications/frascati-manual-2015_9789264239012-en.html", "codes": FORD},
+        "UNESCO_ISCED_F": {"title": "UNESCO ISCED Fields of Education and Training 2013", "url": "https://www.uis.unesco.org/en/methods-and-tools/isced", "codes": ISCED},
+    },
     "built": datetime.date.today().isoformat(),
     "sources": {
         "spec": {"title": "Universal Academic Knowledge Base: foundational taxonomy and implementation specification", "version": "1.1", "date": "2026-11-21", "type": "editorial proposal"},

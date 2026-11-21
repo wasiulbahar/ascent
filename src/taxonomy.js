@@ -1,10 +1,10 @@
 // The knowledge taxonomy: a graph, not a tree. One entity per field; a field can have several
 // homes (parents). Data: data/taxonomy.json, built from the knowledge-base spec.
-import { PATHS } from "./paths.js?v=17";
+import { PATHS } from "./paths.js?v=18";
 
 let T = null;
 export async function loadTax() {
-  return T ||= indexTax(await (await fetch("data/taxonomy.json?v=17")).json());
+  return T ||= indexTax(await (await fetch("data/taxonomy.json?v=18")).json());
 }
 export function indexTax(d) {
   const ups = {}, downs = {}, inCol = {};
@@ -51,3 +51,42 @@ export function search(t, q, limit = 40) {
 }
 
 export const TYPE_LABEL = { discipline: "Discipline", subdiscipline: "Field", specialisation: "Specialisation", method: "Method", topic: "Topic" };
+
+// external classification codes: the entity's own, else the nearest ancestor's ("via")
+export function codesFor(t, id) {
+  if (t.entities[id]?.x) return { codes: t.entities[id].x, via: null };
+  for (const r of routes(t, id)) for (let i = r.length - 2; i >= 0; i--) if (t.entities[r[i]]?.x) return { codes: t.entities[r[i]].x, via: r[i] };
+  return { codes: [], via: null };
+}
+export const MAP_TYPE = { close: "about the same scope", broader: "a broader category", narrower: "covers part of it", related: "overlaps" };
+
+// --- points of interest (people, events, works...) from Wikipedia Vital articles Level 4 ---
+// data/poi/index.json, built by tools/build_poi.py; one record per item, several homes allowed.
+const slugify = s => s.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+let P = null;
+export async function loadPoi() { return P ||= indexPoi(await (await fetch("data/poi/index.json?v=18")).json()); }
+export function indexPoi(d) {
+  const items = d.items.map(([n, ty, h, id, rv]) => ({ id: id || slugify(n), n, ty: d.meta.types[ty], h: h.map(i => d.meta.homes[i]), rv: !!rv }));
+  const byField = {};
+  for (const it of items) for (const h of it.h) (byField[h] ||= []).push(it);
+  return { ...d, items, byField, byId: Object.fromEntries(items.map(i => [i.id, i])) };
+}
+// points of interest at this field or anywhere below it, each once
+export function poisUnder(t, p, id) {
+  const seen = new Set(), out = [];
+  for (const f of [id, ...descendants(t, id)]) for (const it of p.byField[f] || []) if (!seen.has(it.id)) { seen.add(it.id); out.push(it); }
+  return out.sort((a, b) => a.n.localeCompare(b.n));
+}
+export function searchPoi(p, q, limit = 20) {
+  q = q.trim().toLowerCase(); if (q.length < 2) return [];
+  const rank = n => { n = n.toLowerCase(); return n === q ? 0 : n.startsWith(q) ? 1 : n.includes(q) ? 2 : 9; }; // exact, starts with, contains
+  return p.items.map(it => ({ it, r: rank(it.n) })).filter(x => x.r < 9)
+    .sort((a, b) => a.r - b.r || a.it.n.localeCompare(b.it.n)).slice(0, limit).map(x => x.it);
+}
+const details = {};
+export async function poiDetail(id) {
+  const k = /^[a-z]/.test(id) ? id[0] : "0";
+  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=18`)).json();
+  return details[k][id];
+}
+export const POI_LABEL = { person: "Person", event: "Event", place: "Place", work: "Work", invention: "Invention or technology", law: "Law or legal text", species: "Species or organism", concept: "Concept or idea", institution: "Institution", object: "Object" };

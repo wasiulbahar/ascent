@@ -1,11 +1,11 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk } from "./content.js?v=17";
-import { PATHS, DOMAINS } from "./paths.js?v=17";
-import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL } from "./taxonomy.js?v=17";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=17";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=17";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=17";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=17";
+import { parsePath, blankOk } from "./content.js?v=18";
+import { PATHS, DOMAINS } from "./paths.js?v=18";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL } from "./taxonomy.js?v=18";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=18";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=18";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=18";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=18";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -49,7 +49,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=17`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=18`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -195,13 +195,13 @@ async function liveStats() {
 const pathNode = s => { const L = atlas.live[s]; if (!L) return "";
   return `<a class="node" href="#/path/${s}" style="${C(L.m.color)}"><span class="ni">${ico(L.m.icon)}</span><span><b>${esc(L.m.title)}</b><small>${L.mastered ? "Mastery earned" : L.passed ? `${L.passed} of ${L.stages} stages passed` : L.started ? "Started" : "Path ready to start"}</small></span></a>`; };
 async function atlasView() {
-  const [t] = await Promise.all([loadTax(), liveStats()]); atlas.t = t;
+  const [t, p] = await Promise.all([loadTax(), loadPoi().catch(() => null), liveStats()]); atlas.t = t; atlas.p = p;
   const E = Object.values(t.entities), fields = E.filter(e => ["discipline", "subdiscipline", "specialisation"].includes(e.t)).length;
   const L = Object.values(atlas.live), passed = L.reduce((n, x) => n + x.passed, 0), total = L.reduce((n, x) => n + x.stages, 0);
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<span>Map of knowledge</span></div>
     <div style="display:grid;gap:8px"><h1>Map of knowledge</h1><p class="lede">Every field Ascent will cover, in ${t.domains.length} domains. Lit-up paths are ready to start; the rest are being written. Many fields belong to more than one domain.</p></div>
-    <div class="stats">${[["Domains", t.domains.length], ["Fields", fields], ["Methods and topics", E.length - fields], ["Paths ready", PATHS.length], ["Paths you've started", L.filter(x => x.started).length], ["Stages you've passed", `${passed} of ${total}`]]
+    <div class="stats">${[["Domains", t.domains.length], ["Fields", fields], ["Methods and topics", E.length - fields], ["Points of interest", p ? p.items.length.toLocaleString("en") : "–"], ["Paths ready", PATHS.length], ["Paths you've started", L.filter(x => x.started).length], ["Stages you've passed", `${passed} of ${total}`]]
       .map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join("")}</div>
     <div class="row atlasbar"><input type="search" id="atlasq" placeholder="Find a subject, such as genetics" aria-label="Find a subject" value="${esc(atlas.q)}" autocomplete="off"></div>
     <div class="row seg" role="group" aria-label="Browse by">${[["domains", "By domain"], ["collections", "Across domains"]].map(([v, l]) => `<button type="button" class="btn small ${atlas.view === v ? "" : "ghost"}" data-atlasview="${v}" aria-pressed="${atlas.view === v}">${l}</button>`).join("")}</div>
@@ -215,7 +215,7 @@ function atlasBody() {
     const ids = search(t, q);
     return ids.length ? `<p class="label">${ids.length === 40 ? "First 40 matches" : `${ids.length} match${ids.length > 1 ? "es" : ""}`}</p><ul class="results">${ids.map(id => { const e = t.entities[id], r = routes(t, id)[0];
       return `<li><a href="#/field/${id}"><b>${markQ(e.n, q)}</b><small>${TYPE_LABEL[e.t] || e.t}${r.length > 1 ? " · " + r.slice(0, -1).map(x => esc(nameOf(t, x))).join(" › ") : ""}${pathsFor(id).length ? " · path ready" : ""}</small></a></li>`; }).join("")}</ul>`
-      : `<p class="muted">Nothing matches “${esc(q)}” yet. Try a broader word.</p>`;
+      + poiResults(q) : poiResults(q) || `<p class="muted">Nothing matches “${esc(q)}” yet. Try a broader word.</p>`;
   }
   if (atlas.view === "collections") return `<ul class="tree atlas">${t.collections.map(c => { const ex = atlas.open.has(c.id);
     return `<li><button class="node" type="button" style="${C("lilac")}" data-atlas="${c.id}" aria-expanded="${ex}"><span class="ni">${ico("layers")}</span><span><b>${esc(c.n)}</b><small>${c.members.length} items</small></span>${ico("chev", "i chev")}</button>
@@ -234,6 +234,8 @@ function fieldRow(id) {
       ${kids.length > 12 ? `<button class="linkbtn" type="button" data-atlas="${id}" aria-expanded="${ex}">${ex ? "Show fewer" : `Show all ${kids.length}`}</button>` : ""}</div>` : ""}</div>
     ${ps.length ? `<ul>${ps.map(p => `<li>${pathNode(p.slug)}</li>`).join("")}</ul>` : ""}</li>`;
 }
+const poiResults = q => { const r = atlas.p ? searchPoi(atlas.p, q) : []; return r.length ? `<p class="label" style="margin-top:14px">Points of interest</p><ul class="results">${r.map(it =>
+  `<li><a href="#/poi/${it.id}"><b>${markQ(it.n, q)}</b><small>${esc(POI_LABEL[it.ty] || it.ty)} · studied in ${it.h.slice(0, 2).map(h => esc(nameOf(atlas.t, h))).join(", ")}</small></a></li>`).join("")}</ul>` : ""; };
 const markQ = (s, q) => { const i = s.toLowerCase().indexOf(q.toLowerCase()); return i < 0 ? esc(s) : esc(s.slice(0, i)) + `<mark>${esc(s.slice(i, i + q.length))}</mark>` + esc(s.slice(i + q.length)); };
 
 // --- one field: where it sits (every home), its branches, collections, paths and source ----
@@ -252,11 +254,59 @@ async function fieldView(id) {
       <ul class="homes">${rs.map(r => `<li>${r.map(link).join(" › ")}</li>`).join("")}</ul></section>
     ${kids.length ? `<section class="section"><h2>Branches (${kids.length})</h2><div class="subs">${kids.map(k => { const n = (t.downs[k] || []).length; return `<a href="#/field/${k}">${esc(nameOf(t, k))}${n ? ` <i>${n}</i>` : ""}</a>`; }).join("")}</div></section>` : ""}
     ${cols.length ? `<section class="section"><h2>Also part of</h2><div class="subs">${cols.map(c => `<span>${esc(c.n)}</span>`).join("")}</div></section>` : ""}
+    <section class="section" id="poisec"><p class="muted">Loading points of interest…</p></section>
+    ${(c => c.codes.length ? `<section class="section"><h2>Classification codes</h2>
+      <p class="muted">How official classifications file this subject${c.via ? `, through ${esc(nameOf(t, c.via))}` : ""}. Every code still needs checking against the official documents.</p>
+      <ul class="codes">${c.codes.map(([s, code, typ]) => `<li><b>${s === "OECD_FORD" ? "OECD research field" : "UNESCO education field"} ${esc(code)}</b> ${esc(t.schemes[s].codes[code])} <small>(${MAP_TYPE[typ] || typ})</small></li>`).join("")}</ul></section>` : "")(codesFor(t, id))}
     <section class="section"><h2>Source and status</h2>
       <p>${e.src === "editorial" ? `Added by Ascent's editors: ${esc(e.note || "")}` : `From the Universal Academic Knowledge Base, version 1.1 (draft, 21 November 2026).`}</p>
       ${ed.map(u => `<p>Its link to ${esc(nameOf(t, u.p))} was added by Ascent's editors: ${esc(u.note || "")}</p>`).join("")}
       <p class="muted">Status: proposed. Fields stay proposed until subject experts review them. <button class="linkbtn" type="button" data-feedback>Suggest a correction</button></p></section>
   </div>`;
+}
+
+// --- points of interest on a field page: filter by type, search, load more ---------------
+const poiv = { field: null, type: "", q: "", n: 30, list: [] };
+function poiSection() {
+  const L = poiv.list, counts = {};
+  for (const it of L) counts[it.ty] = (counts[it.ty] || 0) + 1;
+  const q = poiv.q.trim().toLowerCase();
+  const shown = L.filter(it => (!poiv.type || it.ty === poiv.type) && (!q || it.n.toLowerCase().includes(q)));
+  return `<h2>Points of interest (${L.length})</h2>
+    <p class="muted">People, events, works, places and ideas studied in this field and its branches, from Wikipedia's list of vital articles. Placements are proposed by list section and still need review.</p>
+    <div class="row seg" role="group" aria-label="Filter by type"><button type="button" class="btn small ${poiv.type ? "ghost" : ""}" data-poitype="" aria-pressed="${!poiv.type}">All</button>${Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<button type="button" class="btn small ${poiv.type === k ? "" : "ghost"}" data-poitype="${k}" aria-pressed="${poiv.type === k}">${esc(POI_LABEL[k] || k)} (${n})</button>`).join("")}</div>
+    <input type="search" id="poiq" placeholder="Find a point of interest" aria-label="Find a point of interest" value="${esc(poiv.q)}" autocomplete="off">
+    ${shown.length ? `<div class="subs">${shown.slice(0, poiv.n).map(it => `<a href="#/poi/${it.id}">${esc(it.n)}</a>`).join("")}</div>
+      ${shown.length > poiv.n ? `<button class="btn small ghost" type="button" data-poimore>Show more (${shown.length - poiv.n} left)</button>` : ""}` : `<p class="muted">Nothing matches.</p>`}`;
+}
+const redrawPoi = () => { const s = $("#poisec"); if (s) s.innerHTML = poiSection(); };
+
+// --- one point of interest ------------------------------------------------------------------
+async function poiView(id) {
+  const [t, p] = await Promise.all([loadTax(), loadPoi()]);
+  const it = p.byId[id]; if (!it) return notFound();
+  const d = await poiDetail(id).catch(() => null) || {};
+  const wiki = `https://en.wikipedia.org/wiki/${encodeURIComponent((d.w || it.n).replace(/ /g, "_"))}`;
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<a href="#/atlas">Map</a>›<span>${esc(it.n)}</span></div>
+    <div style="display:grid;gap:10px"><h1>${esc(it.n)}</h1>
+      <div class="pills"><span class="pill">${esc(POI_LABEL[it.ty] || it.ty)}</span><span class="pill draft">Proposed</span>${it.rv ? '<span class="pill">Needs review</span>' : ""}</div>
+      ${d.d ? `<p class="lede">${esc(d.d.charAt(0).toUpperCase() + d.d.slice(1))}.</p><p class="muted" style="margin:0">Short description from Wikidata.</p>` : ""}</div>
+    <section class="section"><h2>Studied in</h2><p class="muted">A point of interest isn't a discipline: it's something several fields study. These are its proposed homes.</p>
+      <ul class="homes">${it.h.map(h => { const r = routes(t, h)[0]; return `<li>${r.map(x => t.dom[x] ? `<a href="#/area/${x.slice(2)}">${esc(nameOf(t, x))}</a>` : `<a href="#/field/${x}">${esc(nameOf(t, x))}</a>`).join(" › ")}${pathsFor(h).length ? " · path ready" : ""}</li>`; }).join("")}</ul></section>
+    <section class="section"><h2>Read more</h2><div class="row"><a class="btn small ghost" href="${wiki}" target="_blank" rel="noopener">Wikipedia article</a>${d.q ? `<a class="btn small ghost" href="https://www.wikidata.org/wiki/${esc(d.q)}" target="_blank" rel="noopener">Wikidata ${esc(d.q)}</a>` : ""}</div></section>
+    <section class="section"><h2>Source and status</h2>
+      <p>Listed in Wikipedia's <a href="${esc(p.meta.url)}" target="_blank" rel="noopener">Vital articles, Level 4</a>${(d.src || []).map(([s, tr]) => `, under ${esc(s)}${tr ? ` › ${esc(tr)}` : ""}`).join(";")} (list revision of ${esc((p.meta.revisions[(d.src || [[""]])[0][0]] || [])[1] || "")}).</p>
+      <p>Its homes were proposed from that list section, not checked article by article${it.rv ? ", and its section is broad, so it's in the review queue" : ""}. ${esc(p.meta.licence)}</p>
+      <p class="muted">Status: proposed. <button class="linkbtn" type="button" data-feedback>Suggest a correction</button></p></section>
+  </div>`;
+}
+async function mountPoiSection(id) {
+  const box = $("#poisec"); if (!box) return;
+  const [t, p] = await Promise.all([loadTax(), loadPoi()]);
+  if (poiv.field !== id) Object.assign(poiv, { field: id, type: "", q: "", n: 30 });
+  poiv.list = poisUnder(t, p, id);
+  if (poiv.list.length) box.innerHTML = poiSection(); else box.remove();
 }
 
 // --- one domain: its paths, then all its disciplines --------------------------------------
@@ -820,6 +870,7 @@ const ROUTES = [
   [/^#?\/?$/, () => homeView(), "home"],
   [/^#\/area\/([\w-]+)$/, m => domainView(m[1]), "home"],
   [/^#\/field\/([\w-]+)$/, m => fieldView(m[1]), "atlas"],
+  [/^#\/poi\/([\w-]+)$/, m => poiView(m[1]), "atlas"],
   [/^#\/path\/([\w-]+)$/, m => pathView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/map$/, m => mapView(m[1]), "home"],
   [/^#\/path\/([\w-]+)\/stage\/(\d+)$/, m => stageView(m[1], +m[2]), "home"],
@@ -865,6 +916,7 @@ async function route({ keepScroll = false } = {}) {
   if (/^#\/path\/[\w-]+$/.test(hash)) fillTrust(m[1]);
   if (/\/placement$/.test(hash)) mountPlacement(m[1]);
   if (/\/mastery$/.test(hash)) mountMastery(m[1]);
+  if (/^#\/field\//.test(hash)) mountPoiSection(m[1]);
 }
 const refresh = () => route({ keepScroll: true });
 
@@ -912,6 +964,8 @@ document.addEventListener("click", async e => {
   if (d.tlevel) { tour.level = +d.tlevel; document.querySelectorAll("#layer [data-tlevel]").forEach(b => { const on = +b.dataset.tlevel === tour.level; b.classList.toggle("on", on); b.setAttribute("aria-checked", on); }); return; }
   if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); const body = $("#atlasbody");
     if (body) { body.innerHTML = atlasBody(); } else { await refresh(); } $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
+  if ("poitype" in d) { poiv.type = d.poitype; poiv.n = 30; redrawPoi(); $(`[data-poitype="${d.poitype}"]`)?.focus(); return; }
+  if ("poimore" in d) { poiv.n += 60; redrawPoi(); return; }
   if (d.atlasview) { atlas.view = d.atlasview; atlas.open.clear(); refresh(); return; }
   if ("certimg" in d || "certshare" in d) {
     const card = $("[data-cert]"), cv = certCanvas(card), file = `ascent-${card.dataset.cert}-certificate.png`;
@@ -963,6 +1017,7 @@ document.addEventListener("keydown", e => {
 
 document.addEventListener("input", e => {
   if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlasbody").innerHTML = atlasBody(); }
+  if (e.target.id === "poiq") { poiv.q = e.target.value; poiv.n = 30; const pos = e.target.selectionStart; redrawPoi(); const i = $("#poiq"); i.focus(); i.setSelectionRange(pos, pos); }
   if (e.target.id === "certname") { const v = e.target.value.trim(); $(".certname").textContent = v || "Your name"; try { localStorage.setItem("ascent-certname", v); } catch { /* storage blocked */ } }
 });
 window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").focus({ preventScroll: true }); });
