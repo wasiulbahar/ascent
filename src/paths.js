@@ -5,7 +5,7 @@ export const AREAS = [
     disciplines: [
       { title: "Literature", paths: ["dostoevsky"] },
       { title: "History", paths: [] },
-      { title: "Philosophy", paths: [] },
+      { title: "Philosophy", paths: ["philosophy"] },
       { title: "Religion", paths: [] },
       { title: "Languages and linguistics", paths: [] },
     ] },
@@ -55,4 +55,5 @@ export const PATHS = [
   { slug: "dostoevsky", title: "Dostoevsky", color: "peach", icon: "book", domain: "Literature" },
   { slug: "classical-music", title: "Classical music", color: "lilac", icon: "music", domain: "Music" },
   { slug: "geopolitics", title: "Geopolitics", color: "sky", icon: "globe", domain: "Political science" },
+  { slug: "philosophy", title: "Philosophy", color: "butter", icon: "bulb", domain: "Philosophy" },
 ];
