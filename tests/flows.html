@@ -19,8 +19,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=18";
-import { PATHS } from "../src/paths.js?v=18";
+import { parsePath } from "../src/content.js?v=19";
+import { PATHS } from "../src/paths.js?v=19";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -207,6 +207,55 @@ const TESTS = {
     await go("#/path/physics");
     await until(() => /Certificate earned/.test($(".mastery-card")?.textContent || ""), "the mastery card to show it's earned");
     localStorage.removeItem("ascent-certname");
+  },
+  async "story cards: you can go back from the last card"() {
+    await fresh("#/path/history/work/h1");
+    (await until(() => $("[data-story]"), "the story button")).click();
+    await until(() => $("#layer .story"), "the first card");
+    for (let i = 0; i < 10 && $("#layer [data-step='1']"); i++) { $("#layer [data-step='1']").click(); await wait(350); }
+    const before = $("#layer .story").textContent;
+    ok($("#layer .linkbtn[data-step='-1']"), "the last card has a Back button");
+    $("#layer .linkbtn[data-step='-1']").click(); await wait(400);
+    ok($("#layer .story").textContent !== before, "Back shows the previous card");
+  },
+  async "settings: theme, and reset progress for one path"() {
+    await fresh("#/settings");
+    (await until(() => $("[data-theme-set='dark']"), "the theme choices")).click();
+    await until(() => doc().documentElement.dataset.theme === "dark", "dark theme applied");
+    $("[data-theme-set='system']").click();
+    await until(() => !doc().documentElement.dataset.theme, "back to the device setting");
+    localStorage.setItem("ascent-progress", JSON.stringify(["history:h1", "physics:ph1"]));
+    localStorage.setItem("ascent-attempts", JSON.stringify([{ path: "history", work_id: "h1", score: 4, total: 4, passed: true }, { path: "physics", work_id: "ph1", score: 4, total: 4, passed: true }]));
+    const loaded = new Promise(r => frame.addEventListener("load", r, { once: true })); frame.contentWindow.location.reload(); await loaded;
+    (await until(() => $("#resetpath"), "the reset choice")).value = "history";
+    $("[data-reset='ask']").click();
+    (await until(() => $("[data-reset='yes']"), "the Are you sure step")).click();
+    await until(() => !stored("ascent-progress").includes("history:h1"), "history progress cleared");
+    ok(stored("ascent-progress").includes("physics:ph1"), "other paths are kept");
+    ok(stored("ascent-attempts").every(a => a.path !== "history"), "history quiz scores cleared");
+    localStorage.removeItem("ascent-theme");
+  },
+  async "search everything from the home page"() {
+    await fresh("#/");
+    const q = await until(() => $("#homeq"), "the home search box");
+    q.value = "einstein"; $("#homesearch button").click();
+    await until(() => $("#searchres a[href='#/poi/albert-einstein']"), "Einstein in the results");
+    const s = $("#searchq"); s.value = "dostoevsky"; s.dispatchEvent(new Event("input", { bubbles: true }));
+    await until(() => $("#searchres a[href='#/path/dostoevsky']"), "the Dostoevsky path");
+    ok($$("#searchres a[href^='#/path/dostoevsky/work/']").length > 0, "his works too");
+    s.value = "genetics"; s.dispatchEvent(new Event("input", { bubbles: true }));
+    await until(() => $("#searchres a[href='#/field/genetics']"), "the genetics field");
+  },
+  async "placement questions name their work and skip lesson-only questions"() {
+    await fresh("#/path/economics/placement");
+    (await until(() => $("[data-placestart]"), "Start")).click();
+    for (let i = 0; i < 4; i++) {
+      await until(() => $(".qt"), "a question");
+      ok(/^About: /.test($(".qcard .from")?.textContent || ""), "each question says which work it is about");
+      ok(!/does the path|the path suggest|the task|the exercise/i.test($(".qt").textContent), `lesson-only question shown: ${$(".qt").textContent}`);
+      const o = $$("[data-opt]"); if (o.length) o[0].click(); else { $("#blank").value = "x"; $("#blank").dispatchEvent(new Event("input")); }
+      $("[data-check]").click(); (await until(() => $("[data-nextq]"), "Continue")).click(); await wait(80);
+    }
   },
   async "answer options are shuffled"() {
     await fresh();

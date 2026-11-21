@@ -1,7 +1,7 @@
 // Admin dashboard, reviewer portal and "Report a problem". The database's row-level security decides
 // what each person can read or change; these screens only show what it allows.
-import { sb, auth, isStaff, isReviewer } from "./auth.js?v=18";
-import { PATHS } from "./paths.js?v=18";
+import { sb, auth, isStaff, isReviewer } from "./auth.js?v=19";
+import { PATHS } from "./paths.js?v=19";
 
 let H; // helpers handed over by app.js: esc, C, ico, inline, getPath, toast, refresh
 export const useHelpers = h => (H = h);

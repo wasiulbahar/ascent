@@ -10,7 +10,7 @@ template: natural-sciences
 
 From the wonder of living things to the molecules, genes and ecosystems behind them. About 300 to 360 hours over twelve to fifteen months.
 
-**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. Excellent free material exists, including a complete university textbook and Darwin's own works. The path tells biology as a world story, including Jagadish Chandra Bose, the plant scientist born in what is now Bangladesh, and it faces the field's ethical questions directly. From Stage 2 some quizzes include short problems; you can type the number alone.
+**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. Excellent free material exists, including a complete university textbook and Darwin's own works. The path tells biology as a world story, and it faces the field's ethical questions directly. From Stage 2 some quizzes include short problems; you can type the number alone.
 
 # About biology
 
@@ -21,7 +21,7 @@ This path begins with great storytellers of life, builds the basics with free co
 **Trivia**
 - Every cell in your body (apart from red blood cells) carries about two metres of DNA, folded into a nucleus far too small to see.
 - Gregor Mendel worked out the laws of inheritance by breeding pea plants in a monastery garden, and published them in 1866. Almost nobody noticed until 1900.
-- Jagadish Chandra Bose, born in 1858 in what is now Bangladesh, built instruments so sensitive they could record the growth and responses of plants. He founded the Bose Institute in Kolkata in 1917.
+- In the early 1900s the Indian scientist Jagadish Chandra Bose built instruments sensitive enough to record the tiny growth and electrical responses of plants.
 - The mitochondria in your cells were once free-living bacteria, swallowed by another cell about two billion years ago.
 - Rosalind Franklin's X-ray image of DNA, "Photo 51", was key to discovering the double helix, but she was never awarded a Nobel prize.
 
@@ -29,7 +29,7 @@ This path begins with great storytellers of life, builds the basics with free co
 - **1665 · Cells** Robert Hooke sees and names cells under a microscope.
 - **1859 · Darwin** *On the Origin of Species* sets out evolution by natural selection.
 - **1866 · Mendel** The laws of inheritance, from pea plants.
-- **1917 · Bose Institute** Jagadish Chandra Bose's research institute opens in Kolkata.
+- **1977 · Reading DNA** Frederick Sanger and others develop methods to read the sequence of DNA.
 - **1928 · Penicillin** Alexander Fleming discovers the first antibiotic.
 - **1953 · DNA** The double helix, from the work of Watson, Crick, Franklin and Wilkins.
 - **1962 · Silent Spring** Rachel Carson starts the modern environmental movement.
@@ -418,7 +418,7 @@ A palaeontologist who helped find *Tiktaalik*, a 375-million-year-old fish with 
 **Multiple choice.** Where did Shubin's team find *Tiktaalik*?
 - In the Canadian Arctic ✓
 - In the Sahara
-- In Bangladesh
+- In Australia
 
 **Multiple choice.** What does Shubin say our hands came from?
 - Fish fins ✓
@@ -429,7 +429,7 @@ A palaeontologist who helped find *Tiktaalik*, a 375-million-year-old fish with 
 
 # Stage 4: Life Together
 level: Connoisseur
-intent: Ecology, biodiversity, behaviour, and a Bengali pioneer of plant science.
+intent: Ecology, biodiversity, behaviour, and a pioneer of plant science.
 gate: Score 70% or more across this stage's quizzes.
 
 Living things never live alone. This stage covers the book that started the environmental movement, the richness of life on Earth, the biology of human behaviour, and the life of Jagadish Chandra Bose.
@@ -511,23 +511,23 @@ One of the most popular lecture series online. Sapolsky, a neuroscientist who st
 **Multiple choice.** Where were the lectures given?
 - Stanford University ✓
 - Oxford
-- The University of Dhaka
+- The University of Tokyo
 
 ## The Life and Work of Sir Jagadis C. Bose
 - id: b16 · type: read · creator: Patrick Geddes · year: 1920 · length: about 8 hours
 - access: free | the 1920 edition is free on the Internet Archive
 
 ### Introduction
-Jagadish Chandra Bose, born in 1858 in Mymensingh, in what is now Bangladesh, was a pioneer twice over: first of radio waves, then of plant physiology. His delicate instruments, such as the crescograph, recorded the tiny growth and electrical responses of plants. The Scottish biologist and town planner Patrick Geddes wrote this biography while Bose was alive.
+Jagadish Chandra Bose (1858–1937), an Indian scientist, was a pioneer twice over: first of radio waves, then of plant physiology. His delicate instruments, such as the crescograph, recorded the tiny growth and electrical responses of plants. The Scottish biologist and town planner Patrick Geddes wrote this biography while Bose was alive.
 
 **Trivia**
 - Bose demonstrated wireless signals with microwaves in Kolkata in 1895, and chose not to patent most of his work.
 
 ### Quiz
-**Multiple choice.** Where was Jagadish Chandra Bose born?
-- In Mymensingh, in present-day Bangladesh ✓
-- In London
-- In Delhi
+**Multiple choice.** What did Bose choose not to do with most of his inventions?
+- Patent them ✓
+- Publish them
+- Demonstrate them
 
 **Multiple choice.** What did his crescograph record?
 - The tiny growth of plants ✓
@@ -751,7 +751,7 @@ In 1951 cells were taken from a poor Black woman's cancer, without her knowledge
 **Multiple choice.** At which hospital were the cells taken?
 - Johns Hopkins ✓
 - Guy's Hospital
-- Dhaka Medical College
+- The Karolinska Institute
 
 ## Reading current research
 - id: b24 · type: read · creator: *eLife*, bioRxiv and science news · length: ongoing

@@ -1,10 +1,10 @@
 // The knowledge taxonomy: a graph, not a tree. One entity per field; a field can have several
 // homes (parents). Data: data/taxonomy.json, built from the knowledge-base spec.
-import { PATHS } from "./paths.js?v=18";
+import { PATHS } from "./paths.js?v=19";
 
 let T = null;
 export async function loadTax() {
-  return T ||= indexTax(await (await fetch("data/taxonomy.json?v=18")).json());
+  return T ||= indexTax(await (await fetch("data/taxonomy.json?v=19")).json());
 }
 export function indexTax(d) {
   const ups = {}, downs = {}, inCol = {};
@@ -64,7 +64,7 @@ export const MAP_TYPE = { close: "about the same scope", broader: "a broader cat
 // data/poi/index.json, built by tools/build_poi.py; one record per item, several homes allowed.
 const slugify = s => s.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 let P = null;
-export async function loadPoi() { return P ||= indexPoi(await (await fetch("data/poi/index.json?v=18")).json()); }
+export async function loadPoi() { return P ||= indexPoi(await (await fetch("data/poi/index.json?v=19")).json()); }
 export function indexPoi(d) {
   const items = d.items.map(([n, ty, h, id, rv]) => ({ id: id || slugify(n), n, ty: d.meta.types[ty], h: h.map(i => d.meta.homes[i]), rv: !!rv }));
   const byField = {};
@@ -86,7 +86,7 @@ export function searchPoi(p, q, limit = 20) {
 const details = {};
 export async function poiDetail(id) {
   const k = /^[a-z]/.test(id) ? id[0] : "0";
-  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=18`)).json();
+  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=19`)).json();
   return details[k][id];
 }
 export const POI_LABEL = { person: "Person", event: "Event", place: "Place", work: "Work", invention: "Invention or technology", law: "Law or legal text", species: "Species or organism", concept: "Concept or idea", institution: "Institution", object: "Object" };

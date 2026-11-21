@@ -10,7 +10,7 @@ template: humanities-social
 
 From gripping stories of the past to the arguments historians have about them. About 220 to 260 hours over nine to twelve months.
 
-**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. This is a path through world history, not one country's: it moves between China, the Islamic world, South Asia, Africa, Europe and the Americas, and gives a special thread to Bengal and the making of Bangladesh. It also teaches the historian's craft: how to read a source, and why historians disagree.
+**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. This is a path through world history, not one country's: it moves between China, the Islamic world, South Asia, Africa, Europe and the Americas. It also teaches the historian's craft: how to read a source, and why historians disagree.
 
 # About history
 
@@ -21,7 +21,7 @@ This path begins with the great storytellers, then teaches you how historians ac
 **Trivia**
 - Herodotus has been called both "the father of history" and "the father of lies", for including fabulous tales alongside careful research.
 - The great Chinese historian Sima Qian was castrated as punishment for defending a disgraced general, and chose to live on to finish his history.
-- The traveller Ibn Battuta reached Bengal in the 1340s and visited the Sufi saint Shah Jalal in Sylhet.
+- The traveller Ibn Battuta covered about 117,000 kilometres in the fourteenth century, far more than Marco Polo.
 - The word "loot" came into English from Hindustani, through the East India Company's conquests in India.
 - Fernand Braudel wrote much of his masterpiece on the Mediterranean from memory, as a prisoner of war in Germany.
 
@@ -35,7 +35,7 @@ This path begins with the great storytellers, then teaches you how historians ac
 - **1789–1848 · The age of revolution** The French and Industrial Revolutions transform politics and work.
 - **1914–1945 · The world wars** Two world wars, the Great Depression and the Holocaust.
 - **1947 · Partition** British India is divided into India and Pakistan.
-- **1971 · Bangladesh** East Pakistan becomes Bangladesh after a war of liberation.
+- **1960 · The Year of Africa** Seventeen African countries become independent in a single year.
 - **1989–1991 · The end of the Cold War** The Berlin Wall falls and the Soviet Union breaks up.
 
 # What you will be able to do
@@ -45,7 +45,7 @@ At the end of this path you will know history the way a good university introduc
 - **Place events in time and place** across five thousand years and every continent.
 - **Read a primary source critically:** who wrote it, when, for whom, and what they left out.
 - **Explain how historians work,** and the main schools: narrative history, Marxist history, the Annales school, microhistory, global history and postcolonial history.
-- **Know the history of South Asia and Bengal,** from the Persianate world to Plassey, Partition and 1971.
+- **Know the history of empire and decolonisation,** across Asia, Africa and the Americas.
 - **Have read at least five major historians,** including one whose views most scholars reject (Ferguson on empire) and one who challenges the field's centre (Chakrabarty).
 - **For the Mastery certificate:** have written the Scholar challenges and passed the final mastery check.
 
@@ -313,7 +313,7 @@ level: Reader
 intent: China, the Islamic world, Europe and South Asia, told by their own historians and modern scholars.
 gate: Score 70% or more across this stage's quizzes.
 
-This stage travels across two thousand years and three continents: China's first great historian, a Moroccan who crossed the known world and reached Bengal, medieval Europe re-imagined by a leading scholar, and South Asia in the age when Persian was the language of power from Istanbul to Bengal.
+This stage travels across two thousand years and three continents: China's first great historian, a Moroccan who crossed the known world, medieval Europe re-imagined by a leading scholar, and South Asia in the age when Persian was a language of power from Istanbul to India.
 
 ## Records of the Grand Historian (selections)
 - id: h9 · type: read · creator: Sima Qian · year: c. 94 BCE · length: about 6 hours for selections
@@ -356,7 +356,7 @@ China's first great history, covering about two thousand years from legendary ru
 A young man from Tangier sets out on pilgrimage to Mecca in 1325 and keeps travelling for nearly thirty years: across North Africa, Arabia, Persia, Central Asia, India, Bengal, the Maldives and China. His account is one of the great windows onto the medieval Islamic world, and onto Bengal in the fourteenth century.
 
 **Trivia**
-- He visited the Sufi saint Shah Jalal in Sylhet, in what is now Bangladesh.
+- The Sultan of Morocco had his memories written down by the scholar Ibn Juzayy.
 - He served for years as a judge in Delhi, and later in the Maldives.
 
 ### Quiz
@@ -365,10 +365,10 @@ A young man from Tangier sets out on pilgrimage to Mecca in 1325 and keeps trave
 - Baghdad
 - Delhi
 
-**Multiple choice.** Which saint did he visit in Sylhet?
-- Shah Jalal ✓
-- Rumi
-- Nizamuddin
+**Multiple choice.** About how far did Ibn Battuta travel?
+- About 117,000 kilometres ✓
+- About 1,000 kilometres
+- About 10,000 kilometres
 
 **Fill in the blank.** Ibn Battuta set out on pilgrimage in ___. [answer: 1325]
 
@@ -437,7 +437,7 @@ Compare how Herodotus and Sima Qian decided what was true. What did each trust, 
 
 # Stage 4: The Making of the Modern World
 level: Connoisseur
-intent: Revolutions, empire and slavery, from Europe, the Atlantic and Bengal.
+intent: Revolutions, empire and slavery, from Europe, the Atlantic and India.
 gate: Score 70% or more across this stage's quizzes.
 
 How did the modern world come about, and at whose expense? This stage pairs a Marxist classic on the age of revolution with a global history of the same years, then turns to the East India Company's conquest of Bengal and to a Caribbean historian's argument about slavery and British wealth.
@@ -553,7 +553,7 @@ A Trinidadian historian argues that profits from Caribbean slavery helped financ
 - Forgotten
 
 ### Scholar challenge (optional)
-Was British rule in Bengal mainly a story of trade, or of conquest? Use Dalrymple and Eaton, and at least one primary source. (500 words. Required for the Mastery certificate.)
+Was British rule in India mainly a story of trade, or of conquest? Use Dalrymple and Eaton, and at least one primary source. (500 words. Required for the Mastery certificate.)
 
 ---
 
@@ -824,7 +824,7 @@ Choose a period or place from this path, and find three recent research articles
 
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words, engaging two historians. Required for the Mastery certificate, where it becomes the capstone essay.
-1. Answer Ferguson: did the British Empire do more good than harm in Bengal? Use Dalrymple, Chakrabarty and a primary source.
+1. Answer Ferguson: did the British Empire do more good than harm in India? Use Dalrymple, Chakrabarty and a primary source.
 2. Is global history better than national history? Use Bayly and one critic.
 3. Which matters more for understanding the past: Braudel's long timescales, or Davis's single stories?
 
@@ -838,7 +838,7 @@ Finishing all six stages makes you a capable reader of history. To earn the **As
 2. **Timeline test.** Put 20 events from five continents in order, and say what links three of them.
 3. **Source analysis.** Analyse an unseen primary source: author, date, audience, purpose, and what it leaves out.
 4. **Capstone essay.** 2,500 words on one of the Stage 6 questions, marked against the rubric. Strong essays are read by an expert reviewer.
-5. **Explain it.** Answer three unseen questions as if to a curious friend. For example: "How did a trading company end up ruling Bengal?"
+5. **Explain it.** Answer three unseen questions as if to a curious friend. For example: "How did a trading company end up ruling much of India?"
 
 The certificate needs every stage passed. Stages you continued past with a warning must be completed first.
 

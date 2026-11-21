@@ -899,7 +899,7 @@ The dissent. An Australian economist argues that mainstream economics is built o
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words, engaging two economists. Required for the Mastery certificate, where it becomes the capstone essay.
 1. Rodrik against Keen: is mainstream economics a useful library of models, or built on flawed foundations?
-2. Should a country like Bangladesh follow free trade, or Chang's history of protection? Use evidence.
+2. Should a low-income country today follow free trade, or Chang's history of protection? Use evidence from at least two countries.
 3. Can growth continue on a finite planet? Use Raworth and one economist who disagrees.
 
 ---

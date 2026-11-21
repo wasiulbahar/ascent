@@ -20,7 +20,7 @@ This path starts with physicists who write beautifully about big ideas, then bui
 
 **Trivia**
 - Isaac Newton said he could see further only "by standing on the shoulders of giants".
-- The Bengali physicist Satyendra Nath Bose worked out the statistics of light particles in 1924 while teaching at the University of Dhaka. Einstein translated his paper into German, and the particles called bosons are named after him.
+- The Indian physicist Satyendra Nath Bose worked out a new way to count particles of light in 1924. Einstein translated his paper into German, and the particles called bosons are named after him.
 - GPS satellites have to correct for both special and general relativity. Without the corrections, positions would drift by kilometres a day.
 - Ibn al-Haytham, working in Cairo around 1020, argued that we see because light enters the eye, and tested his ideas with experiments.
 - In 1918 Emmy Noether proved that every symmetry in nature comes with a conservation law: energy, momentum and charge are conserved because of symmetries.
@@ -32,7 +32,7 @@ This path starts with physicists who write beautifully about big ideas, then bui
 - **1865 · Maxwell** Electricity, magnetism and light united in four equations.
 - **1905 · Einstein's miracle year** Special relativity, E = mc² and the light quantum.
 - **1915 · General relativity** Gravity as the curvature of spacetime.
-- **1924 · Bose** Bose's paper from Dhaka, the start of Bose–Einstein statistics.
+- **1924 · Bose–Einstein statistics** Bose's new way of counting particles of light, extended by Einstein.
 - **1925–27 · Quantum mechanics** Heisenberg, Schrödinger and the uncertainty principle.
 - **1964 · The Higgs mechanism** Proposed by several physicists; the Higgs boson is found at CERN in 2012.
 - **2015 · Gravitational waves** First detected by LIGO, a century after Einstein predicted them.
@@ -429,7 +429,7 @@ gate: Score 70% or more across this stage's quizzes.
 In the early 1900s classical physics broke in two places: at very high speeds, and at very small sizes. Einstein's relativity fixed the first, quantum mechanics the second. This stage gives you Einstein's own popular book, a free course that teaches physics the way physicists think, Feynman's account of light and matter, and the standard quantum mechanics textbook.
 
 **Trivia**
-- In 1924 Satyendra Nath Bose, a young lecturer at the University of Dhaka, sent Einstein a paper that derived Planck's law for light by counting photons in a new way. Einstein translated it into German and extended the idea; the result is Bose–Einstein statistics.
+- In 1924 Satyendra Nath Bose, a young lecturer in India, sent Einstein a paper that derived Planck's law for light by counting photons in a new way. Einstein translated it into German and extended the idea; the result is Bose–Einstein statistics.
 
 ## Relativity: The Special and the General Theory
 - id: ph13 · type: read · creator: Albert Einstein · year: 1916 (English 1920) · length: about 5 hours
