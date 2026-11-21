@@ -1,7 +1,7 @@
 // Admin dashboard, reviewer portal and "Report a problem". The database's row-level security decides
 // what each person can read or change; these screens only show what it allows.
-import { sb, auth, isStaff, isReviewer } from "./auth.js?v=7";
-import { PATHS } from "./paths.js?v=7";
+import { sb, auth, isStaff, isReviewer } from "./auth.js?v=9";
+import { PATHS } from "./paths.js?v=9";
 
 let H; // helpers handed over by app.js: esc, C, ico, inline, getPath, toast, refresh
 export const useHelpers = h => (H = h);
@@ -67,7 +67,7 @@ const ADMIN = {
     if (!flags.length) return `<p class="soon">No reports yet. Learners report problems with the "Report a problem" button on every lesson.</p>`;
     const titles = Object.fromEntries((await Promise.all(PATHS.map(async m => (await H.getPath(m.slug)).works.map(w => [`${m.slug}:${w.id}`, w.title])))).flat());
     return `<div class="list">${flags.map(f => `<div class="item ${f.status}">
-      <div class="row" style="justify-content:space-between"><b>${H.esc(f.category)} · ${H.esc(PATHS.find(m => m.slug === f.path)?.title || f.path)}${f.work_id ? ` › ${H.esc(titles[`${f.path}:${f.work_id}`] || f.work_id)}` : ""}</b><span class="chip ${f.status === "open" ? "warn" : f.status === "resolved" ? "ok" : ""}">${H.esc(f.status)}</span></div>
+      <div class="row" style="justify-content:space-between"><b>${H.esc(f.category)} · ${H.esc(f.path === "app" ? "App feedback" : PATHS.find(m => m.slug === f.path)?.title || f.path)}${f.work_id ? ` › ${H.esc(titles[`${f.path}:${f.work_id}`] || f.work_id)}` : ""}</b><span class="chip ${f.status === "open" ? "warn" : f.status === "resolved" ? "ok" : ""}">${H.esc(f.status)}</span></div>
       ${f.note ? `<p>${H.esc(f.note)}</p>` : ""}<small class="muted">From ${who(P[f.user_id])} · ${day(f.created_at)}${f.resolution ? ` · Decision: ${H.esc(f.resolution)}` : ""}</small>
       ${f.status === "open" || f.status === "consulting" ? `<div class="row"><input type="text" id="res-${f.id}" placeholder="What did you decide? (optional)" aria-label="Decision note">
         <button class="btn small" type="button" data-flag="${f.id}" data-to="resolved">Resolve</button><button class="btn small ghost" type="button" data-flag="${f.id}" data-to="consulting">Consult the expert</button><button class="btn small ghost" type="button" data-flag="${f.id}" data-to="dismissed">Dismiss</button></div>` : ""}
@@ -164,15 +164,18 @@ export async function reviewView(slug) {
 
 // --- report a problem (learners) ----------------------------------------------------------
 const CATEGORIES = ["Factual error", "Wrong order", "Too hard at this point", "Broken or unavailable link", "Other"];
+const FEEDBACK = ["Something I liked", "Something confusing", "Something broken", "An idea"];
+// slug "app" turns the sheet into general feedback about Ascent itself
 export function openReport(slug, workId) {
+  const fb = slug === "app", title = fb ? "Send feedback" : "Report a problem";
   const body = auth.user
     ? `<form id="reportform" class="stack" style="gap:12px" novalidate data-path="${slug}" data-work="${workId || ""}">
-        <div class="field"><label for="cat">What kind of problem?</label><select id="cat">${CATEGORIES.map(c => `<option>${c}</option>`).join("")}</select></div>
-        <div class="field"><label for="note">What should we know?</label><textarea id="note" rows="4" placeholder="For example: the date in the second fact looks wrong."></textarea></div>
+        <div class="field"><label for="cat">${fb ? "What's it about?" : "What kind of problem?"}</label><select id="cat">${(fb ? FEEDBACK : CATEGORIES).map(c => `<option>${c}</option>`).join("")}</select></div>
+        <div class="field"><label for="note">${fb ? "Tell us more" : "What should we know?"}</label><textarea id="note" rows="4" placeholder="${fb ? "For example: I loved the story cards, but the quiz button was hard to find." : "For example: the date in the second fact looks wrong."}"></textarea></div>
         <p class="err" id="rerr" hidden></p>
         <button class="btn" type="submit">Send to the editors</button><button class="btn ghost" type="button" data-close>Cancel</button></form>`
     : `<p>Sign in so the editors can follow up with you.</p><a class="btn" href="#/signin" data-close>Sign in</a><button class="btn ghost" type="button" data-close>Cancel</button>`;
-  document.querySelector("#layer").innerHTML = `<div class="scrim" data-close></div><div class="sheet enter" role="dialog" aria-modal="true" aria-label="Report a problem"><div class="grab"></div><h2>Report a problem</h2>${body}</div>`;
+  document.querySelector("#layer").innerHTML = `<div class="scrim" data-close></div><div class="sheet enter" role="dialog" aria-modal="true" aria-label="${title}"><div class="grab"></div><h2>${title}</h2>${body}</div>`;
 }
 
 // --- events for all of the above ------------------------------------------------------------

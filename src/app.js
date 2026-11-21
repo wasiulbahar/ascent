@@ -1,10 +1,10 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, norm } from "./content.js?v=7";
-import { PATHS, AREAS } from "./paths.js?v=7";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=7";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=7";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=7";
-import { pathStatuses, PASS_MARK } from "./status.js?v=7";
+import { parsePath, norm } from "./content.js?v=9";
+import { PATHS, AREAS } from "./paths.js?v=9";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=9";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=9";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=9";
+import { pathStatuses, PASS_MARK } from "./status.js?v=9";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -44,7 +44,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=7`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=9`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -97,7 +97,47 @@ async function homeView() {
         return `<a class="card" href="#/area/${a.slug}" style="${C(a.color)}">${ico(a.icon)}
         <div style="display:grid;gap:6px"><h2>${esc(a.title)}</h2><small>${esc(a.blurb)}</small><small>${k ? `${k} path${k > 1 ? "s" : ""} ready` : "Coming soon"}</small></div></a>`; }).join("")}</div>
     </section>
+    ${footer()}
   </div>`;
+}
+const footer = () => `<footer class="foot"><a href="#/privacy">Privacy</a><button class="linkbtn" type="button" data-feedback>Send feedback</button><button class="linkbtn" type="button" data-welcome>How Ascent works</button></footer>`;
+
+function privacyView() {
+  return `<div class="stack prose"><div class="crumbs"><a href="#/">Home</a>›<span>Privacy</span></div><h1>Your privacy</h1>
+    <p>Ascent keeps only what it needs to remember your progress. It doesn't show adverts, and nothing about you is sold or shared with anyone.</p>
+    <h2>What's stored</h2><ul>
+      <li><b>Your email address</b>, so you can sign in with a link. There are no passwords.</li>
+      <li><b>Your progress:</b> the works you tick off, your quiz scores, and stages you continue past.</li>
+      <li><b>What you choose to send:</b> problem reports, feedback and, if you review paths, your name, affiliation and comments.</li></ul>
+    <h2>Who can see it</h2><ul>
+      <li>You can see everything about yourself.</li>
+      <li>Ascent's editors can see progress and quiz results, to improve the paths (for example, where people get stuck).</li>
+      <li>If you endorse a path as a reviewer, learners see your name and affiliation. They never see your email.</li></ul>
+    <h2>Where it's kept</h2><p>Accounts and progress are stored with Supabase, a database service. Texts and images load from this site; fonts load from Google Fonts. If you're not signed in, your progress stays only in this browser.</p>
+    <h2>Deleting your account</h2><p>You can delete your account at any time from your <a href="#/account">account page</a>. That permanently removes your email, progress, scores, reports and reviews. Editors' records of decisions stay, without your name attached.</p>
+    <h2>Questions</h2><p>Use <button class="linkbtn" type="button" data-feedback>Send feedback</button> and we'll reply.</p>
+  </div>`;
+}
+
+// --- welcome cards, shown once on a first visit ---------------------------------------
+const WELCOME = [
+  ["Welcome to Ascent", "Pick a subject, and Ascent guides you from works anyone can enjoy all the way to the level of a university seminar."],
+  ["One step at a time", "Every work is a short lesson: a story to start, the work itself, a guide to understand it, and a quick quiz."],
+  ["Go as deep as you like", "Pass a stage's quizzes to open the next one. Experts check each path before it's marked as endorsed."],
+];
+const welcome = { n: 0 };
+function openWelcome() {
+  welcome.n = 0;
+  $("#layer").innerHTML = `<div class="scrim" data-close data-welcomedone></div><div class="full enter" style="${C("lilac")}" role="dialog" aria-modal="true" aria-label="Welcome to Ascent">
+    <div class="segs">${WELCOME.map((_, k) => `<i class="${k === 0 ? "on" : ""}"></i>`).join("")}</div>
+    <div class="fullhead"><small style="font-weight:700">Ascent</small><button class="close" type="button" data-close data-welcomedone aria-label="Close">${ico("x")}</button></div>
+    <div class="cardslot">${welcomeCard()}</div></div>`;
+}
+function welcomeCard() {
+  const [h, p] = WELCOME[welcome.n], last = welcome.n === WELCOME.length - 1;
+  return `<div class="story"><span class="medal small">${ico(["logo", "play", "trophy"][welcome.n])}</span><h2>${h}</h2><div class="storytxt"><p>${p}</p></div></div>
+    <div class="row" style="flex-direction:column">${last ? `<button class="btn" type="button" data-close data-welcomedone>Let's start</button>${!auth.user && sb ? `<a class="btn ghost" href="#/signin" data-close data-welcomedone>Sign in to save progress</a>` : ""}`
+      : `<button class="btn" type="button" data-wnext>Next</button>`}</div>`;
 }
 
 async function areaView(slug) {
@@ -498,7 +538,10 @@ async function accountView() {
       ${"affiliation" in pr ? `<div class="field"><label for="paff">Affiliation</label><input id="paff" value="${esc(pr.affiliation || "")}" placeholder="For example: Lecturer in musicology, University of Dhaka"></div>` : ""}
       <button class="btn ghost" type="submit">Save</button></form>` : ""}
     ${apply}
-    <button class="btn ghost" id="signout" type="button">Sign out</button></div>`;
+    <button class="btn ghost" id="signout" type="button">Sign out</button>
+    <details class="danger"><summary>Delete my account</summary><p>This permanently deletes your email, progress, quiz scores, reports and reviews. It can't be undone.</p>
+      <button class="btn small" type="button" data-deleteme>Yes, delete my account</button></details>
+    ${footer()}</div>`;
 }
 const notFound = () => `<div class="stack"><h1>Page not found</h1><p><a href="#/">Go to the home page</a></p></div>`;
 
@@ -528,6 +571,7 @@ const ROUTES = [
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
   [/^#\/review(?:\/([\w-]+))?$/, m => reviewView(m[1]), "review"],
+  [/^#\/privacy$/, () => privacyView(), "home"],
   [/^#\/signin$/, () => signinView(), "account"],
   [/^#\/account$/, () => accountView(), "account"],
 ];
@@ -595,7 +639,20 @@ document.addEventListener("submit", async e => {
 document.addEventListener("click", async e => {
   const t = e.target.closest("button, a, [data-close]"); if (!t) return;
   const d = t.dataset, slug = (location.hash.match(/#\/path\/([\w-]+)/) || [])[1];
+  if (t.classList.contains("skip")) { e.preventDefault(); $("#view").focus(); return; }
   if (t.id === "signout") { await signOut(); toast("Signed out"); location.hash = "#/"; return; }
+  if ("welcomedone" in d) { try { localStorage.setItem("ascent-welcomed", "1"); } catch { /* storage blocked */ } }
+  if ("welcome" in d) { openWelcome(); return; }
+  if ("wnext" in d) { welcome.n++; const f = $("#layer .full"); f.querySelectorAll(".segs i").forEach((s, k) => s.classList.toggle("on", k <= welcome.n));
+    const slot = f.querySelector(".cardslot"); slot.innerHTML = welcomeCard(); slot.classList.remove("in-next"); void slot.offsetWidth; slot.classList.add("in-next"); return; }
+  if ("feedback" in d) { openReport("app", null); return; }
+  if ("deleteme" in d) {
+    t.disabled = true; t.textContent = "Deleting…";
+    const { error } = await sb.rpc("delete_my_account");
+    if (error) { toast(`Couldn't delete: ${error.message}`); t.disabled = false; t.textContent = "Yes, delete my account"; return; }
+    try { ["ascent-progress", "ascent-attempts", "ascent-skips", "ascent-visited"].forEach(k => localStorage.removeItem(k)); } catch { /* storage blocked */ }
+    await signOut(); toast("Your account has been deleted"); location.hash = "#/"; return;
+  }
   if (d.done) {
     const was = isDone(slug, d.done);
     try { await setDone(slug, d.done, !was); } catch (err) { toast(`Couldn't save: ${err.message}`); return; }
@@ -629,8 +686,13 @@ document.addEventListener("keydown", e => {
   if ($("#layer .full") && (e.key === "ArrowRight" || e.key === "ArrowLeft")) $(`[data-step="${e.key === "ArrowRight" ? 1 : -1}"]`)?.click();
 });
 
-window.addEventListener("hashchange", () => { closeLayer(); route(); });
+window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").focus({ preventScroll: true }); });
+// installable app and offline reading (sw.js), over https or on this computer
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
+const showOnline = () => ($("#offline").hidden = navigator.onLine);
+addEventListener("online", showOnline); addEventListener("offline", showOnline); showOnline();
 useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() });
 await initAuth(async () => { await Promise.all([loadProgress(), loadProfile()]); route({ keepScroll: true }); });
 await Promise.all([loadProgress(), loadProfile()]);
 route();
+try { if (!localStorage.getItem("ascent-welcomed") && !location.hash.startsWith("#/path/")) openWelcome(); } catch { /* storage blocked: skip the welcome */ }
