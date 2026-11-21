@@ -1,7 +1,7 @@
 // Admin dashboard, reviewer portal and "Report a problem". The database's row-level security decides
 // what each person can read or change; these screens only show what it allows.
-import { sb, auth, isStaff, isReviewer } from "./auth.js?v=13";
-import { PATHS } from "./paths.js?v=13";
+import { sb, auth, isStaff, isReviewer } from "./auth.js?v=14";
+import { PATHS } from "./paths.js?v=14";
 
 let H; // helpers handed over by app.js: esc, C, ico, inline, getPath, toast, refresh
 export const useHelpers = h => (H = h);
@@ -103,10 +103,15 @@ const ADMIN = {
       const reached = p.stages.map(s => new Set(pr.filter(r => s.works.some(w => w.id === r.work_id)).map(r => r.user_id)).size);
       const fails = p.works.map(w => ({ w, n: at.filter(a => a.work_id === w.id && !a.passed).length, t: at.filter(a => a.work_id === w.id).length })).filter(x => x.n).sort((a, b) => b.n - a.n).slice(0, 5);
       const sk = skips.filter(s => s.path === m.slug);
+      // placement test: where each taker landed (first stage whose placement section they never passed)
+      const pl = at.filter(a => a.work_id.startsWith("placement-s")), takers = [...new Set(pl.map(a => a.user_id))];
+      const landed = takers.map(u => { let n = 1; while (pl.some(a => a.user_id === u && a.passed && a.work_id === `placement-s${n}`)) n++; return n; });
+      const landCounts = [...new Set(landed)].sort((a, b) => a - b).map(n => `${n > p.stages.length ? "placed out of every stage" : `Stage ${n}`} (${landed.filter(x => x === n).length})`);
       return `<section class="section"><h2>${H.esc(m.title)}</h2><p class="muted">${started} ${started === 1 ? "person has" : "people have"} started.</p>
         <p class="label" style="margin:0">How far people get (ticked at least one work in the stage)</p>
         <div class="bars">${p.stages.map((s, i) => `<div class="hbar"><span>Stage ${s.num}</span><div class="track"><i style="width:${(reached[i] / started) * 100}%"></i></div><em>${reached[i]}</em></div>`).join("")}</div>
         ${fails.length ? `<p class="label" style="margin:0">Quizzes failed most often</p><ul>${fails.map(f => `<li>${H.esc(f.w.title)}: ${f.n} of ${f.t} attempts failed</li>`).join("")}</ul>` : ""}
+        ${takers.length ? `<p class="muted">Placement test: ${takers.length} ${takers.length === 1 ? "person" : "people"} took it. Where they started: ${landCounts.join(", ")}.</p>` : ""}
         ${sk.length ? `<p class="muted">Stages continued past without passing: ${p.stages.map(s => [s, sk.filter(x => x.stage === s.num).length]).filter(([, n]) => n).map(([s, n]) => `Stage ${s.num} (${n})`).join(", ")}</p>` : ""}</section>`;
     }));
     return blocks.join("");

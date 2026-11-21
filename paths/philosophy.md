@@ -194,10 +194,10 @@ A fast, funny video series that introduces the main questions of philosophy, fro
 - About two hours
 - About one minute
 
-**Multiple choice.** What does it cost to watch?
-- It's free ✓
-- A monthly subscription
-- A one-off fee
+**Multiple choice.** The question of how we know anything belongs to which branch of philosophy?
+- Epistemology ✓
+- Aesthetics
+- Ethics
 
 **Multiple choice.** Which famous moral puzzle about a runaway train does the series cover?
 - The trolley problem ✓
@@ -349,10 +349,10 @@ One of the most famous university courses in the world, filmed in a packed Harva
 - *A Theory of Justice*
 - *The Republic*
 
-**Multiple choice.** What does the course cost?
-- It's free ✓
-- A university fee
-- A monthly subscription
+**Multiple choice.** Which of these philosophers does Sandel's course cover?
+- Kant ✓
+- Nietzsche
+- Wittgenstein
 
 ---
 
@@ -864,10 +864,10 @@ A podcast that tries to cover the whole history of philosophy, leaving nothing o
 - Nigel Warburton
 - Michael Sandel
 
-**Multiple choice.** What does it cost?
-- It's free ✓
-- A subscription
-- A university fee
+**Multiple choice.** About how long is a typical episode?
+- About twenty minutes ✓
+- About three hours
+- About one minute
 
 **Multiple choice.** Which of these traditions does it give a full series to?
 - Africana philosophy ✓

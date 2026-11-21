@@ -198,7 +198,7 @@ const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 /* published: files sit beside the page; local copy: page is in review/, so step up one folder */
 let BASE="";
 /* every path draft this page can show; the hash picks one (#dostoevsky, #classical-music) */
-const PATHS=[["dostoevsky","Dostoevsky"],["classical-music","Classical music"],["geopolitics","Geopolitics"],["philosophy","Philosophy"],["economics","Economics"],["history","History"]];
+const PATHS=[["dostoevsky","Dostoevsky"],["classical-music","Classical music"],["geopolitics","Geopolitics"],["philosophy","Philosophy"],["economics","Economics"],["history","History"],["physics","Physics"],["mathematics","Mathematics"],["biology","Biology"]];
 const current=()=>PATHS.find(p=>p[0]===location.hash.slice(1))?.[0]||PATHS[0][0];
 async function load(slug){
   for(const [u,b] of [[slug+".md",""],["../paths/"+slug+".md","../"]]){try{const r=await fetch(u);if(r.ok){BASE=b;return await r.text()}}catch(e){}}
@@ -263,11 +263,12 @@ function buildQuiz(txt){
       let why=kids[i+2]?.tagName==="BLOCKQUOTE"?kids[i+2].innerHTML:"";
       const opts=[...next.children].map(li=>{const c=li.cloneNode(true);const inner=c.querySelector("blockquote");
         if(inner){why=inner.innerHTML;inner.remove()}return {html:c.innerHTML.replace("✓","").trim(),ok:li.textContent.includes("✓")}});
+      for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]]} // written correct-first
       qs.push({kind:"Multiple choice",q:el.innerHTML.replace(/^<strong>[^<]*<\/strong>\s*/,""),opts,why});
     }else if(label==="Fill in the blank."){
       const m=el.innerHTML.match(/\[answer:\s*([^\]]+)\]/);if(!m)return;
       const bq=next?.tagName==="BLOCKQUOTE"?next:null;
-      qs.push({kind:"Fill in the blank",q:el.innerHTML.replace(/^<strong>[^<]*<\/strong>\s*/,"").replace(m[0],"").trim(),answers:m[1].split("/").map(norm),shown:m[1].trim(),why:bq?bq.innerHTML:""});
+      qs.push({kind:"Fill in the blank",q:el.innerHTML.replace(/^<strong>[^<]*<\/strong>\s*/,"").replace(m[0],"").trim(),answers:m[1].split("/").filter(x=>!/^\s*-?\d+(\.\d+)?\s*$/.test(x)).map(norm),shown:m[1].split("/")[0].trim(),num:/^\s*-?\d+(\.\d+)?\s*$/.test(m[1].split("/")[0])?Number(m[1].split("/")[0]):null,why:bq?bq.innerHTML:""});
     }
   });
   if(!qs.length)return;
@@ -297,7 +298,7 @@ function buildQuiz(txt){
     }else{
       d.innerHTML=`<span class="kind">${q.kind}</span><div class="qt">${q.q.replace("⟦blank⟧",'<input type="text" aria-label="Your answer" autocomplete="off">')}<button type="button" class="go">Check</button></div>`;
       const inp=d.querySelector("input"),go=d.querySelector(".go");
-      const check=()=>{if(!inp.value.trim()){inp.focus();return}const ok=q.answers.includes(norm(inp.value));
+      const check=()=>{if(!inp.value.trim()){inp.focus();return}const ok=q.answers.includes(norm(inp.value))||(q.num!==null&&parseFloat(inp.value.replace(/,/g,""))===q.num);
         inp.disabled=go.disabled=true;inp.classList.add(ok?"right":"wrong");answer(ok,`“${q.shown}”`)};
       go.addEventListener("click",check);inp.addEventListener("keydown",e=>{if(e.key==="Enter")check()});
     }

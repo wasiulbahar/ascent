@@ -144,10 +144,10 @@ Two historians chat, argue and joke their way through every period of the past, 
 - 1995
 - 2010
 
-**Multiple choice.** What does it cost?
-- It's free ✓
-- A subscription
-- A one-off fee
+**Multiple choice.** Which periods does the podcast cover?
+- Every period, from ancient Egypt to the Beatles ✓
+- Only the Second World War
+- Only ancient Rome
 
 **Multiple choice.** How does the path suggest using it?
 - Pick series on periods the path covers ✓
@@ -268,15 +268,15 @@ A fast, funny tour of world history from the agricultural revolution to globalis
 - About three hours
 - About one minute
 
-**Multiple choice.** How does the path suggest using it?
-- As a map before unfamiliar periods ✓
-- Instead of reading
-- Only at the end
+**Multiple choice.** When does the path suggest watching an episode?
+- Before a period that feels unfamiliar ✓
+- Instead of reading the books
+- Only at the end of the path
 
-**Multiple choice.** What does it cost?
-- It's free ✓
-- A subscription
-- A one-off fee
+**Multiple choice.** What span of history does the series cover?
+- From the agricultural revolution to globalisation ✓
+- Only the twentieth century
+- Only ancient Greece
 
 ## Internet History Sourcebooks
 - id: h8 · type: course · creator: Fordham University · length: about 6 hours of practice
@@ -301,10 +301,10 @@ A large free collection of primary sources in translation: laws, letters, chroni
 - One
 - Fifty
 
-**Multiple choice.** What does the collection cost?
-- It's free ✓
-- A subscription
-- A one-off fee
+**Multiple choice.** Which university runs the Internet History Sourcebooks?
+- Fordham University ✓
+- The University of Tokyo
+- The Sorbonne
 
 ---
 

@@ -1,0 +1,165 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ascent flow tests</title>
+<!--
+  Click-through tests for the main learner flows, run against the real app in a frame.
+  Serve the project folder (the "ascent" preview, port 8796) and open /tests/flows.html.
+  Signed out only: it clears this browser's signed-out Ascent progress, and refuses to run
+  if a signed-in session exists here, so it can never write to a real account.
+  Result: the list below, and document.title becomes "PASS n/n" or "FAIL k/n".
+-->
+<style>
+  body{font:15px/1.5 system-ui,sans-serif;margin:16px;background:#fff;color:#222}
+  li.ok::marker{content:"✓  ";color:#1a7f37} li.no::marker{content:"✗  ";color:#c62828} li.no{color:#c62828}
+  iframe{width:100%;height:520px;border:1px solid #ccc;border-radius:8px;margin-top:12px}
+</style>
+<h1>Ascent flow tests</h1>
+<p id="summary">Running…</p>
+<ol id="out"></ol>
+<iframe id="app" title="App under test"></iframe>
+<script type="module">
+import { parsePath } from "../src/content.js?v=14";
+import { PATHS } from "../src/paths.js?v=14";
+
+const frame = document.getElementById("app"), out = document.getElementById("out");
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const doc = () => frame.contentDocument;
+async function until(fn, what, ms = 6000) {
+  for (const t0 = Date.now(); Date.now() - t0 < ms; await wait(60)) { const v = fn(); if (v) return v; }
+  throw new Error(`timed out waiting for ${what}`);
+}
+const $ = s => doc().querySelector(s), $$ = s => [...doc().querySelectorAll(s)];
+const strip = s => s.replace(/<[^>]+>/g, "").replace(/[*_“”"]/g, "").replace(/\s+/g, " ").trim();
+const ok = (cond, msg) => { if (!cond) throw new Error(msg); };
+
+const paths = {};
+const getPath = async slug => paths[slug] ??= parsePath(await (await fetch(`../paths/${slug}.md`, { cache: "no-store" })).text());
+
+async function fresh(hash = "#/") {
+  for (const k of Object.keys(localStorage)) if (k.startsWith("ascent-")) localStorage.removeItem(k);
+  localStorage.setItem("ascent-welcomed", "1");
+  const loaded = new Promise(r => frame.addEventListener("load", r, { once: true }));
+  frame.src = `../index.html?test=${Date.now()}${hash}`;
+  await loaded; // otherwise the old page can answer the checks below
+  await until(() => doc()?.querySelector("#view")?.children.length, "the app to start", 10000);
+}
+async function go(hash) {
+  frame.contentWindow.location.hash = hash;
+  await wait(50);
+  await until(() => $("#view")?.children.length && !$("#view .status")?.textContent.startsWith("Loading"), hash);
+}
+const stored = k => JSON.parse(localStorage.getItem(k) || "[]");
+
+// Answer whatever quiz is showing in `box` until a result appears. want(q, stageNum) -> true for a right answer.
+async function answerAll(path, want, boxSel = ".quizrun", suffix = "") {
+  const qs = path.works.flatMap(w => w.quiz.map(q => ({ q, w })));
+  for (let n = 0; n < 60; n++) {
+    await until(() => $(".qresult") || $(`${boxSel} .qt`) || ($("[data-placement] .label") && $(".qt")), "a question or result");
+    if ($(".qresult")) return $(".qresult").innerText;
+    const text = strip($(".qt").innerHTML);
+    const hit = qs.find(({ q }) => strip(q.q.replace(/_{3,}/, "")).slice(0, 30) === text.slice(0, 30));
+    ok(hit, `question not found in the path: "${text.slice(0, 50)}"`);
+    const right = want(hit.q, hit.w.stage.num);
+    const opts = $$("[data-opt]");
+    if (opts.length) {
+      const correct = strip(hit.q.opts.find(o => o.ok).text);
+      opts.find(b => (strip(b.innerHTML) === correct) === right).click();
+    } else { const inp = $("#blank"); inp.value = right ? hit.q.shown + (hit.q.num !== null ? suffix : "") : "zzz"; inp.dispatchEvent(new Event("input")); }
+    $("[data-check]").click();
+    (await until(() => $("[data-nextq]"), "the Continue button")).click();
+    await wait(30);
+  }
+  throw new Error("quiz never finished");
+}
+const chips = () => $$(".stage-card").map(c => c.querySelector(".chip")?.textContent || "open");
+
+const TESTS = {
+  async "every path page renders with all its stages"() {
+    await fresh();
+    for (const m of PATHS) {
+      const p = await getPath(m.slug);
+      await go(`#/path/${m.slug}`);
+      await until(() => $("h1")?.textContent === p.title, `${m.slug} title`);
+      ok($$(".stage-card").length === p.stages.length, `${m.slug}: ${$$(".stage-card").length} stage cards, expected ${p.stages.length}`);
+    }
+  },
+  async "ticking a work saves it, and unticking removes it"() {
+    await fresh("#/path/history/work/h1/get");
+    (await until(() => $("[data-done]"), "tick button")).click();
+    await until(() => stored("ascent-progress").includes("history:h1"), "the tick to be saved");
+    await until(() => $("[data-done]")?.getAttribute("aria-pressed") === "true", "button to show ticked");
+    $("[data-done]").click();
+    await until(() => !stored("ascent-progress").includes("history:h1"), "the tick to be removed");
+  },
+  async "passing a quiz scores it and ticks the work"() {
+    await fresh("#/path/history/work/h1/quiz");
+    const res = await answerAll(await getPath("history"), () => true);
+    ok(/4 of 4/.test(res), `result was "${res}"`);
+    await until(() => stored("ascent-progress").includes("history:h1"), "the work to be ticked");
+  },
+  async "failing a stage, then continue anyway, opens the next stage as Not finished"() {
+    await fresh();
+    const p = await getPath("history");
+    for (const w of p.stages[0].works) { await go(`#/path/history/work/${w.id}/quiz`); await answerAll(p, () => false); }
+    await go("#/path/history/stage/1");
+    ok(/haven't finished this stage/.test($(".status.warn")?.textContent || ""), "stage 1 should show the failed message");
+    (await until(() => $("[data-skip='1']"), "Continue anyway")).click();
+    (await until(() => $("[data-confirm='1']"), "the Are you sure step")).click();
+    await go("#/path/history");
+    await until(() => chips()[0] === "Not finished" && chips()[1] !== "Locked", "stage 1 Not finished and stage 2 open");
+  },
+  async "placement test passes Stage 1, stops at Stage 2"() {
+    await fresh("#/path/history/placement");
+    (await until(() => $("[data-placestart]"), "Start button")).click();
+    const res = await answerAll(await getPath("history"), (q, stage) => stage === 1, "[data-placement]");
+    ok(/Start at Stage 2/.test(res), `result was "${res}"`);
+    await go("#/path/history");
+    await until(() => chips()[0] === "Passed" && chips()[1] === "open" && chips()[2] === "Locked", `chips ${chips()}`);
+    ok(!$$("a.btn").some(a => /placement/.test(a.textContent)), "placement button should hide once Stage 1 is passed");
+  },
+  async "number answers accept units, and -1 is not accepted as 1"() {
+    await fresh("#/path/physics/work/ph6/quiz");
+    ok(/4 of 4/.test(await answerAll(await getPath("physics"), () => true, ".quizrun", " m/s")), "typing units should still count");
+    await go("#/path/mathematics/work/mt18/quiz");
+    await until(() => $(".qt"), "the first question");
+    const inp = $("#blank"); inp.value = "1"; inp.dispatchEvent(new Event("input")); $("[data-check]").click();
+    await until(() => $(".qfoot.fb"), "feedback");
+    ok($(".qfoot.fb.no"), "1 should be marked wrong when the answer is -1");
+  },
+  async "answer options are shuffled"() {
+    await fresh();
+    const p = await getPath("history"), first = p.works[0].quiz[0];
+    let firstIsCorrect = 0;
+    for (let i = 0; i < 8; i++) {
+      await go(i % 2 ? "#/path/history" : "#/path/history/work/h1/quiz");
+      if (i % 2) continue;
+      await until(() => $$("[data-opt]").length, "options");
+      if (strip($$("[data-opt]")[0].innerHTML) === strip(first.opts.find(o => o.ok).text)) firstIsCorrect++;
+    }
+    ok(firstIsCorrect < 4, "the right answer came first every time");
+  },
+  async "the map expands a stage to show its works"() {
+    await fresh("#/path/history/map");
+    const before = (await until(() => $$(".tree") .length && $$(".node.wn"), "the map")).length;
+    $("[data-toggle]:not([aria-expanded='true'])")?.click();
+    await until(() => $$(".node.wn").length > before, "works to appear under the stage");
+  },
+};
+
+(async () => {
+  if (Object.keys(localStorage).some(k => k.startsWith("sb-") && k.includes("auth-token"))) {
+    document.getElementById("summary").textContent = "Not run: this browser is signed in to Ascent. Use a signed-out browser, so tests never write to a real account.";
+    document.title = "NOT RUN (signed in)"; return;
+  }
+  let pass = 0; const names = Object.keys(TESTS);
+  for (const name of names) {
+    const li = out.appendChild(document.createElement("li")); li.textContent = name;
+    try { await TESTS[name](); li.className = "ok"; pass++; }
+    catch (e) { li.className = "no"; li.textContent += ` — ${e.message}`; }
+  }
+  for (const k of Object.keys(localStorage)) if (k.startsWith("ascent-") && k !== "ascent-welcomed") localStorage.removeItem(k);
+  const msg = pass === names.length ? `PASS ${pass}/${names.length}` : `FAIL ${names.length - pass}/${names.length}`;
+  document.getElementById("summary").textContent = msg; document.title = msg;
+})();
+</script>

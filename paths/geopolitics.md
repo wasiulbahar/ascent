@@ -491,7 +491,7 @@ The liberal answer to realism. When countries are tied together by trade, financ
 
 ## "Anarchy Is What States Make of It"
 - id: g15 · type: read · creator: Alexander Wendt · year: 1992 · length: about 2 hours
-- access: paid | in the journal *International Organization*; free through many libraries
+- access: paid | in the journal *International Organization*; many libraries give access
 
 ### Introduction
 The founding article of constructivism. Wendt accepts that there is no world government, but argues that what anarchy means depends on how states see each other: as enemies, rivals or friends. Identities and ideas, not just power, shape world politics.
@@ -615,7 +615,7 @@ An ancient Indian treatise on statecraft, traditionally attributed to Kautilya, 
 ## The Muqaddimah (selections)
 - id: g19 · type: read · creator: Ibn Khaldun · year: 1377 · length: about 6 hours for selections
 - edition: Franz Rosenthal's translation, abridged and edited by N. J. Dawood (Princeton).
-- access: paid | buy, or borrow from a library; older translations may be free online
+- access: paid | buy, or borrow from a library
 
 ### Introduction
 A North African scholar's introduction to world history, and one of the first attempts at a science of society. Ibn Khaldun argues that dynasties rise on *asabiyya*, a tribe's group solidarity, then grow soft in luxury and fall within a few generations.

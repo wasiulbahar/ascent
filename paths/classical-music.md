@@ -557,11 +557,10 @@ A complete Yale University course, free online. Professor Craig Wright gives you
 
 **Fill in the blank.** The course has ___ lectures. [answer: 23 / twenty-three]
 
-**Multiple choice.** What does the course cost?
-- It's free ✓
-- A one-off fee
-- A monthly subscription
-> It's on Open Yale Courses.
+**Multiple choice.** Which of these is one of the musical elements the course gives you words for?
+- Harmony ✓
+- Stage lighting
+- Copyright
 
 ### Scholar challenge (optional)
 Choose two pieces from this stage that express grief. How does each make you feel it: through melody, harmony, rhythm or instrumentation? (300 words. Required for the Mastery certificate.)

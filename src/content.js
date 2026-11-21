@@ -1,5 +1,9 @@
 // Reads a path Markdown file (format: docs/depth-framework.md) into plain data the app renders.
 
+// A blank whose first answer is a plain number also accepts that number followed by units ("10 m/s").
+const numOf = s => /^\s*-?\d+(\.\d+)?\s*$/.test(s) ? Number(s) : null;
+export const blankOk = (q, input) => q.answers.includes(norm(input)) || (q.num !== null && parseFloat(input.replace(/,/g, "")) === q.num);
+
 export const norm = s => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 
 const LAYERS = { Introduction: "Introduction", Hook: "Introduction", Understand: "Understand", Analyse: "Analyse", Scholar: "Scholar", Quiz: "Quiz", Check: "Quiz" };
@@ -77,7 +81,7 @@ export function parseQuiz(body) {
     if ((m = l.match(/^\*\*Multiple choice\.\*\*\s*(.*)$/))) { cur = { kind: "mc", q: m[1], opts: [], why: "" }; qs.push(cur); }
     else if ((m = l.match(/^\*\*Fill in the blank\.\*\*\s*(.*)$/))) {
       const a = m[1].match(/\[answer:\s*([^\]]+)\]/);
-      cur = { kind: "blank", q: m[1].replace(a ? a[0] : "", "").trim(), answers: a ? a[1].split("/").map(norm) : [], shown: a ? a[1].trim() : "", why: "" };
+      cur = { kind: "blank", q: m[1].replace(a ? a[0] : "", "").trim(), answers: a ? a[1].split("/").filter(x => numOf(x) === null).map(norm) : [], shown: a ? a[1].split("/")[0].trim() : "", num: a ? numOf(a[1].split("/")[0]) : null, why: "" };
       qs.push(cur);
     }
     else if (cur?.kind === "mc" && /^- /.test(l)) cur.opts.push({ text: l.slice(2).replace("✓", "").trim(), ok: l.includes("✓") });

@@ -27,15 +27,15 @@ export const AREAS = [
     ] },
   { slug: "natural-sciences", title: "Natural sciences", color: "mint", icon: "atom", blurb: "Physics, chemistry, biology, earth and space",
     disciplines: [
-      { title: "Physics", paths: [] },
+      { title: "Physics", paths: ["physics"] },
       { title: "Chemistry", paths: [] },
-      { title: "Biology", paths: [] },
+      { title: "Biology", paths: ["biology"] },
       { title: "Earth sciences", paths: [] },
       { title: "Astronomy", paths: [] },
     ] },
   { slug: "formal-sciences", title: "Formal sciences", color: "butter", icon: "chart", blurb: "Mathematics, logic, statistics and computer science",
     disciplines: [
-      { title: "Mathematics", paths: [] },
+      { title: "Mathematics", paths: ["mathematics"] },
       { title: "Logic", paths: [] },
       { title: "Statistics", paths: [] },
       { title: "Computer science", paths: [] },
@@ -58,4 +58,7 @@ export const PATHS = [
   { slug: "philosophy", title: "Philosophy", color: "butter", icon: "bulb", domain: "Philosophy" },
   { slug: "economics", title: "Economics", color: "mint", icon: "chart", domain: "Economics" },
   { slug: "history", title: "History", color: "lilac", icon: "globe", domain: "History" },
+  { slug: "physics", title: "Physics", color: "sky", icon: "atom", domain: "Physics" },
+  { slug: "mathematics", title: "Mathematics", color: "rose", icon: "sigma", domain: "Mathematics" },
+  { slug: "biology", title: "Biology", color: "mint", icon: "leaf", domain: "Biology" },
 ];

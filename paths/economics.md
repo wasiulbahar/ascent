@@ -858,10 +858,10 @@ A scholarly journal written so that non-specialists can follow current research.
 - Only professors of mathematics
 - Children
 
-**Multiple choice.** What does it cost?
-- It's free online ✓
-- A subscription
-- A membership fee
+**Multiple choice.** After summarising the articles, what should you note?
+- Where the authors disagree with each other ✓
+- How long each article is
+- Which university each author attended
 
 **Multiple choice.** How many articles does the task ask you to read?
 - Three ✓
