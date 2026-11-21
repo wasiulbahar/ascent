@@ -20,7 +20,7 @@ export const AREAS = [
   { slug: "social-sciences", title: "Social sciences", color: "sky", icon: "globe", blurb: "Politics, economics, psychology, sociology and geography",
     disciplines: [
       { title: "Political science", paths: ["geopolitics"] },
-      { title: "Economics", paths: [] },
+      { title: "Economics", paths: ["economics"] },
       { title: "Psychology", paths: [] },
       { title: "Sociology and anthropology", paths: [] },
       { title: "Human geography", paths: [] },
@@ -56,4 +56,5 @@ export const PATHS = [
   { slug: "classical-music", title: "Classical music", color: "lilac", icon: "music", domain: "Music" },
   { slug: "geopolitics", title: "Geopolitics", color: "sky", icon: "globe", domain: "Political science" },
   { slug: "philosophy", title: "Philosophy", color: "butter", icon: "bulb", domain: "Philosophy" },
+  { slug: "economics", title: "Economics", color: "mint", icon: "chart", domain: "Economics" },
 ];
