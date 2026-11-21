@@ -21,7 +21,7 @@ It is also a field with a troubled history and fierce arguments. Its early think
 **Trivia**
 - The word "geopolitics" was coined in 1899 by the Swedish political scientist Rudolf Kjellén.
 - Halford Mackinder, who gave the most famous lecture in the field's history in 1904, was also the first person to climb Mount Kenya, in 1899.
-- About a fifth of the oil the world uses passes through the Strait of Hormuz, between Iran and Oman, which is about 33 km wide at its narrowest point. [verify: current share and width]
+- About a fifth of the oil the world uses passes through the Strait of Hormuz, between Iran and Oman, which is about 33 km wide at its narrowest point, according to the US Energy Information Administration.
 - In March 2021 a single container ship, the *Ever Given*, ran aground in the Suez Canal and blocked it for six days, holding up hundreds of ships.
 - After 1945 the word "geopolitics" was so tainted by its use in Nazi Germany that many Western scholars avoided it for decades.
 
@@ -205,7 +205,7 @@ Every argument in geopolitics today goes back to a handful of texts written betw
 
 ## Geopolitics: A Very Short Introduction
 - id: g5 · type: read · creator: Klaus Dodds · Oxford University Press · length: about 4 hours
-- edition: the latest edition. [verify: edition and year]
+- edition: the third edition (2019).
 - access: paid | buy, or borrow from a library
 
 ### Introduction
@@ -240,7 +240,7 @@ A short, sharp guide to what geopolitics is, where it came from and why it is co
 An American naval officer argues that control of the seas, through navies, bases and trade, has decided which nations lead. His book was read in every major capital and helped launch a naval arms race before the First World War.
 
 **Trivia**
-- Kaiser Wilhelm II said he was trying to learn the book by heart and had copies placed on German warships. [verify: source]
+- Kaiser Wilhelm II said he was trying to learn the book by heart and had copies placed on German warships.
 - Theodore Roosevelt, a friend of Mahan, used its ideas to build up the US Navy.
 
 ### Understand
@@ -295,7 +295,7 @@ A lecture to the Royal Geographical Society in London that became the most famou
 
 ## The Geography of the Peace (selections)
 - id: g8 · type: read · creator: Nicholas Spykman · year: 1944 · length: about 3 hours
-- access: paid | buy, or borrow from a library [verify: whether a free copy is available]
+- access: paid | buy, or borrow from a library
 
 ### Introduction
 A Dutch-American scholar answers Mackinder: the decisive zone is not Eurasia's heartland but its coastal ring, the "rimland", from Western Europe through the Middle East to East Asia. This idea shaped American strategy throughout the Cold War.
@@ -329,7 +329,7 @@ A Dutch-American scholar answers Mackinder: the decisive zone is not Eurasia's h
 A US diplomat in Moscow sends a very long telegram home explaining how the Soviet leadership thinks. A year later, writing anonymously as "X", he proposes "containment": patiently resisting Soviet expansion until the system changes from within. It became the strategy of the Cold War.
 
 **Trivia**
-- The telegram ran to more than 5,000 words. [verify: word count]
+- The telegram ran to more than 5,000 words.
 - Kennan later complained that containment had been misread as a mainly military strategy, when he had meant it to be mostly political.
 
 ### Quiz
@@ -553,7 +553,7 @@ The founding text of offensive realism: great powers seek not just security but 
 - His 2014 *Foreign Affairs* article blaming the West for the Ukraine crisis made him one of the most debated scholars in the world, and one of the most criticised.
 
 ### Analyse
-- **Debate:** after 2014, and especially after 2022, scholars argued fiercely over whether Mearsheimer's account of Russia's motives was right. Read his argument and at least one strong reply, and judge for yourself. [verify: recommend a specific reply article]
+- **Debate:** after 2014, and especially after 2022, scholars argued fiercely over whether Mearsheimer's account of Russia's motives was right. Read his argument and at least one strong reply, and judge for yourself. A strong reply: Michael McFaul and Stephen Sestanovich, "Faulty Powers: Who Started the Ukraine Crisis?" (*Foreign Affairs*, 2014).
 
 ### Quiz
 **Multiple choice.** What do great powers seek, according to offensive realism?
@@ -614,7 +614,7 @@ An ancient Indian treatise on statecraft, traditionally attributed to Kautilya, 
 
 ## The Muqaddimah (selections)
 - id: g19 · type: read · creator: Ibn Khaldun · year: 1377 · length: about 6 hours for selections
-- edition: Franz Rosenthal's translation, abridged edition (Princeton). [verify: edition]
+- edition: Franz Rosenthal's translation, abridged and edited by N. J. Dawood (Princeton).
 - access: paid | buy, or borrow from a library; older translations may be free online
 
 ### Introduction
@@ -958,7 +958,7 @@ A Palestinian-American literary scholar shows how Western writers, scholars and 
 - It became one of the founding texts of postcolonial studies.
 
 ### Analyse
-- **Debate:** critics such as Bernard Lewis argued that Said misrepresented Western scholarship of the Middle East. Read the exchange and judge it. [verify: recommended source for the Said–Lewis exchange]
+- **Debate:** critics such as Bernard Lewis argued that Said misrepresented Western scholarship of the Middle East. Read the exchange, "Orientalism: An Exchange" (*New York Review of Books*, 1982), and judge it.
 
 ### Quiz
 **Multiple choice.** What did Said argue Western scholarship of "the Orient" did?

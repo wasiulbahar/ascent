@@ -81,7 +81,7 @@ Three short movements that paint a picture: birds singing, a spring storm, a she
 - **Debate:** programme music versus "absolute" music became a fierce argument in the nineteenth century. Keep the question in mind until Stage 4.
 
 ### Scholar
-- Michael Talbot, *Vivaldi* (Master Musicians series, Oxford University Press). [verify: latest edition year]
+- Michael Talbot, *Vivaldi* (Master Musicians series, Oxford University Press).
 - Essay question: does knowing the sonnets make "Spring" better music, or only easier music?
 
 ### Quiz
@@ -169,7 +169,7 @@ Four notes, short-short-short-long, and possibly the most famous opening in all 
 - **Debate:** the symphony is often heard as a journey from struggle (C minor) to triumph (the C major finale). Is that story in the music, or put there by listeners?
 
 ### Scholar
-- E. T. A. Hoffmann's 1810 review of the symphony, a founding text of Romantic music criticism. [verify: recommended English translation]
+- E. T. A. Hoffmann's 1810 review of the symphony, a founding text of Romantic music criticism. In English: *E. T. A. Hoffmann's Musical Writings*, edited by David Charlton (Cambridge University Press, 1989).
 
 ### Quiz
 **Multiple choice.** What rhythm opens the symphony?
@@ -240,7 +240,7 @@ Your first complete symphony: four movements, each with tunes you can hold on to
 **Trivia**
 - It premiered at Carnegie Hall in New York in December 1893 and was an immediate hit.
 - A pupil of Dvořák later set the slow movement's melody to words as the song "Goin' Home", which many people now assume is a traditional spiritual.
-- Neil Armstrong is often said to have taken a recording of it to the Moon in 1969. [verify: source]
+- Neil Armstrong is often said to have taken a recording of it to the Moon in 1969.
 
 ### Understand
 - **Form:** the four-movement symphony: a fast first movement, a slow movement, a dance-like scherzo, a big finale.
@@ -311,7 +311,7 @@ Music for Henrik Ibsen's play about a Norwegian adventurer. It moves from the ca
 
 **Trivia**
 - "Morning Mood" sounds like a Norwegian fjord, but in the play it accompanies sunrise in the Moroccan desert.
-- Grieg himself grew to dislike the "Mountain King" music, calling it an exaggerated piece of Norwegian nationalism. [verify: wording of Grieg's letter]
+- Grieg himself grew to dislike the "Mountain King" music, calling it an exaggerated piece of Norwegian nationalism, in an 1874 letter to his friend Frants Beyer.
 
 ### Quiz
 **Multiple choice.** How does "In the Hall of the Mountain King" build its excitement?
@@ -371,7 +371,7 @@ This stage includes music about grief, death and longing. It is heavier, and tha
 ## Piano Concerto No. 2
 - id: m9 · type: listen · creator: Sergei Rachmaninoff · year: 1901 · length: about 34 minutes
 - edition: Rachmaninoff's own 1929 recording with Leopold Stokowski and the Philadelphia Orchestra, for history; a modern recording for sound quality.
-- access: free-and-paid | free to stream with adverts; the 1929 recording may now be public domain in the US [verify]
+- access: free-and-paid | free to stream with adverts; modern recordings are paid
 
 ### Introduction
 Huge, yearning melodies over a crashing piano. It is one of the most loved concertos ever written, and it bridges the bright music you know and the deeper music ahead.
@@ -379,7 +379,7 @@ Huge, yearning melodies over a crashing piano. It is one of the most loved conce
 **Trivia**
 - After his First Symphony failed disastrously in 1897, Rachmaninoff fell into depression and could barely compose. Treatment with the doctor Nikolai Dahl helped him recover, and he dedicated this concerto to Dahl.
 - Its slow movement became the soundtrack of David Lean's film *Brief Encounter* (1945).
-- The opening chords sound like a bell coming closer; Rachmaninoff spent part of his childhood near Novgorod and loved its church bells. [verify: biography source]
+- The opening chords sound like a bell coming closer; Rachmaninoff spent part of his childhood near Novgorod and loved its church bells; many listeners hear them in these chords.
 
 ### Quiz
 **Multiple choice.** To whom did Rachmaninoff dedicate the concerto?
@@ -645,7 +645,7 @@ Seven movements played without a break, written when Beethoven was completely de
 
 **Trivia**
 - Beethoven is reported to have called it his greatest quartet.
-- Schubert reportedly asked to hear it on his deathbed in 1828. [verify: source of the anecdote]
+- Schubert reportedly asked to hear it on his deathbed in 1828, according to the violinist Karl Holz.
 
 ### Quiz
 **Multiple choice.** How many movements does Op. 131 have?
@@ -726,7 +726,7 @@ The standard study of Haydn, Mozart and Beethoven, by a pianist who could explai
 
 ## Reading a score
 - id: m20 · type: course · creator: free online lessons · length: about 10 hours
-- access: free | free lessons online, for example musictheory.net; scores free on IMSLP [verify: recommended free course]
+- access: free | free lessons online, for example musictheory.net; scores free on IMSLP
 
 ### Introduction
 You don't need to play an instrument to follow a score. Learn to read the treble and bass clefs, then follow the Mozart serenade from Stage 1 with the score on screen. By the end of the stage, follow one movement of the Haydn quartet.
@@ -932,7 +932,7 @@ The opening chord of this prelude, known simply as the "Tristan chord", refuses 
 A lazy, sensuous flute melody opens a piece inspired by a poem by Stéphane Mallarmé about a faun dozing in the afternoon heat. Its floating, perfumed harmonies pointed music in a new direction.
 
 **Trivia**
-- The composer Pierre Boulez said modern music was awakened by this piece. [verify: wording]
+- The composer Pierre Boulez said modern music was awakened by this piece.
 
 ### Quiz
 **Multiple choice.** Which instrument plays the famous opening melody?
@@ -1156,7 +1156,7 @@ A vivid history of twentieth-century music by *The New Yorker*'s music critic. I
 
 ## A History of Western Music
 - id: m35 · type: read · creator: J. Peter Burkholder, Donald Jay Grout and Claude V. Palisca · Norton · length: reference
-- access: paid | buy, or borrow from a library [verify: current edition]
+- access: paid | buy the latest edition, or borrow from a library
 
 ### Introduction
 The standard university textbook. Use it as a reference spine for the whole path, reading the chapters on each period as you reach it.

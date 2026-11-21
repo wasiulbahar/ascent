@@ -349,8 +349,8 @@ China's first great history, covering about two thousand years from legendary ru
 
 ## The Travels of Ibn Battuta (selections)
 - id: h10 · type: read · creator: Ibn Battuta, written down by Ibn Juzayy · year: 1355 · length: about 5 hours for selections
-- edition: H. A. R. Gibb's translation (Hakluyt Society), or Tim Mackintosh-Smith's selection *The Travels of Ibn Battutah* (Picador, 2002). [verify: whether a free translation is available]
-- access: paid | buy, or borrow from a library
+- edition: H. A. R. Gibb's translation (Hakluyt Society), or Tim Mackintosh-Smith's selection *The Travels of Ibn Battutah* (Picador, 2002). Samuel Lee's shorter 1829 translation is out of copyright.
+- access: free-and-paid | Lee's 1829 translation is free on the Internet Archive; Gibb's and Mackintosh-Smith's are paid
 
 ### Introduction
 A young man from Tangier sets out on pilgrimage to Mecca in 1325 and keeps travelling for nearly thirty years: across North Africa, Arabia, Persia, Central Asia, India, Bengal, the Maldives and China. His account is one of the great windows onto the medieval Islamic world, and onto Bengal in the fourteenth century.

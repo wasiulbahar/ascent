@@ -1,10 +1,10 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, norm } from "./content.js?v=12";
-import { PATHS, AREAS } from "./paths.js?v=12";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=12";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=12";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=12";
-import { pathStatuses, PASS_MARK } from "./status.js?v=12";
+import { parsePath, norm } from "./content.js?v=13";
+import { PATHS, AREAS } from "./paths.js?v=13";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=13";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=13";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=13";
+import { pathStatuses, PASS_MARK, placementId } from "./status.js?v=13";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -44,7 +44,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=12`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=13`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -164,7 +164,7 @@ async function pathView(slug) {
     <div class="crumbs"><a href="#/">Home</a>›${(a => a ? `<a href="#/area/${a.slug}">${esc(a.title)}</a>›` : "")(AREAS.find(a => a.disciplines.some(d => d.paths.includes(slug))))}<span>${esc(p.title)}</span></div>
     <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1><p class="lede">${inline(p.lede)}</p>
       <div class="pills"><span class="pill draft" id="trust">Draft · not yet endorsed</span><span class="pill">${n} of ${p.works.length} works done</span><span class="pill">${p.stages.length} stages</span></div>
-      <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a></div></div>
+      <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a>${sts[0]?.state !== "passed" ? `<a class="btn ghost" href="#/path/${slug}/placement">${ico("quiz")}Already know some? Take the placement test</a>` : ""}</div></div>
     ${about ? `<section class="section about"><h2>${esc(about.title)}</h2><div class="txt${/!\[/.test(about.body) ? " with-img" : ""}">${md(about.body)}</div></section>` : ""}
     <section><p class="label">Stages</p>
       <div class="stages">${p.stages.map(s => { const st = sts[s.index];
@@ -325,6 +325,7 @@ async function mapView(slug) {
 }
 
 // --- quiz: one question at a time, check, then a feedback bar ---------------------------
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 async function mountQuizRun(slug) {
   const box = $("[data-quizrun]"); if (!box) return;
   const p = await getPath(slug); const w = p.works.find(x => x.id === box.dataset.quizrun);
@@ -334,11 +335,11 @@ function runQuiz(box, ctx) {
   const { slug, p, w } = ctx, qs = w.quiz, color = stageColor(w.stage);
   let i = 0, right = 0;
   const show = () => {
-    const q = qs[i];
+    const q = qs[i], opts = q.kind === "mc" ? shuffle(q.opts) : []; // options are written correct-first, so shuffle them
     box.innerHTML = `<div class="qprog"><i style="width:${(i / qs.length) * 100}%;background:var(--${color}-ink)"></i></div>
       <div class="qcard"><span class="kind">${q.kind === "mc" ? "Choose the answer" : "Fill in the blank"} · ${i + 1} of ${qs.length}</span>
         <h2 class="qt">${q.kind === "mc" ? inline(q.q) : inline(q.q).replace(/_{3,}|<strong>_<\/strong>|<em>_<\/em>/, '<input type="text" id="blank" aria-label="Your answer" autocomplete="off" spellcheck="false">')}</h2>
-        ${q.kind === "mc" ? `<div class="opts">${q.opts.map((o, k) => `<button type="button" data-opt="${k}">${inline(o.text)}</button>`).join("")}</div>` : ""}</div>
+        ${q.kind === "mc" ? `<div class="opts">${opts.map((o, k) => `<button type="button" data-opt="${k}">${inline(o.text)}</button>`).join("")}</div>` : ""}</div>
       <div class="qfoot"><button class="btn wide" type="button" data-check disabled>Check</button></div>`;
     const check = box.querySelector("[data-check]");
     let pick = null;
@@ -347,10 +348,10 @@ function runQuiz(box, ctx) {
     const inp = box.querySelector("#blank");
     if (inp) { inp.addEventListener("input", () => (check.disabled = !inp.value.trim())); inp.addEventListener("keydown", e => { if (e.key === "Enter" && inp.value.trim()) check.click(); }); setTimeout(() => inp.focus(), 50); }
     check.addEventListener("click", () => {
-      const ok = q.kind === "mc" ? q.opts[pick].ok : q.answers.includes(norm(inp.value));
+      const ok = q.kind === "mc" ? opts[pick].ok : q.answers.includes(norm(inp.value));
       if (ok) right++;
       const shown = q.kind === "mc" ? inline(q.opts.find(o => o.ok).text) : esc(q.shown);
-      box.querySelectorAll("[data-opt]").forEach((b, k) => { b.disabled = true; if (q.opts[k].ok) b.classList.add("right"); else if (k === pick) b.classList.add("wrong"); });
+      box.querySelectorAll("[data-opt]").forEach((b, k) => { b.disabled = true; if (opts[k].ok) b.classList.add("right"); else if (k === pick) b.classList.add("wrong"); });
       if (inp) { inp.disabled = true; inp.classList.add(ok ? "right" : "wrong"); }
       box.querySelector(".qfoot").outerHTML = `<div class="qfoot fb ${ok ? "ok" : "no"}"><div><b>${ok ? "Right!" : "Not quite."}</b> ${ok ? "" : `The answer is “${shown}”. `}${inline(q.why)}</div>
         <button class="btn wide" type="button" data-nextq>${i + 1 < qs.length ? "Continue" : "See your result"}</button></div>`;
@@ -364,6 +365,7 @@ function runQuiz(box, ctx) {
     let pass;
     try { pass = await recordAttempt(slug, w.id, right, qs.length); }
     catch (err) { box.innerHTML = `<p class="status warn">${right} of ${qs.length} right, but your score couldn't be saved: ${esc(err.message)}</p>`; return; }
+    if (ctx.onDone) return ctx.onDone(pass, right);
     if (pass && !isDone(slug, w.id)) await setDone(slug, w.id, true).catch(() => {});
     const after = statuses(slug, p)[w.stage.index], i2 = p.works.indexOf(w), nextW = p.works[i2 + 1];
     box.innerHTML = `<div class="qresult ${pass ? "pass" : "fail"}" style="${pass ? C(color) : ""}">
@@ -377,6 +379,48 @@ function runQuiz(box, ctx) {
     if (after.state === "passed" && before !== "passed") celebrate(slug, p, w.stage, after);
   };
   show();
+}
+
+// --- placement test: 4 questions per stage, in order; 3 of 4 passes the stage -------
+// Stops at the first stage not passed. Passed sections are saved as quiz attempts
+// (work id "placement-s<N>"), which status.js counts as passing that stage.
+const PLACE_Q = 4;
+function placementSample(s) {
+  // round-robin over the stage's works so the questions cover as many works as possible
+  const pools = shuffle(s.works.filter(w => w.quiz.length)).map(w => shuffle(w.quiz)), out = [];
+  for (let r = 0; out.length < PLACE_Q && pools.some(q => q[r]); r++) pools.forEach(q => q[r] && out.length < PLACE_Q && out.push(q[r]));
+  return out;
+}
+async function placementView(slug) {
+  const meta = PATHS.find(p => p.slug === slug); if (!meta) return notFound();
+  const p = await getPath(slug);
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<a href="#/path/${slug}">${esc(p.title)}</a>›<span>Placement test</span></div>
+    <div data-placement="${slug}"><div class="hero" style="${C(meta.color)}"><h1>Placement test</h1>
+      <p>Already know some ${esc(p.title.toLowerCase())}? Answer ${PLACE_Q} questions for each stage, starting with Stage 1. Get ${Math.ceil(PLACE_Q * PASS_MARK)} of ${PLACE_Q} right and that stage counts as passed, so you can skip ahead. The test stops at the first stage you don't pass, and you can take it again any time.</p>
+      <button class="btn" type="button" data-placestart>${ico("play")}Start</button></div></div></div>`;
+}
+async function mountPlacement(slug) {
+  const root = $("[data-placement]"); if (!root) return;
+  const p = await getPath(slug);
+  const startAt = Math.max(0, statuses(slug, p).findIndex(st => st.state !== "passed"));
+  const runStage = i => {
+    const s = p.stages[i], qs = placementSample(s);
+    if (!qs.length) return result(i);
+    root.innerHTML = `<p class="label">Placement test · Stage ${s.num} of ${p.stages.length}: ${esc(s.name)}</p><div class="quizrun"></div>`;
+    runQuiz(root.querySelector(".quizrun"), { slug, p, w: { id: placementId(s.num), quiz: qs, stage: s },
+      onDone: pass => pass && i + 1 < p.stages.length ? runStage(i + 1) : result(pass ? i + 1 : i) });
+  };
+  const result = n => {
+    const s = p.stages[n];
+    root.innerHTML = `<div class="qresult${n ? " pass" : ""}" style="${n ? C(stageColor(p.stages[n - 1])) : ""}">
+      <span class="medal small">${ico(n ? "check" : "quiz")}</span>
+      <h1>${s ? `Start at Stage ${s.num}` : "All stages passed"}</h1>
+      <p>${n ? `You placed out of ${n === 1 ? "Stage 1" : `Stages 1 to ${n}`}.` : "Stage 1 is the right place to begin."} ${s ? `Stage ${s.num}, ${esc(s.name)}, is waiting for you.` : "You can still read any work you like."}</p></div>
+      <div class="stack" style="gap:10px">${s ? `<a class="btn wide" href="#/path/${slug}/stage/${s.num}">Go to Stage ${s.num}</a>` : ""}<a class="btn wide ghost" href="#/path/${slug}">Back to the path</a></div>`;
+  };
+  if (startAt >= p.stages.length) return result(p.stages.length);
+  root.querySelector("[data-placestart]")?.addEventListener("click", () => runStage(startAt));
 }
 
 // --- celebration when a stage is passed ---------------------------------------------
@@ -568,6 +612,7 @@ const ROUTES = [
   [/^#\/path\/([\w-]+)\/stage\/(\d+)$/, m => stageView(m[1], +m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)$/, m => workView(m[1], m[2]), "home"],
   [/^#\/path\/([\w-]+)\/work\/([\w-]+)\/(get|understand|analyse|quiz|scholar)$/, m => stepView(m[1], m[2], m[3]), "home"],
+  [/^#\/path\/([\w-]+)\/placement$/, m => placementView(m[1]), "home"],
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
   [/^#\/review(?:\/([\w-]+))?$/, m => reviewView(m[1]), "review"],
@@ -602,6 +647,7 @@ async function route({ keepScroll = false } = {}) {
   else if (keepScroll) window.scrollTo(0, y);
   if (/\/work\/[\w-]+\/quiz$/.test(hash)) mountQuizRun(m[1]);
   if (/^#\/path\/[\w-]+$/.test(hash)) fillTrust(m[1]);
+  if (/\/placement$/.test(hash)) mountPlacement(m[1]);
 }
 const refresh = () => route({ keepScroll: true });
 

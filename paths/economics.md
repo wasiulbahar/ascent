@@ -363,7 +363,7 @@ No critic of capitalism has been more influential. In the *Manifesto*, Marx and 
 
 ## The General Theory (chapters 1, 12 and 24)
 - id: e10 · type: read · creator: John Maynard Keynes · year: 1936 · length: about 5 hours for these chapters
-- access: free-and-paid | free online in many countries where it is now public domain; Robert Skidelsky's *Keynes: A Very Short Introduction* (2010) is a paid guide [verify: copyright status by country]
+- access: free-and-paid | free online in countries where Keynes's works are now public domain (from 2017 under the life-plus-70-years rule), but not yet in the United States; Robert Skidelsky's *Keynes: A Very Short Introduction* (2010) is a paid guide
 
 ### Introduction
 Written in the Great Depression, when millions were out of work and the old theory said markets would fix themselves. Keynes argued they might not: if everyone spends less at once, demand collapses and an economy can stay stuck. Governments, he argued, should spend to fill the gap. His ideas shaped economic policy for decades, and came roaring back in 2008.
@@ -773,7 +773,7 @@ The last stage looks at economics itself: how its ideas developed, how its model
 - access: paid | buy, or borrow from a library
 
 ### Introduction
-The lives and ideas of the great economists, from Smith to Schumpeter, told as a story of brilliant, odd and passionate people trying to understand the world. One of the best-selling economics books ever written. [verify: sales claim]
+The lives and ideas of the great economists, from Smith to Schumpeter, told as a story of brilliant, odd and passionate people trying to understand the world. One of the best-selling economics books ever written.
 
 ### Quiz
 **Multiple choice.** What is *The Worldly Philosophers* about?

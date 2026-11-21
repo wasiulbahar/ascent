@@ -18,4 +18,6 @@ assert.deepEqual(states(acc({ a: { score: 2, total: 3 }, b: { score: 2, total: 3
 assert.deepEqual(states(acc({ a: { score: 2, total: 3 }, b: { score: 2, total: 3 } }, [], [1])), ["notfinished", "open", "locked"], "continue anyway opens stage 2, stage 1 stays not finished");
 assert.deepEqual(states(acc({ a: { score: 3, total: 3 }, b: { score: 3, total: 3 }, c: { score: 2, total: 2 } })), ["passed", "passed", "open"], "stage 2 passes on its only quiz");
 assert.deepEqual(states(acc({ a: { score: 3, total: 3 }, b: { score: 3, total: 3 }, c: { score: 2, total: 2 } }, ["e"])), ["passed", "passed", "passed"], "a stage with no quizzes passes when every work is ticked");
+assert.deepEqual(states(acc({ "placement-s1": { score: 3, total: 4 }, "placement-s2": { score: 4, total: 4 } })), ["passed", "passed", "open"], "placement passes stages 1 and 2");
+assert.deepEqual(states(acc({ "placement-s1": { score: 2, total: 4 } })), ["open", "locked", "locked"], "failed placement changes nothing");
 console.log("status rules: all checks passed");

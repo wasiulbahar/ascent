@@ -116,7 +116,7 @@ A lonely young man who calls himself the Dreamer meets a young woman crying besi
 
 ## The Gambler
 - id: d2 · type: read · year: 1866 · length: short novel, about 5 hours
-- edition: Garnett. Modern translations are available from several publishers. [verify: name a recommended modern translator]
+- edition: Garnett. For a modern translation, Ronald Meyer's (*The Gambler and Other Stories*, Penguin Classics).
 - access: free-and-paid | Garnett's translation is free on Project Gutenberg; modern translations are paid
 
 ### Introduction
@@ -227,7 +227,7 @@ A poor former student believes some people are extraordinary enough to step over
 
 **Trivia**
 - Dostoevsky first planned it as a short first-person confession, then burned that draft and started again in the third person.
-- He was writing it and *The Gambler* in the same autumn of 1866, dictating one while still serialising the other. [verify: his daily working pattern that autumn]
+- He was writing it and *The Gambler* in the same autumn of 1866, dictating one while still serialising the other.
 - The hero's surname comes from *raskol*, Russian for "schism" or "split".
 - The novel says it is exactly 730 steps from Raskolnikov's gate to the pawnbroker's building. Visitors to St Petersburg still walk the route.
 
@@ -244,7 +244,7 @@ A poor former student believes some people are extraordinary enough to step over
 
 ### Scholar
 - Joseph Frank, *Dostoevsky: The Miraculous Years, 1865–1871* (Princeton University Press, 1995), the chapters on *Crime and Punishment*.
-- Joseph Frank, *Dostoevsky: A Writer in His Time*, one-volume edition, ed. Mary Petrusewicz (Princeton University Press, 2009) [verify: year of the one-volume edition], the same chapters in shorter form.
+- Joseph Frank, *Dostoevsky: A Writer in His Time*, one-volume edition, ed. Mary Petrusewicz (Princeton University Press, 2009), the same chapters in shorter form.
 - Essay question: is the epilogue the novel's weakest part, or its key?
 
 ### Quiz
@@ -267,7 +267,7 @@ A poor former student believes some people are extraordinary enough to step over
 - She wants to frighten him into confessing
 
 ## Crime and Punishment (BBC, 2002)
-- id: d5 · type: watch · year: 2002 · length: two episodes [verify: running time]
+- id: d5 · type: watch · year: 2002 · length: two episodes
 - note: watch after reading, not instead. Compare what a screen version must cut.
 - access: paid | availability varies by country and streaming service
 
@@ -450,7 +450,7 @@ In 1869 a revolutionary cell led by Sergei Nechayev murdered one of its own memb
 A semi-fictional account of the four years Dostoevsky spent in the prison camp at Omsk, told through a narrator convicted of murdering his wife. It is a portrait of murderers, thieves and ordinary peasants that changed how Russians thought about prison, and it is where his faith in the Russian people began.
 
 **Trivia**
-- Tolstoy called it one of the best books in Russian literature. [verify: source of Tolstoy's remark]
+- In an 1880 letter to Nikolai Strakhov, Tolstoy said he knew no better book in all modern literature, Pushkin included.
 - He gave the book a fictional narrator, a man convicted of an ordinary crime, partly, scholars think, to get it past the censor.
 
 ### Quiz
@@ -495,7 +495,7 @@ A dissolute father, three very different sons and a fourth who may also be his s
 - The youngest brother is named Alyosha after Dostoevsky's own three-year-old son, who died of epilepsy in 1878 while the novel was being planned.
 - After that loss he visited the Optina Monastery with the young philosopher Vladimir Solovyov. The elder Zosima draws on what he saw there.
 - He meant it as the first half of a longer story. He died about three months after finishing it.
-- Freud called it the most magnificent novel ever written. [verify: wording in "Dostoevsky and Parricide"]
+- Freud called it the most magnificent novel ever written, in his essay "Dostoevsky and Parricide" (1928).
 
 ### Understand
 - **Context:** the novel ends a decade of Dostoevsky's journalism about Russia, faith and justice, and draws on real court cases he followed.
@@ -539,7 +539,7 @@ A dissolute father, three very different sons and a fourth who may also be his s
 In June 1880, at the unveiling of the Pushkin monument in Moscow, Dostoevsky gave a speech about Russia's destiny that left the audience in tears. Read it beside the novel to see his late vision of Russia at its most hopeful, and decide how far you share it.
 
 **Trivia**
-- Reports describe the hall in uproar, with strangers embracing and weeping. [verify: eyewitness source]
+- In a letter to his wife that night, Dostoevsky described the hall in uproar, with strangers embracing and weeping.
 - His great literary rival, Ivan Turgenev, sat in the audience.
 
 ### Quiz
@@ -576,8 +576,8 @@ Most readers stop after *Karamazov*. Specialists don't. This stage fills in the 
 
 ## Poor Folk
 - id: d12 · type: read · year: 1846 · length: about 5 hours
-- edition: an older public-domain translation, or a modern one.
-- access: free-and-paid | older public-domain translations are free on Project Gutenberg; modern translations are paid [verify: which free translation to recommend]
+- edition: C. J. Hogarth's translation (1915), or a modern one.
+- access: free-and-paid | Hogarth's translation is free on Project Gutenberg; modern translations are paid
 
 ### Introduction
 His first novel: letters between a poor copying clerk and a young woman he quietly loves. It is tender, sad and full of the humiliations of poverty, and it made the 24-year-old Dostoevsky famous overnight.
@@ -694,7 +694,7 @@ A man discovers that his old lover's widowed husband has come looking for him, p
 ## A Gentle Creature and Bobok
 - id: d16 · type: read · year: 1876 and 1873 · length: about 2 hours
 - edition: in most collections of his short fiction.
-- access: free-and-paid | Garnett's "A Gentle Spirit" is free on Project Gutenberg; modern collections are paid [verify: free translation of "Bobok"]
+- access: free-and-paid | Garnett's "A Gentle Spirit" is free on Project Gutenberg; for "Bobok", use a modern collection, which is paid
 
 ### Introduction
 Two short pieces first published in *A Writer's Diary*. In "A Gentle Creature" a pawnbroker talks beside the body of his young wife, who has just killed herself, trying to understand what he did. In "Bobok" a writer hears the dead gossiping in a cemetery. One is unbearable, the other grotesquely funny.
@@ -718,7 +718,7 @@ Two short pieces first published in *A Writer's Diary*. In "A Gentle Creature" a
 
 ## A Writer's Diary (selections)
 - id: d17 · type: read · year: 1873–81 · length: about 10 hours
-- edition: Kenneth Lantz's translation, abridged edition (Northwestern University Press). [verify: edition details]
+- edition: Kenneth Lantz's translation, abridged edition (Northwestern University Press), edited by Gary Saul Morson.
 - access: paid | buy, or borrow from a library
 
 ### Introduction
@@ -792,7 +792,7 @@ The last stage turns you from a reader of Dostoevsky into someone who can take p
 The most influential theory of the Dostoevsky novel. Bakhtin argues that his characters' voices are independent, never overruled by the author: a "polyphonic" novel. Bakhtin wrote the first version just before being sent into internal exile.
 
 ### Analyse
-- **Debate:** is polyphony a description of the novels or an ideal Bakhtin reads into them? [verify: add a named critic of polyphony, with citation]
+- **Debate:** is polyphony a description of the novels or an ideal Bakhtin reads into them? René Wellek argued the second, in "Bakhtin's View of Dostoevsky: 'Polyphony' and 'Carnivalesque'" (*Dostoevsky Studies*, 1980).
 
 ### Quiz
 **Fill in the blank.** Bakhtin called Dostoevsky's novels "___", meaning many independent voices. [answer: polyphonic]
@@ -843,7 +843,7 @@ The standard critical biography, which reads every work against the intellectual
 
 ## Dostoevsky: An Interpretation
 - id: d21 · type: read · creator: Nikolai Berdyaev · Russian 1923, English 1934
-- access: paid | buy, or borrow from a library [verify: whether the 1934 translation is free online]
+- access: paid | buy, or borrow from a library
 
 ### Introduction
 A Russian religious philosopher, exiled by the Bolsheviks, reads Dostoevsky as a thinker about freedom. It shows how Russian philosophy itself grew out of the novels.

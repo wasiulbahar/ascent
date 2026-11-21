@@ -181,7 +181,7 @@ The whole story of Western philosophy in forty short, friendly chapters, from So
 A fast, funny video series that introduces the main questions of philosophy, from how we know anything to the trolley problem. Watch one episode after each reading in this path when you want a quick refresher.
 
 **Trivia**
-- The series is presented by Hank Green, co-founder of the Crash Course educational channel. [verify: number of episodes]
+- The series is presented by Hank Green, co-founder of the Crash Course educational channel. It runs to 46 episodes.
 
 ### Quiz
 **Multiple choice.** Who presents *Crash Course Philosophy*?
@@ -265,7 +265,7 @@ Descartes decides to doubt everything that could possibly be false: his senses, 
 
 **Trivia**
 - The famous phrase "I think, therefore I am" appears in his earlier *Discourse on the Method* (1637). In the *Meditations* he puts it as "I am, I exist".
-- He is said to have died in Stockholm in 1650 of pneumonia, after giving philosophy lessons to Queen Christina of Sweden at five in the morning. [verify: the early-morning lessons story]
+- He is said to have died in Stockholm in 1650 of pneumonia, after giving philosophy lessons to Queen Christina of Sweden at five in the morning.
 - In the second meditation he uses a piece of melting wax to ask how we really know what anything is.
 
 ### Analyse
@@ -592,7 +592,7 @@ On the edge of a great battle, the warrior Arjuna loses his nerve: he cannot bri
 - After the first atomic bomb test in 1945, J. Robert Oppenheimer recalled a line from the Gita: "Now I am become Death, the destroyer of worlds."
 
 ### Analyse
-- **Debate:** does the Gita justify war, or use the battle as a symbol of an inner struggle? Gandhi, who read it daily, took the second view. [verify: source for Gandhi's reading]
+- **Debate:** does the Gita justify war, or use the battle as a symbol of an inner struggle? Gandhi, who read it daily, took the second view in his commentary *Anasaktiyoga* (1929).
 
 ### Quiz
 **Multiple choice.** Who are the two speakers of the Bhagavad Gita?
@@ -614,7 +614,7 @@ On the edge of a great battle, the warrior Arjuna loses his nerve: he cannot bri
 
 ## Deliverance from Error
 - id: p16 · type: read · creator: Abu Hamid al-Ghazali · year: c. 1100 · length: about 3 hours
-- edition: Richard McCarthy's translation. [verify: recommended edition and whether a free translation is available]
+- edition: Richard J. McCarthy's translation (Fons Vitae).
 - access: paid | buy, or borrow from a library
 
 ### Introduction
@@ -851,7 +851,7 @@ The best free reference in any academic subject. Every entry is written by a spe
 A podcast that tries to cover the whole history of philosophy, leaving nothing out, in short episodes of about twenty minutes. Unusually, it gives full series to Indian philosophy, Africana philosophy and philosophy in the Islamic world. Listen to the series on any tradition you want to explore further.
 
 **Trivia**
-- Adamson is a professor at LMU Munich and King's College London. [verify: current appointments]
+- Adamson is a professor at LMU Munich and King's College London.
 
 ### Quiz
 **Multiple choice.** What makes this podcast unusual?
