@@ -224,6 +224,48 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Also check:** Every music example checked against a score or recording
 - **Look first at:** The Rest Is Noise (mt17); Reading current research (mt24).
 
+## Astronomy
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** astronomers and science educators from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/astronomy
+- **Also check:** Every figure checked against current NASA, ESA or IAU values
+- **Look first at:** The Sleepwalkers (as17); Reading current research (as24).
+
+## Statistics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** statisticians and statistics teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/statistics
+- **Also check:** Every worked number checked by recalculation
+- **Look first at:** The Book of Why (st16); Reading current research (st24).
+
+## Architecture
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** architects and architectural historians from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/architecture
+- **Also check:** Every building date and attribution checked
+- **Look first at:** Why Architecture Matters (ac2); Modern Architecture: A Critical History (ac13); Reading current research (ac24).
+
+## Religion
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of religion, including members of several traditions and non-religious scholars.
+- **Link:** https://wasiulbahar.com/ascent/#/path/religion
+- **Also check:** Every tradition's description checked by a scholar from within it
+- **Also check:** Neutrality checked: no page argues for or against a faith
+- **Look first at:** Dialogues Concerning Natural Religion (re17); The Protestant Ethic and the Spirit of Capitalism (re18); A Secular Age (re19); Fields of Blood (re22); Reading current research (re24).
+
+## Archaeology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** archaeologists working on several continents.
+- **Link:** https://wasiulbahar.com/ascent/#/path/archaeology
+- **Also check:** Descendant communities consulted on the sections about their past
+- **Also check:** Every date checked against current published estimates
+- **Look first at:** Reading current research (ak24).
+
 ## Film
 
 - **Size:** 6 stages, 24 works, 96 quiz questions.

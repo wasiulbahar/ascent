@@ -49,5 +49,10 @@ export const PATHS = [
   { slug: "linguistics", title: "Linguistics", color: "rose", icon: "chat", fields: ["linguistics"], doms: ["languages-literature-and-linguistic-studies"] },
   { slug: "anthropology", title: "Anthropology", color: "peach", icon: "people", fields: ["anthropology"], doms: ["social-and-behavioural-sciences"] },
   { slug: "music-theory", title: "Music theory", color: "lilac", icon: "music", fields: ["music-theory"], doms: ["arts-design-and-creative-practice"] },
+  { slug: "astronomy", title: "Astronomy", color: "lilac", icon: "star", fields: ["astronomy-and-space-sciences"], doms: ["natural-sciences"] },
+  { slug: "statistics", title: "Statistics", color: "mint", icon: "chart", fields: ["statistics-and-probability"], doms: ["formal-sciences-and-mathematical-methods"] },
+  { slug: "architecture", title: "Architecture", color: "butter", icon: "arch", fields: ["architecture"], doms: ["architecture-planning-and-the-built-environment"] },
+  { slug: "religion", title: "Religion", color: "peach", icon: "flame", fields: ["comparative-religion", "religion-theology-and-non-religious-worldviews"], doms: ["humanities-and-historical-studies"] },
+  { slug: "archaeology", title: "Archaeology", color: "rose", icon: "trowel", fields: ["archaeology"], doms: ["humanities-and-historical-studies"] },
   { slug: "film", title: "Film", color: "sky", icon: "watch", fields: ["film-studies"], doms: ["arts-design-and-creative-practice"] },
 ];
