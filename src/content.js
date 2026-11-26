@@ -40,7 +40,7 @@ function parseStage(c, index) {
   const [title, ...rest] = c.split("\n");
   const [head, ...works] = rest.join("\n").split(/^## /m);
   const meta = {}, intro = [];
-  for (const l of head.split("\n")) { const m = l.match(/^(level|intent|gate):\s*(.*)$/); m ? (meta[m[1]] = m[2]) : intro.push(l); }
+  for (const l of head.split("\n")) { const m = l.match(/^(level|intent|gate|covers):\s*(.*)$/); m ? (meta[m[1]] = m[1] === "covers" ? m[2].split(",").map(s => s.trim()).filter(Boolean) : m[2]) : intro.push(l); }
   const stage = { index, num: index + 1, name: title.replace(/^Stage \d+:\s*/, "").trim(), ...meta, intro: intro.join("\n").trim(), works: [], extras: [] };
   for (const w of works) { const r = parseWork(w, stage); stage.works.push(r.work); stage.extras.push(...r.extras); }
   return stage;
@@ -88,4 +88,23 @@ export function parseQuiz(body) {
     else if (cur && /^> /.test(l)) cur.why += (cur.why ? " " : "") + l.slice(2);
   }
   return qs;
+}
+
+// Starter guides (guides/<field id>.md): a short introduction, five key works from beginner to
+// advanced, and a quick check. Line format for works:
+//   - level · *Title* · Creator · year · access | why it's worth reading
+export function parseGuide(src) {
+  src = src.replace(/\r\n/g, "\n");
+  const fm = {};
+  src = src.replace(/^---\n([\s\S]*?)\n---\n/, (_, b) => { for (const l of b.split("\n")) { const i = l.indexOf(":"); if (i > 0) fm[l.slice(0, i).trim()] = l.slice(i + 1).trim(); } return ""; });
+  const [head, ...secs] = src.split(/^## /m);
+  const title = (head.match(/^# (.+)$/m) || [])[1] || "";
+  const intro = head.replace(/^# .+$/m, "").trim();
+  const sec = name => (secs.find(s => s.startsWith(name)) || "").split("\n").slice(1).join("\n");
+  const works = sec("Key works").split("\n").filter(l => l.startsWith("- ")).map(l => {
+    const [main, why = ""] = l.slice(2).split(" | ");
+    const [level, t, creator, year, access] = main.split(" · ").map(s => s.trim());
+    return { level, title: t, creator, year, access, why: why.trim() };
+  });
+  return { fm, title, intro, works, quiz: parseQuiz(sec("Quick check")) };
 }

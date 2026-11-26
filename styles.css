@@ -452,3 +452,6 @@ nav.tabs a[aria-current="page"]{color:var(--ink);background:var(--bg)}
 .bigsearch{flex:1;min-width:0;font:inherit;font-size:17px;padding:12px 16px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
 .bigsearch:focus{outline:2px solid var(--ink);outline-offset:1px}
 #homesearch .btn{flex:none}
+.poilinks{font-weight:700}.poilinks a{color:inherit}
+.essaybox{margin-top:12px}.essay{max-height:420px;overflow:auto}
+.guideworks{margin:0;padding-left:22px;display:grid;gap:12px}.guideworks .chip{font-size:11px}

@@ -69,6 +69,7 @@ These goals are a draft standard. Mathematicians from more than one field, and a
 level: Beginner
 intent: The beauty and drama of mathematics, before any homework.
 gate: Score 70% or more across this stage's quizzes.
+covers: mathematics, number-theory
 
 Most people meet mathematics as rules and tests. Mathematicians meet it as puzzles, surprises and stories. This stage starts with a delightful tour of ideas, a free video channel, a three-hundred-year detective story, and the life of Ramanujan.
 
@@ -186,6 +187,7 @@ The life of Srinivasa Ramanujan, a clerk in Madras with almost no formal trainin
 level: Explorer
 intent: How to attack problems, fill gaps in school maths, and write your first proofs.
 gate: Score 70% or more across this stage's quizzes.
+covers: mathematical-logic, linear-algebra, elementary-algebra
 
 This stage teaches the habits behind all mathematics: a classic guide to problem solving, free practice to fill any gaps, a visual course on vectors and matrices, and a free textbook on proof. From here, keep a notebook. Mathematics is not a spectator sport.
 
@@ -294,6 +296,7 @@ Prove that the square root of 2 is irrational, by contradiction. Then explain ea
 level: Reader
 intent: Calculus, linear algebra, probability, and the first great book of proofs.
 gate: Score 70% or more across this stage's quizzes.
+covers: calculus, linear-algebra, probability-theory, euclidean-geometry
 
 This is the heart of first-year university mathematics, almost all of it free: a legendary MIT linear algebra course, a full calculus textbook, Harvard's famous probability course, and Euclid, who showed the world what a proof is.
 
@@ -409,6 +412,7 @@ Write Euclid's proof that there are infinitely many primes in your own words, th
 level: Connoisseur
 intent: Analysis and algebra, the two pillars of pure mathematics, and mathematics beyond Europe.
 gate: Score 70% or more across this stage's quizzes.
+covers: real-analysis, abstract-algebra, group-theory
 
 University mathematics turns from calculating to proving. This stage gives you the friendliest book on real analysis, a gentle introduction to abstract algebra, a collection of the most beautiful proofs ever found, and the history of mathematics in India.
 
@@ -525,6 +529,7 @@ Should the series π/4 = 1 − 1/3 + 1/5 − … be called the Madhava–Leibniz
 level: Specialist
 intent: Topology, complex numbers, chaos and computation.
 gate: Score 70% or more across this stage's quizzes.
+covers: topology, complex-analysis, dynamical-systems
 
 With proof and structure in hand, you can explore. This stage visits four great areas: the mathematics of shape, the surprising geometry of complex numbers, chaos theory, and mathematics with a computer.
 
@@ -642,6 +647,7 @@ Choose one of this stage's four areas and work ten exercises from its book, with
 level: Expert
 intent: The philosophy and limits of mathematics, the dissent, and the great open problems.
 gate: Score 70% or more across this stage's quizzes.
+covers: philosophy-of-mathematics, mathematics
 
 The last stage asks what mathematics is. You'll read a great mathematician's defence of useless beauty, a dialogue that argues proofs are never final, the story of the Millennium Prize problems, and current research.
 

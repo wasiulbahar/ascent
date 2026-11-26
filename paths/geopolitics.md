@@ -61,6 +61,7 @@ These goals are a draft standard. Expert reviewers, from more than one region an
 level: Beginner
 intent: Gripping stories and maps that make the news suddenly make sense.
 gate: Score 70% or more across this stage's quizzes.
+covers: geopolitics, international-relations
 
 You don't need any theory to start. This stage begins with a bestselling book of ten maps, a 2,400-year-old dialogue that still describes power politics better than most newspapers, a sweeping history of the routes that connected the world, and a documentary in which a former US defence secretary looks back on the wars he helped run. By the end, you'll look at a map and see pressures, not just borders.
 
@@ -200,6 +201,7 @@ Robert McNamara, US Secretary of Defense during the Vietnam War, looks back on h
 level: Explorer
 intent: Read the founders of the field in their own words, with a modern guide beside you.
 gate: Score 70% or more across this stage's quizzes.
+covers: geopolitics, political-geography
 
 Every argument in geopolitics today goes back to a handful of texts written between 1890 and 1947. Most of them are short, and most are free. This stage puts them in your hands alongside a modern introduction that explains why they mattered and where they went wrong.
 
@@ -381,6 +383,7 @@ A journalist revisits the founders of geopolitics and applies them to the twenty
 level: Reader
 intent: The great theories of international politics, each in its strongest form.
 gate: Score 70% or more across this stage's quizzes.
+covers: international-relations, political-theory
 
 Geopolitics sits inside a bigger field, international relations, which is divided into schools that explain the same events in completely different ways. This stage gives you each school's founding text, and its sharpest critic. By the end you'll be able to take any news story and say how a realist, a liberal and a constructivist would read it.
 
@@ -582,6 +585,7 @@ Take one recent event and explain it three ways: as a realist, a liberal and a c
 level: Connoisseur
 intent: How strategists in India, the Islamic world, China and the Global South have seen power.
 gate: Score 70% or more across this stage's quizzes.
+covers: geopolitics, area-studies, comparative-politics
 
 Most introductions to geopolitics are written from London, Washington or Berlin. This stage corrects that. You'll read an ancient Indian manual of statecraft, a medieval North African theory of rising and falling states, and contemporary thinkers from China, Singapore, India and beyond who see the world order very differently.
 
@@ -748,6 +752,7 @@ Compare Kautilya's mandala with Waltz's structural realism. What does each expla
 level: Specialist
 intent: Apply everything to the live issues: energy, water, technology, sanctions and war.
 gate: Score 70% or more across this stage's quizzes.
+covers: international-security, foreign-policy, geopolitics
 
 Theory is tested on reality. This stage turns to the forces reshaping the map now: the energy transition, water in South Asia, the semiconductor supply chain, the financial plumbing of sanctions, and the Indian Ocean. You'll also learn to use the same free databases that analysts use.
 
@@ -919,6 +924,7 @@ Write a full case analysis of one live issue: the war in Ukraine, the South Chin
 level: Expert
 intent: Question the field itself, then read the research that is shaping it now.
 gate: Score 70% or more across this stage's quizzes.
+covers: postcolonial-studies, international-relations
 
 The final stage turns the lens around. Who draws the maps, and whose interests do they serve? You'll read the scholars who challenged geopolitics from within, a classic critique of how the West imagines "the East", and the journals where today's arguments happen. By the end, you can join those arguments.
 

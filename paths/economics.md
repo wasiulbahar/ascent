@@ -60,6 +60,7 @@ These goals are a draft standard. Expert reviewers from more than one school of 
 level: Beginner
 intent: Stories, puzzles and a crisis: economics as you've never heard it.
 gate: Score 70% or more across this stage's quizzes.
+covers: economics
 
 The best way into economics is curiosity about the world around you. This stage starts with a podcast that explains the economy through stories, a bestselling book of surprising puzzles, a short guide that shows economics is a field of rival schools, and a documentary about the 2008 crash. By the end, you'll see economics everywhere.
 
@@ -194,6 +195,7 @@ A documentary about the 2008 financial crisis: how the housing bubble, risky len
 level: Explorer
 intent: The core toolkit, and the book that started it all.
 gate: Score 70% or more across this stage's quizzes.
+covers: microeconomics, macroeconomics
 
 Now learn the toolkit every economist uses: supply and demand, costs, markets, money and growth. This stage gives you a free, modern university textbook built around real data, free practice videos, a witty book that shows the tools at work in a coffee shop, and the opening chapters of the book that founded the subject.
 
@@ -325,6 +327,7 @@ Why is your coffee so expensive near a station? Why do supermarkets sell the sam
 level: Reader
 intent: Marx, Keynes, Hayek and Friedman, each in their own words.
 gate: Score 70% or more across this stage's quizzes.
+covers: macroeconomics, political-economy, economic-history
 
 Most of the economic arguments you hear today were first made by four people. Marx saw capitalism as dynamic but driven by conflict. Keynes argued that economies can get stuck, and governments must help. Hayek replied that planners can never know enough to run an economy. Friedman argued for stable money and limited government. Read each in their own words, and decide who is most convincing on which question.
 
@@ -458,6 +461,7 @@ Explain the 2008 financial crisis twice: once as Keynes would, and once as Hayek
 level: Connoisseur
 intent: Development, behaviour, inequality and the commons: the economics of real lives.
 gate: Score 70% or more across this stage's quizzes.
+covers: development-economics, behavioural-economics, institutional-economics
 
 The textbook assumes rational individuals in working markets. This stage asks what happens when that isn't true. You'll read an Indian economist on development as freedom, a psychologist on how people really decide, two economists who test anti-poverty ideas with experiments, a French economist on inequality, and the first woman to win the economics Nobel on how communities share resources.
 
@@ -622,6 +626,7 @@ Choose one: Is microcredit a good tool against poverty? Use Sen and Banerjee and
 level: Specialist
 intent: Crises, climate, the state and trade: today's arguments, with the data.
 gate: Score 70% or more across this stage's quizzes.
+covers: international-economics, financial-economics, environmental-economics
 
 This stage turns to the arguments shaping economies right now: how the 2008 crisis spread around the world, whether growth can continue on a finite planet, who really drives innovation, and why rich countries preach free trade they didn't practise themselves. You'll also learn to check claims with the same free data economists use.
 
@@ -765,6 +770,7 @@ Write a short case analysis: choose one country and one problem (inflation, unem
 level: Expert
 intent: The history of economic thought, how economists use models, and a sharp critic.
 gate: Score 70% or more across this stage's quizzes.
+covers: econometrics, economics
 
 The last stage looks at economics itself: how its ideas developed, how its models should and shouldn't be used, and what its critics say it gets wrong. You'll read the classic history of economic thought, Schumpeter on creative destruction, a defence of economic models, a scholarly journal written for non-specialists, and a full-scale attack on the mainstream.
 

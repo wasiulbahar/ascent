@@ -24,7 +24,7 @@ export const DOMAINS = [
 // Every published path. Add a line here when a new paths/<slug>.md is ready.
 // fields: the taxonomy entities the path teaches (ids in data/taxonomy.json); doms: its domains.
 export const PATHS = [
-  { slug: "dostoevsky", title: "Dostoevsky", color: "peach", icon: "book", fields: ["russian-literature", "world-literature"], doms: ["languages-literature-and-linguistic-studies"] },
+  { slug: "dostoevsky", title: "Dostoevsky", color: "peach", icon: "book", fields: ["russian-literature", "world-literature"], pois: ["fyodor-dostoevsky"], doms: ["languages-literature-and-linguistic-studies"] },
   { slug: "classical-music", title: "Classical music", color: "lilac", icon: "music", fields: ["music"], doms: ["arts-design-and-creative-practice"] },
   { slug: "geopolitics", title: "Geopolitics", color: "sky", icon: "globe", fields: ["geopolitics", "international-relations"], doms: ["social-and-behavioural-sciences"] },
   { slug: "philosophy", title: "Philosophy", color: "butter", icon: "bulb", fields: ["philosophy"], doms: ["humanities-and-historical-studies"] },
@@ -32,5 +32,7 @@ export const PATHS = [
   { slug: "history", title: "History", color: "lilac", icon: "globe", fields: ["history"], doms: ["humanities-and-historical-studies"] },
   { slug: "physics", title: "Physics", color: "sky", icon: "atom", fields: ["physics"], doms: ["natural-sciences"] },
   { slug: "mathematics", title: "Mathematics", color: "rose", icon: "sigma", fields: ["mathematics"], doms: ["formal-sciences-and-mathematical-methods"] },
+  { slug: "chemistry", title: "Chemistry", color: "peach", icon: "flask", fields: ["chemistry"], doms: ["natural-sciences"] },
+  { slug: "psychology", title: "Psychology", color: "lilac", icon: "spark", fields: ["psychology"], doms: ["social-and-behavioural-sciences"] },
   { slug: "biology", title: "Biology", color: "mint", icon: "leaf", fields: ["biological-sciences"], doms: ["natural-sciences"] },
 ];

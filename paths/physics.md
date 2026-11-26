@@ -69,6 +69,7 @@ These goals are a draft standard. Physicists from more than one specialism will 
 level: Beginner
 intent: Great physicists on the biggest ideas, with no equations needed.
 gate: Score 70% or more across this stage's quizzes.
+covers: physics, cosmology
 
 Physics starts with wonder. This stage gives you a tiny, beautiful book on the whole of modern physics, Feynman's famous first lectures, a free video series, and the best-selling science book of its time, Stephen Hawking's journey to the edge of the universe.
 
@@ -200,6 +201,7 @@ Where did the universe come from, and how will it end? What is a black hole? Is 
 level: Explorer
 intent: Algebra, calculus and Newton's laws, with your first problems.
 gate: Score 70% or more across this stage's quizzes.
+covers: classical-mechanics, calculus
 
 Physics is a language, and its grammar is mathematics. This stage builds both at once: free courses to refresh your algebra, a complete free textbook for mechanics, a free MIT course, and a beautiful video series that makes calculus visual. From here on, the quizzes include problems. Keep a notebook and a calculator beside you.
 
@@ -308,6 +310,7 @@ Calculus is the mathematics of change, and Newton invented much of it to do phys
 level: Reader
 intent: Mechanics, electricity, magnetism, waves and light, the physics of the nineteenth century.
 gate: Score 70% or more across this stage's quizzes.
+covers: classical-mechanics, electromagnetism, optics-and-photonics, thermodynamics-and-statistical-physics
 
 By 1900 physicists could describe almost everything they saw with Newton's mechanics and Maxwell's electromagnetism. This stage covers that whole classical world with a standard textbook, two more free OpenStax volumes, and Feynman's lectures for the deep ideas.
 
@@ -425,6 +428,7 @@ Explain, as if to a friend, how Maxwell's equations predicted that light is an e
 level: Connoisseur
 intent: The two revolutions of twentieth-century physics.
 gate: Score 70% or more across this stage's quizzes.
+covers: special-relativity, general-relativity, quantum-mechanics
 
 In the early 1900s classical physics broke in two places: at very high speeds, and at very small sizes. Einstein's relativity fixed the first, quantum mechanics the second. This stage gives you Einstein's own popular book, a free course that teaches physics the way physicists think, Feynman's account of light and matter, and the standard quantum mechanics textbook.
 
@@ -548,6 +552,7 @@ The double-slit experiment with single electrons: describe what is observed, and
 level: Specialist
 intent: The four core subjects of a physics degree, at undergraduate level.
 gate: Score 70% or more across this stage's quizzes.
+covers: analytical-mechanics, electrodynamics, statistical-mechanics, special-relativity
 
 This is where you study as a physics undergraduate does: four standard textbooks, one for each pillar of the degree. Expect to spend real time on problems. If the maths gets in the way, step back to the ladder in Before you start.
 
@@ -672,6 +677,7 @@ Choose one of this stage's four subjects and solve five end-of-chapter problems 
 level: Expert
 intent: How physics makes progress, its history beyond Europe, the dissent, and current research.
 gate: Score 70% or more across this stage's quizzes.
+covers: history-of-science, particle-physics
 
 The last stage steps back. You'll read the classic account of scientific revolutions, the story of physics in the medieval Islamic world, a physicist's sharp critique of today's theoretical physics, and current research.
 

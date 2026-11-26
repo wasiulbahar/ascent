@@ -1,11 +1,13 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk } from "./content.js?v=19";
-import { PATHS, DOMAINS } from "./paths.js?v=19";
-import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL } from "./taxonomy.js?v=19";
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=19";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=19";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=19";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=19";
+import { parsePath, blankOk, parseGuide } from "./content.js?v=20";
+import { PATHS, DOMAINS } from "./paths.js?v=20";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=20";
+// approved map edits (supabase/week7.sql) are applied on top of the published map for everyone
+hooks.changes = async () => { if (!sb) return []; const { data, error } = await sb.from("tax_changes").select("id,kind,target,payload,note").eq("status", "approved").order("id"); return error ? [] : data; };
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=20";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=20";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=20";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=20";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -31,6 +33,7 @@ const IC = {
   link: '<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',
   branch: '<path d="M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9"/>',
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  flask: '<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
   heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', scale: '<path d="M12 4v16M7 20h10M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/>',
@@ -50,7 +53,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=19`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=20`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -250,12 +253,16 @@ async function fieldView(id) {
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<a href="#/atlas">Map</a>›<span>${esc(e.n)}</span></div>
     <div style="display:grid;gap:10px"><h1>${esc(e.n)}</h1>
-      <div class="pills"><span class="pill">${TYPE_LABEL[e.t] || e.t}</span><span class="pill draft">Proposed</span>${e.src === "editorial" ? '<span class="pill">Ascent addition</span>' : ""}${e.a ? `<span class="pill">Also called ${e.a.map(esc).join(", ")}</span>` : ""}</div></div>
+      <div class="pills"><span class="pill">${TYPE_LABEL[e.t] || e.t}</span>${e.s === "approved" ? '<span class="pill endorsed">Approved</span>' : e.s === "deprecated" ? '<span class="pill">Deprecated</span>' : e.s === "merged" ? '<span class="pill">Merged</span>' : '<span class="pill draft">Proposed</span>'}${e.src === "editorial" ? '<span class="pill">Ascent addition</span>' : ""}${e.a ? `<span class="pill">Also called ${e.a.map(esc).join(", ")}</span>` : ""}</div></div>
+    ${e.s === "merged" && t.entities[e.into] ? `<div class="status warn"><b>Merged.</b> This field is now part of <a href="#/field/${e.into}">${esc(nameOf(t, e.into))}</a>.</div>` : ""}
+    ${e.s === "deprecated" ? `<div class="status warn"><b>Deprecated.</b> ${esc(e.why || "No longer used on the map.")}</div>` : ""}
     ${ps.length ? `<section><p class="label">Learn it</p><div class="row">${ps.map(p => pathNode(p.slug)).join("")}</div></section>` : ""}
     <section class="section"><h2>Where it sits</h2>${rs.length > 1 ? `<p class="muted">${esc(e.n)} belongs to more than one field, so it appears in ${rs.length} places on the map.</p>` : ""}
       <ul class="homes">${rs.map(r => `<li>${r.map(link).join(" › ")}</li>`).join("")}</ul></section>
     ${kids.length ? `<section class="section"><h2>Branches (${kids.length})</h2><div class="subs">${kids.map(k => { const n = (t.downs[k] || []).length; return `<a href="#/field/${k}">${esc(nameOf(t, k))}${n ? ` <i>${n}</i>` : ""}</a>`; }).join("")}</div></section>` : ""}
     ${cols.length ? `<section class="section"><h2>Also part of</h2><div class="subs">${cols.map(c => `<span>${esc(c.n)}</span>`).join("")}</div></section>` : ""}
+    ${(cv => cv.length ? `<section class="section"><h2>Covered in</h2><p class="muted">Path stages that teach ${esc(e.n)}.</p><ul class="results">${cv.map(({ x, s, via }) => `<li><a href="#/path/${x.m.slug}/stage/${s.num}"><b>${esc(x.m.title)} · Stage ${s.num}: ${esc(s.name)}</b><small>${esc(s.level || "")}${via ? ` · through ${esc(nameOf(t, via))}` : ""}</small></a></li>`).join("")}</ul></section>` : "")(coveredIn(await searchData(), id))}
+    <section class="section" id="guidesec"></section>
     <section class="section" id="poisec"><p class="muted">Loading points of interest…</p></section>
     ${(c => c.codes.length ? `<section class="section"><h2>Classification codes</h2>
       <p class="muted">How official classifications file this subject${c.via ? `, through ${esc(nameOf(t, c.via))}` : ""}. Every code still needs checking against the official documents.</p>
@@ -283,6 +290,62 @@ function poiSection() {
 }
 const redrawPoi = () => { const s = $("#poisec"); if (s) s.innerHTML = poiSection(); };
 
+async function poiLinksForWork(w) {
+  const P = await loadPoi().catch(() => null); if (!P) return "";
+  const byName = P.byName ||= Object.fromEntries(P.items.map(i => [plain(i.n), i]));
+  const hits = [byName[plain(w.title)], ...(w.creator || "").split(/,| and /).map(s => byName[plain(s)])].filter((x, k, a) => x && a.indexOf(x) === k);
+  return hits.length ? `<small class="poilinks">On the map: ${hits.map(i => `<a href="#/poi/${i.id}">${esc(i.n)}</a>`).join(", ")}</small>` : "";
+}
+// --- starter guides: a short way into any field that has no path yet --------------------------
+let guideIndex = null;
+const LEVEL_TEXT = { beginner: "Start here", intermediate: "Next", advanced: "Go deeper" };
+async function mountGuide(id) {
+  const box = $("#guidesec"); if (!box) return;
+  guideIndex ||= await fetch("guides/index.json?v=20").then(r => r.json()).catch(() => ({}));
+  if (!guideIndex[id]) return box.remove();
+  const g = parseGuide(await fetch(`guides/${id}.md?v=20`).then(r => r.text()));
+  box.innerHTML = `<h2>Starter guide <span class="pill draft">Draft</span></h2>
+    <div class="txt">${md(g.intro)}</div>
+    <ol class="guideworks">${g.works.map(w => `<li><span class="chip">${esc(LEVEL_TEXT[w.level] || w.level)}</span> <b>${inline(w.title)}</b>${accessBadge({ key: w.access })}<br><small class="muted">${esc([w.creator, w.year].filter(Boolean).join(" · "))}</small><br>${inline(w.why)}</li>`).join("")}</ol>
+    <p class="muted">A starter guide is a short first step, written by Ascent and waiting for expert review. Check the access notes before buying anything.</p>
+    ${g.quiz.length ? `<button class="btn ghost" type="button" data-guidequiz="${id}" style="justify-self:start">${ico("quiz")}Quick check (${g.quiz.length} questions)</button><div class="quizrun" id="guidequiz"></div>` : ""}`;
+  box.dataset.title = g.title; guideCache[id] = g;
+}
+const guideCache = {};
+function runGuideQuiz(id) {
+  const g = guideCache[id], stage = { num: 1, index: 0, works: [] }, fake = { stages: [stage], works: [] };
+  const box = $("#guidequiz"); $("[data-guidequiz]")?.remove();
+  runQuiz(box, { slug: "guides", p: fake, w: { id, quiz: g.quiz, stage }, onDone: (pass, right) => {
+    box.innerHTML = `<div class="qresult ${pass ? "pass" : "fail"}"><span class="medal small">${ico(pass ? "check" : "quiz")}</span><h1>${right} of ${g.quiz.length}</h1>
+      <p>${pass ? "You've got the basics. Pick a work from the list to keep going." : "Read the introduction again, then have another go."}</p></div>${pass ? "" : `<button class="btn ghost" type="button" data-guidequiz="${id}">Try again</button>`}`;
+  } });
+}
+
+// --- links between paths and the map ------------------------------------------------------
+const plain = s => (s || "").replace(/[*_]/g, "").replace(/\s*\(.*?\)\s*$/, "").trim().toLowerCase();
+// works and whole paths about a point of interest: same title, made by that person, or listed in PATHS.pois
+function pathLinksForPoi(D, it) {
+  const n = plain(it.n), out = [];
+  for (const x of D.paths) {
+    if ((x.m.pois || []).includes(it.id)) out.push({ href: `#/path/${x.m.slug}`, title: `${x.m.title}: the full path`, sub: `${x.p.stages.length} stages · ${x.p.works.length} works` });
+    for (const w of x.p.works) {
+      const made = it.ty === "person" && (w.creator || "").toLowerCase().includes(n);
+      if (plain(w.title) === n || made) out.push({ href: `#/path/${x.m.slug}/work/${w.id}`, title: w.title, sub: `${made ? "by them · " : ""}${x.m.title}, Stage ${w.stage.num}` });
+    }
+  }
+  return out.slice(0, 12);
+}
+// path stages that teach a field, directly or through its parent field
+function coveredIn(D, id) {
+  const parents = (D.t.ups[id] || []).map(u => u.p), out = [];
+  for (const x of D.paths) for (const s of x.p.stages) {
+    const c = s.covers || [];
+    if (c.includes(id)) out.push({ x, s, via: null });
+    else { const v = parents.find(p => c.includes(p)); if (v) out.push({ x, s, via: v }); }
+  }
+  return out;
+}
+
 // --- one point of interest ------------------------------------------------------------------
 async function poiView(id) {
   const [t, p] = await Promise.all([loadTax(), loadPoi()]);
@@ -292,10 +355,11 @@ async function poiView(id) {
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›<a href="#/atlas">Map</a>›<span>${esc(it.n)}</span></div>
     <div style="display:grid;gap:10px"><h1>${esc(it.n)}</h1>
-      <div class="pills"><span class="pill">${esc(POI_LABEL[it.ty] || it.ty)}</span><span class="pill draft">Proposed</span>${it.rv ? '<span class="pill">Needs review</span>' : ""}</div>
+      <div class="pills"><span class="pill">${esc(POI_LABEL[it.ty] || it.ty)}</span>${it.ok ? '<span class="pill endorsed">Approved</span>' : '<span class="pill draft">Proposed</span>'}${it.rv ? '<span class="pill">Needs review</span>' : ""}</div>
       ${d.d ? `<p class="lede">${esc(d.d.charAt(0).toUpperCase() + d.d.slice(1))}.</p><p class="muted" style="margin:0">Short description from Wikidata.</p>` : ""}</div>
     <section class="section"><h2>Studied in</h2><p class="muted">A point of interest isn't a discipline: it's something several fields study. These are its proposed homes.</p>
       <ul class="homes">${it.h.map(h => { const r = routes(t, h)[0]; return `<li>${r.map(x => t.dom[x] ? `<a href="#/area/${x.slice(2)}">${esc(nameOf(t, x))}</a>` : `<a href="#/field/${x}">${esc(nameOf(t, x))}</a>`).join(" › ")}${pathsFor(h).length ? " · path ready" : ""}</li>`; }).join("")}</ul></section>
+    ${(L => L.length ? `<section class="section"><h2>In Ascent's paths</h2><ul class="results">${L.map(l => `<li><a href="${l.href}"><b>${esc(l.title)}</b><small>${esc(l.sub)}</small></a></li>`).join("")}</ul></section>` : "")(pathLinksForPoi(await searchData(), it))}
     <section class="section"><h2>Read more</h2><div class="row"><a class="btn small ghost" href="${wiki}" target="_blank" rel="noopener">Wikipedia article</a>${d.q ? `<a class="btn small ghost" href="https://www.wikidata.org/wiki/${esc(d.q)}" target="_blank" rel="noopener">Wikidata ${esc(d.q)}</a>` : ""}</div></section>
     <section class="section"><h2>Source and status</h2>
       <p>Listed in Wikipedia's <a href="${esc(p.meta.url)}" target="_blank" rel="noopener">Vital articles, Level 4</a>${(d.src || []).map(([s, tr]) => `, under ${esc(s)}${tr ? ` › ${esc(tr)}` : ""}`).join(";")} (list revision of ${esc((p.meta.revisions[(d.src || [[""]])[0][0]] || [])[1] || "")}).</p>
@@ -343,6 +407,41 @@ async function searchView(q = "") {
     <input type="search" id="searchq" class="bigsearch" placeholder="Search paths, works, fields, people, events…" aria-label="Search everything" value="${esc(srch.q)}" autocomplete="off">
     <div id="searchres" class="stack" aria-live="polite">${searchResults(srch.q)}</div>
   </div>`;
+}
+
+// --- essays: Scholar challenges (one per stage) and the capstone, marked by reviewers ----------
+const ESSAY_STATE = { submitted: ["", "Submitted: waiting for a reviewer"], passed: ["ok", "Passed"], revise: ["warn", "Revision asked"] };
+async function mountEssays(slug) {
+  const boxes = [...document.querySelectorAll("[data-essay]")]; if (!boxes.length) return;
+  if (!sb || !auth.user) { boxes.forEach(b => b.innerHTML = `<p class="muted"><a href="#/signin">Sign in</a> to send your essay to a reviewer for marking.</p>`); return; }
+  const { data, error } = await sb.from("submissions").select("id,ref,status,marks,feedback,created_at").eq("path", slug).order("created_at", { ascending: false });
+  if (error) { boxes.forEach(b => b.innerHTML = `<p class="muted">Essay marking opens soon.</p>`); return; }
+  for (const b of boxes) {
+    const last = data.find(r => r.ref === b.dataset.essay), st = last && ESSAY_STATE[last.status];
+    const marks = last?.marks ? Object.entries(last.marks).map(([k, v]) => `${esc(k)} ${v}/4`).join(" · ") : "";
+    b.innerHTML = `${last ? `<div class="status ${st[0]}"><b>${st[1]}</b>${marks ? `<span>${marks}</span>` : ""}${last.feedback ? `<span>Reviewer's feedback: ${esc(last.feedback)}</span>` : ""}</div>` : ""}
+      ${!last || last.status === "revise" ? `<div class="field"><label for="essay-${b.dataset.essay}">${last ? "Your revised essay" : "Your essay"}</label><textarea id="essay-${b.dataset.essay}" rows="10" data-wordcount></textarea><small class="muted" aria-live="polite">0 words</small></div>
+        <button class="btn" type="button" data-essaysend="${b.dataset.essay}" style="justify-self:start">Send for marking</button>` : ""}`;
+  }
+}
+async function sendEssay(slug, ref) {
+  const body = $(`#essay-${ref}`).value.trim();
+  if (body.split(/\s+/).length < 100) return toast("Write at least 100 words before sending");
+  const { error } = await sb.from("submissions").insert({ user_id: auth.user.id, path: slug, ref, body });
+  if (error) return toast(`Couldn't send: ${error.message}`);
+  toast("Sent. A reviewer will mark it."); mountEssays(slug);
+}
+
+// --- verified certificates: issued by the database, checkable by anyone with the link ---------
+async function verifyView(cid) {
+  const { data, error } = sb ? await sb.rpc("verify_certificate", { cid }) : { data: null, error: true };
+  const c = !error && data?.[0], m = c && PATHS.find(p => p.slug === c.path);
+  if (!c) return `<div class="stack"><h1>Certificate not found</h1><p>This link doesn't match a certificate issued by Ascent. Check that it was copied in full.</p></div>`;
+  return `<div class="stack">
+    <div class="status ok"><b>Verified.</b> Ascent issued this certificate on ${esc(certDate(c.issued_at))}.</div>
+    <div class="cert" style="${C(m?.color || "lilac")}">${certInner(m?.title || c.path, c.name, c, certDate(c.issued_at), m?.icon || "trophy")}</div>
+    <p class="muted">${c.level === "full mastery" ? "Full mastery: every stage, the grand quiz, and a capstone essay passed by a reviewer." : "Grand quiz: every stage and the grand quiz passed. The capstone essay hasn't been marked yet."} Quiz answers are checked in the learner's browser; essays are marked by people.</p>
+    <a class="btn ghost" href="#/" style="justify-self:start">What is Ascent?</a></div>`;
 }
 
 // --- settings: appearance, the welcome tour, and resetting progress ------------------------
@@ -441,7 +540,7 @@ async function stageView(slug, num) {
     <section><p class="label">Works in this stage</p><div class="worklist">${s.works.map(w => `<a class="work${isDone(slug, w.id) ? " isdone" : ""}" href="#/path/${slug}/work/${w.id}">
       <span class="ic" style="${C(color)}">${ico(w.type)}</span><span><b>${esc(w.title)}${accessBadge(w.access)}</b><span>${esc([VERB[w.type], w.creator, w.length].filter(Boolean).join(" · "))}</span></span>
       ${isDone(slug, w.id) ? `<span class="tick" title="${DONE_VERB[w.type]}">${ico("check")}</span>` : ico("chev")}</a>`).join("")}</div></section>
-    ${s.extras.map(x => `<section class="layer"><span class="tag" style="${C(color)}">${esc(x.title)}</span><div class="txt">${md(x.body)}</div></section>`).join("")}
+    ${s.extras.map(x => `<section class="layer"><span class="tag" style="${C(color)}">${esc(x.title)}</span><div class="txt">${md(x.body)}</div>${/^Scholar challenge/i.test(x.title) ? `<div class="stack essaybox" data-essay="stage-${s.num}"></div>` : ""}</section>`).join("")}
     <a class="btn ghost" href="#/path/${slug}/map" style="justify-self:start">${ico("tree")}See it on the map</a>
   </div>`;
 }
@@ -493,7 +592,7 @@ async function workView(slug, id) {
   const color = stageColor(s);
   return `<div class="stack lesson">
     <div class="crumbs"><a href="#/path/${slug}">${esc(p.title)}</a>›<a href="#/path/${slug}/stage/${s.num}">Stage ${s.num}</a></div>
-    <div class="hero" style="${C(color)}"><span class="blob">${ico(w.type)}</span><small style="font-weight:700">${esc(facts)}</small><h1>${esc(w.title)}${accessBadge(w.access)}</h1></div>
+    <div class="hero" style="${C(color)}"><span class="blob">${ico(w.type)}</span><small style="font-weight:700">${esc(facts)}</small><h1>${esc(w.title)}${accessBadge(w.access)}</h1>${await poiLinksForWork(w)}</div>
     ${statuses(slug, p)[s.index].state === "locked" ? `<div class="status lock"><b>This work is in a locked stage.</b> You can explore it, but Stage ${s.num} opens properly once Stage ${s.num - 1} is passed.</div>` : ""}
     <ol class="steps" aria-label="Lesson steps">${steps.map((st, k) => {
       const href = st.id === "story" ? "" : `#/path/${slug}/work/${w.id}/${st.id}`, cur = st === nextStep;
@@ -701,7 +800,9 @@ async function masteryView(slug) {
         : m.ready ? `<button class="btn" type="button" data-masterystart>${ico("play")}Start the grand quiz</button>`
         : `<div class="status lock"><b>Pass every stage first.</b> Still to do: ${m.leftStages.map(s => `<a href="#/path/${slug}/stage/${s.num}">Stage ${s.num}, ${esc(s.name)}</a>`).join("; ")}. Already know them? <a href="#/path/${slug}/placement">Take the placement test</a>.</div>`}
     </div></div>
-    <p class="muted">The written parts of the mastery check (the source analysis and capstone essay) will be added when reviewer marking opens. Until then, the certificate records the grand quiz.</p>
+    <section class="section"><h2>Capstone essay</h2><p>Full mastery also needs a capstone essay, marked by a reviewer. Choose one of the questions from the last stage's Scholar challenge and write at least 1,500 words.</p>
+      ${(x => x ? `<div class="txt">${md(x.body)}</div>` : "")(p.stages[p.stages.length - 1].extras.find(x => /^Scholar challenge/i.test(x.title)))}
+      <div class="stack essaybox" data-essay="capstone"></div></section>
   </div>`;
 }
 async function mountMastery(slug) {
@@ -741,7 +842,8 @@ async function certView(slug) {
     <div class="cert" style="${C(meta.color)}" data-cert="${slug}" data-score="${m.best.score}" data-total="${m.best.total}" data-date="${esc(certDate(m.best.at))}">${certInner(p.title, certName(), m.best, certDate(m.best.at), meta.icon)}</div>
     <div class="field"><label for="certname">Name on the certificate</label><input id="certname" value="${esc(certName())}" autocomplete="name" maxlength="60"></div>
     <div class="row"><button class="btn" type="button" data-certimg>${ico("trophy")}Download as an image</button>${navigator.share ? `<button class="btn ghost" type="button" data-certshare>Share</button>` : ""}</div>
-    <p class="muted">The image is made on your device. Ascent doesn't yet offer a verification link; that comes with the written parts of the mastery check.</p>
+    ${auth.user && sb ? `<section class="section"><h2>Verified link</h2><p>Get a link anyone can open to check this certificate is real. It shows your name, the path, your score and the date, nothing else.</p>
+      <button class="btn ghost" type="button" data-certverify style="justify-self:start">Get a verified link</button><div id="certlink"></div></section>` : `<p class="muted"><a href="#/signin">Sign in</a> to get a verified link anyone can check.</p>`}
   </div>`;
 }
 function certInner(title, name, b, date, icon) {
@@ -964,6 +1066,7 @@ const ROUTES = [
   [/^#\/atlas$/, () => atlasView(), "atlas"],
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/settings$/, () => settingsView(), "settings"],
+  [/^#\/verify\/([0-9a-f-]{36})$/, m => verifyView(m[1]), "home"],
   [/^#\/search(?:\?q=(.*))?$/, m => searchView(m[1]), "home"],
   [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
   [/^#\/review(?:\/([\w-]+))?$/, m => reviewView(m[1]), "review"],
@@ -1000,7 +1103,8 @@ async function route({ keepScroll = false } = {}) {
   if (/^#\/path\/[\w-]+$/.test(hash)) fillTrust(m[1]);
   if (/\/placement$/.test(hash)) mountPlacement(m[1]);
   if (/\/mastery$/.test(hash)) mountMastery(m[1]);
-  if (/^#\/field\//.test(hash)) mountPoiSection(m[1]);
+  if (/^#\/path\/[\w-]+\/(stage\/\d+|mastery)$/.test(hash)) mountEssays(m[1]);
+  if (/^#\/field\//.test(hash)) { mountPoiSection(m[1]); mountGuide(m[1]); }
 }
 const refresh = () => route({ keepScroll: true });
 
@@ -1049,6 +1153,16 @@ document.addEventListener("click", async e => {
   if (d.tlevel) { tour.level = +d.tlevel; document.querySelectorAll("#layer [data-tlevel]").forEach(b => { const on = +b.dataset.tlevel === tour.level; b.classList.toggle("on", on); b.setAttribute("aria-checked", on); }); return; }
   if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); const body = $("#atlasbody");
     if (body) { body.innerHTML = atlasBody(); } else { await refresh(); } $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
+  if (d.guidequiz) { if (!$("#guidequiz")) { const b = document.createElement("div"); b.className = "quizrun"; b.id = "guidequiz"; t.after(b); } runGuideQuiz(d.guidequiz); return; }
+  if (d.essaysend) { sendEssay(slug, d.essaysend); return; }
+  if ("certverify" in d) {
+    const name = $("#certname")?.value.trim(); if (!name) return toast("Type the name for the certificate first");
+    const { data, error } = await sb.rpc("issue_certificate", { p_path: slug, p_name: name });
+    if (error) return toast(/function|schema cache/i.test(error.message) ? "Verified links open soon." : `Couldn't issue it: ${error.message}`);
+    const url = `${location.origin}${location.pathname}#/verify/${data}`;
+    $("#certlink").innerHTML = `<div class="field"><label for="certurl">Your verified link</label><input id="certurl" readonly value="${esc(url)}"></div><a class="btn small ghost" href="#/verify/${data}">Open it</a>`;
+    $("#certurl").select(); return;
+  }
   if (d.themeSet) { setTheme(d.themeSet); refresh(); return; }
   if (d.reset) {
     if (d.reset === "ask") resetting.path = $("#resetpath").value;
@@ -1110,6 +1224,7 @@ document.addEventListener("keydown", e => {
 document.addEventListener("input", e => {
   if (e.target.id === "atlasq") { atlas.q = e.target.value; $("#atlasbody").innerHTML = atlasBody(); }
   if (e.target.id === "searchq") { srch.q = e.target.value; $("#searchres").innerHTML = searchResults(srch.q); history.replaceState(null, "", `#/search?q=${encodeURIComponent(srch.q)}`); lastRoute = location.hash; }
+  if (e.target.matches?.("[data-wordcount]")) { const n = e.target.value.trim() ? e.target.value.trim().split(/\s+/).length : 0; e.target.nextElementSibling.textContent = `${n} word${n === 1 ? "" : "s"}`; }
   if (e.target.id === "poiq") { poiv.q = e.target.value; poiv.n = 30; const pos = e.target.selectionStart; redrawPoi(); const i = $("#poiq"); i.focus(); i.setSelectionRange(pos, pos); }
   if (e.target.id === "certname") { const v = e.target.value.trim(); $(".certname").textContent = v || "Your name"; try { localStorage.setItem("ascent-certname", v); } catch { /* storage blocked */ } }
 });

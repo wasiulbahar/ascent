@@ -63,6 +63,7 @@ These goals are a draft standard. Expert reviewers will confirm them against uni
 level: Beginner
 intent: Short, gripping works that let you hear his voice before the big novels.
 gate: Score 70% or more across this stage's quizzes.
+covers: russian-literature, world-literature
 
 Every great writer has a way in. For Dostoevsky it is not the thousand-page novels but three short works from three moments of his life: the hopeful young writer of 1848, the desperate gambler of 1866 and the famous prophet of the late 1870s. Together they take about eight hours, and by the end you will already recognise his signature: characters who talk to themselves in fevers of feeling, cities at night, and sudden turns from despair to grace.
 
@@ -214,6 +215,7 @@ A man who has decided that nothing matters plans to shoot himself tonight. On th
 level: Explorer
 intent: One complete masterpiece, read slowly, with company.
 gate: Score 70% or more across this stage's quizzes.
+covers: russian-literature
 
 *Crime and Punishment* is where most people fall for Dostoevsky, and for good reason. It moves like a thriller, yet it is a novel about ideas: what happens to a person who decides that morality is a rule for ordinary people only. Give it three or four weeks. The reading guide below breaks it into six parts, so it never feels like a wall.
 
@@ -302,6 +304,7 @@ A British television adaptation with John Simm as Raskolnikov. Watching after yo
 level: Reader
 intent: Three very different books, from the philosophical to the political.
 gate: Score 70% or more across this stage's quizzes.
+covers: russian-literature, narrative-studies
 
 Now you know his voice, it's time to see how far it reaches. This stage covers a furious philosophical monologue, a novel about a truly good man, and a political thriller based on a real murder. Each looks like a different writer at first; by the end of the stage you will see the one mind behind all three. You will also read his prison memoir, the experience underneath everything else.
 
@@ -483,6 +486,7 @@ Compare the Underground Man's freedom with Myshkin's goodness. What does each co
 level: Connoisseur
 intent: His final novel, read as the culmination of everything before it.
 gate: Score 70% or more across this stage's quizzes.
+covers: russian-literature, philosophy-of-religion
 
 *The Brothers Karamazov* is the book Dostoevsky was building toward all his life, and many readers call it the greatest novel ever written. Everything you have met so far returns here: the murderer's theory, the good man, the rebel, the believer, the court case. Give it two months. You will finish it able to read anything.
 
@@ -574,6 +578,7 @@ In June 1880, at the unveiling of the Pushkin monument in Moscow, Dostoevsky gav
 level: Specialist
 intent: Complete the canon: his debut, the fifth great novel, and the late short masterpieces.
 gate: Score 70% or more across this stage's quizzes.
+covers: russian-literature, literary-criticism
 
 Most readers stop after *Karamazov*. Specialists don't. This stage fills in the rest: the debut that made him famous, the strange early novella about a double, the least-read of his five great novels, and the short works he wrote in the margins of his journalism. Reading them in light of everything else is where you start to see the shape of a whole career.
 
@@ -784,6 +789,7 @@ Draw the map of his career. Choose five works from five different decades of his
 level: Expert
 intent: Read the critics, the dissenters and the writers he changed, then argue with them.
 gate: Score 70% or more across this stage's quizzes.
+covers: literary-theory, literary-criticism, comparative-literature
 
 The last stage turns you from a reader of Dostoevsky into someone who can take part in the argument about him. You'll read the great critics, at least one writer who couldn't stand him, and the philosophers he changed. Then you'll write your own answer to the oldest questions about his work.
 

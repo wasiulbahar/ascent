@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ascent flow tests</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png">
 <!--
   Click-through tests for the main learner flows, run against the real app in a frame.
   Serve the project folder (the "ascent" preview, port 8796) and open /tests/flows.html.
@@ -19,8 +20,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=19";
-import { PATHS } from "../src/paths.js?v=19";
+import { parsePath } from "../src/content.js?v=20";
+import { PATHS } from "../src/paths.js?v=20";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -256,6 +257,38 @@ const TESTS = {
       const o = $$("[data-opt]"); if (o.length) o[0].click(); else { $("#blank").value = "x"; $("#blank").dispatchEvent(new Event("input")); }
       $("[data-check]").click(); (await until(() => $("[data-nextq]"), "Continue")).click(); await wait(80);
     }
+  },
+  async "paths and the map link to each other"() {
+    await fresh("#/poi/fyodor-dostoevsky");
+    await until(() => $("a[href='#/path/dostoevsky']"), "the Dostoevsky path on his page");
+    await go("#/poi/crime-and-punishment");
+    await until(() => $("a[href^='#/path/dostoevsky/work/']"), "the lesson for Crime and Punishment");
+    await go("#/field/population-genetics");
+    await until(() => $$(".results a[href='#/path/biology/stage/5']").length, "Covered in: Biology, Stage 5");
+    await go("#/path/physics/work/ph2");
+    await until(() => $(".poilinks a[href='#/poi/richard-feynman']"), "Feynman's page linked from his work");
+  },
+  async "starter guides on field pages, with a quick check"() {
+    await fresh("#/field/virology");
+    await until(() => /Starter guide/.test($("#guidesec")?.textContent || ""), "the virology guide");
+    ok($$("#guidesec .guideworks li").length === 5, "five key works");
+    $("[data-guidequiz]").click();
+    await until(() => $("#guidequiz .qt") || $("#guidequiz .qresult"), "the quick check");
+    await go("#/field/physics");
+    await until(() => $("#poisec h2"), "physics page");
+    ok(!$("#guidesec") || !$("#guidesec").textContent.trim(), "fields without a guide show none");
+  },
+  async "essays: a box under each Scholar challenge and the capstone"() {
+    await fresh("#/path/history/stage/3");
+    await until(() => $("[data-essay='stage-3']")?.textContent.trim(), "the essay box");
+    ok(/Sign in/.test($("[data-essay='stage-3']").textContent), "signed-out visitors are asked to sign in");
+    await go("#/path/history/mastery");
+    await until(() => $("[data-essay='capstone']"), "the capstone box");
+    ok(/Capstone essay/.test($("#view").textContent), "the capstone section");
+  },
+  async "a made-up certificate link is not verified"() {
+    await fresh("#/verify/00000000-0000-4000-8000-000000000000");
+    await until(() => /Certificate not found/.test($("#view").textContent), "the not-found message");
   },
   async "answer options are shuffled"() {
     await fresh();

@@ -55,6 +55,7 @@ These goals are a draft standard. Expert reviewers will confirm them against uni
 level: Beginner
 intent: Famous, joyful and short. Early wins build the listening habit.
 gate: Score 70% or more across this stage's quizzes.
+covers: music, music-history
 
 You already know more classical music than you think: from films, adverts, ringtones and cartoons. This stage starts there, with three short pieces that almost everyone enjoys on first hearing, and an hour with one of the great musical explainers of the twentieth century. Together they take under two hours. By the end, you'll have heard a Baroque concerto, a Classical serenade and a symphony, and you'll know what to listen for in each.
 
@@ -226,6 +227,7 @@ A televised concert where the conductor Leonard Bernstein talks to a hall full o
 level: Explorer
 intent: Longer works, still carried by memorable tunes.
 gate: Score 70% or more across this stage's quizzes.
+covers: music-history, music-theory
 
 Now you can hold a melody in your head, it's time for whole works: a full symphony, a ballet suite, and music for a play. They are longer, but they never stop singing. You'll also read the best short guide to listening ever written, by a composer who wanted ordinary listeners to hear what musicians hear.
 
@@ -365,6 +367,7 @@ The composer of *Appalachian Spring* explains rhythm, melody, harmony, tone colo
 level: Listener
 intent: Deeper, darker and bigger music, plus your first song and your first opera.
 gate: Score 70% or more across this stage's quizzes.
+covers: music-history, musicology
 
 This stage includes music about grief, death and longing. It is heavier, and that is where much of the payoff is. You'll also meet two forms the earlier stages skipped: the art song, where a singer and pianist tell a story in four minutes, and opera, where music, drama and spectacle combine. Alongside, a free university course gives you names for everything you have been hearing.
 
@@ -571,6 +574,7 @@ Choose two pieces from this stage that express grief. How does each make you fee
 level: Connoisseur
 intent: Structure over melody. Music that reveals itself slowly.
 gate: Score 70% or more across this stage's quizzes.
+covers: music-theory, composition
 
 These works reward repeat listening. Try each one twice before deciding. You'll hear Bach's greatest keyboard puzzle, the string quartet at its most profound, and a symphony that tries to contain the whole world. Alongside, you'll start reading scores and read the most important book about the Classical style.
 
@@ -759,6 +763,7 @@ You don't need to play an instrument to follow a score. Learn to read the treble
 level: Specialist
 intent: Fill in the map: medieval to early modern, plus the great operas and the revolution of 1913.
 gate: Score 70% or more across this stage's quizzes.
+covers: music-history, musicology, opera
 
 Most listeners know a few centuries of music. Specialists know the whole story. This stage goes back to medieval chant and the Renaissance, fills in the Baroque and Classical opera, and arrives at the two pieces that opened modern music: Debussy's faun and Stravinsky's *Rite of Spring*.
 
@@ -989,6 +994,7 @@ Map the tradition: choose one work from each of five different periods in this p
 level: Expert
 intent: Music that broke the rules, the music that came after, and the writers who argued about it.
 gate: Score 70% or more across this stage's quizzes.
+covers: musicology, ethnomusicology, composition
 
 The last stage takes you through the twentieth century and into the present, from the first music without a home key to the pulsing repetitions of minimalism. Then you'll read the historians and critics, including one who thought most modern music had lost its way, and form your own view.
 

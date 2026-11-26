@@ -28,3 +28,15 @@ assert.ok(Object.values(t.entities).filter(e => e.t === "discipline").every(e =>
 assert.equal(codesFor(t, "genetics").via, "biological-sciences", "fields inherit codes from their discipline");
 assert.ok(codesFor(t, "physics").codes.some(([s, c]) => s === "UNESCO_ISCED_F" && c === "0533"), "physics maps to ISCED 0533");
 console.log("taxonomy: all checks passed");
+// editorial overlay (supabase tax_changes) applied on top of the published map
+import { applyTax, applyPoi, indexPoi } from "../src/taxonomy.js";
+{
+  const d = JSON.parse(fs.readFileSync(new URL("../data/taxonomy.json", import.meta.url), "utf8"));
+  const t2 = indexTax(applyTax(d, [{ kind: "add_field", target: "quantum-biology", payload: { name: "Quantum biology", parent: "biophysics" } }, { kind: "rename", target: "geopolitics", payload: { name: "Geopolitics and strategy" } }, { kind: "remove_link", target: "game-theory", payload: { parent: "microeconomics" } }]));
+  assert.ok(routes(t2, "quantum-biology")[0].includes("biophysics"), "approved new branches appear in the right place");
+  assert.ok(t2.entities.geopolitics.a.includes("Geopolitics"), "a renamed field keeps its old name as an alias");
+  assert.equal(t2.ups["game-theory"].length, 1, "a removed home is gone");
+  const p = applyPoi(indexPoi(JSON.parse(fs.readFileSync(new URL("../data/poi/index.json", import.meta.url), "utf8"))), [{ kind: "poi_homes", target: "albert-einstein", payload: { homes: ["physics"] } }]);
+  assert.deepEqual(p.byId["albert-einstein"].h, ["physics"], "moved points of interest change homes");
+  console.log("taxonomy: editorial overlay checks passed");
+}

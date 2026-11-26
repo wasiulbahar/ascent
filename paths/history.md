@@ -59,6 +59,7 @@ These goals are a draft standard. Expert reviewers from more than one region and
 level: Beginner
 intent: Great storytellers who make the past impossible to put down.
 gate: Score 70% or more across this stage's quizzes.
+covers: history, world-history
 
 History hooks people through stories. This stage starts with a bestselling sweep of all human history, a brilliant account of ancient Rome, a free podcast that makes the past feel like gossip, and the first historian of all, Herodotus, whose tales of kings and wars are still a pleasure to read.
 
@@ -190,6 +191,7 @@ The first Greek work of history: an enquiry into why the Greeks and Persians wen
 level: Explorer
 intent: How historians know what they know, and how to read a source.
 gate: Score 70% or more across this stage's quizzes.
+covers: historiography
 
 Before going further, learn how history is made. This stage gives you two classic short books about what history is, by a British diplomat-historian and a French historian who was killed by the Gestapo, plus a free video course for the big picture and a free collection of primary sources to practise on.
 
@@ -312,6 +314,7 @@ A large free collection of primary sources in translation: laws, letters, chroni
 level: Reader
 intent: China, the Islamic world, Europe and South Asia, told by their own historians and modern scholars.
 gate: Score 70% or more across this stage's quizzes.
+covers: ancient-history, medieval-history
 
 This stage travels across two thousand years and three continents: China's first great historian, a Moroccan who crossed the known world, medieval Europe re-imagined by a leading scholar, and South Asia in the age when Persian was a language of power from Istanbul to India.
 
@@ -439,6 +442,7 @@ Compare how Herodotus and Sima Qian decided what was true. What did each trust, 
 level: Connoisseur
 intent: Revolutions, empire and slavery, from Europe, the Atlantic and India.
 gate: Score 70% or more across this stage's quizzes.
+covers: modern-history, economic-history
 
 How did the modern world come about, and at whose expense? This stage pairs a Marxist classic on the age of revolution with a global history of the same years, then turns to the East India Company's conquest of Bengal and to a Caribbean historian's argument about slavery and British wealth.
 
@@ -561,6 +565,7 @@ Was British rule in India mainly a story of trade, or of conquest? Use Dalrymple
 level: Specialist
 intent: World wars, genocide, the end of empire, and the fall of the Soviet Union.
 gate: Score 70% or more across this stage's quizzes.
+covers: contemporary-history, oral-history
 
 The twentieth century was the most violent in human history, and the one that most shaped the world you live in. This stage gives you a great overview, the Partition of India in 1947, a survivor's testimony from Auschwitz, and an oral history of the people who lived through the end of the Soviet Union.
 
@@ -692,6 +697,7 @@ How reliable is memory as historical evidence? Use Levi and Alexievich, and comp
 level: Expert
 intent: The great schools, the challenge from beyond Europe, and a defence of empire to argue against.
 gate: Score 70% or more across this stage's quizzes.
+covers: historiography, social-history
 
 The last stage turns to historiography: the history of how history is written. You'll read a masterpiece of the Annales school, a classic of microhistory, a challenge to Europe-centred history from a historian of Bengal, a provocative defence of the British Empire that most historians reject, and current research.
 

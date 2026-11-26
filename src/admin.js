@@ -1,7 +1,8 @@
 // Admin dashboard, reviewer portal and "Report a problem". The database's row-level security decides
 // what each person can read or change; these screens only show what it allows.
-import { sb, auth, isStaff, isReviewer } from "./auth.js?v=19";
-import { PATHS } from "./paths.js?v=19";
+import { sb, auth, isStaff, isReviewer } from "./auth.js?v=20";
+import { PATHS } from "./paths.js?v=20";
+import { loadTax, loadPoi, search, nameOf, resetTax } from "./taxonomy.js?v=20";
 
 let H; // helpers handed over by app.js: esc, C, ico, inline, getPath, toast, refresh
 export const useHelpers = h => (H = h);
@@ -16,7 +17,7 @@ const ROLES = ["learner", "reviewer", "editor", "admin"];
 const verifyCount = w => w.layers.reduce((n, l) => n + (l.body.match(/\[verify/g) || []).length, 0);
 
 // --- admin -----------------------------------------------------------------------
-const TABS = [["overview", "Overview"], ["paths", "Paths"], ["reports", "Reports"], ["people", "People"], ["applications", "Applications"], ["insights", "Insights"], ["log", "Log"]];
+const TABS = [["overview", "Overview"], ["paths", "Paths"], ["reports", "Reports"], ["people", "People"], ["applications", "Applications"], ["insights", "Insights"], ["map", "Map editor"], ["essays", "Essays"], ["log", "Log"]];
 export async function adminView(tab = "overview") {
   if (!auth.user) return signinFirst("Admin");
   if (!isStaff()) return `<div class="stack"><h1>Admin</h1><p class="notice">Your account doesn't have admin access.</p></div>`;
@@ -29,6 +30,39 @@ const people = () => q(sb.from("profiles").select("id,email,display_name,role,cr
 const byId = list => Object.fromEntries(list.map(p => [p.id, p]));
 const who = p => p ? H.esc(p.display_name || p.email || "Unknown") : "Unknown";
 
+const KIND_TEXT = { add_field: "New branch", rename: "Rename", add_link: "New home", remove_link: "Home removed", deprecate: "Deprecated", merge: "Merged", approve_field: "Field approved", poi_homes: "Point of interest moved", approve_poi: "Point of interest approved" };
+const mapEd = { q: "", field: null };
+const txHits = t => mapEd.q.trim().length < 2 ? "" : search(t, mapEd.q, 8).map(id => `<li><button class="linkbtn" type="button" data-tx-pick="${id}">${H.esc(t.entities[id].n)}</button> <small class="muted">${id}</small></li>`).join("");
+async function txSave(kind, target, payload, note) {
+  const staff = isStaff();
+  const row = { kind, target, payload, note: note || null, actor_id: auth.user.id, status: staff ? "approved" : "proposed", ...(staff ? { decided_by: auth.user.id, decided_at: new Date().toISOString() } : {}) };
+  const { error } = await sb.from("tax_changes").insert(row);
+  if (error) return H.toast(/relation|does not exist|schema cache/i.test(error.message) ? "Run supabase/week7.sql first" : `Couldn't save: ${error.message}`);
+  resetTax(); H.toast(staff ? "Saved and applied" : "Proposed for an editor to approve"); H.refresh();
+}
+const RUBRIC = [["understanding", "Understanding of the works"], ["evidence", "Use of evidence"], ["argument", "Argument"], ["writing", "Clear writing"]];
+async function essaysPanel() {
+  const rows = await q(sb.from("submissions").select("id,created_at,path,ref,body,status,marks,feedback,user_id").order("created_at", { ascending: true }).limit(200));
+  const todo = rows.filter(r => r.status === "submitted" && r.user_id !== auth.user.id), done = rows.filter(r => r.status !== "submitted").slice(-20).reverse();
+  const label = async r => { const m = PATHS.find(x => x.slug === r.path); const p = m && await H.getPath(r.path).catch(() => null);
+    return `${H.esc(m?.title || r.path)} · ${r.ref === "capstone" ? "Capstone essay" : `Scholar challenge, Stage ${H.esc(r.ref.replace("stage-", ""))}${p ? `: ${H.esc(p.stages[+r.ref.replace("stage-", "") - 1]?.name || "")}` : ""}`}`; };
+  const items = await Promise.all(todo.map(async r => `<li class="section"><b>${await label(r)}</b> <small class="muted">· submitted ${day(r.created_at)} · ${r.body.trim().split(/\s+/).length} words</small>
+    <details><summary>Read the essay</summary><div class="txt essay">${H.esc(r.body).replace(/\n\n+/g, "</p><p>").replace(/^/, "<p>")}</p></div></details>
+    <div class="row">${RUBRIC.map(([k, l]) => `<label class="field" style="min-width:140px">${l}<select id="m-${k}-${r.id}">${[1, 2, 3, 4].map(n => `<option ${n === 3 ? "selected" : ""}>${n}</option>`).join("")}</select></label>`).join("")}</div>
+    <div class="field"><label for="m-fb-${r.id}">Feedback for the learner</label><textarea id="m-fb-${r.id}" rows="3"></textarea></div>
+    <span class="row"><button class="btn small" type="button" data-mark="${r.id}" data-to="passed">Pass</button><button class="btn small ghost" type="button" data-mark="${r.id}" data-to="revise">Ask for a revision</button></span></li>`));
+  return `<section class="stack"><h2>Essays to mark (${todo.length})</h2><p class="muted">Score each part from 1 (weak) to 4 (excellent), write a few lines of feedback, then pass the essay or ask for a revision. You can't mark your own.</p>
+    ${items.length ? `<ul class="results">${items.join("")}</ul>` : `<p class="muted">Nothing waiting.</p>`}
+    ${done.length ? `<h3>Recently marked</h3><ul class="results">${(await Promise.all(done.map(async r => `<li>${await label(r)} <small class="muted">· ${r.status === "passed" ? "passed" : "revision asked"}</small></li>`))).join("")}</ul>` : ""}</section>`;
+}
+async function markEssay(id, to) {
+  const marks = Object.fromEntries(RUBRIC.map(([k]) => [k, +document.querySelector(`#m-${k}-${id}`).value]));
+  const feedback = document.querySelector(`#m-fb-${id}`).value.trim();
+  if (!feedback) return H.toast("Write a little feedback first");
+  const { error } = await sb.from("submissions").update({ status: to, marks, feedback, marked_by: auth.user.id, marked_at: new Date().toISOString() }).eq("id", id);
+  if (error) return H.toast(`Couldn't save: ${error.message}`);
+  log("mark_essay", String(id), { status: to, marks }); H.toast(to === "passed" ? "Passed" : "Sent back for revision"); H.refresh();
+}
 const ADMIN = {
   // ponytail: counts are computed in the browser from whole tables; move them into SQL views once there are thousands of rows
   async overview() {
@@ -117,6 +151,38 @@ const ADMIN = {
     return blocks.join("");
   },
 
+  // the map editor: change log, the review queue for points of interest, and field actions
+  async map() {
+    const [t, p, rows] = await Promise.all([loadTax(), loadPoi(), q(sb.from("tax_changes").select("*").order("id", { ascending: false }).limit(200))]);
+    const pend = rows.filter(r => r.status === "proposed"), queue = p.items.filter(i => i.rv && !i.ok);
+    const f = mapEd.field && t.entities[mapEd.field], fname = id => H.esc(nameOf(t, id));
+    const rowText = r => `<b>${H.esc(KIND_TEXT[r.kind] || r.kind)}</b> · ${H.esc(t.entities[r.target]?.n || p.byId[r.target]?.n || r.target)}${r.payload?.name ? ` → “${H.esc(r.payload.name)}”` : ""}${r.payload?.parent ? ` · ${fname(r.payload.parent)}` : ""}${r.payload?.into ? ` → ${fname(r.payload.into)}` : ""}${r.payload?.homes ? ` → ${r.payload.homes.map(fname).join(", ")}` : ""}${r.note ? ` <small>(${H.esc(r.note)})</small>` : ""}`;
+    return `<p class="muted">Changes here are applied on top of the published map for every visitor as soon as they're approved. Everything is logged.</p>
+    ${pend.length ? `<section class="section"><h2>Waiting for a decision (${pend.length})</h2><ul class="results">${pend.map(r => `<li class="row" style="justify-content:space-between;align-items:center">${rowText(r)}<span class="row"><button class="btn small" type="button" data-tx-decide="${r.id}" data-to="approved">Approve</button><button class="btn small ghost" type="button" data-tx-decide="${r.id}" data-to="rejected">Reject</button></span></li>`).join("")}</ul></section>` : ""}
+    <section class="section"><h2>Edit a field</h2>
+      <div class="row"><input type="search" id="tx-find" placeholder="Find a field, such as genetics" aria-label="Find a field" autocomplete="off" value="${H.esc(mapEd.q)}"></div>
+      <ul class="results" id="tx-hits">${txHits(t)}</ul>
+      ${f ? `<div class="stack" style="gap:10px"><h3>${H.esc(f.n)} <small class="muted">(${f.t}, ${f.s})</small></h3>
+        <p class="muted">Homes: ${(t.ups[mapEd.field] || []).map(u => fname(u.p)).join(", ") || "none"}</p>
+        <div class="field"><label for="tx-note">Reason (shown in the log)</label><input id="tx-note" placeholder="Why this change?"></div>
+        <div class="row"><button class="btn small" type="button" data-tx="approve_field">Approve as reviewed</button></div>
+        <div class="row"><input id="tx-name" placeholder="New name" aria-label="New name"><button class="btn small ghost" type="button" data-tx="rename">Rename</button></div>
+        <div class="row"><input id="tx-parent" placeholder="Field id for a new home, e.g. statistics" aria-label="New home"><button class="btn small ghost" type="button" data-tx="add_link">Add home</button></div>
+        <div class="row"><select id="tx-unlink" aria-label="Home to remove">${(t.ups[mapEd.field] || []).map(u => `<option value="${H.esc(u.p)}">${fname(u.p)}</option>`).join("")}</select><button class="btn small ghost" type="button" data-tx="remove_link">Remove home</button></div>
+        <div class="row"><input id="tx-into" placeholder="Field id to merge into" aria-label="Merge into"><button class="btn small ghost" type="button" data-tx="merge">Merge</button><button class="btn small ghost" type="button" data-tx="deprecate">Deprecate</button></div>
+        <div class="row"><input id="tx-child" placeholder="Name of a new branch" aria-label="New branch"><select id="tx-ctype" aria-label="Branch type"><option value="subdiscipline">Field</option><option value="specialisation">Specialisation</option><option value="topic">Topic</option><option value="method">Method</option></select><button class="btn small ghost" type="button" data-tx="add_field">Add branch</button></div>
+      </div>` : ""}</section>
+    <section class="section"><h2>Points of interest to review (${queue.length})</h2>
+      <p class="muted">Placed only by their Wikipedia list section. Approve the homes, or replace them with field ids separated by commas.</p>
+      <ul class="results">${queue.slice(0, 25).map(i => `<li><div class="stack" style="gap:6px"><a href="#/poi/${i.id}"><b>${H.esc(i.n)}</b></a><small>${H.esc(i.ty)} · now in ${i.h.map(fname).join(", ")}</small>
+        <span class="row"><button class="btn small" type="button" data-tx-poi="${i.id}" data-act="approve_poi">Approve</button><input id="homes-${i.id}" placeholder="New homes, e.g. physics, history-of-science" aria-label="New homes for ${H.esc(i.n)}"><button class="btn small ghost" type="button" data-tx-poi="${i.id}" data-act="poi_homes">Move</button></span></div></li>`).join("")}</ul>
+      ${queue.length > 25 ? `<p class="muted">Showing 25 of ${queue.length}. Approved or moved items leave the queue.</p>` : ""}</section>
+    <section class="section"><h2>Change log</h2>${rows.length ? `<ul class="results">${rows.slice(0, 60).map(r => `<li>${rowText(r)} <small class="muted">· ${r.status} · ${day(r.created_at)}</small></li>`).join("")}</ul>` : `<p class="muted">No changes yet.</p>`}</section>`;
+  },
+
+  // essays waiting for marking (reviewers see the same list on their portal)
+  async essays() { return essaysPanel(); },
+
   async log() {
     const [rows, ppl] = await Promise.all([q(sb.from("audit_log").select("*").order("created_at", { ascending: false }).limit(100)), people()]);
     const P = byId(ppl);
@@ -137,7 +203,7 @@ export async function reviewView(slug) {
       if (!mine.length) return `<div class="stack"><h1>Review</h1>${nameNote}<p class="soon">No paths are assigned to you yet. The editors will let you know when one is ready.</p></div>`;
       const cards = await Promise.all(mine.map(async s => { const m = PATHS.find(x => x.slug === s); if (!m) return ""; const p = await H.getPath(s);
         return `<a class="card" href="#/review/${s}" style="${H.C(m.color)}">${H.ico(m.icon)}<div style="display:grid;gap:6px"><h2>${H.esc(m.title)}</h2><small>Version ${p.fm.version || 1} · ${p.works.length} works</small></div></a>`; }));
-      return `<div class="stack"><h1>Review</h1><p class="muted">Each review takes about 10 minutes a stage. You check a ready draft; you never write a path from scratch.</p>${nameNote}<div class="grid">${cards.join("")}</div></div>`;
+      return `<div class="stack"><h1>Review</h1><p class="muted">Each review takes about 10 minutes a stage. You check a ready draft; you never write a path from scratch.</p>${nameNote}<div class="grid">${cards.join("")}</div>${await essaysPanel().catch(() => "")}</div>`;
     }
     if (!mine.includes(slug)) return `<div class="stack"><h1>Review</h1><p class="notice">This path isn't assigned to you.</p></div>`;
     const p = await H.getPath(slug), m = PATHS.find(x => x.slug === slug), v = +(p.fm.version || 1);
@@ -231,4 +297,43 @@ document.addEventListener("submit", async e => {
   if (error) { err.textContent = `Couldn't send: ${error.message}`; err.hidden = false; return; }
   document.querySelector("#layer").innerHTML = "";
   H.toast("Sent to the editors. Thank you.");
+});
+
+// map editor and essay marking: clicks and typing
+document.addEventListener("input", async e => {
+  if (e.target.id !== "tx-find") return;
+  mapEd.q = e.target.value; const t = await loadTax(); const ul = document.querySelector("#tx-hits"); if (ul) ul.innerHTML = txHits(t);
+});
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-tx], [data-tx-pick], [data-tx-poi], [data-tx-decide], [data-mark]"); if (!b) return;
+  const v = id => document.querySelector(id)?.value.trim() || "", d = b.dataset, t = await loadTax();
+  if (d.txPick) { mapEd.field = d.txPick; H.refresh(); return; }
+  if (d.txDecide) {
+    const { error } = await sb.from("tax_changes").update({ status: d.to, decided_by: auth.user.id, decided_at: new Date().toISOString() }).eq("id", +d.txDecide);
+    if (error) return H.toast(`Couldn't save: ${error.message}`);
+    resetTax(); H.toast(d.to === "approved" ? "Approved and applied" : "Rejected"); H.refresh(); return;
+  }
+  if (d.txPoi) {
+    if (d.act === "approve_poi") return txSave("approve_poi", d.txPoi, {}, "");
+    const homes = v(`#homes-${d.txPoi}`).split(",").map(s => s.trim()).filter(Boolean);
+    const bad = homes.filter(h => !t.entities[h]);
+    if (!homes.length || bad.length) return H.toast(bad.length ? `Unknown field ids: ${bad.join(", ")}` : "Type at least one field id");
+    return txSave("poi_homes", d.txPoi, { homes }, "");
+  }
+  if (d.tx) {
+    const id = mapEd.field, note = v("#tx-note"), known = x => t.entities[x] || t.dom[x];
+    if (d.tx === "approve_field") return txSave("approve_field", id, {}, note);
+    if (d.tx === "rename") return v("#tx-name") ? txSave("rename", id, { name: v("#tx-name") }, note) : H.toast("Type the new name");
+    if (d.tx === "add_link") return known(v("#tx-parent")) ? txSave("add_link", id, { parent: v("#tx-parent") }, note) : H.toast("That field id isn't on the map");
+    if (d.tx === "remove_link") return (t.ups[id] || []).length > 1 ? txSave("remove_link", id, { parent: v("#tx-unlink") }, note) : H.toast("A field needs at least one home");
+    if (d.tx === "merge") return t.entities[v("#tx-into")] && v("#tx-into") !== id ? txSave("merge", id, { into: v("#tx-into") }, note) : H.toast("Type the id of the field to merge into");
+    if (d.tx === "deprecate") return note ? txSave("deprecate", id, {}, note) : H.toast("Give a reason for deprecating it");
+    if (d.tx === "add_field") {
+      const name = v("#tx-child"), nid = name.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      if (!name) return H.toast("Type the branch's name");
+      if (t.entities[nid]) return H.toast(`${name} is already on the map`);
+      return txSave("add_field", nid, { name, parent: id, type: v("#tx-ctype") }, note);
+    }
+  }
+  if (d.mark) return markEssay(+d.mark, d.to);
 });

@@ -60,6 +60,7 @@ These goals are a draft standard. Expert reviewers will confirm them against uni
 level: Beginner
 intent: A trial, an emperor's diary, and the whole story told simply.
 gate: Score 70% or more across this stage's quizzes.
+covers: philosophy
 
 Philosophy is easiest to love through people. This stage opens with Socrates defending his life in court, then lets you read a Roman emperor's private notes on how to live, then gives you the whole history of Western philosophy in forty short chapters and a set of lively videos. Within a few weeks you'll know the names, the big questions, and why people have died for them.
 
@@ -210,6 +211,7 @@ A fast, funny video series that introduces the main questions of philosophy, fro
 level: Explorer
 intent: The founding texts of Western philosophy, plus two modern guides.
 gate: Score 70% or more across this stage's quizzes.
+covers: ethics, epistemology, metaphysics
 
 Now read the books everything else answers. Plato's *Republic* asks what justice is and contains the most famous image in philosophy, the cave. Descartes doubts everything to find one thing he cannot doubt. Alongside, a short modern book sets out the big problems in plain words, and a celebrated Harvard course lets you watch hundreds of students argue about right and wrong.
 
@@ -360,6 +362,7 @@ One of the most famous university courses in the world, filmed in a packed Harva
 level: Reader
 intent: The great theories of right and wrong, knowledge and liberty.
 gate: Score 70% or more across this stage's quizzes.
+covers: political-philosophy, philosophy-of-mind, aesthetics
 
 This stage gives you the three great theories of ethics, side by side: Aristotle's virtue, Kant's duty, and Mill's happiness. Between them comes Hume, the Scottish sceptic who asked how we can know anything about cause and effect, and who, Kant said, woke him from his "dogmatic slumber". By the end you'll be able to take any moral question and say how each would answer it.
 
@@ -511,6 +514,7 @@ A friend is hiding in your house and a murderer at the door asks where they are.
 level: Connoisseur
 intent: How Chinese, Indian and Islamic philosophers answered the same great questions.
 gate: Score 70% or more across this stage's quizzes.
+covers: asian-philosophy, african-philosophy, comparative-philosophy
 
 Philosophy was born more than once. While Socrates questioned the Athenians, Confucius was teaching in China, and the questions of Indian philosophy were already old. This stage gives you four classics from three traditions: Confucian ethics, Daoist paradox, Indian thought on duty and action, and an Islamic scholar's crisis of doubt that strikingly anticipates Descartes.
 
@@ -651,6 +655,7 @@ Compare Confucius's *junzi* with Aristotle's virtuous person. What do they share
 level: Specialist
 intent: Four books that changed philosophy after the nineteenth century.
 gate: Score 70% or more across this stage's quizzes.
+covers: analytic-philosophy, continental-philosophy
 
 These are the books that made philosophy modern: Nietzsche asking where our values come from, Beauvoir asking what it means to be a woman, Rawls asking what a fair society would look like, and the later Wittgenstein asking what words really do. They are harder going, but by now you have the tools to read them.
 
@@ -784,6 +789,7 @@ Choose one: Is Rawls's veil of ignorance a fair test of justice, or does it smug
 level: Expert
 intent: Read the historians, use the scholarly reference works, and join today's arguments.
 gate: Score 70% or more across this stage's quizzes.
+covers: philosophy
 
 The last stage turns you from a reader of philosophers into someone who can work in the subject. You'll use the reference works scholars use, listen to the most complete history of philosophy ever attempted, read one of the most original books of recent ethics, and finish with the argument about whose philosophy gets taught in the first place.
 

@@ -67,6 +67,7 @@ These goals are a draft standard. Biologists from more than one field will confi
 level: Beginner
 intent: The wonder of living things, from whole planets of life to the microbes inside you.
 gate: Score 70% or more across this stage's quizzes.
+covers: biological-sciences, evolutionary-biology, microbiology
 
 Biology begins with looking. This stage starts with David Attenborough's grand history of life, a doctor's history of the gene, the hidden world of microbes, and a free video course for the big picture.
 
@@ -194,6 +195,7 @@ A quick, funny video tour of biology: chemistry of life, cells, DNA, genetics, e
 level: Explorer
 intent: Cells, molecules, genes and evolution, from a free textbook and Darwin himself.
 gate: Score 70% or more across this stage's quizzes.
+covers: cell-biology, genetics, evolutionary-biology
 
 This stage builds the foundations with a complete free university textbook and free practice, then turns to the most important book in biology, Darwin's *Origin*, and free interactive lessons from scientists.
 
@@ -313,6 +315,7 @@ Explain natural selection to a twelve-year-old, using one example from BioIntera
 level: Reader
 intent: The great ideas of modern biology, from the people who argued about them.
 gate: Score 70% or more across this stage's quizzes.
+covers: genetics, evolutionary-biology, cell-biology, molecular-biology
 
 Four books that shaped how biologists think: the gene's-eye view of evolution, the race for the structure of DNA (and the scientist it overlooked), the origin of complex cells, and the fish inside every human body.
 
@@ -431,6 +434,7 @@ A palaeontologist who helped find *Tiktaalik*, a 375-million-year-old fish with 
 level: Connoisseur
 intent: Ecology, biodiversity, behaviour, and a pioneer of plant science.
 gate: Score 70% or more across this stage's quizzes.
+covers: ecology, conservation-biology, behavioural-biology, botany-and-plant-sciences
 
 Living things never live alone. This stage covers the book that started the environmental movement, the richness of life on Earth, the biology of human behaviour, and the life of Jagadish Chandra Bose.
 
@@ -550,6 +554,7 @@ Choose a local ecosystem you know, such as a pond, a river or a city park. Draw 
 level: Specialist
 intent: The four pillars of a biology degree.
 gate: Score 70% or more across this stage's quizzes.
+covers: cell-biology, molecular-biology, evolutionary-biology, ecology, genetics, population-genetics
 
 Now study as a biology undergraduate does, with the standard textbook for each pillar: the cell, evolution, ecology and genetics. Each is long; read the chapters marked in the introduction, and do the end-of-chapter questions.
 
@@ -672,6 +677,7 @@ Choose one of this stage's four textbooks and answer ten of its end-of-chapter p
 level: Expert
 intent: A scientist ahead of her time, the challenge to gene-centred biology, research ethics, and current research.
 gate: Score 70% or more across this stage's quizzes.
+covers: genetics, theoretical-biology, medical-ethics
 
 The last stage steps back from the textbooks: the story of a geneticist ignored for decades and then given a Nobel prize, a physiologist's challenge to the gene's-eye view, the ethics of the cells that changed medicine, and current research.
 

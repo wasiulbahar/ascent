@@ -1,10 +1,12 @@
 // The knowledge taxonomy: a graph, not a tree. One entity per field; a field can have several
 // homes (parents). Data: data/taxonomy.json, built from the knowledge-base spec.
-import { PATHS } from "./paths.js?v=19";
+import { PATHS } from "./paths.js?v=20";
 
 let T = null;
 export async function loadTax() {
-  return T ||= indexTax(await (await fetch("data/taxonomy.json?v=19")).json());
+  if (T) return T;
+  const [d, rows] = await Promise.all([fetch("data/taxonomy.json?v=20").then(r => r.json()), changes()]);
+  return T = indexTax(applyTax(d, rows));
 }
 export function indexTax(d) {
   const ups = {}, downs = {}, inCol = {};
@@ -64,7 +66,11 @@ export const MAP_TYPE = { close: "about the same scope", broader: "a broader cat
 // data/poi/index.json, built by tools/build_poi.py; one record per item, several homes allowed.
 const slugify = s => s.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 let P = null;
-export async function loadPoi() { return P ||= indexPoi(await (await fetch("data/poi/index.json?v=19")).json()); }
+export async function loadPoi() {
+  if (P) return P;
+  const [d, rows] = await Promise.all([fetch("data/poi/index.json?v=20").then(r => r.json()), changes()]);
+  return P = applyPoi(indexPoi(d), rows);
+}
 export function indexPoi(d) {
   const items = d.items.map(([n, ty, h, id, rv]) => ({ id: id || slugify(n), n, ty: d.meta.types[ty], h: h.map(i => d.meta.homes[i]), rv: !!rv }));
   const byField = {};
@@ -86,7 +92,41 @@ export function searchPoi(p, q, limit = 20) {
 const details = {};
 export async function poiDetail(id) {
   const k = /^[a-z]/.test(id) ? id[0] : "0";
-  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=19`)).json();
+  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=20`)).json();
   return details[k][id];
 }
 export const POI_LABEL = { person: "Person", event: "Event", place: "Place", work: "Work", invention: "Invention or technology", law: "Law or legal text", species: "Species or organism", concept: "Concept or idea", institution: "Institution", object: "Object" };
+
+// --- approved editorial changes (supabase tax_changes), applied on top of the published files ---
+// app.js sets hooks.changes to a function returning approved rows; resetTax() reloads after an edit.
+export const hooks = { changes: null };
+let changesP = null;
+const changes = () => changesP ||= (hooks.changes ? hooks.changes().catch(() => []) : Promise.resolve([]));
+export function resetTax() { T = null; P = null; changesP = null; }
+export function applyTax(d, rows) {
+  for (const r of rows) {
+    const p = r.payload || {}, e = d.entities[r.target];
+    if (r.kind === "add_field" && !e) {
+      d.entities[r.target] = { n: p.name, t: p.type || "subdiscipline", s: "approved", src: "editorial", note: r.note || "" };
+      if (p.parent) d.rels.push([r.target, p.parent, p.parent.startsWith("d:") ? "part_of" : "subdiscipline_of", "editorial", r.note || ""]);
+    }
+    if (!e) continue;
+    if (r.kind === "rename" && p.name) { e.a = [...(e.a || []), e.n]; e.n = p.name; }
+    if (r.kind === "add_link" && p.parent && !d.rels.some(x => x[0] === r.target && x[1] === p.parent)) d.rels.push([r.target, p.parent, p.parent.startsWith("d:") ? "part_of" : "subdiscipline_of", "editorial", r.note || ""]);
+    if (r.kind === "remove_link") d.rels = d.rels.filter(x => !(x[0] === r.target && x[1] === p.parent));
+    if (r.kind === "deprecate") { e.s = "deprecated"; e.why = r.note || ""; }
+    if (r.kind === "merge" && p.into) { e.s = "merged"; e.into = p.into; }
+    if (r.kind === "approve_field" && e.s === "proposed") e.s = "approved";
+  }
+  return d;
+}
+export function applyPoi(p, rows) {
+  for (const r of rows) {
+    const it = p.byId[r.target]; if (!it) continue;
+    if (r.kind === "poi_homes" && Array.isArray(r.payload?.homes) && r.payload.homes.length) { it.h = r.payload.homes; it.rv = false; }
+    if (r.kind === "approve_poi") { it.rv = false; it.ok = true; }
+  }
+  p.byField = {};
+  for (const it of p.items) for (const h of it.h) (p.byField[h] ||= []).push(it);
+  return p;
+}
