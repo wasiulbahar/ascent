@@ -54,5 +54,10 @@ export const PATHS = [
   { slug: "architecture", title: "Architecture", color: "butter", icon: "arch", fields: ["architecture"], doms: ["architecture-planning-and-the-built-environment"] },
   { slug: "religion", title: "Religion", color: "peach", icon: "flame", fields: ["comparative-religion", "religion-theology-and-non-religious-worldviews"], doms: ["humanities-and-historical-studies"] },
   { slug: "archaeology", title: "Archaeology", color: "rose", icon: "trowel", fields: ["archaeology"], doms: ["humanities-and-historical-studies"] },
+  { slug: "geography", title: "Geography", color: "mint", icon: "compass", fields: ["geography"], doms: ["social-and-behavioural-sciences"] },
+  { slug: "earth-sciences", title: "Earth sciences", color: "peach", icon: "mountain", fields: ["earth-and-geosciences"], doms: ["natural-sciences"] },
+  { slug: "artificial-intelligence", title: "Artificial intelligence", color: "sky", icon: "chip", fields: ["artificial-intelligence"], doms: ["computer-information-and-data-sciences"] },
+  { slug: "journalism", title: "Journalism and media", color: "butter", icon: "mic", fields: ["journalism", "media-studies"], doms: ["communication-journalism-and-media-studies"] },
+  { slug: "theatre", title: "Theatre", color: "rose", icon: "mask", fields: ["theatre-studies"], doms: ["arts-design-and-creative-practice"] },
   { slug: "film", title: "Film", color: "sky", icon: "watch", fields: ["film-studies"], doms: ["arts-design-and-creative-practice"] },
 ];

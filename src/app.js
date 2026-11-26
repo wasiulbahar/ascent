@@ -1,15 +1,15 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk, parseGuide } from "./content.js?v=23";
-import { PATHS, DOMAINS } from "./paths.js?v=23";
-import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=23";
+import { parsePath, blankOk, parseGuide } from "./content.js?v=24";
+import { PATHS, DOMAINS } from "./paths.js?v=24";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=24";
 // approved map edits (supabase/week7.sql) are applied on top of the published map for everyone
 hooks.changes = async () => { if (!sb) return []; const { data, error } = await sb.from("tax_changes").select("id,kind,target,payload,note").eq("status", "approved").order("id"); return error ? [] : data; };
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=23";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=24";
 // Admin and reviewer screens load only when someone opens them (most visitors never do).
 let adminMod = null;
-const admin = () => adminMod ||= import("./admin.js?v=23").then(m => { m.useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() }); return m; });
-import { progress, loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=23";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=23";
+const admin = () => adminMod ||= import("./admin.js?v=24").then(m => { m.useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() }); return m; });
+import { progress, loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=24";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=24";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -39,7 +39,7 @@ const IC = {
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
   heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', scale: '<path d="M12 4v16M7 20h10M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/>',
-  chat: '<path d="M4 5h16v11H9l-5 4z"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>', arch: '<path d="M3 21h18M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 6l9-3 9 3"/>', flame: '<path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.7 1.3 2.5 2 2.5 0-3-1-5 1-8z"/>', trowel: '<path d="M14 3l7 7-6 6-7-7zM8 9l-5 9 3 3 9-5M10 14l-3 3"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 1.8 6 5"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>', compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>', mountain: '<path d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7.5 10.5l1.5 1.5 1.5-1.5"/>', chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>', mask: '<path d="M4 5c5 2 11 2 16 0v6a8 8 0 0 1-16 0z"/><path d="M8.5 10h2M13.5 10h2M9 15c2 1.5 4 1.5 6 0"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>', arch: '<path d="M3 21h18M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 6l9-3 9 3"/>', flame: '<path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.7 1.3 2.5 2 2.5 0-3-1-5 1-8z"/>', trowel: '<path d="M14 3l7 7-6 6-7-7zM8 9l-5 9 3 3 9-5M10 14l-3 3"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 1.8 6 5"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>', briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>',
   sigma: '<path d="M18 5H6l6 7-6 7h12"/>', leaf: '<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8"/>', atom: '<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
   chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -55,7 +55,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=23`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=24`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -307,9 +307,9 @@ let guideIndex = null;
 const LEVEL_TEXT = { beginner: "Start here", intermediate: "Next", advanced: "Go deeper" };
 async function mountGuide(id) {
   const box = $("#guidesec"); if (!box) return;
-  guideIndex ||= await fetch("guides/index.json?v=23").then(r => r.json()).catch(() => ({}));
+  guideIndex ||= await fetch("guides/index.json?v=24").then(r => r.json()).catch(() => ({}));
   if (!guideIndex[id]) return box.remove();
-  const g = parseGuide(await fetch(`guides/${id}.md?v=23`).then(r => r.text()));
+  const g = parseGuide(await fetch(`guides/${id}.md?v=24`).then(r => r.text()));
   box.innerHTML = `<h2>Starter guide <span class="pill draft">Draft</span></h2>
     <div class="txt">${md(g.intro)}</div>
     <ol class="guideworks">${g.works.map(w => `<li><span class="chip">${esc(LEVEL_TEXT[w.level] || w.level)}</span> <b>${inline(w.title)}</b>${accessBadge({ key: w.access })}<br><small class="muted">${esc([w.creator, w.year].filter(Boolean).join(" · "))}</small><br>${inline(w.why)}</li>`).join("")}</ol>
@@ -462,7 +462,7 @@ const centuryText = c => c === -1e9 ? "Before 3000 BCE" : c < -500 ? `${ordinal(
 function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 async function exploreData() {
   const [t, p] = await Promise.all([loadTax(), loadPoi()]);
-  ex.ww ||= await fetch("data/poi/when-where.json?v=23").then(r => r.json()).catch(() => ({}));
+  ex.ww ||= await fetch("data/poi/when-where.json?v=24").then(r => r.json()).catch(() => ({}));
   let items = ex.field ? poisUnder(t, p, ex.field) : p.items;
   if (ex.type) items = items.filter(i => i.ty === ex.type);
   return { t, p, items: items.map(i => ({ i, w: ex.ww[i.id] })).filter(x => x.w) };

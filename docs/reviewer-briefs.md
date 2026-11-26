@@ -266,6 +266,46 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Also check:** Every date checked against current published estimates
 - **Look first at:** Reading current research (ak24).
 
+## Geography
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** geographers from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/geography
+- **Also check:** Every map projection and figure checked
+- **Look first at:** Guns, Germs, and Steel (gg2); How to Lie with Maps (gg13); Geography and Geographers (gg17); The Revenge of Geography (gg23); Reading current research (gg24).
+
+## Earth sciences
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** geologists and earth scientists from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/earth-sciences
+- **Also check:** Every age and magnitude checked against current published values
+- **Look first at:** Reading current research (es24).
+
+## Artificial intelligence
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** AI researchers and AI ethicists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/artificial-intelligence
+- **Also check:** Every capability claim checked against a source
+- **Look first at:** Reading current research (ai24).
+
+## Journalism and media
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** journalists and media scholars from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/journalism
+- **Also check:** Balance checked: defenders and critics of the media represented
+- **Look first at:** The Data Journalism Handbook (jo10); Manufacturing Consent (jo13); The Emperor (jo20); Reading current research (jo24).
+
+## Theatre
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** theatre scholars and practitioners from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/theatre
+- **Also check:** Every production and premiere date checked
+- **Look first at:** Mother Courage and Her Children (th16); Brecht on Theatre (th17); Reading current research and criticism (th24).
+
 ## Film
 
 - **Size:** 6 stages, 24 works, 96 quiz questions.
