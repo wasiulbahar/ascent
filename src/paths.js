@@ -34,5 +34,13 @@ export const PATHS = [
   { slug: "mathematics", title: "Mathematics", color: "rose", icon: "sigma", fields: ["mathematics"], doms: ["formal-sciences-and-mathematical-methods"] },
   { slug: "chemistry", title: "Chemistry", color: "peach", icon: "flask", fields: ["chemistry"], doms: ["natural-sciences"] },
   { slug: "psychology", title: "Psychology", color: "lilac", icon: "spark", fields: ["psychology"], doms: ["social-and-behavioural-sciences"] },
+  { slug: "computer-science", title: "Computer science", color: "sky", icon: "code", fields: ["computer-science"], doms: ["computer-information-and-data-sciences"] },
+  { slug: "literature", title: "Literature", color: "rose", icon: "book", fields: ["literature-and-literary-studies", "world-literature"], doms: ["languages-literature-and-linguistic-studies"] },
+  { slug: "sociology", title: "Sociology", color: "butter", icon: "layers", fields: ["sociology"], doms: ["social-and-behavioural-sciences"] },
+  { slug: "law", title: "Law", color: "lilac", icon: "scale", fields: ["legal-studies-and-justice", "jurisprudence"], doms: ["law-legal-and-justice-studies"] },
   { slug: "biology", title: "Biology", color: "mint", icon: "leaf", fields: ["biological-sciences"], doms: ["natural-sciences"] },
+  { slug: "medicine", title: "Medicine and health", color: "rose", icon: "heart", fields: ["clinical-medicine", "public-and-population-health"], doms: ["medical-health-and-care-sciences"] },
+  { slug: "business", title: "Business and management", color: "butter", icon: "briefcase", fields: ["business-administration", "management"], doms: ["economics-business-finance-and-management"] },
+  { slug: "education", title: "Education", color: "sky", icon: "course", fields: ["educational-foundations", "pedagogy"], doms: ["education-and-learning-sciences"] },
+  { slug: "art-history", title: "Art history", color: "peach", icon: "palette", fields: ["art-history"], doms: ["arts-design-and-creative-practice"] },
 ];

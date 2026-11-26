@@ -20,8 +20,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=20";
-import { PATHS } from "../src/paths.js?v=20";
+import { parsePath } from "../src/content.js?v=21";
+import { PATHS } from "../src/paths.js?v=21";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -289,6 +289,39 @@ const TESTS = {
   async "a made-up certificate link is not verified"() {
     await fresh("#/verify/00000000-0000-4000-8000-000000000000");
     await until(() => /Certificate not found/.test($("#view").textContent), "the not-found message");
+  },
+  async "daily review: questions from passed quizzes, spaced by answers"() {
+    await fresh("#/practice");
+    await until(() => /Nothing to review yet/.test($("#view").textContent), "the empty state");
+    localStorage.setItem("ascent-attempts", JSON.stringify([{ path: "physics", work_id: "ph1", score: 4, total: 4, passed: true }]));
+    localStorage.removeItem("ascent-review");
+    const loaded = new Promise(r => frame.addEventListener("load", r, { once: true })); frame.contentWindow.location.reload(); await loaded;
+    await go("#/");
+    await until(() => $("a.hero[href='#/practice']"), "the review card on the home page");
+    await go("#/practice");
+    (await until(() => $("[data-practicestart]"), "the start button")).click();
+    const res = await answerAll(await getPath("physics"), () => true, "[data-practice]");
+    ok(/of/.test(res), `result was ${res}`);
+    const rv = JSON.parse(localStorage.getItem("ascent-review") || "{}"), keys = Object.keys(rv);
+    ok(keys.length >= 3 && keys.every(k => k.startsWith("physics:ph1:")), `scheduled ${keys.length} questions from the passed work`);
+    ok(keys.every(k => rv[k].b === 1 && rv[k].d > new Date().toISOString().slice(0, 10)), "right answers move to box 1 and come back later");
+    ok(!stored("ascent-attempts").some(a => a.work_id === "review"), "a review session doesn't count as a quiz attempt");
+    localStorage.removeItem("ascent-review");
+  },
+  async "explore: a timeline by century and a world map"() {
+    await fresh("#/explore?view=timeline");
+    await until(() => $$(".tl-row").length > 10, "century rows");
+    const row = $$(".tl-row").find(b => b.querySelector(".tl-label").textContent === "19th century"); ok(row, "a 19th-century row");
+    row.click();
+    await until(() => $(".tl-items a[href^='#/poi/']"), "items in the 19th century");
+    await go("#/explore?view=timeline&type=person");
+    await until(() => $$(".tl-row").length, "people on the timeline");
+    await go("#/explore?view=map");
+    await until(() => $$("#mapsvg .dot").length > 100, "dots on the world map", 15000);
+    $("#mapsvg .dot").dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await until(() => $("#mapcard a[href^='#/poi/']"), "the card for a tapped dot");
+    await go("#/field/physics");
+    await until(() => $("a[href='#/explore?view=timeline&field=physics']"), "a timeline link from a field page");
   },
   async "answer options are shuffled"() {
     await fresh();

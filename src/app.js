@@ -1,13 +1,13 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk, parseGuide } from "./content.js?v=20";
-import { PATHS, DOMAINS } from "./paths.js?v=20";
-import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=20";
+import { parsePath, blankOk, parseGuide } from "./content.js?v=21";
+import { PATHS, DOMAINS } from "./paths.js?v=21";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=21";
 // approved map edits (supabase/week7.sql) are applied on top of the published map for everyone
 hooks.changes = async () => { if (!sb) return []; const { data, error } = await sb.from("tax_changes").select("id,kind,target,payload,note").eq("status", "approved").order("id"); return error ? [] : data; };
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=20";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=20";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=20";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=20";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=21";
+import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=21";
+import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=21";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=21";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -37,7 +37,7 @@ const IC = {
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
   heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', scale: '<path d="M12 4v16M7 20h10M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/>',
-  chat: '<path d="M4 5h16v11H9l-5 4z"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>', briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>',
   sigma: '<path d="M18 5H6l6 7-6 7h12"/>', leaf: '<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8"/>', atom: '<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
   chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -53,7 +53,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=20`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=21`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -98,6 +98,7 @@ async function homeView() {
   const nx = cont && nextWork(cont.slug, cont.data);
   return `<div class="stack">
     <div><p class="muted" style="font-weight:700">${auth.user ? "Welcome back" : "Welcome"}</p><h1>${cont ? "Ready for your next work?" : "What do you want to understand?"}</h1></div>
+    ${await (async () => { const n = await rvDueCount().catch(() => 0); return n ? `<a class="hero continue" href="#/practice" style="${C("mint")}"><small style="font-weight:700">Daily review</small><h2>${n} question${n > 1 ? "s" : ""} ready</h2><span>About ${Math.max(1, Math.round(n * 0.4))} minute${n > 2 ? "s" : ""}, from works you've finished</span></a>` : ""; })()}
     <form id="homesearch" role="search" class="row" style="flex-wrap:nowrap"><input type="search" id="homeq" class="bigsearch" placeholder="Search paths, works, fields, people, events…" aria-label="Search everything" autocomplete="off"><button class="btn" type="submit">${ico("search")}<span class="sr-only">Search</span></button></form>
     ${cont ? `<a class="hero continue" href="#/path/${cont.slug}/work/${nx.id}" style="${C(stageColor(nx.stage))}">
       <small style="font-weight:700">${esc(cont.title)} · Stage ${nx.stage.num}: ${esc(nx.stage.name)}</small><h2>${esc(nx.title)}</h2>
@@ -208,6 +209,7 @@ async function atlasView() {
     <div style="display:grid;gap:8px"><h1>Map of knowledge</h1><p class="lede">Every field Ascent will cover, in ${t.domains.length} domains. Lit-up paths are ready to start; the rest are being written. Many fields belong to more than one domain.</p></div>
     <div class="stats">${[["Domains", t.domains.length], ["Fields", fields], ["Methods and topics", E.length - fields], ["Points of interest", p ? p.items.length.toLocaleString("en") : "–"], ["Paths ready", PATHS.length], ["Paths you've started", L.filter(x => x.started).length], ["Stages you've passed", `${passed} of ${total}`]]
       .map(([k, v]) => `<div class="stat"><small>${k}</small><b>${v}</b></div>`).join("")}</div>
+    <div class="row"><a class="btn ghost" href="#/explore?view=timeline">${ico("chart")}Timeline</a><a class="btn ghost" href="#/explore?view=map">${ico("globe")}World map</a></div>
     <div class="row atlasbar"><input type="search" id="atlasq" placeholder="Find a subject, such as genetics" aria-label="Find a subject" value="${esc(atlas.q)}" autocomplete="off"></div>
     <div class="row seg" role="group" aria-label="Browse by">${[["domains", "By domain"], ["collections", "Across domains"]].map(([v, l]) => `<button type="button" class="btn small ${atlas.view === v ? "" : "ghost"}" data-atlasview="${v}" aria-pressed="${atlas.view === v}">${l}</button>`).join("")}</div>
     <div id="atlasbody">${atlasBody()}</div>
@@ -283,6 +285,7 @@ function poiSection() {
   const shown = L.filter(it => (!poiv.type || it.ty === poiv.type) && (!q || it.n.toLowerCase().includes(q)));
   return `<h2>Points of interest (${L.length})</h2>
     <p class="muted">People, events, works, places and ideas studied in this field and its branches, from Wikipedia's list of vital articles. Placements are proposed by list section and still need review.</p>
+    <div class="row"><a class="btn small ghost" href="#/explore?view=timeline&field=${poiv.field}">See them on a timeline</a><a class="btn small ghost" href="#/explore?view=map&field=${poiv.field}">On a world map</a></div>
     <div class="row seg" role="group" aria-label="Filter by type"><button type="button" class="btn small ${poiv.type ? "ghost" : ""}" data-poitype="" aria-pressed="${!poiv.type}">All</button>${Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<button type="button" class="btn small ${poiv.type === k ? "" : "ghost"}" data-poitype="${k}" aria-pressed="${poiv.type === k}">${esc(POI_LABEL[k] || k)} (${n})</button>`).join("")}</div>
     <input type="search" id="poiq" placeholder="Find a point of interest" aria-label="Find a point of interest" value="${esc(poiv.q)}" autocomplete="off">
     ${shown.length ? `<div class="subs">${shown.slice(0, poiv.n).map(it => `<a href="#/poi/${it.id}">${esc(it.n)}</a>`).join("")}</div>
@@ -301,9 +304,9 @@ let guideIndex = null;
 const LEVEL_TEXT = { beginner: "Start here", intermediate: "Next", advanced: "Go deeper" };
 async function mountGuide(id) {
   const box = $("#guidesec"); if (!box) return;
-  guideIndex ||= await fetch("guides/index.json?v=20").then(r => r.json()).catch(() => ({}));
+  guideIndex ||= await fetch("guides/index.json?v=21").then(r => r.json()).catch(() => ({}));
   if (!guideIndex[id]) return box.remove();
-  const g = parseGuide(await fetch(`guides/${id}.md?v=20`).then(r => r.text()));
+  const g = parseGuide(await fetch(`guides/${id}.md?v=21`).then(r => r.text()));
   box.innerHTML = `<h2>Starter guide <span class="pill draft">Draft</span></h2>
     <div class="txt">${md(g.intro)}</div>
     <ol class="guideworks">${g.works.map(w => `<li><span class="chip">${esc(LEVEL_TEXT[w.level] || w.level)}</span> <b>${inline(w.title)}</b>${accessBadge({ key: w.access })}<br><small class="muted">${esc([w.creator, w.year].filter(Boolean).join(" · "))}</small><br>${inline(w.why)}</li>`).join("")}</ol>
@@ -444,6 +447,249 @@ async function verifyView(cid) {
     <a class="btn ghost" href="#/" style="justify-self:start">What is Ascent?</a></div>`;
 }
 
+// --- explore: points of interest on a timeline and a world map ------------------------------
+// Dates and places come from Wikidata (data/poi/when-where.json, built by tools/poi_when_where.py).
+// The world outline is Natural Earth (public domain) via the world-atlas package.
+const ex = { view: "timeline", type: "", field: "", from: -3000, to: 2025, open: null, vb: [0, 0, 1000, 500], sel: null, ww: null, land: null };
+const TYPE_PLURAL = { person: "People", event: "Events", work: "Works", invention: "Inventions", place: "Places", institution: "Institutions", concept: "Ideas", species: "Species", law: "Laws", object: "Objects" };
+const yearText = y => y == null ? "" : y < 0 ? `${-y} BCE` : `${y}`;
+// buckets: before 3000 BCE; millennia until 500 BCE; then centuries. The number is the bucket's start year.
+const centuryOf = y => y < -3000 ? -1e9 : y < -500 ? Math.floor(y / 1000) * 1000 : Math.floor(y / 100) * 100;
+const centuryText = c => c === -1e9 ? "Before 3000 BCE" : c < -500 ? `${ordinal(-c / 1000)} millennium BCE` : c < 0 ? `${ordinal(-c / 100)} century BCE` : `${ordinal(c / 100 + 1)} century`;
+function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+async function exploreData() {
+  const [t, p] = await Promise.all([loadTax(), loadPoi()]);
+  ex.ww ||= await fetch("data/poi/when-where.json?v=21").then(r => r.json()).catch(() => ({}));
+  let items = ex.field ? poisUnder(t, p, ex.field) : p.items;
+  if (ex.type) items = items.filter(i => i.ty === ex.type);
+  return { t, p, items: items.map(i => ({ i, w: ex.ww[i.id] })).filter(x => x.w) };
+}
+async function exploreView(qs = "") {
+  const prm = new URLSearchParams(decodeURIComponent(qs || ""));
+  ex.view = prm.get("view") === "map" ? "map" : "timeline"; ex.field = prm.get("field") || ""; ex.type = prm.get("type") || "";
+  const { t, items } = await exploreData();
+  const counts = {}; for (const x of items) counts[x.i.ty] = (counts[x.i.ty] || 0) + 1;
+  const link = o => `#/explore?${new URLSearchParams({ view: ex.view, ...(ex.field ? { field: ex.field } : {}), ...(ex.type ? { type: ex.type } : {}), ...o })}`;
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<a href="#/atlas">Map of knowledge</a>›<span>Explore</span></div>
+    <div style="display:grid;gap:8px"><h1>${ex.view === "map" ? "World map" : "Timeline"}${ex.field ? `: ${esc(nameOf(t, ex.field))}` : ""}</h1>
+      <p class="lede">${ex.view === "map" ? "Where the people, events, works and places of the map are on Earth. Pick a span of years, zoom in, and tap a dot." : "Five thousand years of people, events, works and ideas, century by century. Tap a century to see what was happening."}</p></div>
+    <div class="row seg" role="group" aria-label="View"><a class="btn small ${ex.view === "timeline" ? "" : "ghost"}" href="${link({ view: "timeline" })}" aria-current="${ex.view === "timeline"}">Timeline</a><a class="btn small ${ex.view === "map" ? "" : "ghost"}" href="${link({ view: "map" })}" aria-current="${ex.view === "map"}">World map</a>
+      ${ex.field ? `<a class="btn small ghost" href="#/explore?view=${ex.view}">Show every field</a>` : ""}</div>
+    <div class="row seg" role="group" aria-label="Filter by type"><a class="btn small ${ex.type ? "ghost" : ""}" href="${link({ type: "" })}">All</a>${Object.entries(TYPE_PLURAL).filter(([k]) => counts[k] || ex.type === k).map(([k, l]) => `<a class="btn small ${ex.type === k ? "" : "ghost"}" href="${link({ type: k })}">${l}</a>`).join("")}</div>
+    <div id="exbody">${ex.view === "map" ? mapShell() : timelineHtml(items)}</div>
+    <p class="muted">Dates and places from Wikidata, shown for ${items.length.toLocaleString("en")} points of interest that have them. The selection comes from English Wikipedia's list of vital articles, so some regions and periods are under-represented.</p>
+  </div>`;
+}
+function timelineHtml(items) {
+  const by = new Map();
+  for (const x of items) if (x.w[0] != null && x.w[0] <= 2030) { const c = centuryOf(x.w[0]); (by.get(c) || by.set(c, []).get(c)).push(x); }
+  const cs = [...by.keys()].sort((a, b) => a - b), max = Math.max(1, ...cs.map(c => by.get(c).length));
+  if (!cs.length) return `<p class="muted">Nothing dated to show for this filter.</p>`;
+  return `<ol class="timeline">${cs.map(c => { const L = by.get(c).sort((a, b) => a.w[0] - b.w[0]), open = ex.open === c;
+    return `<li><button type="button" class="tl-row" data-tl="${c}" aria-expanded="${open}"><span class="tl-label">${centuryText(c)}</span><span class="tl-bar"><i style="width:${Math.max(2, (L.length / max) * 100)}%"></i></span><span class="tl-n">${L.length}</span></button>
+      ${open ? `<div class="subs tl-items">${L.map(x => `<a href="#/poi/${x.i.id}"><i>${yearText(x.w[0])}</i> ${esc(x.i.n)}</a>`).join("")}</div>` : ""}</li>`; }).join("")}</ol>`;
+}
+function mapShell() {
+  return `<div class="row" style="align-items:center"><label class="field" style="flex-direction:row;align-items:center;gap:8px">From <input type="number" id="ex-from" value="${ex.from}" step="50" style="width:7em"></label>
+      <label class="field" style="flex-direction:row;align-items:center;gap:8px">to <input type="number" id="ex-to" value="${ex.to}" step="50" style="width:7em"></label><small class="muted">Use minus for BCE, e.g. -500.</small></div>
+    <div class="worldmap" id="worldmap"><p class="muted">Loading the map…</p></div>
+    <div class="row"><button class="btn small ghost" type="button" data-zoom="1.6" aria-label="Zoom in">+</button><button class="btn small ghost" type="button" data-zoom="0.625" aria-label="Zoom out">−</button><button class="btn small ghost" type="button" data-zoom="0">Whole world</button></div>
+    <div id="mapcard" aria-live="polite"></div>
+    <details><summary>List of what's on the map</summary><div class="subs" id="maplist"></div></details>`;
+}
+async function loadLand() {
+  if (ex.land) return ex.land;
+  const load = src => new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+  if (!window.topojson) await load("https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js");
+  const topo = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json").then(r => r.json());
+  const geo = topojson.feature(topo, topo.objects.land), P = ([lon, lat]) => `${((lon + 180) / 360 * 1000).toFixed(1)},${((90 - lat) / 180 * 500).toFixed(1)}`;
+  const polys = geo.features.flatMap(f => f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates);
+  // a ring that crosses the 180° meridian would be drawn the long way round: start a new line at the seam
+  const ring = r => r.map((pt, k) => (k && Math.abs(pt[0] - r[k - 1][0]) > 180 ? "M" : k ? "L" : "M") + P(pt)).join("");
+  return ex.land = polys.map(rings => rings.map(ring).join("")).join("");
+}
+async function drawMap() {
+  const box = $("#worldmap"); if (!box) return;
+  const { items } = await exploreData();
+  const from = ex.from, to = ex.to;
+  const pts = items.filter(x => x.w[2] != null && (x.w[0] == null ? from <= -3000 && to >= 2025 : x.w[0] >= from && x.w[0] <= to));
+  let land = ""; try { land = await loadLand(); } catch { land = ""; }
+  const r = Math.max(0.8, 3 * ex.vb[2] / 1000);
+  box.innerHTML = `<svg viewBox="${ex.vb.join(" ")}" role="img" aria-label="World map with ${pts.length} points of interest" id="mapsvg">
+    <rect x="-1000" y="-500" width="3000" height="1500" class="sea"/><path d="${land}" class="land"/>
+    ${pts.map(x => `<circle cx="${((x.w[3] + 180) / 360 * 1000).toFixed(1)}" cy="${((90 - x.w[2]) / 180 * 500).toFixed(1)}" r="${r}" class="dot t-${x.i.ty}${ex.sel === x.i.id ? " on" : ""}" data-pt="${x.i.id}"><title>${esc(x.i.n)}</title></circle>`).join("")}</svg>`;
+  $("#maplist").innerHTML = pts.slice(0, 300).map(x => `<a href="#/poi/${x.i.id}">${esc(x.i.n)}${x.w[0] != null ? ` <i>${yearText(x.w[0])}</i>` : ""}</a>`).join("") + (pts.length > 300 ? `<span>…and ${pts.length - 300} more. Narrow the years or the type.</span>` : "");
+}
+function mapCard(id) {
+  const x = ex.ww[id], it = loadPoiSync(id); if (!it) return;
+  ex.sel = id;
+  $("#mapcard").innerHTML = `<a class="results-card" href="#/poi/${id}"><b>${esc(it.n)}</b><small>${esc(POI_LABEL[it.ty] || it.ty)}${x?.[0] != null ? ` · ${yearText(x[0])}${x[1] != null ? `–${yearText(x[1])}` : ""}` : ""} · open its page</small></a>`;
+  document.querySelectorAll("#mapsvg .dot.on").forEach(d => d.classList.remove("on"));
+  document.querySelector(`#mapsvg [data-pt="${id}"]`)?.classList.add("on");
+}
+let poiRef = null; const loadPoiSync = id => poiRef?.byId[id];
+function zoomMap(f) {
+  if (!f) { ex.vb = [0, 0, 1000, 500]; return drawMap(); }
+  const [x, y, w, h] = ex.vb, nw = Math.min(1000, Math.max(40, w / f)), nh = nw / 2;
+  ex.vb = [x + (w - nw) / 2, y + (h - nh) / 2, nw, nh]; drawMap();
+}
+// drag to pan
+let drag = null;
+document.addEventListener("pointerdown", e => { const s = e.target.closest("#mapsvg"); if (!s || e.target.closest(".dot")) return; drag = { x: e.clientX, y: e.clientY, vb: [...ex.vb], k: ex.vb[2] / s.clientWidth }; s.setPointerCapture?.(e.pointerId); });
+document.addEventListener("pointermove", e => { if (!drag) return; const s = $("#mapsvg"); if (!s) return; ex.vb = [drag.vb[0] - (e.clientX - drag.x) * drag.k, drag.vb[1] - (e.clientY - drag.y) * drag.k, drag.vb[2], drag.vb[3]]; s.setAttribute("viewBox", ex.vb.join(" ")); });
+document.addEventListener("pointerup", () => { drag = null; });
+
+// --- daily review: spaced repetition of questions from quizzes you've passed ------------------
+// Leitner boxes: a right answer moves a question up a box (next review after 1, 3, 7, 16, 35 days);
+// a wrong one sends it back to box 1 (tomorrow). Saved in this browser, and in the account when
+// supabase/week8.sql is installed.
+const RV = { key: "ascent-review", max: 10, newMax: 5, gaps: [1, 3, 7, 16, 35], state: null };
+const today = () => new Date().toISOString().slice(0, 10);
+const addDays = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+const qhash = s => { let h = 5381; for (const c of s) h = (h * 33 + c.codePointAt(0)) >>> 0; return h.toString(36); };
+function rvState() {
+  if (!RV.state) { try { RV.state = JSON.parse(localStorage.getItem(RV.key) || "{}"); } catch { RV.state = {}; } }
+  return RV.state;
+}
+async function rvSync() {
+  rvState();
+  if (!sb || !auth.user) return;
+  const { data, error } = await sb.from("review_state").select("key,box,due");
+  if (!error) for (const r of data) RV.state[r.key] = { b: r.box, d: r.due };
+}
+async function rvSave(key, rec) {
+  RV.state[key] = rec;
+  try { localStorage.setItem(RV.key, JSON.stringify(RV.state)); } catch { /* storage blocked */ }
+  if (sb && auth.user) await sb.from("review_state").upsert({ user_id: auth.user.id, key, box: rec.b, due: rec.d, updated_at: new Date().toISOString() }).then(() => {}, () => {});
+}
+// every question from works whose quiz you've passed or that you've ticked off
+async function rvPool() {
+  const paths = (await Promise.all(PATHS.map(async m => ({ m, p: await getPath(m.slug).catch(() => null) })))).filter(x => x.p), out = [];
+  for (const x of paths) for (const w of x.p.works) {
+    const b = best(x.m.slug, w.id);
+    if (!(b && b.score / b.total >= PASS_MARK) && !isDone(x.m.slug, w.id)) continue;
+    for (const q of w.quiz) if (!LESSON_ONLY.test(q.q)) out.push({ ...q, from: `${w.title} (${x.m.title})`, key: `${x.m.slug}:${w.id}:${qhash(q.q)}` });
+  }
+  return out;
+}
+function rvPick(pool) {
+  const st = rvState(), t = today();
+  const due = pool.filter(q => st[q.key] && st[q.key].d <= t).sort((a, b) => st[a.key].d.localeCompare(st[b.key].d));
+  const fresh = shuffle(pool.filter(q => !st[q.key])).slice(0, RV.newMax);
+  return [...due, ...fresh].slice(0, RV.max);
+}
+async function practiceView() {
+  await rvSync();
+  const pool = await rvPool(), pick = rvPick(pool), st = rvState();
+  const later = Object.values(st).map(r => r.d).filter(d => d > today()).sort()[0];
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<span>Daily review</span></div>
+    <div data-practice><div class="hero" style="${C("mint")}"><span class="medal small">${ico("spark")}</span><h1>Daily review</h1>
+      <p>A few questions from works you've already finished, spaced out so they come back just before you'd forget them. Right answers come back less often; wrong ones come back tomorrow.</p>
+      ${pick.length ? `<button class="btn" type="button" data-practicestart>${ico("play")}Start: ${pick.length} question${pick.length > 1 ? "s" : ""}</button>`
+        : pool.length ? `<p><b>You're all caught up.</b> ${later ? `Your next review is on ${esc(new Date(later).toLocaleDateString("en-GB", { day: "numeric", month: "long" }))}.` : ""}</p>`
+        : `<p><b>Nothing to review yet.</b> Pass the quiz on any work, and its questions will start coming back here.</p><a class="btn ghost" href="#/" style="justify-self:start">Find a path</a>`}
+    </div></div>
+    <p class="muted">${pool.length} question${pool.length === 1 ? "" : "s"} in your review pile · ${Object.keys(st).length} already scheduled.</p>
+  </div>`;
+}
+async function runPractice() {
+  const root = $("[data-practice]"), pick = rvPick(await rvPool()); if (!pick.length) return;
+  const stage = { num: 1, index: 0, works: [] };
+  root.innerHTML = `<p class="label">Daily review</p><div class="quizrun"></div>`;
+  runQuiz(root.querySelector(".quizrun"), { slug: "review", p: { stages: [stage], works: [] }, w: { id: "review", quiz: pick, stage }, noRecord: true,
+    onAnswer: (q, ok) => { const b = ok ? Math.min((rvState()[q.key]?.b || 0) + 1, 5) : 1; rvSave(q.key, { b, d: addDays(ok ? RV.gaps[b - 1] : 1) }); },
+    onDone: (pass, right) => { root.innerHTML = `<div class="qresult ${pass ? "pass" : "fail"}" style="${pass ? C("mint") : ""}"><span class="medal small">${ico(pass ? "check" : "spark")}</span>
+      <h1>${right} of ${pick.length}</h1><p>${pass ? "Well remembered. These questions will come back later, at longer gaps." : "The ones you missed will come back tomorrow. That's how it sticks."}</p></div>
+      <a class="btn wide ghost" href="#/">Back home</a>`; } });
+}
+const rvDueCount = async () => { if (!PATHS.length) return 0; return rvPick(await rvPool()).length; };
+
+// --- classroom mode: teachers create a class for one path; learners join with a code ---------
+// Tables and functions: supabase/week9.sql. Members agree to share their progress on that path only.
+const cls = { confirmDelete: null };
+const needAccount = what => `<div class="stack"><h1>${what}</h1><p class="notice"><a href="#/signin">Sign in</a> to create or join a class.</p></div>`;
+async function classesView() {
+  if (!sb || !auth.user) return needAccount("Classes");
+  const [own, mine] = await Promise.all([
+    sb.from("classes").select("id,name,path,join_code,created_at").eq("owner_id", auth.user.id).order("created_at"),
+    sb.from("class_members").select("class_id, classes(id,name,path,owner_id)").eq("user_id", auth.user.id),
+  ]);
+  if (own.error || mine.error) return `<div class="stack"><h1>Classes</h1><p class="notice">Classes open soon.</p></div>`;
+  const pathName = s => esc(PATHS.find(p => p.slug === s)?.title || s);
+  return `<div class="stack">
+    <div class="crumbs"><a href="#/">Home</a>›<span>Classes</span></div><h1>Classes</h1>
+    <p class="lede">Teach a group with any Ascent path: you get a join code to share, and a table of everyone's progress.</p>
+    <section class="section"><h2>Classes you teach</h2>${own.data.length ? `<ul class="results">${own.data.map(c => `<li><a href="#/class/${c.id}"><b>${esc(c.name)}</b><small>${pathName(c.path)} · join code ${esc(c.join_code)}</small></a></li>`).join("")}</ul>` : `<p class="muted">None yet.</p>`}
+      <div class="field"><label for="cl-name">New class name</label><input id="cl-name" maxlength="80" placeholder="Year 11 history, Thursday group"></div>
+      <div class="field"><label for="cl-path">Path</label><select id="cl-path">${PATHS.map(p => `<option value="${p.slug}">${esc(p.title)}</option>`).join("")}</select></div>
+      <button class="btn" type="button" data-classcreate style="justify-self:start">Create class</button></section>
+    <section class="section"><h2>Classes you've joined</h2>${mine.data.length ? `<ul class="results">${mine.data.filter(m => m.classes).map(m => `<li><a href="#/class/${m.class_id}"><b>${esc(m.classes.name)}</b><small>${pathName(m.classes.path)}</small></a></li>`).join("")}</ul>` : `<p class="muted">None yet.</p>`}
+      <div class="field"><label for="cl-code">Join code from your teacher</label><input id="cl-code" maxlength="6" placeholder="AB12CD" autocomplete="off" style="text-transform:uppercase"></div>
+      <p class="muted">When you join, your teacher sees your progress on that class's path: works ticked, quiz scores and stages. Nothing else. You can leave at any time.</p>
+      <button class="btn ghost" type="button" data-classjoin style="justify-self:start">Join class</button></section>
+  </div>`;
+}
+async function classView(id) {
+  if (!sb || !auth.user) return needAccount("Class");
+  const { data: c, error } = await sb.from("classes").select("id,name,path,join_code,owner_id").eq("id", id).maybeSingle();
+  if (error || !c) return notFound();
+  const m = PATHS.find(p => p.slug === c.path), p = await getPath(c.path).catch(() => null);
+  const head = `<div class="crumbs"><a href="#/">Home</a>›<a href="#/classes">Classes</a>›<span>${esc(c.name)}</span></div><h1>${esc(c.name)}</h1>`;
+  if (c.owner_id !== auth.user.id) return `<div class="stack">${head}
+    <p>You're in this class for the <a href="#/path/${c.path}">${esc(m?.title || c.path)}</a> path. Your teacher sees your progress on that path only.</p>
+    <a class="btn" href="#/path/${c.path}" style="justify-self:start">${ico("play")}Go to the path</a>
+    <button class="btn ghost" type="button" data-classleave="${c.id}" style="justify-self:start">Leave this class</button></div>`;
+  const { data: rows, error: e2 } = await sb.rpc("class_progress", { cid: c.id });
+  if (e2) return `<div class="stack">${head}<p class="notice">Couldn't load progress: ${esc(e2.message)}</p></div>`;
+  const people = new Map();
+  for (const r of rows) {
+    const x = people.get(r.user_id) || people.set(r.user_id, { name: r.display_name || "Learner", done: new Set(), best: {}, skips: new Set() }).get(r.user_id);
+    if (r.kind === "done") x.done.add(r.work_id);
+    if (r.kind === "quiz") x.best[r.work_id] = { score: r.score, total: r.total };
+    if (r.kind === "skip") x.skips.add(r.stage);
+  }
+  const line = x => {
+    const acc = { isDone: w => x.done.has(w), best: w => x.best[w] || null, isSkipped: n => x.skips.has(n) };
+    const st = p ? pathStatuses(p, acc) : [], passed = st.filter(s => s.state === "passed").length;
+    const qs = Object.entries(x.best).filter(([w]) => p?.works.some(k => k.id === w)), avg = qs.length ? qs.reduce((n, [, b]) => n + b.score / b.total, 0) / qs.length : null;
+    return { passed, avg, mastered: p ? masteryState(p, acc).passed : false };
+  };
+  const list = [...people.entries()].sort((a, b) => a[1].name.localeCompare(b[1].name));
+  return `<div class="stack">${head}
+    <div class="hero" style="${C(m?.color || "lilac")}"><small style="font-weight:700">Join code</small><h2 class="joincode">${esc(c.join_code)}</h2>
+      <p>Share this code with your learners. They open Ascent, go to <b>Settings › Classes</b>, and enter it. Path: <a href="#/path/${c.path}">${esc(m?.title || c.path)}</a>.</p></div>
+    <section class="section"><h2>Progress (${list.length} learner${list.length === 1 ? "" : "s"})</h2>
+      ${list.length ? `<div class="tablewrap"><table class="classtable"><thead><tr><th scope="col">Learner</th><th scope="col">Works ticked</th><th scope="col">Stages passed</th><th scope="col">Quiz average</th><th scope="col">Mastery</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead><tbody>
+        ${list.map(([uid, x]) => { const l = line(x); return `<tr><th scope="row">${esc(x.name)}</th><td>${x.done.size} of ${p?.works.length || "?"}</td><td>${l.passed} of ${p?.stages.length || "?"}</td><td>${l.avg == null ? "–" : pct(l.avg)}</td><td>${l.mastered ? "Yes" : "–"}</td>
+          <td><button class="linkbtn" type="button" data-classremove="${uid}" data-cid="${c.id}">Remove</button></td></tr>`; }).join("")}</tbody></table></div>`
+        : `<p class="muted">Nobody has joined yet. Share the code above.</p>`}</section>
+    ${cls.confirmDelete === c.id ? `<div class="status warn"><b>Delete this class?</b> Learners keep their own progress; the class and its member list are removed. <span class="row"><button class="btn small" type="button" data-classdelete="${c.id}" data-confirm="1">Yes, delete</button><button class="btn small ghost" type="button" data-classdelete="${c.id}" data-confirm="0">Cancel</button></span></div>`
+      : `<button class="btn ghost" type="button" data-classdelete="${c.id}" style="justify-self:start">Delete class</button>`}
+  </div>`;
+}
+async function classAction(d) {
+  const fail = e => toast(/relation|schema cache|function/i.test(e.message) ? "Classes open soon." : `Couldn't do that: ${e.message}`);
+  if ("classcreate" in d) {
+    const name = $("#cl-name").value.trim(); if (!name) return toast("Give the class a name");
+    const { data, error } = await sb.from("classes").insert({ owner_id: auth.user.id, name, path: $("#cl-path").value }).select("id").single();
+    if (error) return fail(error); location.hash = `#/class/${data.id}`; return;
+  }
+  if ("classjoin" in d) {
+    const code = $("#cl-code").value.trim(); if (code.length !== 6) return toast("Join codes have 6 characters");
+    const { data, error } = await sb.rpc("join_class", { code });
+    if (error) return /No class/.test(error.message) ? toast("No class has that code. Check it with your teacher.") : fail(error);
+    toast("You've joined the class"); location.hash = `#/class/${data}`; return;
+  }
+  if (d.classleave) { const { error } = await sb.from("class_members").delete().match({ class_id: d.classleave, user_id: auth.user.id }); if (error) return fail(error); toast("You've left the class"); location.hash = "#/classes"; return; }
+  if (d.classremove) { const { error } = await sb.from("class_members").delete().match({ class_id: d.cid, user_id: d.classremove }); if (error) return fail(error); toast("Removed from the class"); refresh(); return; }
+  if (d.classdelete) {
+    if (d.confirm === "1") { const { error } = await sb.from("classes").delete().eq("id", d.classdelete); cls.confirmDelete = null; if (error) return fail(error); toast("Class deleted"); location.hash = "#/classes"; return; }
+    cls.confirmDelete = d.confirm === "0" ? null : d.classdelete; refresh();
+  }
+}
+
 // --- settings: appearance, the welcome tour, and resetting progress ------------------------
 const THEMES = [["system", "Match my device"], ["light", "Light"], ["dark", "Dark"]];
 const getTheme = () => { try { return localStorage.getItem("ascent-theme") || "system"; } catch { return "system"; } };
@@ -458,6 +704,8 @@ function settingsView() {
     <div class="crumbs"><a href="#/">Home</a>›<span>Settings</span></div><h1>Settings</h1>
     <section class="section"><h2>Appearance</h2>
       <div class="levels" role="radiogroup" aria-label="Theme">${THEMES.map(([v, l]) => `<button type="button" role="radio" class="level${th === v ? " on" : ""}" aria-checked="${th === v}" data-theme-set="${v}">${l}</button>`).join("")}</div></section>
+    <section class="section"><h2>Classes</h2><p>Teach a group with any path, or join your teacher's class with a code.</p>
+      <a class="btn ghost" href="#/classes" style="justify-self:start">Open classes</a></section>
     <section class="section"><h2>Getting started</h2><p>Take the short tour again, and pick new interests for your home page.</p>
       <button class="btn ghost" type="button" data-welcome style="justify-self:start">Replay the welcome tour</button></section>
     <section class="section"><h2>Reset progress</h2>
@@ -479,6 +727,7 @@ async function resetProgress(path) {
     const key = { "ascent-progress": s => s.split(":")[0], "ascent-skips": s => s.split(":")[0] };
     for (const [k, f] of Object.entries(key)) localStorage.setItem(k, JSON.stringify(path ? JSON.parse(localStorage.getItem(k) || "[]").filter(s => f(s) !== path) : []));
     localStorage.setItem("ascent-attempts", JSON.stringify(path ? JSON.parse(localStorage.getItem("ascent-attempts") || "[]").filter(a => a.path !== path) : []));
+    const rv = rvState(); for (const k of Object.keys(rv)) if (!path || k.startsWith(path + ":")) delete rv[k]; localStorage.setItem(RV.key, JSON.stringify(rv));
   } catch { /* storage blocked */ }
   await loadProgress();
   toast(path ? `Progress on ${PATHS.find(p => p.slug === path)?.title} has been reset` : "All your progress has been reset");
@@ -702,6 +951,7 @@ function runQuiz(box, ctx) {
     check.addEventListener("click", () => {
       const ok = q.kind === "mc" ? opts[pick].ok : blankOk(q, inp.value);
       if (ok) right++;
+      ctx.onAnswer?.(q, ok);
       const shown = q.kind === "mc" ? inline(q.opts.find(o => o.ok).text) : esc(q.shown);
       box.querySelectorAll("[data-opt]").forEach((b, k) => { b.disabled = true; if (opts[k].ok) b.classList.add("right"); else if (k === pick) b.classList.add("wrong"); });
       if (inp) { inp.disabled = true; inp.classList.add(ok ? "right" : "wrong"); }
@@ -712,6 +962,7 @@ function runQuiz(box, ctx) {
     });
   };
   const finish = async () => {
+    if (ctx.noRecord) return ctx.onDone(right / qs.length >= PASS_MARK, right);
     const before = statuses(slug, p)[w.stage.index].state;
     box.innerHTML = `<div class="qprog"><i style="width:100%;background:var(--${color}-ink)"></i></div><p class="status">Saving your result…</p>`;
     let pass;
@@ -739,7 +990,7 @@ function runQuiz(box, ctx) {
 const PLACE_Q = 4;
 // Questions about how to use the path ("How does the path suggest using it?", "What does it
 // cost?") only make sense inside a lesson, so placement and mastery quizzes leave them out.
-const LESSON_ONLY = /\b((how|why|when|where|which) (does|part does|book does) the path|the path (suggests?|places?|says|include)|does the path|according to the path|in this path|the task|the exercise|does (it|the \w+) cost|best way to use)\b/i;
+const LESSON_ONLY = /\b((how|why|when|where|which) (does|part does|book does) the path|the path (suggests?|places?|says|include)|does the path|according to the path|(in|on) this path|the task|the exercise|does (it|the \w+) cost|best way to use)\b/i;
 function placementSample(s, n = PLACE_Q) {
   // round-robin over the stage's works so the questions cover as many works as possible;
   // each question remembers its work, so "Who presents it?" says what "it" is
@@ -1027,6 +1278,7 @@ async function accountView() {
       ${"affiliation" in pr ? `<div class="field"><label for="paff">Affiliation</label><input id="paff" value="${esc(pr.affiliation || "")}" placeholder="For example: Lecturer in musicology, University of Dhaka"></div>` : ""}
       <button class="btn ghost" type="submit">Save</button></form>` : ""}
     ${apply}
+    <a class="btn ghost" href="#/classes">Classes: teach or join</a>
     <button class="btn ghost" type="button" data-welcome>Replay the welcome tour</button>
     <button class="btn ghost" id="signout" type="button">Sign out</button>
     <details class="danger"><summary>Delete my account</summary><p>This permanently deletes your email, progress, quiz scores, reports and reviews. It can't be undone.</p>
@@ -1066,6 +1318,10 @@ const ROUTES = [
   [/^#\/atlas$/, () => atlasView(), "atlas"],
   [/^#\/collection$/, () => collectionView(), "collection"],
   [/^#\/settings$/, () => settingsView(), "settings"],
+  [/^#\/practice$/, () => practiceView(), "home"],
+  [/^#\/classes$/, () => classesView(), "settings"],
+  [/^#\/class\/([0-9a-f-]{36})$/, m => classView(m[1]), "settings"],
+  [/^#\/explore(?:\?(.*))?$/, m => exploreView(m[1]), "atlas"],
   [/^#\/verify\/([0-9a-f-]{36})$/, m => verifyView(m[1]), "home"],
   [/^#\/search(?:\?q=(.*))?$/, m => searchView(m[1]), "home"],
   [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
@@ -1105,6 +1361,7 @@ async function route({ keepScroll = false } = {}) {
   if (/\/mastery$/.test(hash)) mountMastery(m[1]);
   if (/^#\/path\/[\w-]+\/(stage\/\d+|mastery)$/.test(hash)) mountEssays(m[1]);
   if (/^#\/field\//.test(hash)) { mountPoiSection(m[1]); mountGuide(m[1]); }
+  if (/^#\/explore/.test(hash) && ex.view === "map") { loadPoi().then(p => { poiRef = p; drawMap(); }); }
 }
 const refresh = () => route({ keepScroll: true });
 
@@ -1140,6 +1397,8 @@ document.addEventListener("submit", async e => {
   $("#view").innerHTML = `<div class="stack signin"><h1>Check your email</h1><p>We sent a sign-in link to <b>${esc(email)}</b>. Open it on this device to finish signing in.</p><p class="muted">No email after a few minutes? Check your spam folder, or <a href="#/signin">try again</a>.</p></div>`;
 });
 
+document.addEventListener("click", e => { const dot = e.target.closest?.("#mapsvg .dot"); if (dot) mapCard(dot.dataset.pt); });
+document.addEventListener("change", e => { if (e.target.id === "ex-from" || e.target.id === "ex-to") { ex.from = +$("#ex-from").value || -3000; ex.to = +$("#ex-to").value || 2025; drawMap(); } });
 document.addEventListener("click", async e => {
   const t = e.target.closest("button, a, [data-close]"); if (!t) return;
   const d = t.dataset, slug = (location.hash.match(/#\/path\/([\w-]+)/) || [])[1];
@@ -1154,6 +1413,10 @@ document.addEventListener("click", async e => {
   if (d.atlas) { atlas.open.has(d.atlas) ? atlas.open.delete(d.atlas) : atlas.open.add(d.atlas); const body = $("#atlasbody");
     if (body) { body.innerHTML = atlasBody(); } else { await refresh(); } $(`[data-atlas="${d.atlas}"]`)?.focus(); return; }
   if (d.guidequiz) { if (!$("#guidequiz")) { const b = document.createElement("div"); b.className = "quizrun"; b.id = "guidequiz"; t.after(b); } runGuideQuiz(d.guidequiz); return; }
+  if (d.tl) { const c = +d.tl; ex.open = ex.open === c ? null : c; const { items } = await exploreData(); $("#exbody").innerHTML = timelineHtml(items); $(`[data-tl="${c}"]`)?.focus(); return; }
+  if (d.zoom) { zoomMap(+d.zoom); return; }
+  if ("classcreate" in d || "classjoin" in d || d.classleave || d.classremove || d.classdelete) { classAction(d); return; }
+  if ("practicestart" in d) { runPractice(); return; }
   if (d.essaysend) { sendEssay(slug, d.essaysend); return; }
   if ("certverify" in d) {
     const name = $("#certname")?.value.trim(); if (!name) return toast("Type the name for the certificate first");
