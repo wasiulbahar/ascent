@@ -32,7 +32,11 @@ def render(P):
             o += [f"- access: {acc} | {note or ACCESS[acc]}", "", "### Introduction", intro, "", "### Quiz"]
             for q in qs:
                 if len(q) == 4: o += [f"**Multiple choice.** {q[0]}", f"- {q[1]} ✓", f"- {q[2]}", f"- {q[3]}", ""]
-                else: o += [f"**Fill in the blank.** {q[0]} [answer: {q[1]}]", ""]
+                else:
+                    qq = q[0]
+                    for gen in ("The book was", "The first edition was", "The report was", "The paper was", "The essay was", "The study was", "The film was", "The code was", "The anthology was", "The series was"):  # name the work so date questions stay distinct
+                        if qq.startswith(gen): qq = f"*{title}* was" + (" first" if "first" in gen else "") + qq[len(gen):]
+                    o += [f"**Fill in the blank.** {qq} [answer: {q[1]}]", ""]
         if S.get("scholar"):
             o += ["### Scholar challenge (optional)", "Choose one, at least 1,500 words. Required for the Mastery certificate" +
                   (", where it becomes the capstone essay." if n == 6 else ".")]

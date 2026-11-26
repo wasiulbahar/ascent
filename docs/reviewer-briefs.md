@@ -306,6 +306,131 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Also check:** Every production and premiere date checked
 - **Look first at:** Mother Courage and Her Children (th16); Brecht on Theatre (th17); Reading current research and criticism (th24).
 
+## Neuroscience
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** neuroscientists and clinicians from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/neuroscience
+- **Also check:** Debated findings clearly flagged
+- **Also check:** “Not medical advice” message checked on every page
+- **Look first at:** How Emotions Are Made (ne11); Reading current research (ne24).
+
+## Design
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** designers and design educators from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/design
+- **Also check:** Every example product and date checked
+- **Look first at:** Don't Make Me Think (dg13); Speculative Everything (dg22); Reading current research and practice (dg24).
+
+## International relations
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** IR scholars from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/international-relations
+- **Also check:** Balance checked: several theories and regions represented
+- **Look first at:** Thirteen Days (ir2); Destined for War (ir4); International Relations Theory (ir5); Understanding the WTO (ir12); The Twenty Years' Crisis, 1919–1939 (ir13); The Tragedy of Great Power Politics (ir14); World Order (ir21); Reading current research (ir24).
+
+## Nutrition
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** nutrition scientists and dietitians from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/nutrition
+- **Also check:** “Not dietary advice” message checked on every page
+- **Also check:** Every guideline checked against the current WHO version
+- **Look first at:** In Defense of Food (nu1); Spoon-Fed (nu4); Food in the Anthropocene: the EAT–Lancet Commission (nu21); Reading current research (nu24).
+
+## Popular and world music
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** musicians, ethnomusicologists and popular-music scholars from several continents.
+- **Link:** https://wasiulbahar.com/ascent/#/path/popular-music
+- **Also check:** Every date and attribution checked
+- **Also check:** Balance checked: music from every continent represented
+- **Look first at:** Yeah! Yeah! Yeah! (pm3); Black Noise (pm14); Reading current research (pm24).
+
+## Classics: Greece and Rome
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** classicists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/classics
+- **Also check:** Every translation's availability and licence checked
+- **Look first at:** Undocumented (cl23); Reading current research (cl24).
+
+## Creative writing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** writers and writing teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/creative-writing
+- **Also check:** Every exercise tested by a learner
+- **Look first at:** The Elements of Style (cw5); The Hero with a Thousand Faces (cw17).
+
+## Criminology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** criminologists from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/criminology
+- **Also check:** Balance checked: several schools of thought represented
+- **Also check:** Every statistic checked against its latest source
+- **Look first at:** The New Jim Crow (cr4); Causes of Delinquency (cr7); Comprehensive Study on Cybercrime (cr22); Reading current research (cr24).
+
+## Finance
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** finance scholars and practitioners from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/finance
+- **Also check:** “Not financial advice” message checked on every page
+- **Also check:** Balance checked: mainstream and critical views represented
+- **Look first at:** A Random Walk Down Wall Street (fn7); Two Pillars of Asset Pricing (Nobel lecture) (fn15); Reading current research (fn24).
+
+## Photography
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** photographers and historians of photography from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/photography
+- **Also check:** Every image's licence checked before display
+- **Look first at:** World Press Photo archive (ph15); Workers (ph16).
+
+## Human rights
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** human-rights scholars and practitioners from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/human-rights
+- **Also check:** Balance checked: defenders, critics and Global South voices represented
+- **Look first at:** Vienna Declaration and Programme of Action (hr13); Reading current research (hr24).
+
+## Gender studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of gender from more than one continent, with differing views.
+- **Link:** https://wasiulbahar.com/ascent/#/path/gender-studies
+- **Also check:** Balance checked: debates presented fairly with named holders of each position
+- **Look first at:** The Feminine Mystique (gs7); Half the Sky (gs15); Beijing Declaration and Platform for Action (gs16); Gender Trouble (gs17); Sexing the Body (gs20); Reading current research (gs24).
+
+## Nursing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** nurses and nurse educators from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/nursing
+- **Also check:** “Not a qualification, not medical advice” message checked on every page
+- **Look first at:** Reading current research (nr24).
+
+## Game design
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** game designers and game scholars from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/game-design
+- **Also check:** Every free tool's licence and availability checked
+- **Look first at:** Reality Is Broken (gd4); The Art of Game Design: A Book of Lenses (gd5); Challenges for Game Designers (gd7); Reading current research and talks (gd24).
+
+## African studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Africa, especially Africa-based scholars.
+- **Link:** https://wasiulbahar.com/ascent/#/path/african-studies
+- **Also check:** Diversity checked: examples from North, West, East, Central and Southern Africa
+- **Look first at:** The Interesting Narrative of the Life of Olaudah Equiano (af9); How Europe Underdeveloped Africa (af11); African Philosophy: Myth and Reality (af14); The State of Africa (af17); Dead Aid (af18); Reading current research (af24).
+
 ## Film
 
 - **Size:** 6 stages, 24 works, 96 quiz questions.

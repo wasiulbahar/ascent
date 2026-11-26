@@ -512,7 +512,7 @@ A report led by Ban Ki-moon, Bill Gates and Kristalina Georgieva arguing that pr
 - Building on flood plains
 - Ignoring forecasts
 
-**Fill in the blank.** The report was published in ___. [answer: 2019]
+**Fill in the blank.** *Adapt Now* was published in ___. [answer: 2019]
 
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words. Required for the Mastery certificate.

@@ -601,7 +601,7 @@ Wolf shows that the societies anthropologists studied as isolated “tribes” h
 - They had no history
 - Europe has no history
 
-**Fill in the blank.** The book was published in ___. [answer: 1982]
+**Fill in the blank.** *Europe and the People Without History* was published in ___. [answer: 1982]
 
 ## Do Muslim Women Need Saving?
 - id: an20 · type: read · creator: Lila Abu-Lughod · year: 2013 · length: about 8 hours

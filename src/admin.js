@@ -1,8 +1,8 @@
 // Admin dashboard, reviewer portal and "Report a problem". The database's row-level security decides
 // what each person can read or change; these screens only show what it allows.
-import { sb, auth, isStaff, isReviewer } from "./auth.js?v=24";
-import { PATHS } from "./paths.js?v=24";
-import { loadTax, loadPoi, search, nameOf, resetTax } from "./taxonomy.js?v=24";
+import { sb, auth, isStaff, isReviewer } from "./auth.js?v=25";
+import { PATHS } from "./paths.js?v=25";
+import { loadTax, loadPoi, search, nameOf, resetTax } from "./taxonomy.js?v=25";
 
 let H; // helpers handed over by app.js: esc, C, ico, inline, getPath, toast, refresh
 export const useHelpers = h => (H = h);

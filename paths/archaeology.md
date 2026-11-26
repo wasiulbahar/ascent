@@ -84,7 +84,7 @@ The director of the British Museum tells two million years of history through 10
 - About 200 years
 - Only the twentieth century
 
-**Fill in the blank.** The series was broadcast in ___. [answer: 2010]
+**Fill in the blank.** *A History of the World in 100 Objects* was broadcast in ___. [answer: 2010]
 
 ## Archaeology: A Very Short Introduction
 - id: ak2 · type: read · creator: Paul Bahn · year: 1996 (2nd edition 2012) · length: about 5 hours
@@ -256,7 +256,7 @@ A classic of historical archaeology showing how ordinary objects, plates, graves
 - Archaeology of dinosaurs
 - Writing history novels
 
-**Fill in the blank.** The book was first published in ___. [answer: 1977]
+**Fill in the blank.** *In Small Things Forgotten* was first published in ___. [answer: 1977]
 
 ## Archaeology from Space
 - id: ak8 · type: read · creator: Sarah Parcak · year: 2019 · length: about 9 hours

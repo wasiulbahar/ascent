@@ -163,7 +163,7 @@ A short map of world theatre: its origins in ritual, its great traditions in Eur
 - For Dummies
 - Penguin Classics
 
-**Fill in the blank.** The book was published in ___. [answer: 2014]
+**Fill in the blank.** *Theatre: A Very Short Introduction* was published in ___. [answer: 2014]
 
 ---
 
@@ -648,7 +648,7 @@ Schechner widens the study of theatre to all performance: rituals, sports, festi
 - To ignore it
 - To film it
 
-**Fill in the blank.** The first edition was published in ___. [answer: 2002]
+**Fill in the blank.** *Performance Studies: An Introduction* was first published in ___. [answer: 2002]
 
 ### Scholar challenge (optional)
 Choose one, at least 1,500 words. Required for the Mastery certificate.

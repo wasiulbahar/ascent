@@ -579,7 +579,7 @@ An engineer answers critics who blamed technology for the world's ills, arguing 
 - Poet
 - Judge
 
-**Fill in the blank.** The book was first published in ___. [answer: 1976]
+**Fill in the blank.** *The Existential Pleasures of Engineering* was first published in ___. [answer: 1976]
 
 ## Do Artifacts Have Politics?
 - id: eg19 · type: read · creator: Langdon Winner · year: 1980 · length: about 1 hour

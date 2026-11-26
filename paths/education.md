@@ -472,7 +472,7 @@ The World Bank's report on the “learning crisis”: millions of children atten
 - FIFA
 - NASA
 
-**Fill in the blank.** The report was published in ___. [answer: 2018]
+**Fill in the blank.** *World Development Report 2018: Learning to Realize Education's Promise* was published in ___. [answer: 2018]
 
 ## PISA results
 - id: ed15 · type: read · creator: Organisation for Economic Co-operation and Development (OECD) · year: every three years since 2000 · length: about 4 hours

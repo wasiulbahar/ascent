@@ -244,7 +244,7 @@ A beautiful classic on how to show data clearly and honestly. Tufte praises Mina
 - The number of colours
 - The size of the title
 
-**Fill in the blank.** The book was first published in ___. [answer: 1983]
+**Fill in the blank.** *The Visual Display of Quantitative Information* was first published in ___. [answer: 1983]
 
 ## Gapminder tools and Our World in Data
 - id: st8 · type: read · creator: Gapminder Foundation; Our World in Data · length: about 4 hours of exploring
@@ -701,7 +701,7 @@ A short, famous paper showing mathematically that when studies are small, effect
 - A newspaper
 - A novel
 
-**Fill in the blank.** The paper was published in ___. [answer: 2005]
+**Fill in the blank.** *Why Most Published Research Findings Are False* was published in ___. [answer: 2005]
 
 ## Weapons of Math Destruction
 - id: st23 · type: read · creator: Cathy O'Neil · year: 2016 · length: about 8 hours

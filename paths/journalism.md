@@ -82,7 +82,7 @@ The principles every journalist should know, drawn from hundreds of interviews: 
 - Speed
 - Opinion
 
-**Fill in the blank.** The book was first published in ___. [answer: 2001]
+**Fill in the blank.** *The Elements of Journalism* was first published in ___. [answer: 2001]
 
 ## All the President's Men
 - id: jo2 · type: read · creator: Bob Woodward and Carl Bernstein · year: 1974 · length: about 10 hours
@@ -308,7 +308,7 @@ A film based on the *Boston Globe*'s 2002 investigation into child abuse by Cath
 - The Nobel Prize
 - The Booker Prize
 
-**Fill in the blank.** The film was released in ___. [answer: 2015]
+**Fill in the blank.** *Spotlight* was released in ___. [answer: 2015]
 
 ## The Data Journalism Handbook
 - id: jo10 · type: read · creator: Jonathan Gray, Liliana Bounegru and others (editors) · year: 2012 (2nd edition 2021) · length: about 10 hours

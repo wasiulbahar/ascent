@@ -708,7 +708,7 @@ A report commissioned by the French president recommending that African objects 
 - None at all
 - It closed all museums
 
-**Fill in the blank.** The report was published in ___. [answer: 2018]
+**Fill in the blank.** *The Restitution of African Cultural Heritage* was published in ___. [answer: 2018]
 
 ## Seven Days in the Art World
 - id: ar23 · type: read · creator: Sarah Thornton · year: 2008 · length: about 8 hours

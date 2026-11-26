@@ -84,7 +84,7 @@ A warm, sympathetic introduction to Hinduism, Buddhism, Confucianism, Taoism, Is
 - False religions
 - New religions
 
-**Fill in the blank.** The book was first published in ___. [answer: 1958]
+**Fill in the blank.** *The World's Religions* was first published in ___. [answer: 1958]
 
 ## A Little History of Religion
 - id: re2 · type: read · creator: Richard Holloway · year: 2016 · length: about 7 hours
@@ -726,7 +726,7 @@ Projections of religious populations to 2050 based on fertility, age and switchi
 - It would double
 - It would be 100%
 
-**Fill in the blank.** The report was published in ___. [answer: 2015]
+**Fill in the blank.** *The Future of World Religions* was published in ___. [answer: 2015]
 
 ## Reading current research
 - id: re24 · type: read · creator: Journals of religious studies, Pew data and scholars from within traditions · length: ongoing

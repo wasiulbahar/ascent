@@ -585,7 +585,7 @@ A documentary following Joy Buolamwini, an MIT researcher who found that face-re
 - Computers dislike people
 - They can't be
 
-**Fill in the blank.** The film was released in ___. [answer: 2020]
+**Fill in the blank.** *Coded Bias* was released in ___. [answer: 2020]
 
 ## Recommendation on the Ethics of Artificial Intelligence
 - id: ai19 · type: read · creator: UNESCO · year: 2021 · length: about 3 hours

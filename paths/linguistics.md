@@ -431,7 +431,7 @@ Labov asked staff in three New York department stores of different prestige for 
 - Phonetics
 - Archaeology
 
-**Fill in the blank.** The study was first published in ___. [answer: 1966]
+**Fill in the blank.** *The Social Stratification of English in New York City* was first published in ___. [answer: 1966]
 
 ## The Power of Babel
 - id: li14 · type: read · creator: John McWhorter · year: 2001 · length: about 10 hours

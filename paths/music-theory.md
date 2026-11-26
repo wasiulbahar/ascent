@@ -162,7 +162,7 @@ A short, thoughtful book on what music is and how we think about it: as notes on
 - For Dummies
 - Penguin Classics
 
-**Fill in the blank.** The first edition was published in ___. [answer: 1998]
+**Fill in the blank.** *Music: A Very Short Introduction* was first published in ___. [answer: 1998]
 
 ---
 
@@ -373,7 +373,7 @@ Schoenberg's teaching book on how musical ideas grow: from a short motive into p
 - The Beatles'
 - Nobody's
 
-**Fill in the blank.** The book was published in ___. [answer: 1967]
+**Fill in the blank.** *Fundamentals of Musical Composition* was published in ___. [answer: 1967]
 
 ## Classical Form
 - id: mt12 · type: read · creator: William E. Caplin · year: 1998 · length: about 15 hours for selected chapters
