@@ -431,6 +431,199 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Also check:** Diversity checked: examples from North, West, East, Central and Southern Africa
 - **Look first at:** The Interesting Narrative of the Life of Olaudah Equiano (af9); How Europe Underdeveloped Africa (af11); African Philosophy: Myth and Reality (af14); The State of Africa (af17); Dead Aid (af18); Reading current research (af24).
 
+## Islamic civilisation
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Islam and Islamic history, Muslim and non-Muslim.
+- **Link:** https://wasiulbahar.com/ascent/#/path/islamic-civilisation
+- **Also check:** Neutrality checked: beliefs and debates described fairly
+- **Look first at:** Islam: A Short History (is1); The Ornament of the World (is16); Misquoting Muhammad (is21); Believing Women in Islam (is23); Reading current research (is24).
+
+## East Asian studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of China, Japan and Korea, including scholars from the region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/east-asian-studies
+- **Also check:** Sensitive history checked for balance and accuracy
+- **Look first at:** The Path (ea8); Mao's Great Famine (ea16); Reading current research (ea24).
+
+## Latin American studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Latin America and the Caribbean, especially from the region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/latin-american-studies
+- **Also check:** Balance checked: contested history presented from several sides
+- **Look first at:** Cuba: A New History (lt14); I, Rigoberta Menchú (lt20); Reading current research (lt24).
+
+## Public health
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** public-health scientists and practitioners from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/public-health
+- **Also check:** “Not medical advice” message checked on every page
+- **Also check:** Every figure checked against the latest WHO or IHME release
+- **Look first at:** The Spirit Level (pu10); Nudge (pu20); Reading current research (pu24).
+
+## Urban planning
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** planners and urban scholars from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/urban-planning
+- **Also check:** Cities from every continent represented
+- **Look first at:** Triumph of the City (up2); Reading current research (up24).
+
+## Ethics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** moral philosophers from more than one tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/ethics
+- **Also check:** Balance checked: hard questions presented from several sides
+- **Look first at:** A Defense of Abortion (et9); Active and Passive Euthanasia (et11); What We Owe the Future (et16); Anarchy, State, and Utopia (et18); The Righteous Mind (et22); Reading current research (et24).
+
+## Logic and critical thinking
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** logicians and teachers of critical thinking from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/logic
+- **Also check:** Every formal exercise checked for a single correct answer
+- **Look first at:** Logic: A Very Short Introduction (lg3); Sophistical Refutations (lg7); Asking the Right Questions (lg8); The Enigma of Reason (lg22); Reading current research (lg24).
+
+## Mythology and folklore
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of myth and folklore from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/mythology
+- **Also check:** Living traditions checked with members of those communities
+- **Look first at:** The Uses of Enchantment (my16); The Golden Bough (my17).
+
+## Agriculture and food
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** agricultural scientists, farmers and food-systems researchers from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/agriculture
+- **Also check:** Balance checked: debates such as GM crops presented from several sides
+- **Look first at:** Food in the Anthropocene: the EAT–Lancet Commission (ag21); Regenesis (ag23); Reading current research (ag24).
+
+## Oceans
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** ocean scientists and coastal-community experts from more than one continent.
+- **Link:** https://wasiulbahar.com/ascent/#/path/oceans
+- **Also check:** Every figure checked against the latest IPCC, FAO or NOAA values
+- **Look first at:** Blue Planet II (oc3); Reading current research (oc24).
+
+## Data science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** data scientists and data-ethics experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/data-science
+- **Also check:** Every free tool's availability checked
+- **Look first at:** Reading current research and practice (ds24).
+
+## Cybersecurity
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** security professionals and researchers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cybersecurity
+- **Also check:** Every practice exercise checked to point only to legal practice environments
+- **Look first at:** OWASP Top Ten (cy8); Following security research (cy24).
+
+## Genetics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** geneticists and bioethicists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/genetics
+- **Also check:** “Not medical advice” message checked on every page
+- **Look first at:** The Double Helix (ge3); Genome Editing and Human Reproduction (ge18); The Genetic Lottery (ge19); Reading current research (ge24).
+
+## Evolution
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** evolutionary biologists and palaeontologists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/evolution
+- **Look first at:** The Selfish Gene (ev8); The Evolution of Beauty (ev11); Almost Human (ev19); Does evolutionary theory need a rethink? (ev23); Reading current research (ev24).
+
+## Ecology and conservation
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** ecologists and conservation practitioners from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/ecology
+- **Look first at:** Entangled Life (ec4); CITES and the wildlife trade (ec15); The Big Conservation Lie (ec17); Rambunctious Garden (ec22); Half-Earth and its critics (ec23); Reading current research (ec24).
+
+## Space exploration
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** space scientists, engineers and historians from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/space-exploration
+- **Look first at:** Report of the Presidential Commission on the Space Shuttle Challenger Accident (sx17).
+
+## Energy
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** energy engineers, economists and policy researchers from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/energy
+- **Look first at:** The Grid (en11); Nuclear power: two views (en16); Not the End of the World (en21); Reading current research (en24).
+
+## Development studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** development scholars and practitioners from more than one region, including the Global South.
+- **Link:** https://wasiulbahar.com/ascent/#/path/development-studies
+- **Look first at:** Poverty and Inequality Platform (dv7); Why Nations Fail (dv9); How Europe Underdeveloped Africa (dv12); The End of Poverty (dv13); Dead Aid (dv15); Poor Economics (dv16); Half the Sky (dv19); Reading current research (dv24).
+
+## Peace and conflict
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** peace researchers and practitioners from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/peace-and-conflict
+- **Also check:** Content warnings checked for descriptions of violence
+- **Look first at:** A Long Way Gone (pc3); Greed and Grievance in Civil War (pc7); The International Criminal Court (pc22); Reading current research (pc24).
+
+## Microbiology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** microbiologists and infectious-disease specialists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/microbiology
+- **Also check:** “Not medical advice” message checked on every page
+- **Look first at:** The Hot Zone (mb4); The Ghost Map (mb6); COVID-19: lessons and reviews (mb23); Reading current research (mb24).
+
+## Philosophy of mind
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** philosophers of mind from more than one tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/philosophy-of-mind
+- **Look first at:** Consciousness Explained (pm12); Four Views on Free Will (pm20); Reading current research (pm24).
+
+## Poetry
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** poets and scholars from more than one language tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/poetry
+- **Also check:** Translations named and checked for each non-English poet
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## World War II
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** historians of the war from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/world-war-ii
+- **Also check:** Content warnings checked for descriptions of atrocities
+- **Look first at:** The Origins of the Second World War (ww8); The Bombing War (ww11); Japan's wartime atrocities (ww15); Hiroshima (ww16); Reading current research (ww24).
+
+## The Cold War
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** Cold War historians from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cold-war
+- **Look first at:** The Cold War: A New History (cw1); Who started the Cold War? Orthodox, revisionist and post-revisionist views (cw8); The Jakarta Method (cw15); Why did the Cold War end? (cw23); Reading current research (cw24).
+
+## The medieval world
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** medieval historians from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/medieval-world
+- **Look first at:** Reading current research (md24).
+
 ## Film
 
 - **Size:** 6 stages, 24 works, 96 quiz questions.
