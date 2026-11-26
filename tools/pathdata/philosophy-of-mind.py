@@ -1,5 +1,5 @@
 P = dict(
-slug="philosophy-of-mind", title="Philosophy of Mind", template="humanities", about_name="the philosophy of mind",
+slug="philosophy-of-mind", title="Philosophy of Mind", template="humanities-social", about_name="the philosophy of mind",
 lede="What minds are and how they fit into the physical world: the mind–body problem, consciousness and the “hard problem”, thought and meaning, free will and the self, animal and machine minds. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. The Stanford Encyclopedia of Philosophy and many classic papers are free. The path presents dualists, physicalists, functionalists and sceptics fairly, includes perspectives from Buddhist and Indian philosophy, and lets you decide.",
 about=["Philosophy of mind asks what minds are. How can thoughts, feelings and experiences exist in a world of atoms? Is the mind the brain, or something more? Could a computer think, or an octopus feel? Do we have free will, and what is a self?",

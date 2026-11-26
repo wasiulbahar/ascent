@@ -1,5 +1,5 @@
 P = dict(
-slug="development-studies", title="Development Studies", template="social-sciences", about_name="development studies",
+slug="development-studies", title="Development Studies", template="humanities-social", about_name="development studies",
 lede="Why some countries are rich and others poor, and what can change it: poverty and its measurement, growth and institutions, aid and its critics, health, education and gender, and the debates over what development should mean. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. International agencies publish free data and reports, and several key books are free. The path gives real weight to scholars from Africa, Asia and Latin America, and presents the sharp debates over aid, markets and the meaning of development fairly.",
 about=["Development studies asks how societies escape poverty and improve people's lives. It draws on economics, politics, sociology, geography and history, and studies questions such as why growth happens, whether aid works, and what “development” should even mean.",

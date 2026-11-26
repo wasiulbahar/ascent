@@ -3,7 +3,7 @@ path: Peace and Conflict
 status: draft
 version: 1
 drafted: 2026-11-26
-template: social-sciences
+template: humanities-social
 ---
 
 # Peace and Conflict

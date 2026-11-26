@@ -1,15 +1,15 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk, parseGuide } from "./content.js?v=26";
-import { PATHS, DOMAINS } from "./paths.js?v=26";
-import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=26";
+import { parsePath, blankOk, parseGuide } from "./content.js?v=27";
+import { PATHS, DOMAINS } from "./paths.js?v=27";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=27";
 // approved map edits (supabase/week7.sql) are applied on top of the published map for everyone
 hooks.changes = async () => { if (!sb) return []; const { data, error } = await sb.from("tax_changes").select("id,kind,target,payload,note").eq("status", "approved").order("id"); return error ? [] : data; };
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=26";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=27";
 // Admin and reviewer screens load only when someone opens them (most visitors never do).
 let adminMod = null;
-const admin = () => adminMod ||= import("./admin.js?v=26").then(m => { m.useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() }); return m; });
-import { progress, loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=26";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=26";
+const admin = () => adminMod ||= import("./admin.js?v=27").then(m => { m.useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() }); return m; });
+import { progress, loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=27";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=27";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -39,7 +39,7 @@ const IC = {
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
   heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', scale: '<path d="M12 4v16M7 20h10M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/>',
-  chat: '<path d="M4 5h16v11H9l-5 4z"/>', hand: '<path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12M11 11V4.5a1.5 1.5 0 0 1 3 0V12M14 11.5V6a1.5 1.5 0 0 1 3 0v8c0 4-3 7-7 7-3 0-5-2-6-4l-2-4a1.5 1.5 0 0 1 2.6-1.5L8 15"/>', ifthen: '<path d="M4 7h6M4 12h6M4 17h6M13 12h7M17 9l3 3-3 3"/>', spiral: '<path d="M12 12a1 1 0 1 1 1-1 3 3 0 0 1-3 3 5 5 0 0 1-5-5 7 7 0 0 1 7-7 9 9 0 0 1 9 9"/>', wheat: '<path d="M12 22V8M12 8c-2-1-3-3-3-5 2 1 3 3 3 5zM12 8c2-1 3-3 3-5-2 1-3 3-3 5zM12 13c-2-1-4-3-4-5 2 1 4 3 4 5zM12 13c2-1 4-3 4-5-2 1-4 3-4 5zM12 18c-2-1-4-3-4-5 2 1 4 3 4 5zM12 18c2-1 4-3 4-5-2 1-4 3-4 5z"/>', wave: '<path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0 2 1 2 1M2 17c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/>', dna: '<path d="M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12s10 6 10 6M8 6h8M9 9.5h6M9 14.5h6M8 18h8"/>', rocket: '<path d="M12 2c3 2 5 6 5 10l-2 4H9l-2-4c0-4 2-8 5-10z"/><circle cx="12" cy="9" r="1.5"/><path d="M9 16l-3 3v-4l1-1M15 16l3 3v-4l-1-1M10 19l2 3 2-3"/>', bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', handshake: '<path d="M2 11l4-4 4 2 3-2 4 1 5 4M2 11l3 3M22 11l-4 4-5 3-3-2-4-2M9 14l2 2M11 12l3 3M14 11l3 3"/>', microscope: '<path d="M6 21h12M9 21v-3h6M10 18a6 6 0 0 0 8-6M9 3l4 2-3 7-4-2zM11 12l1 2"/>', quill: '<path d="M20 3C11 4 6 10 5 19l-1 2M5 19c6-1 10-4 12-9M9 15c3-1 5-3 6-5"/>', swords: '<path d="M4 4l10 10M4 4h3l9 9M20 4L10 14M20 4h-3L8 13M13 17l4 4M17 17l-4 4M7 17l4 4M11 17l-4 4"/>', split: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M7 9h2M15 15h2"/>', castle: '<path d="M3 21V9h3v2h2V9h3v2h2V9h3v2h2V9h3v12zM10 21v-5a2 2 0 0 1 4 0v5M5 9V6M19 9V6"/>', star8: '<path d="M12 2l2.9 4.1L20 5l-1.1 5.1L22 12l-3.1 1.9L20 19l-5.1-1.1L12 22l-2.9-4.1L4 19l1.1-5.1L2 12l3.1-1.9L4 5l5.1 1.1z"/>', lantern: '<path d="M12 2v3M9 5h6M8 8c-3 2-3 8 0 10h8c3-2 3-8 0-10zM9 21h6M12 18v3"/>', pyramid: '<path d="M3 20h18M5 20l2-4h10l2 4M7 16l2-4h6l2 4M9 12l2-4h2l2 4"/>', pulse: '<path d="M3 12h4l2-5 4 10 2-5h6"/>', city: '<path d="M3 21h18M5 21V9l5-3v15M10 21V4l6 3v14M16 21v-9h3v9"/>', dove: '<path d="M3 13c4 0 7-2 9-6 1 3 3 5 6 5l3-2-1 4c-1 4-5 6-9 6H5l2-3c-2 0-4-2-4-4z"/>', equal: '<path d="M5 9h14M5 15h14"/>', plus: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/>', gamepad: '<path d="M7 8h10a4 4 0 0 1 4 4l-1 4a2.5 2.5 0 0 1-4.3 1L14 15h-4l-1.7 2A2.5 2.5 0 0 1 4 16l-1-4a4 4 0 0 1 4-4z"/><path d="M8 11v3M6.5 12.5h3M15 12h.01M17 13h.01"/>', drum: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6l2 13h10l2-13M8 9l8 8M16 9l-8 8"/>', column: '<path d="M4 21h16M5 18h14M7 18V8M12 18V8M17 18V8M4 8h16L12 3z"/>', feather: '<path d="M20 4c-8 0-14 6-14 14v2h2c8 0 14-6 14-14V4zM4 20L14 10"/>', shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>', coins: '<ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7M3 12v5c0 1.7 2.7 3 6 3 1.2 0 2.3-.2 3.2-.5M15 13.5c3.4 0 6 1.3 6 3s-2.6 3-6 3-6-1.3-6-3"/>', camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', brain: '<path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3h1V4zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3h-1V4z"/>', pen: '<path d="M4 20l4-1 11-11-3-3L5 16zM14 7l3 3"/>', apple: '<path d="M12 7c-2-1.5-7-1-7 5 0 4 3 8 5 8 1 0 1.5-.5 2-.5s1 .5 2 .5c2 0 5-4 5-8 0-6-5-6.5-7-5z"/><path d="M12 7c0-2 1-3.5 3-4"/>', compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>', mountain: '<path d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7.5 10.5l1.5 1.5 1.5-1.5"/>', chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>', mask: '<path d="M4 5c5 2 11 2 16 0v6a8 8 0 0 1-16 0z"/><path d="M8.5 10h2M13.5 10h2M9 15c2 1.5 4 1.5 6 0"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>', arch: '<path d="M3 21h18M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 6l9-3 9 3"/>', flame: '<path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.7 1.3 2.5 2 2.5 0-3-1-5 1-8z"/>', trowel: '<path d="M14 3l7 7-6 6-7-7zM8 9l-5 9 3 3 9-5M10 14l-3 3"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 1.8 6 5"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>', hand: '<path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12M11 11V4.5a1.5 1.5 0 0 1 3 0V12M14 11.5V6a1.5 1.5 0 0 1 3 0v8c0 4-3 7-7 7-3 0-5-2-6-4l-2-4a1.5 1.5 0 0 1 2.6-1.5L8 15"/>', ifthen: '<path d="M4 7h6M4 12h6M4 17h6M13 12h7M17 9l3 3-3 3"/>', spiral: '<path d="M12 12a1 1 0 1 1 1-1 3 3 0 0 1-3 3 5 5 0 0 1-5-5 7 7 0 0 1 7-7 9 9 0 0 1 9 9"/>', wheat: '<path d="M12 22V8M12 8c-2-1-3-3-3-5 2 1 3 3 3 5zM12 8c2-1 3-3 3-5-2 1-3 3-3 5zM12 13c-2-1-4-3-4-5 2 1 4 3 4 5zM12 13c2-1 4-3 4-5-2 1-4 3-4 5zM12 18c-2-1-4-3-4-5 2 1 4 3 4 5zM12 18c2-1 4-3 4-5-2 1-4 3-4 5z"/>', wave: '<path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0 2 1 2 1M2 17c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/>', dna: '<path d="M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12s10 6 10 6M8 6h8M9 9.5h6M9 14.5h6M8 18h8"/>', rocket: '<path d="M12 2c3 2 5 6 5 10l-2 4H9l-2-4c0-4 2-8 5-10z"/><circle cx="12" cy="9" r="1.5"/><path d="M9 16l-3 3v-4l1-1M15 16l3 3v-4l-1-1M10 19l2 3 2-3"/>', bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', handshake: '<path d="M2 11l4-4 4 2 3-2 4 1 5 4M2 11l3 3M22 11l-4 4-5 3-3-2-4-2M9 14l2 2M11 12l3 3M14 11l3 3"/>', microscope: '<path d="M6 21h12M9 21v-3h6M10 18a6 6 0 0 0 8-6M9 3l4 2-3 7-4-2zM11 12l1 2"/>', quill: '<path d="M20 3C11 4 6 10 5 19l-1 2M5 19c6-1 10-4 12-9M9 15c3-1 5-3 6-5"/>', swords: '<path d="M4 4l10 10M4 4h3l9 9M20 4L10 14M20 4h-3L8 13M13 17l4 4M17 17l-4 4M7 17l4 4M11 17l-4 4"/>', split: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M7 9h2M15 15h2"/>', castle: '<path d="M3 21V9h3v2h2V9h3v2h2V9h3v2h2V9h3v12zM10 21v-5a2 2 0 0 1 4 0v5M5 9V6M19 9V6"/>', runner: '<circle cx="14" cy="4" r="2"/><path d="M10 21l3-6-3-3 2-5 4 3h4M12 7L7 9l-2 4M13 15l4 2 1 4"/>', dancer: '<circle cx="12" cy="4" r="2"/><path d="M12 6v7M12 8l-6-3M12 8l5 4M12 13l-4 8M12 13l5 3 3-2"/>', lotus: '<path d="M12 19c-3-2-4-6-4-9 2 1 3.5 3 4 5 .5-2 2-4 4-5 0 3-1 7-4 9zM12 19c-4 0-8-2-9-6 3 0 6 1 8 3M12 19c4 0 8-2 9-6-3 0-6 1-8 3M4 21h16"/>', dome: '<path d="M3 21h18M5 21v-8h14v8M5 13a7 7 0 0 1 14 0M12 6V3M9 21v-4a3 3 0 0 1 6 0v4"/>', ankh: '<ellipse cx="12" cy="6" rx="3.5" ry="4"/><path d="M12 10v12M6 12h12"/>', easel: '<path d="M5 4h14v11H5zM12 15v6M8 21l2-6M16 21l-2-6M12 2v2"/>', bridge: '<path d="M2 18h20M4 18v-6M20 18v-6M2 12c4 0 6-5 10-5s6 5 10 5M8 18v-4M12 18v-4M16 18v-4"/>', megaphone: '<path d="M3 10v4h4l9 5V5L7 10zM19 9a4 4 0 0 1 0 6M7 14l1 6h3l-1-5"/>', ledger: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18M12 8h4M12 12h4M12 16h4"/>', thermo: '<path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0zM12 10v7M17 6h3M17 10h3"/>', paw: '<circle cx="7" cy="9" r="1.8"/><circle cx="11" cy="5.5" r="1.8"/><circle cx="16" cy="6.5" r="1.8"/><circle cx="18.5" cy="11" r="1.8"/><path d="M12 12c-3 0-6 4-6 6.5 0 1.5 1.5 2 3 1.5s2-.5 3-.5 1.5 0 3 .5 3 0 3-1.5C18 16 15 12 12 12z"/>', robot: '<rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M10 4h4M9 12h.01M15 12h.01M9 15h6M3 12v3M21 12v3"/>', figure: '<circle cx="12" cy="5" r="2.5"/><path d="M12 8v4M8 21l2-9h4l2 9M8 13l4-1 4 1"/>', canoe: '<path d="M2 14c4 3 16 3 20 0l-2 3c-3 2-13 2-16 0zM12 4v10M12 4l-3 7M12 4l3 7"/>', violin: '<path d="M14 3l7 7M17 6l-6 6M10 9c-2-1-5 0-6 2s0 4 1 5-1 3 1 4 3 0 4-1 3 1 5-1 2-4 1-6"/><path d="M8 14l2 2"/>', sax: '<path d="M15 3h4M17 3v9c0 5-3 9-7 9s-6-3-5-6l2-3M9 12l2 2M12 9l2 2M14 6l2 2"/>', hanger: '<path d="M12 6a2 2 0 1 1 2 2c-1 .5-2 1-2 2l9 6c.8.6.4 2-.6 2H3.6c-1 0-1.4-1.4-.6-2l9-6"/>', whisk: '<path d="M4 20l7-7M11 13c-1-5 3-11 7-10s1 8-4 10c3-1 5 1 4 3M11 13c2 1 5 0 7-3"/>', bubble: '<path d="M4 5h16v10H10l-5 4v-4H4zM8 9h8M8 12h5"/>', screen: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M10 8l4 2-4 2z"/>', care: '<path d="M12 9c-1.5-2-5-2-5 1 0 2 3 4 5 5 2-1 5-3 5-5 0-3-3.5-3-5-1zM3 15l4 4h7l5-3"/>', frame: '<rect x="4" y="4" width="16" height="16" rx="1"/><rect x="7" y="7" width="10" height="10"/><path d="M7 15l3-3 2 2 2-3 3 4"/>', translate: '<path d="M3 5h8M7 3v2M5 5c0 4 3 7 6 8M9 5c0 3-2 6-5 8M13 21l4-10 4 10M14.5 17h5"/>', wheel: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v6M12 14v6M4 12h6M14 12h6M6.3 6.3l4.3 4.3M13.4 13.4l4.3 4.3M17.7 6.3l-4.3 4.3M10.6 13.4l-4.3 4.3"/>', diya: '<path d="M3 15c2 3 5 4 9 4s7-1 9-4H3zM12 13c-2-2-1-5 0-8 1 3 2 6 0 8z"/>', scroll: '<path d="M6 4h11a2 2 0 0 1 0 4H8v10a2 2 0 1 1-4 0V6a2 2 0 0 1 2-2zM8 8v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1H10M11 11h5M11 14h5"/>', chapel: '<path d="M12 2v4M10 4h4M5 21V11l7-5 7 5v10M3 21h18M10 21v-4a2 2 0 0 1 4 0v4"/>', yinyang: '<circle cx="12" cy="12" r="9"/><path d="M12 3a4.5 4.5 0 0 1 0 9 4.5 4.5 0 0 0 0 9"/><circle cx="12" cy="7.5" r="1"/><circle cx="12" cy="16.5" r="1"/>', baobab: '<path d="M10 21c0-4 0-8-1-12M14 21c0-4 0-8 1-12M9 9c-3 0-5-2-5-4M9 9c0-3-1-5-3-6M12 9V4M15 9c3 0 5-2 5-4M15 9c0-3 1-5 3-6M8 21h8"/>', lattice: '<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><path d="M8 6h8M6 8v8M18 8v8M8 18h8M7.5 7.5l3 3M16.5 7.5l-3 3M7.5 16.5l3-3M16.5 16.5l-3-3"/>', circuit: '<path d="M3 12h4l2-4 4 8 2-4h6"/><circle cx="3" cy="12" r="1"/><circle cx="21" cy="12" r="1"/><path d="M7 4h10M7 20h10"/>', nodes: '<circle cx="5" cy="12" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 11l3-4M7 13l3 4M14 7l3 4M14 17l3-4M12 7v10"/>', pill: '<rect x="3" y="9" width="18" height="7" rx="3.5" transform="rotate(-35 12 12.5)"/><path d="M9.5 8.5l5 7"/>', singer: '<circle cx="10" cy="6" r="3"/><path d="M4 21c0-4 3-7 6-7s6 3 6 7M15 5c2 1 3 2.5 3 4.5M17 3c3 1.5 4.5 4 4.5 6.5"/>', scales: '<path d="M12 3v18M5 21h14M4 7h16M7 7l-3 6a3 3 0 0 0 6 0zM17 7l-3 6a3 3 0 0 0 6 0z"/>', khanda: '<path d="M12 2v14M10 4h4M8 9a5 5 0 0 0 8 0M6 13c1 4 4 6 6 6s5-2 6-6M9 21h6"/>', island: '<path d="M2 18c3-2 5-2 8 0s5 2 8 0 3-1 4-1M8 16c0-3 2-5 4-5s4 2 4 5M12 11V5M12 5c-2-1-4 0-5 1M12 5c2-1 4 0 5 1"/>', route: '<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/>', map: '<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/>', star8: '<path d="M12 2l2.9 4.1L20 5l-1.1 5.1L22 12l-3.1 1.9L20 19l-5.1-1.1L12 22l-2.9-4.1L4 19l1.1-5.1L2 12l3.1-1.9L4 5l5.1 1.1z"/>', lantern: '<path d="M12 2v3M9 5h6M8 8c-3 2-3 8 0 10h8c3-2 3-8 0-10zM9 21h6M12 18v3"/>', pyramid: '<path d="M3 20h18M5 20l2-4h10l2 4M7 16l2-4h6l2 4M9 12l2-4h2l2 4"/>', pulse: '<path d="M3 12h4l2-5 4 10 2-5h6"/>', city: '<path d="M3 21h18M5 21V9l5-3v15M10 21V4l6 3v14M16 21v-9h3v9"/>', dove: '<path d="M3 13c4 0 7-2 9-6 1 3 3 5 6 5l3-2-1 4c-1 4-5 6-9 6H5l2-3c-2 0-4-2-4-4z"/>', equal: '<path d="M5 9h14M5 15h14"/>', plus: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/>', gamepad: '<path d="M7 8h10a4 4 0 0 1 4 4l-1 4a2.5 2.5 0 0 1-4.3 1L14 15h-4l-1.7 2A2.5 2.5 0 0 1 4 16l-1-4a4 4 0 0 1 4-4z"/><path d="M8 11v3M6.5 12.5h3M15 12h.01M17 13h.01"/>', drum: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6l2 13h10l2-13M8 9l8 8M16 9l-8 8"/>', column: '<path d="M4 21h16M5 18h14M7 18V8M12 18V8M17 18V8M4 8h16L12 3z"/>', feather: '<path d="M20 4c-8 0-14 6-14 14v2h2c8 0 14-6 14-14V4zM4 20L14 10"/>', shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>', coins: '<ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7M3 12v5c0 1.7 2.7 3 6 3 1.2 0 2.3-.2 3.2-.5M15 13.5c3.4 0 6 1.3 6 3s-2.6 3-6 3-6-1.3-6-3"/>', camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', brain: '<path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3h1V4zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3h-1V4z"/>', pen: '<path d="M4 20l4-1 11-11-3-3L5 16zM14 7l3 3"/>', apple: '<path d="M12 7c-2-1.5-7-1-7 5 0 4 3 8 5 8 1 0 1.5-.5 2-.5s1 .5 2 .5c2 0 5-4 5-8 0-6-5-6.5-7-5z"/><path d="M12 7c0-2 1-3.5 3-4"/>', compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>', mountain: '<path d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7.5 10.5l1.5 1.5 1.5-1.5"/>', chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>', mask: '<path d="M4 5c5 2 11 2 16 0v6a8 8 0 0 1-16 0z"/><path d="M8.5 10h2M13.5 10h2M9 15c2 1.5 4 1.5 6 0"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>', arch: '<path d="M3 21h18M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 6l9-3 9 3"/>', flame: '<path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.7 1.3 2.5 2 2.5 0-3-1-5 1-8z"/>', trowel: '<path d="M14 3l7 7-6 6-7-7zM8 9l-5 9 3 3 9-5M10 14l-3 3"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 1.8 6 5"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>', briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>',
   sigma: '<path d="M18 5H6l6 7-6 7h12"/>', leaf: '<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8"/>', atom: '<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
   chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -55,7 +55,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=26`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=27`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -101,6 +101,7 @@ async function homeView() {
   const nx = cont && nextWork(cont.slug, cont.data);
   return `<div class="stack">
     <div><p class="muted" style="font-weight:700">${auth.user ? "Welcome back" : "Welcome"}</p><h1>${cont ? "Ready for your next work?" : "What do you want to understand?"}</h1></div>
+    ${xpState().total ? todayCard() : ""}
     ${await (async () => { const n = await rvDueCount().catch(() => 0); return n ? `<a class="hero continue" href="#/practice" style="${C("mint")}"><small style="font-weight:700">Daily review</small><h2>${n} question${n > 1 ? "s" : ""} ready</h2><span>About ${Math.max(1, Math.round(n * 0.4))} minute${n > 2 ? "s" : ""}, from works you've finished</span></a>` : ""; })()}
     <form id="homesearch" role="search" class="row" style="flex-wrap:nowrap"><input type="search" id="homeq" class="bigsearch" placeholder="Search paths, works, fields, people, events…" aria-label="Search everything" autocomplete="off"><button class="btn" type="submit">${ico("search")}<span class="sr-only">Search</span></button></form>
     ${cont ? `<a class="hero continue" href="#/path/${cont.slug}/work/${nx.id}" style="${C(stageColor(nx.stage))}">
@@ -118,6 +119,89 @@ async function homeView() {
   </div>`;
 }
 const footer = () => `<footer class="foot"><a href="#/privacy">Privacy</a><button class="linkbtn" type="button" data-feedback>Send feedback</button><button class="linkbtn" type="button" data-welcome>How Ascent works</button></footer>`;
+
+// --- XP, daily goal and streak: small rewards that make a habit of it --------------------------
+// ponytail: kept in this browser only; syncing to the account needs a table (add when it matters).
+const XP_KEY = "ascent-xp", DAY_GOAL = 30;
+const XP = { right: 10, pass: 20, done: 15, story: 5, stage: 50 };
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+function xpState() { try { return JSON.parse(localStorage.getItem(XP_KEY)) || { total: 0, days: {} }; } catch { return { total: 0, days: {} }; } }
+function streakOf(s = xpState()) {
+  const d = new Date(); if (!s.days[dayKey(d)]) d.setDate(d.getDate() - 1); // today not started yet: the streak still stands
+  let n = 0; while (s.days[dayKey(d)] > 0) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function addXp(n) {
+  const s = xpState(), k = dayKey(), before = s.days[k] || 0;
+  s.total += n; s.days[k] = before + n;
+  try { localStorage.setItem(XP_KEY, JSON.stringify(s)); } catch { /* storage blocked */ }
+  floatXp(n); renderStreak();
+  if (before < DAY_GOAL && s.days[k] >= DAY_GOAL) setTimeout(() => toast(`Daily goal reached! Your streak: ${streakOf(s)} day${streakOf(s) > 1 ? "s" : ""}`), 700);
+}
+function floatXp(n) {
+  const f = document.createElement("span"); f.className = "xpfloat"; f.textContent = `+${n} XP`; f.setAttribute("aria-hidden", "true");
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1300);
+}
+function renderStreak() {
+  const el = $("#streak"); if (!el) return;
+  const s = xpState(), n = streakOf(s), today = s.days[dayKey()] || 0;
+  el.hidden = !s.total;
+  el.innerHTML = `${ico("flame")}<b>${n}</b><span class="sr-only"> day streak,</span><i class="xpring" style="--p:${Math.min(1, today / DAY_GOAL)}" title="${today} of ${DAY_GOAL} XP today"></i>`;
+  el.classList.toggle("lit", today >= DAY_GOAL);
+}
+function todayCard() {
+  const s = xpState(), today = s.days[dayKey()] || 0, n = streakOf(s), p = Math.min(1, today / DAY_GOAL);
+  const week = Array.from({ length: 7 }, (_, k) => { const d = new Date(); d.setDate(d.getDate() - 6 + k); return { l: "SMTWTFS"[d.getDay()], on: (s.days[dayKey(d)] || 0) > 0, now: k === 6 }; });
+  return `<a class="today" href="#/practice" style="${C(today >= DAY_GOAL ? "mint" : "peach")}">
+    <span class="ring" style="--p:${p}"><b>${today}</b><small>/ ${DAY_GOAL} XP</small></span>
+    <span style="display:grid;gap:6px"><b class="tday-h">${today >= DAY_GOAL ? "Daily goal done!" : today ? "Keep going today" : "Start today's goal"}</b>
+      <span class="row" style="gap:6px;align-items:center">${ico("flame")}<b>${n}-day streak</b><span class="muted">· ${s.total.toLocaleString("en")} XP in all</span></span>
+      <span class="week">${week.map(w => `<i class="${w.on ? "on" : ""}${w.now ? " now" : ""}" title="${w.on ? "Learned" : "No learning"}">${w.l}</i>`).join("")}</span></span></a>`;
+}
+const PRAISE = ["Right!", "Nice!", "Great!", "Spot on!", "Excellent!", "You got it!"];
+
+// --- welcome page: what Ascent is and how to use it (first visit, and "How Ascent works") ---
+function welcomeView() {
+  const step = (n, icon, color, h, p) => `<li class="wl-step"><span class="wl-n">${n}</span><span class="ni" style="${C(color)}">${ico(icon)}</span><div><h3>${h}</h3><p>${p}</p></div></li>`;
+  const tile = (icon, color, h, p, href, cta) => `<a class="card wl-tile" href="${href}" style="${C(color)}">${ico(icon)}<div style="display:grid;gap:6px"><h3>${h}</h3><small>${p}</small><span class="go-pill">${cta}</span></div></a>`;
+  return `<div class="stack welcome">
+    <section class="hero wl-hero" style="${C("lilac")}"><span class="medal small">${ico("logo")}</span>
+      <h1>Learn any subject, one step at a time</h1>
+      <p class="lede">Ascent gives you guided paths from curious beginner to real expertise. Each path picks the best books, films, podcasts and courses, in order, with short lessons and quizzes to make it stick.</p>
+      <div class="row"><button class="btn" type="button" data-welcome="2">${ico("spark")}Pick what interests me</button><a class="btn ghost" href="#/" data-welcomedone>Browse all paths</a></div></section>
+
+    <section><p class="label">How it works</p><ol class="wl-steps">
+      ${step(1, "compass", "sky", "Choose a path", `There are ${PATHS.length} paths, from Physics to Poetry. Find one on the home page, by searching, or on the map of knowledge.`)}
+      ${step(2, "trophy", "mint", "Climb six stages", "Every path rises from <b>First Encounters</b> to <b>Expert</b>. Each stage has four works: a book, film, podcast or course.")}
+      ${step(3, "play", "peach", "Do one short lesson per work", "Each work is a lesson: a quick story card, where to find the work, a guide to help you understand it, and a short quiz.")}
+      ${step(4, "quiz", "butter", "Pass the quizzes", "Score 70% across a stage's quizzes to pass it. Missed it? Try again, or continue anyway and come back later.")}
+      ${step(5, "star", "rose", "Earn badges and mastery", "Pass all six stages, then the mastery check, to earn a certificate you can share and verify.")}
+    </ol></section>
+
+    <section class="section"><h2>Inside a lesson</h2><p class="muted">Tap a work and you'll see its steps as a path of circles. Do them in order; the next one is highlighted.</p>
+      <ol class="steps wl-demo" aria-label="Example lesson steps">${[["play", "The story", "Who made it, and why it matters", true], ["read", "Read it", "Where to find it, free or paid", true], ["eye", "Understand", "Context and a guide", false], ["quiz", "Quiz", "A few quick questions", false]]
+        .map(([i, t, s, d], k) => `<li class="step s${k % 2}"><span class="wl-fake"><span class="node-c${d ? " done" : ""}${k === 2 ? " cur" : ""}" style="${d || k === 2 ? C("mint") : ""}">${ico(d ? "check" : i)}</span><span class="st-t"><b>${t}</b><small>${s}</small>${k === 2 ? '<span class="go-pill">Next</span>' : ""}</span></span></li>`).join("")}</ol></section>
+
+    <section><p class="label">Keep going every day</p><div class="grid">
+      ${tile("flame", "peach", "Streaks and XP", "Earn XP for every right answer and finished work. Learn a little each day to grow your streak.", "#/", "See your stats")}
+      ${tile("pulse", "mint", "Daily review", "A few questions from works you've finished, timed so you remember them for good.", "#/practice", "Open review")}
+      ${tile("quiz", "butter", "Know some already?", "Take a path's placement test to skip the stages you already know.", "#/", "Find a path")}
+    </div></section>
+
+    <section><p class="label">Explore beyond the paths</p><div class="grid">
+      ${tile("tree", "sky", "The map of knowledge", "Every subject arranged in 17 domains. Open any field to see what it covers and which paths teach it.", "#/atlas", "Open the map")}
+      ${tile("star8", "lilac", "Points of interest", "The people, places, events, works and ideas each field studies. Open one to see where it fits and which lessons include it.", "#/atlas", "Explore")}
+      ${tile("compass", "rose", "Timeline and world map", "See points of interest across history and around the world, and filter them by field.", "#/explore?view=timeline", "Open the timeline")}
+    </div><p class="muted">New to these? A short guided tour starts the first time you open them, and the <b>How this page works</b> button replays it.</p></section>
+
+    <section class="section"><h2>Your progress</h2>
+      <p>Your ticks, quiz scores, badges and XP are saved in this browser straight away. ${sb ? "Sign in with your email (no password) to keep them on every device." : ""} Everything you've earned is in <a href="#/collection">Collection</a>.</p>
+      <p class="muted">Every path is a draft until subject experts review and endorse it. Spot a mistake? Each lesson has a <b>Report a problem</b> link.</p></section>
+
+    <div class="row"><button class="btn" type="button" data-welcome="2">${ico("spark")}Pick what interests me</button><a class="btn ghost" href="#/" data-welcomedone>Go to the home page</a></div>
+    ${footer()}
+  </div>`;
+}
 
 function privacyView() {
   return `<div class="stack prose"><div class="crumbs"><a href="#/">Home</a>›<span>Privacy</span></div><h1>Your privacy</h1>
@@ -153,19 +237,18 @@ function picksFor(pr, n = 3) {
   if (!s.length) s = from(DOMAINS);
   return s.slice(0, n).map(x => PATHS.find(p => p.slug === x)).filter(Boolean);
 }
-function openWelcome() {
+function openWelcome(start = 0) {
   const pr = prefs();
-  Object.assign(tour, { n: 0, areas: new Set(pr?.areas || []), level: pr?.level || 0 });
+  Object.assign(tour, { n: start, areas: new Set(pr?.areas || []), level: pr?.level || 0 });
   $("#layer").innerHTML = `<div class="scrim" data-close data-welcomedone></div><div class="full enter" style="${C("lilac")}" role="dialog" aria-modal="true" aria-label="Welcome to Ascent">
-    <div class="segs">${Array.from({ length: TOUR_N }, (_, k) => `<i class="${k === 0 ? "on" : ""}"></i>`).join("")}</div>
+    <div class="segs">${Array.from({ length: TOUR_N }, (_, k) => `<i class="${k <= tour.n ? "on" : ""}"></i>`).join("")}</div>
     <div class="fullhead"><small style="font-weight:700">Ascent</small><button class="close" type="button" data-close data-welcomedone aria-label="Close">${ico("x")}</button></div>
     <div class="cardslot">${tourCard()}</div></div>`;
 }
 function drawTour(dir) {
   const f = $("#layer .full"); if (!f) return;
   f.querySelectorAll(".segs i").forEach((s, k) => s.classList.toggle("on", k <= tour.n));
-  const slot = f.querySelector(".cardslot"); slot.innerHTML = tourCard();
-  slot.classList.remove("in-next", "in-prev"); void slot.offsetWidth; slot.classList.add(dir > 0 ? "in-next" : "in-prev");
+  const slot = f.querySelector(".cardslot"); swapSlot(slot, tourCard(), dir);
   slot.querySelector("h2")?.focus({ preventScroll: true });
 }
 function tourCard() {
@@ -279,6 +362,70 @@ async function fieldView(id) {
   </div>`;
 }
 
+// --- page tours: a card at the bottom that walks through a page, spotlighting each part ------
+// Shown once per tour (kept in this browser), replayable with "How this page works".
+// Steps whose target isn't on the page are skipped.
+const TOURS = {
+  field: [
+    ["h1", "This is a field", "A field is one subject on the map of knowledge, like Optics or Medieval history. This page shows where it sits, how to learn it, and what it covers."],
+    ["#poisec h2", "Points of interest", "These are the people, places, events, works and ideas this field studies: Isaac Newton, the Silk Road, the French Revolution. They aren't lessons. They're things to look up and connect."],
+    ["#poisec .seg", "Filter them", "Show only people, only events, only places, and so on."],
+    ["#poiq", "Search", "Type a name to find one quickly."],
+    ["#poisec .subs a", "Open one", "Each has its own page: a short description, the fields that study it, and any Ascent lessons that feature it."],
+    ["#poisec a[href^='#/explore']", "See them in time and space", "Put them on a timeline by century, or on a world map."]],
+  poi: [
+    ["h1", "A point of interest", "One person, place, event, work or idea, taken from Wikipedia's list of its most important articles."],
+    [".poi-studied", "Studied in", "The fields that study it. One point of interest can belong to several fields. Tap a field to see what else it covers."],
+    [".poi-paths", "In Ascent's lessons", "Lessons and paths that feature it. Tap one to start learning."],
+    [".poi-more", "Read more", "Open Wikipedia or Wikidata for the full story."]],
+  timeline: [
+    ["h1", "The timeline", "Points of interest arranged by century, from about 3000 BCE to today."],
+    [".seg[aria-label='Filter by type']", "Filter", "Show only people, events, works, places or ideas."],
+    [".tl-row", "Open a century", "Tap a century's bar to see who and what belongs to it. Longer bars mean more."],
+    [".seg[aria-label='View']", "Switch to the map", "See the same points of interest on a world map instead."]],
+  map: [
+    ["h1", "The world map", "Points of interest placed where they happened or lived."],
+    ["#ex-from", "Pick the years", "Choose a span of years. Use minus for BCE, for example -500."],
+    ["#worldmap", "Tap a dot", "Each dot is a point of interest. Tap one to see what it is, then open its page."],
+    ["[data-zoom='1.6']", "Zoom", "Zoom in on crowded areas, or go back to the whole world."]],
+};
+const TOUR_KEY = "ascent-tours";
+const tourSeen = k => { try { return JSON.parse(localStorage.getItem(TOUR_KEY) || "[]").includes(k); } catch { return true; } };
+const tourDone = k => { try { const a = JSON.parse(localStorage.getItem(TOUR_KEY) || "[]"); if (!a.includes(k)) { a.push(k); localStorage.setItem(TOUR_KEY, JSON.stringify(a)); } } catch { /* storage blocked */ } };
+const pt = { key: null, steps: [], n: 0 };
+function pageTour(key, force = false) {
+  if (!force && tourSeen(key)) return;
+  const steps = (TOURS[key] || []).map(([sel, h, p]) => ({ el: $(sel), h, p })).filter(s => s.el);
+  if (!steps.length) return;
+  Object.assign(pt, { key, steps, n: 0 }); drawPageTour();
+}
+function endPageTour() {
+  document.querySelector(".tour-hi")?.classList.remove("tour-hi");
+  $("#pagetour")?.remove(); $("#pt-hole")?.remove(); removeEventListener("scroll", placeHole); removeEventListener("resize", placeHole);
+  if (pt.key) tourDone(pt.key); pt.key = null;
+}
+// the spotlight: a fixed box over the target whose huge shadow dims everything else
+function placeHole() {
+  const el = document.querySelector(".tour-hi"), h = $("#pt-hole"); if (!el || !h) return;
+  const r = el.getBoundingClientRect(), pad = 6;
+  Object.assign(h.style, { top: `${r.top - pad}px`, left: `${r.left - pad}px`, width: `${r.width + pad * 2}px`, height: `${r.height + pad * 2}px` });
+}
+function drawPageTour() {
+  const { steps, n } = pt, s = steps[n];
+  document.querySelector(".tour-hi")?.classList.remove("tour-hi");
+  s.el.classList.add("tour-hi"); s.el.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  if (!$("#pt-hole")) { const h = document.createElement("div"); h.id = "pt-hole"; h.setAttribute("aria-hidden", "true"); document.body.appendChild(h);
+    addEventListener("scroll", placeHole, { passive: true }); addEventListener("resize", placeHole); }
+  placeHole(); setTimeout(placeHole, 450); // again after the smooth scroll settles
+  let box = $("#pagetour");
+  if (!box) { box = document.createElement("div"); box.id = "pagetour"; box.setAttribute("role", "dialog"); box.setAttribute("aria-live", "polite"); document.body.appendChild(box); }
+  box.innerHTML = `<div class="pt-card"><div class="pt-top"><small>${n + 1} of ${steps.length}</small><button class="linkbtn" type="button" data-ptour="end">Skip tour</button></div>
+    <h2>${esc(s.h)}</h2><p>${esc(s.p)}</p>
+    <div class="row">${n ? `<button class="btn small ghost" type="button" data-ptour="-1">Back</button>` : ""}<button class="btn small" type="button" data-ptour="${n + 1 < steps.length ? 1 : "end"}">${n + 1 < steps.length ? "Next" : "Got it"}</button></div></div>`;
+  box.querySelector(".pt-card").classList.remove("pt-in"); void box.offsetWidth; box.querySelector(".pt-card").classList.add("pt-in");
+}
+const tourButton = key => `<button class="btn small ghost helpbtn" type="button" data-tourstart="${key}">${ico("quiz")}How this page works</button>`;
+
 // --- points of interest on a field page: filter by type, search, load more ---------------
 const poiv = { field: null, type: "", q: "", n: 30, list: [] };
 function poiSection() {
@@ -286,7 +433,7 @@ function poiSection() {
   for (const it of L) counts[it.ty] = (counts[it.ty] || 0) + 1;
   const q = poiv.q.trim().toLowerCase();
   const shown = L.filter(it => (!poiv.type || it.ty === poiv.type) && (!q || it.n.toLowerCase().includes(q)));
-  return `<h2>Points of interest (${L.length})</h2>
+  return `<div class="row" style="justify-content:space-between;align-items:center"><h2>Points of interest (${L.length})</h2>${tourButton("field")}</div>
     <p class="muted">People, events, works, places and ideas studied in this field and its branches, from Wikipedia's list of vital articles. Placements are proposed by list section and still need review.</p>
     <div class="row"><a class="btn small ghost" href="#/explore?view=timeline&field=${poiv.field}">See them on a timeline</a><a class="btn small ghost" href="#/explore?view=map&field=${poiv.field}">On a world map</a></div>
     <div class="row seg" role="group" aria-label="Filter by type"><button type="button" class="btn small ${poiv.type ? "ghost" : ""}" data-poitype="" aria-pressed="${!poiv.type}">All</button>${Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<button type="button" class="btn small ${poiv.type === k ? "" : "ghost"}" data-poitype="${k}" aria-pressed="${poiv.type === k}">${esc(POI_LABEL[k] || k)} (${n})</button>`).join("")}</div>
@@ -307,9 +454,9 @@ let guideIndex = null;
 const LEVEL_TEXT = { beginner: "Start here", intermediate: "Next", advanced: "Go deeper" };
 async function mountGuide(id) {
   const box = $("#guidesec"); if (!box) return;
-  guideIndex ||= await fetch("guides/index.json?v=26").then(r => r.json()).catch(() => ({}));
+  guideIndex ||= await fetch("guides/index.json?v=27").then(r => r.json()).catch(() => ({}));
   if (!guideIndex[id]) return box.remove();
-  const g = parseGuide(await fetch(`guides/${id}.md?v=26`).then(r => r.text()));
+  const g = parseGuide(await fetch(`guides/${id}.md?v=27`).then(r => r.text()));
   box.innerHTML = `<h2>Starter guide <span class="pill draft">Draft</span></h2>
     <div class="txt">${md(g.intro)}</div>
     <ol class="guideworks">${g.works.map(w => `<li><span class="chip">${esc(LEVEL_TEXT[w.level] || w.level)}</span> <b>${inline(w.title)}</b>${accessBadge({ key: w.access })}<br><small class="muted">${esc([w.creator, w.year].filter(Boolean).join(" · "))}</small><br>${inline(w.why)}</li>`).join("")}</ol>
@@ -363,10 +510,11 @@ async function poiView(id) {
     <div style="display:grid;gap:10px"><h1>${esc(it.n)}</h1>
       <div class="pills"><span class="pill">${esc(POI_LABEL[it.ty] || it.ty)}</span>${it.ok ? '<span class="pill endorsed">Approved</span>' : '<span class="pill draft">Proposed</span>'}${it.rv ? '<span class="pill">Needs review</span>' : ""}</div>
       ${d.d ? `<p class="lede">${esc(d.d.charAt(0).toUpperCase() + d.d.slice(1))}.</p><p class="muted" style="margin:0">Short description from Wikidata.</p>` : ""}</div>
-    <section class="section"><h2>Studied in</h2><p class="muted">A point of interest isn't a discipline: it's something several fields study. These are its proposed homes.</p>
+    ${tourButton("poi")}
+    <section class="section poi-studied"><h2>Studied in</h2><p class="muted">A point of interest isn't a discipline: it's something several fields study. These are its proposed homes.</p>
       <ul class="homes">${it.h.map(h => { const r = routes(t, h)[0]; return `<li>${r.map(x => t.dom[x] ? `<a href="#/area/${x.slice(2)}">${esc(nameOf(t, x))}</a>` : `<a href="#/field/${x}">${esc(nameOf(t, x))}</a>`).join(" › ")}${pathsFor(h).length ? " · path ready" : ""}</li>`; }).join("")}</ul></section>
-    ${(L => L.length ? `<section class="section"><h2>In Ascent's paths</h2><ul class="results">${L.map(l => `<li><a href="${l.href}"><b>${esc(l.title)}</b><small>${esc(l.sub)}</small></a></li>`).join("")}</ul></section>` : "")(pathLinksForPoi(await searchData(), it))}
-    <section class="section"><h2>Read more</h2><div class="row"><a class="btn small ghost" href="${wiki}" target="_blank" rel="noopener">Wikipedia article</a>${d.q ? `<a class="btn small ghost" href="https://www.wikidata.org/wiki/${esc(d.q)}" target="_blank" rel="noopener">Wikidata ${esc(d.q)}</a>` : ""}</div></section>
+    ${(L => L.length ? `<section class="section poi-paths"><h2>In Ascent's paths</h2><ul class="results">${L.map(l => `<li><a href="${l.href}"><b>${esc(l.title)}</b><small>${esc(l.sub)}</small></a></li>`).join("")}</ul></section>` : "")(pathLinksForPoi(await searchData(), it))}
+    <section class="section poi-more"><h2>Read more</h2><div class="row"><a class="btn small ghost" href="${wiki}" target="_blank" rel="noopener">Wikipedia article</a>${d.q ? `<a class="btn small ghost" href="https://www.wikidata.org/wiki/${esc(d.q)}" target="_blank" rel="noopener">Wikidata ${esc(d.q)}</a>` : ""}</div></section>
     <section class="section"><h2>Source and status</h2>
       <p>Listed in Wikipedia's <a href="${esc(p.meta.url)}" target="_blank" rel="noopener">Vital articles, Level 4</a>${(d.src || []).map(([s, tr]) => `, under ${esc(s)}${tr ? ` › ${esc(tr)}` : ""}`).join(";")} (list revision of ${esc((p.meta.revisions[(d.src || [[""]])[0][0]] || [])[1] || "")}).</p>
       <p>Its homes were proposed from that list section, not checked article by article${it.rv ? ", and its section is broad, so it's in the review queue" : ""}. ${esc(p.meta.licence)}</p>
@@ -378,7 +526,7 @@ async function mountPoiSection(id) {
   const [t, p] = await Promise.all([loadTax(), loadPoi()]);
   if (poiv.field !== id) Object.assign(poiv, { field: id, type: "", q: "", n: 30 });
   poiv.list = poisUnder(t, p, id);
-  if (poiv.list.length) box.innerHTML = poiSection(); else box.remove();
+  if (poiv.list.length) { box.innerHTML = poiSection(); pageTour("field"); } else box.remove();
 }
 
 // --- search everything: paths, works, people who made them, stages, fields, points of interest ---
@@ -462,7 +610,7 @@ const centuryText = c => c === -1e9 ? "Before 3000 BCE" : c < -500 ? `${ordinal(
 function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 async function exploreData() {
   const [t, p] = await Promise.all([loadTax(), loadPoi()]);
-  ex.ww ||= await fetch("data/poi/when-where.json?v=26").then(r => r.json()).catch(() => ({}));
+  ex.ww ||= await fetch("data/poi/when-where.json?v=27").then(r => r.json()).catch(() => ({}));
   let items = ex.field ? poisUnder(t, p, ex.field) : p.items;
   if (ex.type) items = items.filter(i => i.ty === ex.type);
   return { t, p, items: items.map(i => ({ i, w: ex.ww[i.id] })).filter(x => x.w) };
@@ -481,6 +629,7 @@ async function exploreView(qs = "") {
       ${ex.field ? `<a class="btn small ghost" href="#/explore?view=${ex.view}">Show every field</a>` : ""}</div>
     <div class="row seg" role="group" aria-label="Filter by type"><a class="btn small ${ex.type ? "ghost" : ""}" href="${link({ type: "" })}">All</a>${Object.entries(TYPE_PLURAL).filter(([k]) => counts[k] || ex.type === k).map(([k, l]) => `<a class="btn small ${ex.type === k ? "" : "ghost"}" href="${link({ type: k })}">${l}</a>`).join("")}</div>
     <div id="exbody">${ex.view === "map" ? mapShell() : timelineHtml(items)}</div>
+    ${tourButton(ex.view === "map" ? "map" : "timeline")}
     <p class="muted">Dates and places from Wikidata, shown for ${items.length.toLocaleString("en")} points of interest that have them. The selection comes from English Wikipedia's list of vital articles, so some regions and periods are under-represented.</p>
   </div>`;
 }
@@ -739,7 +888,7 @@ function settingsView() {
     <section class="section"><h2>Pilot survey</h2><p>Five quick questions about how Ascent is working for you.</p>
       <a class="btn ghost" href="#/survey" style="justify-self:start">Answer the survey</a></section>
     <section class="section"><h2>Getting started</h2><p>Take the short tour again, and pick new interests for your home page.</p>
-      <button class="btn ghost" type="button" data-welcome style="justify-self:start">Replay the welcome tour</button></section>
+      <button class="btn ghost" type="button" data-welcome style="justify-self:start">How Ascent works</button></section>
     <section class="section"><h2>Reset progress</h2>
       <p>Start a path again from the beginning: this clears its ticked works, quiz scores and stages you continued past. Badges and certificates for that path go too. ${auth.user ? "Your account and other paths aren't affected." : "You're not signed in, so this clears the progress kept in this browser."}</p>
       <div class="field"><label for="resetpath">What to reset</label><select id="resetpath"><option value="">Every path</option>${PATHS.map(p => `<option value="${p.slug}">${esc(p.title)}</option>`).join("")}</select></div>
@@ -789,13 +938,14 @@ async function pathView(slug) {
   const prereq = sections.find(s => /^Before you start/i.test(s.title)); // science paths: what you need, before the climb
   const rest = sections.filter(s => s !== about && s !== goals && s !== prereq);
   const n = doneCount(slug, p.works), nx = nextWork(slug, p), sts = statuses(slug, p);
+  const ab = splitAbout(about?.body || "");
+  // the long reading lives in closed dropdowns, so the stages and the start button come first
+  const fold = (title, html, cls = "") => html ? `<details class="section fold ${cls}" data-fold="${esc(title)}"${foldOpen.get(slug)?.has(title) ? " open" : ""}><summary><h2>${esc(title)}</h2>${ico("chev", "i chev")}</summary><div class="txt">${html}</div></details>` : "";
   return `<div class="stack">
     <div class="crumbs"><a href="#/">Home</a>›${(a => a ? `<a href="#/area/${a.slug}">${esc(a.title)}</a>›` : "")(DOMAINS.find(a => a.slug === meta.doms[0]))}<span>${esc(p.title)}</span></div>
-    <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1><p class="lede">${inline(p.lede)}</p>
+    <div style="display:grid;gap:12px"><h1>${esc(p.title)}</h1>
       <div class="pills"><span class="pill draft" id="trust">Draft · not yet endorsed</span><span class="pill">${n} of ${p.works.length} works done</span><span class="pill">${p.stages.length} stages</span></div>
       <div class="row"><a class="btn" href="#/path/${slug}/work/${(nx || p.works[0]).id}">${ico("play")}${n ? (nx ? `Continue: ${esc(nx.title)}` : "Review the path") : "Start the path"}</a><a class="btn ghost" href="#/path/${slug}/map">${ico("tree")}Open the map</a>${sts[0]?.state !== "passed" ? `<a class="btn ghost" href="#/path/${slug}/placement">${ico("quiz")}Already know some? Take the placement test</a>` : ""}</div></div>
-    ${about ? `<section class="section about"><h2>${esc(about.title)}</h2><div class="txt${/!\[/.test(about.body) ? " with-img" : ""}">${md(about.body)}</div></section>` : ""}
-    ${prereq ? `<section class="section prereq"><h2>${esc(prereq.title)}</h2><div class="txt">${md(prereq.body)}</div></section>` : ""}
     <section><p class="label">Stages</p>
       <div class="stages">${p.stages.map(s => { const st = sts[s.index];
         return `<a class="card stage-card${st.state === "locked" ? " locked" : ""}" href="#/path/${slug}/stage/${s.num}" style="${C(stageColor(s))}">
@@ -805,9 +955,32 @@ async function pathView(slug) {
         <span class="row" style="justify-content:space-between;align-items:center"><small>Final · Mastery</small>${m.passed ? '<span class="chip ok">Earned</span>' : ""}</span>
         <div style="display:grid;gap:6px"><h3>${ico("trophy")} Mastery check</h3><small>${m.passed ? "Certificate earned: see it" : m.ready ? `Ready: take the grand quiz (${pct(MASTERY_MARK)} to pass)` : `Pass all ${p.stages.length} stages to unlock: ${m.left} to go`}</small></div></a>`)(mastery(slug, p))}
     </section>
-    ${goals ? `<section class="section goals"><h2>${esc(goals.title)}</h2><div class="txt">${md(goals.body)}</div></section>` : ""}
-    ${rest.map(s => `<section class="section"><h2>${esc(s.title)}</h2><div class="txt">${md(s.body, { linkPaths: s.kind === "branches", here: slug })}</div></section>`).join("")}
+    <section class="folds"><p class="label">About this path</p>
+    ${fold(about ? about.title : "About", md([p.lede, p.note, ab.text].filter(Boolean).join("\n\n")), /!\[/.test(ab.text) ? "about with-img" : "about")}
+    ${fold("Did you know?", ab.trivia && md(ab.trivia), "trivia")}
+    ${fold("Timeline", ab.timeline && md(ab.timeline), "timeline")}
+    ${prereq ? fold(prereq.title, md(prereq.body), "prereq") : ""}
+    ${goals ? fold(goals.title, md(goals.body), "goals") : ""}
+    ${rest.map(s => fold(s.title, md(s.body, { linkPaths: s.kind === "branches", here: slug }))).join("")}
+    </section>
   </div>`;
+}
+// which dropdowns are open on each path page, so going back restores the same page
+const foldOpen = new Map();
+document.addEventListener("toggle", e => {
+  const f = e.target; if (!f.matches?.("details.fold")) return;
+  const slug = (location.hash.match(/^#\/path\/([\w-]+)$/) || [])[1]; if (!slug) return;
+  const set = foldOpen.get(slug) || new Set(); f.open ? set.add(f.dataset.fold) : set.delete(f.dataset.fold); foldOpen.set(slug, set);
+}, true);
+// split a path's "About" section into its prose, its trivia list and its timeline
+function splitAbout(body) {
+  const out = { text: [], trivia: [], timeline: [] }; let cur = "text";
+  for (const l of body.split("\n")) {
+    if (l.trim() === "**Trivia**") { cur = "trivia"; continue; }
+    if (/^#{2,4}\s*Timeline\s*$/i.test(l.trim())) { cur = "timeline"; continue; }
+    out[cur].push(l);
+  }
+  return { text: out.text.join("\n").trim(), trivia: out.trivia.join("\n").trim(), timeline: out.timeline.join("\n").trim() };
 }
 
 async function stageView(slug, num) {
@@ -966,7 +1139,7 @@ async function mountQuizRun(slug) {
 }
 function runQuiz(box, ctx) {
   const { slug, p, w } = ctx, qs = w.quiz, color = stageColor(w.stage);
-  let i = 0, right = 0;
+  let i = 0, right = 0, combo = 0;
   const show = () => {
     const q = qs[i], opts = q.kind === "mc" ? shuffle(q.opts) : []; // options are written correct-first, so shuffle them
     box.innerHTML = `<div class="qprog"><i style="width:${(i / qs.length) * 100}%;background:var(--${color}-ink)"></i></div>
@@ -982,12 +1155,13 @@ function runQuiz(box, ctx) {
     if (inp) { inp.addEventListener("input", () => (check.disabled = !inp.value.trim())); inp.addEventListener("keydown", e => { if (e.key === "Enter" && inp.value.trim()) check.click(); }); setTimeout(() => inp.focus(), 50); }
     check.addEventListener("click", () => {
       const ok = q.kind === "mc" ? opts[pick].ok : blankOk(q, inp.value);
-      if (ok) right++;
+      if (ok) { right++; combo++; addXp(XP.right); } else combo = 0;
       ctx.onAnswer?.(q, ok);
       const shown = q.kind === "mc" ? inline(q.opts.find(o => o.ok).text) : esc(q.shown);
       box.querySelectorAll("[data-opt]").forEach((b, k) => { b.disabled = true; if (opts[k].ok) b.classList.add("right"); else if (k === pick) b.classList.add("wrong"); });
       if (inp) { inp.disabled = true; inp.classList.add(ok ? "right" : "wrong"); }
-      box.querySelector(".qfoot").outerHTML = `<div class="qfoot fb ${ok ? "ok" : "no"}"><div><b>${ok ? "Right!" : "Not quite."}</b> ${ok ? "" : `The answer is “${shown}”. `}${inline(q.why)}</div>
+      if (!ok) box.querySelector(".qcard").classList.add("shake");
+      box.querySelector(".qfoot").outerHTML = `<div class="qfoot fb ${ok ? "ok" : "no"}"><div><b>${ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : "Not quite."}</b>${ok && combo >= 3 ? ` <span class="combo">${ico("flame")}${combo} in a row</span>` : ""} ${ok ? "" : `The answer is “${shown}”. `}${inline(q.why)}</div>
         <button class="btn wide" type="button" data-nextq>${i + 1 < qs.length ? "Continue" : "See your result"}</button></div>`;
       const nx = box.querySelector("[data-nextq]"); nx.focus();
       nx.addEventListener("click", () => { i++; i < qs.length ? show() : finish(); });
@@ -1000,12 +1174,14 @@ function runQuiz(box, ctx) {
     let pass;
     try { pass = await recordAttempt(slug, w.id, right, qs.length, ctx.mark); }
     catch (err) { box.innerHTML = `<p class="status warn">${right} of ${qs.length} right, but your score couldn't be saved: ${esc(err.message)}</p>`; return; }
+    if (pass) addXp(XP.pass);
     if (ctx.onDone) return ctx.onDone(pass, right);
     if (pass && !isDone(slug, w.id)) await setDone(slug, w.id, true).catch(() => {});
     const after = statuses(slug, p)[w.stage.index], i2 = p.works.indexOf(w), nextW = p.works[i2 + 1];
     box.innerHTML = `<div class="qresult ${pass ? "pass" : "fail"}" style="${pass ? C(color) : ""}">
       <span class="medal small">${ico(pass ? "check" : "quiz")}</span>
-      <h1>${right} of ${qs.length}</h1><p>${pass ? "Passed, and ticked off. Well done." : `You haven't finished this work properly yet. The pass mark is ${pct(PASS_MARK)}.`}</p></div>
+      <h1>${right} of ${qs.length}</h1><p>${pass ? "Passed, and ticked off. Well done." : `You haven't finished this work properly yet. The pass mark is ${pct(PASS_MARK)}.`}</p>
+      <div class="stats"><span><small>XP earned</small><b>+${right * XP.right + (pass ? XP.pass : 0)}</b></span><span><small>Accuracy</small><b>${pct(right / qs.length)}</b></span><span><small>Streak</small><b>${streakOf()} day${streakOf() === 1 ? "" : "s"}</b></span></div></div>
       <div class="stack" style="gap:10px">
         ${pass ? (nextW ? `<a class="btn wide" href="#/path/${slug}/work/${nextW.id}">Next work: ${esc(nextW.title)}</a>` : "") : `<button class="btn wide" type="button" data-retryquiz>Try again</button>`}
         ${!pass && after.state === "failed" ? `<a class="btn wide ghost" href="#/path/${slug}/stage/${w.stage.num}">See your options for this stage</a>` : ""}
@@ -1150,7 +1326,7 @@ function certCanvas(card) {
 
 // --- celebration when a stage is passed ---------------------------------------------
 function celebrate(slug, p, s, st) {
-  const nx = p.stages[s.index + 1];
+  const nx = p.stages[s.index + 1]; addXp(XP.stage);
   $("#layer").innerHTML = `<div class="scrim"></div><div class="full celebrate enter" style="${C(stageColor(s))}" role="dialog" aria-modal="true" aria-label="Stage passed"><canvas id="confetti"></canvas>
     <div class="medal">${ico("check")}</div><small style="font-weight:700">Badge earned${nx ? ` · you're now at ${esc(nx.level || "the next level")}` : ""}</small><h1>${esc(s.name)} passed</h1>
     <p>${st.quizzes ? `You scored ${pct(st.pct)} across the stage's quizzes.` : "You finished every work in this stage."}${nx ? ` Stage ${nx.num}, ${esc(nx.name)}, is now open.` : " That was the last stage."}</p>
@@ -1236,7 +1412,7 @@ const storyCard = () => {
 // dir: 0 opens the cards (one fade), 1 or -1 slides the next or previous card in; the frame stays put.
 function drawStory(dir) {
   const { w, n, cards, slug } = story;
-  if (n === cards.length - 1) markVisited(`${slug}:${w.id}:story`);
+  if (n === cards.length - 1 && !visited().has(`${slug}:${w.id}:story`)) { markVisited(`${slug}:${w.id}:story`); if (cards.length > 1) addXp(XP.story); }
   const frame = $("#layer .full");
   if (dir === 0 || !frame) {
     $("#layer").innerHTML = `<div class="scrim" data-close></div><div class="full enter" style="${C(stageColor(w.stage))}" role="dialog" aria-modal="true" aria-label="${esc(w.title)}">
@@ -1246,8 +1422,22 @@ function drawStory(dir) {
     return;
   }
   frame.querySelectorAll(".segs i").forEach((s, k) => s.classList.toggle("on", k <= n));
-  const slot = frame.querySelector(".cardslot");
-  slot.innerHTML = storyCard();
+  swapSlot(frame.querySelector(".cardslot"), storyCard(), dir);
+}
+// Swap a card: the old one slides out while the new one slides in, in the same place,
+// so the frame never blinks or jumps. Used by story cards and the welcome tour.
+function swapSlot(slot, html, dir) {
+  slot.parentNode.querySelectorAll(".slot-out").forEach(x => x.remove()); // a fast tapper: drop the last ghost
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const ghost = slot.cloneNode(true);
+    ghost.className = `cardslot slot-out ${dir > 0 ? "out-next" : "out-prev"}`;
+    ghost.setAttribute("aria-hidden", "true"); ghost.inert = true;
+    Object.assign(ghost.style, { top: `${slot.offsetTop}px`, left: `${slot.offsetLeft}px`, width: `${slot.offsetWidth}px`, height: `${slot.offsetHeight}px` });
+    slot.parentNode.appendChild(ghost);
+    ghost.addEventListener("animationend", e => e.target === ghost && ghost.remove());
+    setTimeout(() => ghost.remove(), 400); // backstop: animations don't run in a hidden tab
+  }
+  slot.innerHTML = html;
   slot.classList.remove("in-next", "in-prev"); void slot.offsetWidth;
   slot.classList.add(dir > 0 ? "in-next" : "in-prev");
 }
@@ -1311,7 +1501,7 @@ async function accountView() {
       <button class="btn ghost" type="submit">Save</button></form>` : ""}
     ${apply}
     <a class="btn ghost" href="#/classes">Classes: teach or join</a>
-    <button class="btn ghost" type="button" data-welcome>Replay the welcome tour</button>
+    <button class="btn ghost" type="button" data-welcome>How Ascent works</button>
     <button class="btn ghost" id="signout" type="button">Sign out</button>
     <details class="danger"><summary>Delete my account</summary><p>This permanently deletes your email, progress, quiz scores, reports and reviews. It can't be undone.</p>
       <button class="btn small" type="button" data-deleteme>Yes, delete my account</button></details>
@@ -1360,6 +1550,7 @@ const ROUTES = [
   [/^#\/admin(?:\/(\w+))?$/, async m => (await admin()).adminView(m[1]), "admin"],
   [/^#\/review(?:\/([\w-]+))?$/, async m => (await admin()).reviewView(m[1]), "review"],
   [/^#\/privacy$/, () => privacyView(), "home"],
+  [/^#\/welcome$/, () => { try { localStorage.setItem("ascent-welcomed", "1"); } catch { /* storage blocked */ } return welcomeView(); }, "home"],
   [/^#\/signin$/, () => signinView(), "account"],
   [/^#\/account$/, () => accountView(), "account"],
 ];
@@ -1372,11 +1563,24 @@ function renderNav(tab) {
   $("#tabs").innerHTML = `<a class="brand side-brand" href="#/">${ico("logo")}Ascent</a>` +
     items.map(([h, l, i, t]) => `<a href="${h}" ${t === tab ? 'aria-current="page"' : ""}>${ico(i)}${l}</a>`).join("");
   $("#who").textContent = auth.user?.email || "";
+  renderStreak();
 }
 
 let lastRoute = null, routeSeq = 0;
+// Scroll memory: a stack of visited pages and how far down each was. Going back to the page
+// just before this one returns to where you were; going anywhere new starts at the top.
+// ponytail: matches on the previous hash only, so back-then-forward starts the forward page at the top.
+const navStack = [];
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 async function route({ keepScroll = false } = {}) {
   const hash = location.hash || "#/", mySeq = ++routeSeq;
+  let restoreY = null;
+  if (hash !== lastRoute) {
+    if (navStack.length) navStack[navStack.length - 1].y = scrollY; // the page we're leaving
+    if (navStack.length > 1 && navStack[navStack.length - 2].hash === hash) { navStack.pop(); restoreY = navStack[navStack.length - 1].y; }
+    else navStack.push({ hash, y: 0 });
+    if (navStack.length > 50) navStack.shift();
+  }
   const hit = ROUTES.map(([re, fn, tab]) => [hash.match(re), fn, tab]).find(([m]) => m);
   const [m, fn, tab] = hit || [null, notFound, "home"];
   renderNav(tab);
@@ -1386,7 +1590,8 @@ async function route({ keepScroll = false } = {}) {
   catch (e) { html = `<p class="status">${esc(e.message)} Refresh the page to try again.</p>`; }
   if (mySeq !== routeSeq) return; // a newer page was asked for while this one loaded: don't overwrite it
   view.innerHTML = html;
-  if (hash !== lastRoute) { view.classList.remove("enter"); void view.offsetWidth; view.classList.add("enter"); window.scrollTo(0, 0); lastRoute = hash; }
+  if (hash !== lastRoute) { view.classList.remove("enter"); void view.offsetWidth; view.classList.add("enter"); window.scrollTo(0, restoreY || 0); lastRoute = hash;
+    if (restoreY) setTimeout(() => { if (lastRoute === hash && Math.abs(scrollY - restoreY) > 4) window.scrollTo(0, restoreY); }, 350); } // again once late content has loaded
   else if (keepScroll) window.scrollTo(0, y);
   if (/\/work\/[\w-]+\/quiz$/.test(hash)) mountQuizRun(m[1]);
   if (/^#\/path\/[\w-]+$/.test(hash)) fillTrust(m[1]);
@@ -1394,6 +1599,8 @@ async function route({ keepScroll = false } = {}) {
   if (/\/mastery$/.test(hash)) mountMastery(m[1]);
   if (/^#\/path\/[\w-]+\/(stage\/\d+|mastery)$/.test(hash)) mountEssays(m[1]);
   if (/^#\/field\//.test(hash)) { mountPoiSection(m[1]); mountGuide(m[1]); }
+  if (/^#\/poi\//.test(hash)) pageTour("poi");
+  if (/^#\/explore/.test(hash)) setTimeout(() => lastRoute === hash && pageTour(ex.view === "map" ? "map" : "timeline"), ex.view === "map" ? 900 : 0);
   if (/^#\/explore/.test(hash) && ex.view === "map") { loadPoi().then(p => { poiRef = p; drawMap(); }); }
 }
 const refresh = () => route({ keepScroll: true });
@@ -1438,7 +1645,9 @@ document.addEventListener("click", async e => {
   if (t.classList.contains("skip")) { e.preventDefault(); $("#view").focus(); return; }
   if (t.id === "signout") { await signOut(); toast("Signed out"); location.hash = "#/"; return; }
   if ("welcomedone" in d) { try { localStorage.setItem("ascent-welcomed", "1"); } catch { /* storage blocked */ } }
-  if ("welcome" in d) { openWelcome(); return; }
+  if (d.ptour) { if (d.ptour === "end" || !pt.key) endPageTour(); else { pt.n = Math.max(0, pt.n + +d.ptour); drawPageTour(); } return; }
+  if (d.tourstart) { pageTour(d.tourstart, true); return; }
+  if ("welcome" in d) { if (d.welcome) openWelcome(+d.welcome); else location.hash = "#/welcome"; return; }
   if (d.tstep) { const n = tour.n + +d.tstep; if (n < 0 || n >= TOUR_N) return; if (n === TOUR_N - 1) savePrefs(); tour.n = n; drawTour(+d.tstep); return; }
   if (d.tarea) { tour.areas.has(d.tarea) ? tour.areas.delete(d.tarea) : tour.areas.add(d.tarea); const on = tour.areas.has(d.tarea);
     t.classList.toggle("on", on); t.setAttribute("aria-pressed", on); $("#layer [data-tstep='1']").textContent = tour.areas.size ? "Next" : "Show me everything"; return; }
@@ -1490,6 +1699,7 @@ document.addEventListener("click", async e => {
     if ($("#layer .full")) closeLayer();
     await refresh();
     if (was) { toast("Unticked"); return; }
+    addXp(XP.done);
     // a work with a quiz isn't over yet: the lesson continues; otherwise offer the next work
     const w = (await getPath(slug)).works.find(x => x.id === d.done);
     w.quiz.length ? toast(`${DONE_VERB[w.type]}: ticked off. The quiz is next.`) : offerNext(slug);
@@ -1512,6 +1722,7 @@ document.addEventListener("click", async e => {
   if (d.expand) { const p = await getPath(slug); mapOpen.set(slug, new Set(d.expand === "all" ? p.stages.map(s => s.num) : [])); refresh(); return; }
 });
 document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && pt.key) { endPageTour(); return; }
   if (!$("#layer").innerHTML) return;
   if (e.key === "Escape") closeLayer();
   if ($("#layer .full") && (e.key === "ArrowRight" || e.key === "ArrowLeft")) { const k = e.key === "ArrowRight" ? 1 : -1; ($(`[data-step="${k}"]`) || $(`[data-tstep="${k}"]`))?.click(); }
@@ -1524,12 +1735,13 @@ document.addEventListener("input", e => {
   if (e.target.id === "poiq") { poiv.q = e.target.value; poiv.n = 30; const pos = e.target.selectionStart; redrawPoi(); const i = $("#poiq"); i.focus(); i.setSelectionRange(pos, pos); }
   if (e.target.id === "certname") { const v = e.target.value.trim(); $(".certname").textContent = v || "Your name"; try { localStorage.setItem("ascent-certname", v); } catch { /* storage blocked */ } }
 });
-window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").focus({ preventScroll: true }); });
+window.addEventListener("hashchange", () => { closeLayer(); if (pt.key) endPageTour(); route(); $("#view").focus({ preventScroll: true }); });
 // installable app and offline reading (sw.js), over https or on this computer
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
 const showOnline = () => ($("#offline").hidden = navigator.onLine);
 addEventListener("online", showOnline); addEventListener("offline", showOnline); showOnline();
+// first visit to the home page: show the welcome page instead (once)
+try { if (!localStorage.getItem("ascent-welcomed") && /^#?\/?$/.test(location.hash)) history.replaceState(null, "", "#/welcome"); } catch { /* storage blocked: skip the welcome */ }
 await initAuth(async () => { await Promise.all([loadProgress(), loadProfile()]); route({ keepScroll: true }); });
 await Promise.all([loadProgress(), loadProfile()]);
 route();
-try { if (!localStorage.getItem("ascent-welcomed") && !location.hash.startsWith("#/path/")) openWelcome(); } catch { /* storage blocked: skip the welcome */ }

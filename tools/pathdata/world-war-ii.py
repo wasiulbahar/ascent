@@ -1,5 +1,5 @@
 P = dict(
-slug="world-war-ii", title="World War II", template="humanities", about_name="the Second World War",
+slug="world-war-ii", title="World War II", template="humanities-social", about_name="the Second World War",
 lede="The deadliest war in history, told from every front: its causes, the war in Europe, Asia and the Pacific, Africa and the home fronts, the Holocaust and other atrocities, and how the war remade the world and is remembered. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. Museums such as the US Holocaust Memorial Museum and the Imperial War Museums, and many archives, are free online. The path tells the war from many countries, including China, the Soviet Union, India, Africa and occupied peoples, not only the Western allies. Some material describes atrocities directly.",
 about=["The Second World War, from 1939 to 1945 (from 1937 in China), was fought across Europe, Asia, Africa and the oceans, and killed an estimated 70 to 85 million people, most of them civilians. It included the Holocaust, the genocide of six million Jews, and ended with the first use of atomic bombs.",

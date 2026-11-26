@@ -1,5 +1,5 @@
 P = dict(
-slug="medieval-world", title="The Medieval World", template="humanities", about_name="the medieval world",
+slug="medieval-world", title="The Medieval World", template="humanities-social", about_name="the medieval world",
 lede="A thousand years of world history, roughly 500 to 1500: Byzantium and the Islamic caliphates, Tang and Song China, African empires, Christian Europe, the Mongols, the Black Death, and the travellers and traders who connected them. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. Many medieval texts are free in translation, and museums and manuscript libraries put collections online. The path is global: Europe is one region among many, and it challenges the myth of a backward “Dark Ages”.",
 about=["The medieval period, roughly 500 to 1500 CE, is the age between the ancient world and the modern one. It saw great empires and faiths spread, cities, universities and trade networks grow, and connections from West Africa to China via the Silk Roads and the Indian Ocean.",

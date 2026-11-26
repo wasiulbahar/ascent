@@ -20,8 +20,8 @@
 <ol id="out"></ol>
 <iframe id="app" title="App under test"></iframe>
 <script type="module">
-import { parsePath } from "../src/content.js?v=26";
-import { PATHS } from "../src/paths.js?v=26";
+import { parsePath } from "../src/content.js?v=27";
+import { PATHS } from "../src/paths.js?v=27";
 
 const frame = document.getElementById("app"), out = document.getElementById("out");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -129,12 +129,13 @@ const TESTS = {
     await until(() => $(".qfoot.fb"), "feedback");
     ok($(".qfoot.fb.no"), "1 should be marked wrong when the answer is -1");
   },
-  async "welcome tour: pick interests and level, then see picked paths"() {
+  async "welcome page on a first visit, then pick interests and level, then see picked paths"() {
     localStorage.removeItem("ascent-prefs");
     await fresh(); localStorage.removeItem("ascent-welcomed");
     const loaded = new Promise(r => frame.addEventListener("load", r, { once: true })); frame.contentWindow.location.reload(); await loaded;
-    (await until(() => $("[data-tstep='1']"), "the tour to open")).click();
-    await until(() => $(".climb"), "the climb card"); $("[data-tstep='1']").click();
+    await until(() => $(".welcome .wl-steps"), "the welcome page on a first visit");
+    ok(frame.contentWindow.location.hash === "#/welcome", "first visit should land on #/welcome");
+    $("[data-welcome='2']").click();
     (await until(() => $("[data-tarea='natural-sciences']"), "interest choices")).click();
     ok($("[data-tarea='natural-sciences']").getAttribute("aria-pressed") === "true", "interest should toggle on");
     $("[data-tstep='1']").click();

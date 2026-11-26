@@ -3,7 +3,7 @@ path: World War II
 status: draft
 version: 1
 drafted: 2026-11-26
-template: humanities
+template: humanities-social
 ---
 
 # World War II

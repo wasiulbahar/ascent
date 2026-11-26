@@ -26,15 +26,10 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 
 ## Classical music
 
-- **Size:** 6 stages, 37 works, 148 quiz questions.
-- **Ideal reviewers:** experts in the field.
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** musicians and musicologists from more than one tradition.
 - **Link:** https://wasiulbahar.com/ascent/#/path/classical-music
-- **Also check:** Recommended recordings confirmed in print or on streaming services
-- **Also check:** Stage order checked against listener difficulty
-- **Also check:** Mastery standard compared with a university music history sequence
-- **Also check:** Debates stated fairly, with named holders of each position
-- **Also check:** Blind listening test clips chosen and licensed
-- **Look first at:** The Four Seasons: "Spring" (m1); Eine kleine Nachtmusik, first movement (m2); Symphony No. 5, first movement (m3); Symphony No. 9 "From the New World" (m5); Requiem in D minor (m10); "Moonlight" Sonata, complete (m11); The Rest Is Noise (m34); The Oxford History of Western Music (m36).
+- **Look first at:** The Rest Is Noise (cm13); Shostakovich and Soviet music (cm15).
 
 ## Geopolitics
 
@@ -623,6 +618,304 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Ideal reviewers:** medieval historians from more than one region.
 - **Link:** https://wasiulbahar.com/ascent/#/path/medieval-world
 - **Look first at:** Reading current research (md24).
+
+## Sport and exercise science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** sport scientists and coaches from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/sport-science
+- **Also check:** “Not personal advice” message checked on every page
+- **Look first at:** Sex categories and eligibility in sport (ss22); Paralympic sport and classification (ss23); Reading current research (ss24).
+
+## Dance
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** dance scholars and artists from more than one tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/dance
+- **Also check:** Recording links checked for each work
+- **Look first at:** World History of Dance (da2); Dance criticism (da23); Reading current research (da24).
+
+## South Asian studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars from several South Asian countries and outside the region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/south-asian-studies
+- **Also check:** Contested histories presented from more than one viewpoint
+- **Look first at:** Akbarnama and Mughal painting (sa10); Inglorious Empire / Late Victorian Holocausts (sa15); Reading current research (sa24).
+
+## Middle Eastern studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars from across the region and outside it, with different perspectives.
+- **Link:** https://wasiulbahar.com/ascent/#/path/middle-eastern-studies
+- **Also check:** Contested histories presented from several perspectives
+- **Look first at:** A Peace to End All Peace (me9); Orientalism (me12); Reading current research (me24).
+
+## Philosophy of science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** philosophers and historians of science from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/philosophy-of-science
+- **Look first at:** Science as Social Knowledge (ps17); The Mismeasure of Man (ps20); Why Trust Science? (ps23); Reading current research (ps24).
+
+## Ancient Egypt
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** Egyptologists from Egypt and other countries.
+- **Link:** https://wasiulbahar.com/ascent/#/path/ancient-egypt
+- **Look first at:** Deir el-Medina: the tomb-builders' village (eg17); Reading current research (eg24).
+
+## The Renaissance
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** historians and art historians from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/renaissance
+- **Look first at:** The Printing Revolution in Early Modern Europe (rn17); Reading current research (rn24).
+
+## Russian and Eastern European studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars from Russia, Ukraine, Poland, the Baltics, the Balkans and elsewhere.
+- **Link:** https://wasiulbahar.com/ascent/#/path/russian-eastern-european-studies
+- **Also check:** Current-war content checked for accuracy and balance
+- **Look first at:** Neighbors (re17); Reading current research (re24).
+
+## Marketing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** marketing academics and practitioners from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/marketing
+- **Look first at:** How Brands Grow (mk10); The Age of Surveillance Capitalism (mk21); Greenwashing and reading current research (mk24).
+
+## Accounting
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** accountants and accounting academics from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/accounting
+- **Also check:** “Not a qualification or financial advice” message checked on every page
+- **Look first at:** Critiques of ESG (ac22); Reading current research (ac24).
+
+## Climate science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** climate scientists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/climate-science
+- **Look first at:** Reading current research (cs24).
+
+## Veterinary science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** veterinarians and animal scientists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/veterinary-science
+- **Also check:** “Not veterinary advice” message checked on every page
+- **Look first at:** Reading current research (vt24).
+
+## Robotics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** robotics engineers and researchers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/robotics
+- **Look first at:** Autonomous weapons debate (rb23); Reading current research (rb24).
+
+## Women's history
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** historians of women and gender from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/womens-history
+- **Look first at:** Women and Gender in Islam (wh6); Wayward Lives, Beautiful Experiments (wh23); Reading current research (wh24).
+
+## Indigenous studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** Indigenous scholars and communities from several regions.
+- **Link:** https://wasiulbahar.com/ascent/#/path/indigenous-studies
+- **Also check:** Culturally restricted knowledge excluded
+- **Look first at:** Dark Emu (is6); Reading current research (is24).
+
+## Classical music
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** musicians and musicologists from more than one tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/classical-music
+- **Look first at:** The Rest Is Noise (cm13); Shostakovich and Soviet music (cm15).
+
+## Jazz
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** jazz musicians and scholars from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/jazz
+- **Look first at:** Jazz (documentary series) (jz1); The Shape of Jazz to Come (jz14).
+
+## Fashion
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** fashion historians, designers and researchers from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/fashion
+- **Look first at:** Chanel, Dior and the couture tradition (fs13); Gender and dress (fs20); Reading current research (fs24).
+
+## Food science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** food scientists and food safety experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/food-science
+- **Also check:** “Not dietary advice” message checked on every page
+- **Look first at:** HACCP (fd15); Ultra-processed foods and the NOVA debate (fd21); Reading current research (fd24).
+
+## Comics and graphic novels
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** comics scholars and artists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/comics
+- **Also check:** Mature content noted where relevant
+- **Look first at:** The Adventures of Tintin (co11).
+
+## Media studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** media scholars from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/media-studies
+- **Look first at:** Crash Course Media Literacy (md3); The Culture Industry (md10); The Structural Transformation of the Public Sphere (md12); Violent media and aggression (md13); Manufacturing Consent (md17); Regulating platforms (md22); Reading current research (md24).
+
+## Social work
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** social workers, academics and people who use services from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/social-work
+- **Also check:** “Not crisis advice” message checked on every page
+- **Look first at:** Social Work Theories and Methods (sw6); Anti-oppressive practice (sw8); Adverse Childhood Experiences (ACEs) (sw10); Reading current research (sw24).
+
+## Museums and heritage
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** museum professionals and heritage scholars from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/museums-heritage
+- **Look first at:** Museum podcasts (mh4); Who Owns Antiquity? (mh19); Reading current research (mh24).
+
+## Translation studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** translators, interpreters and scholars from more than one language tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/translation-studies
+- **Look first at:** Reading current research (tr24).
+
+## Buddhism
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Buddhism and practitioners from several traditions and countries.
+- **Link:** https://wasiulbahar.com/ascent/#/path/buddhism
+- **Also check:** Presented neutrally, neither promoting nor criticising
+- **Look first at:** The historical Buddha (bu8); Engaging Buddhism (bu19).
+
+## Hinduism
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Hinduism and practitioners from several traditions and countries.
+- **Link:** https://wasiulbahar.com/ascent/#/path/hinduism
+- **Also check:** Presented neutrally, neither promoting nor criticising
+- **Look first at:** The Mahabharata (abridged) (hi9); Bhakti poetry (hi14); Caste and its critics (hi21); Reform movements (hi22); Hindu nationalism and its critics (hi23).
+
+## Judaism
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Judaism and members of several Jewish communities.
+- **Link:** https://wasiulbahar.com/ascent/#/path/judaism
+- **Also check:** Presented neutrally; contested politics through several perspectives
+- **Look first at:** How scholars study the Bible's origins (ju8); Reading the Talmud (ju10); Antisemitism (ju19); Zionism and its critics (ju21); Reading current research (ju24).
+
+## Christianity
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Christianity and members of several traditions from different regions.
+- **Link:** https://wasiulbahar.com/ascent/#/path/christianity
+- **Also check:** Presented neutrally, neither promoting nor criticising
+- **Look first at:** Misquoting Jesus and the formation of the canon (ch7); The historical Jesus (ch8); The Rise of Christianity (ch9); Reformation (ch15); Liberation theology (ch20).
+
+## Chinese philosophy
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Chinese philosophy from China and elsewhere.
+- **Link:** https://wasiulbahar.com/ascent/#/path/chinese-philosophy
+- **Look first at:** The Path (cp1); Taking Back Philosophy (cp23); Reading current research (cp24).
+
+## African philosophy
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** African philosophers from several regions and the diaspora.
+- **Link:** https://wasiulbahar.com/ascent/#/path/african-philosophy
+- **Look first at:** African philosophy entries (ap1); An Essay on African Philosophical Thought (ap2); History of Philosophy without any gaps: Africana philosophy (ap4); The Hatata of Zera Yacob (ap6); Bantu Philosophy (ap9); African Philosophy: Myth and Reality (ap10); Sage Philosophy (ap11); Ubuntu ethics (ap16); Reading current research (ap24).
+
+## Materials science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** materials scientists and engineers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/materials-science
+- **Look first at:** Reading current research (ms24).
+
+## Electronics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** electronics engineers and educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/electronics
+- **Also check:** Safety message (low voltage only) checked
+- **Look first at:** Reading current research (el24).
+
+## Cognitive science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** cognitive scientists from more than one discipline and country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cognitive-science
+- **Look first at:** How the Mind Works (cs1); Cognitive Science (Stanford Encyclopedia entry) (cs4); The Language Instinct (cs13); Ecological rationality (cs19).
+
+## Pharmacology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** pharmacologists, pharmacists and doctors from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/pharmacology
+- **Also check:** “Never medical advice” message checked on every page
+- **Look first at:** Reading current research (ph24).
+
+## Opera
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** singers, directors and opera scholars from more than one tradition.
+- **Link:** https://wasiulbahar.com/ascent/#/path/opera
+- **Look first at:** A History of Opera (op1); Puccini: La bohème and Madama Butterfly (op13); Porgy and Bess (op15); Directors and regietheater (op18); Reading current research (op24).
+
+## Political philosophy
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** political philosophers from more than one tradition and country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/political-philosophy
+- **Look first at:** Climate justice and reading current research (pp24).
+
+## Sikhism
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** scholars of Sikhism and Sikh community members from several countries.
+- **Link:** https://wasiulbahar.com/ascent/#/path/sikhism
+- **Also check:** Presented neutrally; contested history through several perspectives
+- **Look first at:** Guru Nanak (sk5); 1984 through several perspectives (sk20); Reading current research (sk24).
+
+## Pacific studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** Pacific Islander scholars and community members from several island nations.
+- **Link:** https://wasiulbahar.com/ascent/#/path/pacific-studies
+- **Look first at:** Migration and diaspora (pc23); Reading current research (pc24).
+
+## Migration studies
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** migration scholars and practitioners from more than one region, and people with lived experience.
+- **Link:** https://wasiulbahar.com/ascent/#/path/migration-studies
+- **Look first at:** How Migration Really Works (mg2); Refuge (mg15); Reading current research (mg24).
+
+## Maps and cartography
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** cartographers and historians of cartography from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cartography
+- **Look first at:** The Gall–Peters controversy (ct10); Counter-mapping (ct16); Reading current research (ct24).
 
 ## Film
 

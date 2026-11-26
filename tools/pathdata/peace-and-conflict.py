@@ -1,5 +1,5 @@
 P = dict(
-slug="peace-and-conflict", title="Peace and Conflict", template="social-sciences", about_name="peace and conflict studies",
+slug="peace-and-conflict", title="Peace and Conflict", template="humanities-social", about_name="peace and conflict studies",
 lede="Why wars and violence happen and how they end: theories of conflict, genocide and its prevention, nonviolent resistance, peacekeeping and peace processes, and justice and reconciliation after violence. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. Free conflict databases, UN reports and peace agreements cover the core. The path studies conflicts from every continent, avoids taking sides in current wars, and presents debates about intervention, justice and peace fairly. Some material describes violence directly.",
 about=["Peace and conflict studies asks why groups fight, how violence can be prevented, and how societies rebuild after war. It draws on political science, history, sociology, psychology and law, and studies everything from civil wars and genocide to nonviolent movements and peace agreements.",

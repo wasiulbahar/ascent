@@ -1,5 +1,5 @@
 P = dict(
-slug="poetry", title="Poetry", template="humanities", about_name="poetry",
+slug="poetry", title="Poetry", template="humanities-social", about_name="poetry",
 lede="How to read, hear and love poems: sound, rhythm and image, the great forms and traditions from many languages, poetry in translation, modern and contemporary voices, and how to write about poems yourself. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. The Poetry Foundation, the Academy of American Poets and many out-of-copyright collections are free. The path reads poetry from Asia, Africa, the Middle East, Europe and the Americas, in translation where needed, alongside poetry in English.",
 about=["Poetry is language shaped by sound, rhythm and image to say what ordinary speech cannot. It is among the oldest arts, found in every culture, from epics and hymns to love songs, protest and spoken word.",

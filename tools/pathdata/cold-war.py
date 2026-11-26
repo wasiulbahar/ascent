@@ -1,5 +1,5 @@
 P = dict(
-slug="cold-war", title="The Cold War", template="humanities", about_name="the Cold War",
+slug="cold-war", title="The Cold War", template="humanities-social", about_name="the Cold War",
 lede="The global rivalry between the United States and the Soviet Union from 1945 to 1991: its origins, the nuclear arms race, hot wars in Asia, Africa and Latin America, spies and propaganda, culture and everyday life, and how it ended. About 250 to 300 hours over ten to twelve months.",
 access="**Access and balance.** Every title is labelled **Free**, **Free + paid** or **Paid**. The Wilson Center Digital Archive and national archives publish many declassified documents free. The path tells the Cold War from Washington and Moscow, but also from Beijing, Havana, Hanoi, Luanda, Jakarta and Delhi, and presents historians' debates fairly.",
 about=["The Cold War was a rivalry between the United States and the Soviet Union, and their allies, from the end of the Second World War to the Soviet collapse in 1991. The superpowers never fought each other directly, but they raced to build nuclear weapons and backed wars that killed millions across the world.",
