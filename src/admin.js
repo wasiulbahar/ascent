@@ -1,8 +1,8 @@
 // Admin dashboard, reviewer portal and "Report a problem". The database's row-level security decides
 // what each person can read or change; these screens only show what it allows.
-import { sb, auth, isStaff, isReviewer } from "./auth.js?v=21";
-import { PATHS } from "./paths.js?v=21";
-import { loadTax, loadPoi, search, nameOf, resetTax } from "./taxonomy.js?v=21";
+import { sb, auth, isStaff, isReviewer } from "./auth.js?v=22";
+import { PATHS } from "./paths.js?v=22";
+import { loadTax, loadPoi, search, nameOf, resetTax } from "./taxonomy.js?v=22";
 
 let H; // helpers handed over by app.js: esc, C, ico, inline, getPath, toast, refresh
 export const useHelpers = h => (H = h);
@@ -29,6 +29,38 @@ export async function adminView(tab = "overview") {
 const people = () => q(sb.from("profiles").select("id,email,display_name,role,created_at"));
 const byId = list => Object.fromEntries(list.map(p => [p.id, p]));
 const who = p => p ? H.esc(p.display_name || p.email || "Unknown") : "Unknown";
+
+// learner overview for the pilot: activity, who's stuck (started, quiet for 14+ days), survey answers
+async function learnerOverview(prog, att, surveys, P) {
+  const DAY = 864e5, now = Date.now(), last = new Map(), byUser = new Map();
+  for (const r of [...prog.map(x => ({ ...x, at: x.done_at })), ...att.map(x => ({ ...x, at: x.created_at }))]) {
+    const k = `${r.user_id}|${r.path}`, t = Date.parse(r.at) || 0;
+    if (!last.has(k) || t > last.get(k)) last.set(k, t);
+    if (!byUser.has(r.user_id) || t > byUser.get(r.user_id)) byUser.set(r.user_id, t);
+  }
+  const active = d => [...byUser.values()].filter(t => now - t < d * DAY).length;
+  const stuck = [];
+  for (const [k, t] of last) {
+    if (now - t < 14 * DAY) continue;
+    const [uid, slug] = k.split("|"), m = PATHS.find(x => x.slug === slug); if (!m) continue;
+    const p = await H.getPath(slug).catch(() => null); if (!p) continue;
+    const done = new Set(prog.filter(r => r.user_id === uid && r.path === slug).map(r => r.work_id));
+    const next = p.works.find(w => !done.has(w.id)); if (!next) continue;
+    stuck.push({ who: who(P[uid]), path: m.title, stage: next.stage?.num ?? "?", work: next.title, days: Math.floor((now - t) / DAY) });
+  }
+  stuck.sort((a, b) => b.days - a.days);
+  const latest = [...new Map([...surveys].reverse().map(s => [s.user_id, s])).values()].map(s => { try { return { ...JSON.parse(s.note), u: s.user_id }; } catch { return null; } }).filter(Boolean);
+  const nums = k => latest.map(a => a[k]).filter(x => x !== null && x !== undefined && x !== "").map(Number);
+  const u = nums("useful"), n = nums("nps");
+  const avg = u.length ? (u.reduce((x, y) => x + y, 0) / u.length).toFixed(1) : "–";
+  const nps = n.length ? Math.round(((n.filter(x => x >= 9).length - n.filter(x => x <= 6).length) / n.length) * 100) : "–";
+  return `<section class="section"><h2>Learners at a glance</h2>
+    <div class="row" style="gap:24px;flex-wrap:wrap"><p><b>${byUser.size}</b><br><small class="muted">have started a path</small></p><p><b>${active(7)}</b><br><small class="muted">active in the last 7 days</small></p><p><b>${active(30)}</b><br><small class="muted">active in the last 30 days</small></p><p><b>${latest.length}</b><br><small class="muted">survey answers</small></p></div></section>
+  <section class="section"><h2>Who's stuck (${stuck.length})</h2><p class="muted">Started a path, not finished it, and nothing ticked or attempted for 14 days or more.</p>
+    ${stuck.length ? `<div class="tablewrap"><table class="classtable"><thead><tr><th scope="col">Learner</th><th scope="col">Path</th><th scope="col">Stopped at</th><th scope="col">Quiet for</th></tr></thead><tbody>${stuck.slice(0, 50).map(s => `<tr><th scope="row">${s.who}</th><td>${H.esc(s.path)}</td><td>Stage ${s.stage}: ${H.esc(s.work)}</td><td>${s.days} days</td></tr>`).join("")}</tbody></table></div>` : `<p class="soon">Nobody is stuck right now.</p>`}</section>
+  <section class="section"><h2>Pilot survey</h2>${latest.length ? `<p>Average usefulness <b>${avg}</b> of 5 · Net promoter score <b>${nps}</b> (from −100 to 100)</p>
+    <ul>${latest.slice(0, 30).map(a => `<li>${who(P[a.u])}${a.path ? ` · ${H.esc(PATHS.find(p => p.slug === a.path)?.title || a.path)}` : ""}${a.good ? `<br><small>Liked: ${H.esc(a.good)}</small>` : ""}${a.bad ? `<br><small>Confusing: ${H.esc(a.bad)}</small>` : ""}</li>`).join("")}</ul>` : `<p class="soon">No survey answers yet. Learners find it under Settings › Pilot survey.</p>`}</section>`;
+}
 
 const KIND_TEXT = { add_field: "New branch", rename: "Rename", add_link: "New home", remove_link: "Home removed", deprecate: "Deprecated", merge: "Merged", approve_field: "Field approved", poi_homes: "Point of interest moved", approve_poi: "Point of interest approved" };
 const mapEd = { q: "", field: null };
@@ -67,7 +99,7 @@ const ADMIN = {
   // ponytail: counts are computed in the browser from whole tables; move them into SQL views once there are thousands of rows
   async overview() {
     const since = new Date(Date.now() - 7 * 864e5).toISOString();
-    const [ppl, prog, att, flags] = await Promise.all([people(), q(sb.from("progress").select("user_id,done_at")), q(sb.from("quiz_attempts").select("user_id,created_at,passed")), q(sb.from("flags").select("status"))]);
+    const [ppl, prog, att, flags] = await Promise.all([people(), q(sb.from("progress").select("user_id,done_at")), q(sb.from("quiz_attempts").select("user_id,created_at,passed")), q(sb.from("flags").select("status").neq("category", "survey"))]);
     const active = new Set([...prog.filter(r => r.done_at >= since), ...att.filter(r => r.created_at >= since)].map(r => r.user_id)).size;
     const passRate = att.length ? Math.round(att.filter(a => a.passed).length / att.length * 100) + "% passed" : "none yet";
     const tile = (n, l, c) => `<div class="tile" style="${H.C(c)}"><b>${n}</b><span>${l}</span></div>`;
@@ -96,7 +128,7 @@ const ADMIN = {
   },
 
   async reports() {
-    const [flags, ppl] = await Promise.all([q(sb.from("flags").select("*").order("created_at", { ascending: false })), people()]);
+    const [flags, ppl] = await Promise.all([q(sb.from("flags").select("*").neq("category", "survey").order("created_at", { ascending: false })), people()]);
     const P = byId(ppl);
     if (!flags.length) return `<p class="soon">No reports yet. Learners report problems with the "Report a problem" button on every lesson.</p>`;
     const titles = Object.fromEntries((await Promise.all(PATHS.map(async m => (await H.getPath(m.slug)).works.map(w => [`${m.slug}:${w.id}`, w.title])))).flat());
@@ -129,7 +161,9 @@ const ADMIN = {
   },
 
   async insights() {
-    const [prog, att, skips] = await Promise.all([q(sb.from("progress").select("user_id,path,work_id")), q(sb.from("quiz_attempts").select("user_id,path,work_id,passed")), q(sb.from("stage_skips").select("path,stage"))]);
+    const [prog, att, skips, surveys, ppl] = await Promise.all([q(sb.from("progress").select("user_id,path,work_id,done_at")), q(sb.from("quiz_attempts").select("user_id,path,work_id,passed,created_at")), q(sb.from("stage_skips").select("path,stage")),
+      q(sb.from("flags").select("user_id,note,created_at").eq("category", "survey").order("created_at", { ascending: false })), people()]);
+    const top = await learnerOverview(prog, att, surveys, byId(ppl));
     const blocks = await Promise.all(PATHS.map(async m => {
       const p = await H.getPath(m.slug), pr = prog.filter(r => r.path === m.slug), at = att.filter(r => r.path === m.slug);
       const started = new Set([...pr, ...at].map(r => r.user_id)).size;
@@ -148,7 +182,7 @@ const ADMIN = {
         ${takers.length ? `<p class="muted">Placement test: ${takers.length} ${takers.length === 1 ? "person" : "people"} took it. Where they started: ${landCounts.join(", ")}.</p>` : ""}
         ${sk.length ? `<p class="muted">Stages continued past without passing: ${p.stages.map(s => [s, sk.filter(x => x.stage === s.num).length]).filter(([, n]) => n).map(([s, n]) => `Stage ${s.num} (${n})`).join(", ")}</p>` : ""}</section>`;
     }));
-    return blocks.join("");
+    return top + blocks.join("");
   },
 
   // the map editor: change log, the review queue for points of interest, and field actions

@@ -22,7 +22,9 @@ export const isReviewer = () => ["reviewer", "editor", "admin"].includes(auth.ro
 export async function initAuth(onChange) {
   if (!sb) { auth.ready = true; return; }
   // Run onChange after the callback: Supabase calls made inside it wait on its own lock and hang.
-  sb.auth.onAuthStateChange((_event, session) => { auth.user = session?.user || null; setTimeout(onChange, 0); });
+  // Only reload when the signed-in person changes, not on every token refresh or repeat event.
+  let last;
+  sb.auth.onAuthStateChange((_event, session) => { auth.user = session?.user || null; if (auth.user?.id === last) return; last = auth.user?.id; setTimeout(onChange, 0); });
   const { data } = await sb.auth.getSession();
   auth.user = data.session?.user || null;
   auth.ready = true;

@@ -1,13 +1,15 @@
 // Ascent app: hash router and screens. Content comes from paths/*.md (parsed by content.js).
-import { parsePath, blankOk, parseGuide } from "./content.js?v=21";
-import { PATHS, DOMAINS } from "./paths.js?v=21";
-import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=21";
+import { parsePath, blankOk, parseGuide } from "./content.js?v=22";
+import { PATHS, DOMAINS } from "./paths.js?v=22";
+import { loadTax, children, routes, search, nameOf, pathsFor, TYPE_LABEL, codesFor, MAP_TYPE, loadPoi, poisUnder, searchPoi, poiDetail, POI_LABEL, hooks } from "./taxonomy.js?v=22";
 // approved map edits (supabase/week7.sql) are applied on top of the published map for everyone
 hooks.changes = async () => { if (!sb) return []; const { data, error } = await sb.from("tax_changes").select("id,kind,target,payload,note").eq("status", "approved").order("id"); return error ? [] : data; };
-import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=21";
-import { useHelpers, adminView, reviewView, openReport } from "./admin.js?v=21";
-import { loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=21";
-import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=21";
+import { sb, auth, initAuth, sendLink, signOut, loadProfile, isStaff, isReviewer } from "./auth.js?v=22";
+// Admin and reviewer screens load only when someone opens them (most visitors never do).
+let adminMod = null;
+const admin = () => adminMod ||= import("./admin.js?v=22").then(m => { m.useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() }); return m; });
+import { progress, loadProgress, isDone, setDone, best, isSkipped, recordAttempt, skipStage } from "./progress.js?v=22";
+import { pathStatuses, PASS_MARK, placementId, MASTERY_MARK, masteryId, masteryState } from "./status.js?v=22";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -37,7 +39,7 @@ const IC = {
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
   heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', scale: '<path d="M12 4v16M7 20h10M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/>',
-  chat: '<path d="M4 5h16v11H9l-5 4z"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 1.8 6 5"/>', palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>', building: '<path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>', briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>',
   sigma: '<path d="M18 5H6l6 7-6 7h12"/>', leaf: '<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8"/>', atom: '<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
   chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -53,7 +55,7 @@ function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; 
 const cache = new Map();
 async function getPath(slug) {
   if (!cache.has(slug)) {
-    cache.set(slug, fetch(`paths/${slug}.md?v=21`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
+    cache.set(slug, fetch(`paths/${slug}.md?v=22`).then(r => { if (!r.ok) throw new Error("This path could not be loaded."); return r.text(); }).then(parsePath));
   }
   return cache.get(slug);
 }
@@ -92,7 +94,8 @@ const pct = x => `${Math.round(x * 100)}%`;
 
 // --- screens -----------------------------------------------------------------
 async function homeView() {
-  const paths = await Promise.all(PATHS.map(async m => ({ ...m, data: await getPath(m.slug).catch(() => null) })));
+  const begun = PATHS.filter(m => [...progress.done].some(k => k.startsWith(m.slug + ":")));
+  const paths = await Promise.all(begun.map(async m => ({ ...m, data: await getPath(m.slug).catch(() => null) })));
   const started = paths.filter(p => p.data && doneCount(p.slug, p.data.works) > 0 && nextWork(p.slug, p.data));
   const cont = started[0];
   const nx = cont && nextWork(cont.slug, cont.data);
@@ -304,9 +307,9 @@ let guideIndex = null;
 const LEVEL_TEXT = { beginner: "Start here", intermediate: "Next", advanced: "Go deeper" };
 async function mountGuide(id) {
   const box = $("#guidesec"); if (!box) return;
-  guideIndex ||= await fetch("guides/index.json?v=21").then(r => r.json()).catch(() => ({}));
+  guideIndex ||= await fetch("guides/index.json?v=22").then(r => r.json()).catch(() => ({}));
   if (!guideIndex[id]) return box.remove();
-  const g = parseGuide(await fetch(`guides/${id}.md?v=21`).then(r => r.text()));
+  const g = parseGuide(await fetch(`guides/${id}.md?v=22`).then(r => r.text()));
   box.innerHTML = `<h2>Starter guide <span class="pill draft">Draft</span></h2>
     <div class="txt">${md(g.intro)}</div>
     <ol class="guideworks">${g.works.map(w => `<li><span class="chip">${esc(LEVEL_TEXT[w.level] || w.level)}</span> <b>${inline(w.title)}</b>${accessBadge({ key: w.access })}<br><small class="muted">${esc([w.creator, w.year].filter(Boolean).join(" · "))}</small><br>${inline(w.why)}</li>`).join("")}</ol>
@@ -459,7 +462,7 @@ const centuryText = c => c === -1e9 ? "Before 3000 BCE" : c < -500 ? `${ordinal(
 function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 async function exploreData() {
   const [t, p] = await Promise.all([loadTax(), loadPoi()]);
-  ex.ww ||= await fetch("data/poi/when-where.json?v=21").then(r => r.json()).catch(() => ({}));
+  ex.ww ||= await fetch("data/poi/when-where.json?v=22").then(r => r.json()).catch(() => ({}));
   let items = ex.field ? poisUnder(t, p, ex.field) : p.items;
   if (ex.type) items = items.filter(i => i.ty === ex.type);
   return { t, p, items: items.map(i => ({ i, w: ex.ww[i.id] })).filter(x => x.w) };
@@ -565,7 +568,9 @@ async function rvSave(key, rec) {
 }
 // every question from works whose quiz you've passed or that you've ticked off
 async function rvPool() {
-  const paths = (await Promise.all(PATHS.map(async m => ({ m, p: await getPath(m.slug).catch(() => null) })))).filter(x => x.p), out = [];
+  const keys = [...progress.done, ...progress.best.keys()];  // only load paths the learner has touched
+  const touched = PATHS.filter(m => keys.some(k => k.startsWith(m.slug + ":")));
+  const paths = (await Promise.all(touched.map(async m => ({ m, p: await getPath(m.slug).catch(() => null) })))).filter(x => x.p), out = [];
   for (const x of paths) for (const w of x.p.works) {
     const b = best(x.m.slug, w.id);
     if (!(b && b.score / b.total >= PASS_MARK) && !isDone(x.m.slug, w.id)) continue;
@@ -690,6 +695,31 @@ async function classAction(d) {
   }
 }
 
+// --- pilot survey: five quick questions, saved as a flag (category "survey") for Admin › Insights --
+function surveyView() {
+  const head = `<div class="crumbs"><a href="#/">Home</a>›<a href="#/settings">Settings</a>›<span>Pilot survey</span></div><h1>Pilot survey</h1>`;
+  if (!sb || !auth.user) return `<div class="stack">${head}<p class="notice"><a href="#/signin">Sign in</a> to answer the survey, so we can match it to your progress.</p></div>`;
+  const scale = (name, from, to, lo, hi) => `<div class="row" style="gap:6px;flex-wrap:wrap">${Array.from({ length: to - from + 1 }, (_, i) => from + i).map(n => `<label class="chip"><input type="radio" name="${name}" value="${n}"> ${n}</label>`).join("")}</div><small class="muted">${from} = ${lo}, ${to} = ${hi}</small>`;
+  return `<div class="stack">${head}<p class="lede">Two minutes, five questions. Your answers help decide what to fix first.</p>
+    <form id="survey" class="stack">
+      <fieldset class="field"><legend>1. How useful has Ascent been for you so far?</legend>${scale("useful", 1, 5, "not useful", "very useful")}</fieldset>
+      <div class="field"><label for="sv-path">2. Which path did you use most?</label><select id="sv-path"><option value="">None yet</option>${PATHS.map(p => `<option value="${p.slug}">${esc(p.title)}</option>`).join("")}</select></div>
+      <div class="field"><label for="sv-good">3. What did you like most?</label><textarea id="sv-good" rows="3" maxlength="1000"></textarea></div>
+      <div class="field"><label for="sv-bad">4. What was confusing or frustrating?</label><textarea id="sv-bad" rows="3" maxlength="1000"></textarea></div>
+      <fieldset class="field"><legend>5. How likely are you to recommend Ascent to a friend?</legend>${scale("nps", 0, 10, "not at all likely", "extremely likely")}</fieldset>
+      <button class="btn" type="submit" style="justify-self:start">Send answers</button></form></div>`;
+}
+document.addEventListener("submit", async e => {
+  if (e.target.id !== "survey") return;
+  e.preventDefault();
+  const f = e.target, val = n => f.querySelector(`input[name="${n}"]:checked`)?.value || null;
+  const a = { useful: val("useful"), path: $("#sv-path").value, good: $("#sv-good").value.trim(), bad: $("#sv-bad").value.trim(), nps: val("nps") };
+  if (!a.useful && !a.nps && !a.good && !a.bad) return toast("Answer at least one question first");
+  const { error } = await sb.from("flags").insert({ user_id: auth.user.id, path: "survey", category: "survey", note: JSON.stringify(a) });
+  if (error) return toast(`Couldn't send: ${error.message}`);
+  toast("Thank you! Your answers were sent."); location.hash = "#/";
+});
+
 // --- settings: appearance, the welcome tour, and resetting progress ------------------------
 const THEMES = [["system", "Match my device"], ["light", "Light"], ["dark", "Dark"]];
 const getTheme = () => { try { return localStorage.getItem("ascent-theme") || "system"; } catch { return "system"; } };
@@ -706,6 +736,8 @@ function settingsView() {
       <div class="levels" role="radiogroup" aria-label="Theme">${THEMES.map(([v, l]) => `<button type="button" role="radio" class="level${th === v ? " on" : ""}" aria-checked="${th === v}" data-theme-set="${v}">${l}</button>`).join("")}</div></section>
     <section class="section"><h2>Classes</h2><p>Teach a group with any path, or join your teacher's class with a code.</p>
       <a class="btn ghost" href="#/classes" style="justify-self:start">Open classes</a></section>
+    <section class="section"><h2>Pilot survey</h2><p>Five quick questions about how Ascent is working for you.</p>
+      <a class="btn ghost" href="#/survey" style="justify-self:start">Answer the survey</a></section>
     <section class="section"><h2>Getting started</h2><p>Take the short tour again, and pick new interests for your home page.</p>
       <button class="btn ghost" type="button" data-welcome style="justify-self:start">Replay the welcome tour</button></section>
     <section class="section"><h2>Reset progress</h2>
@@ -1320,12 +1352,13 @@ const ROUTES = [
   [/^#\/settings$/, () => settingsView(), "settings"],
   [/^#\/practice$/, () => practiceView(), "home"],
   [/^#\/classes$/, () => classesView(), "settings"],
+  [/^#\/survey$/, () => surveyView(), "settings"],
   [/^#\/class\/([0-9a-f-]{36})$/, m => classView(m[1]), "settings"],
   [/^#\/explore(?:\?(.*))?$/, m => exploreView(m[1]), "atlas"],
   [/^#\/verify\/([0-9a-f-]{36})$/, m => verifyView(m[1]), "home"],
   [/^#\/search(?:\?q=(.*))?$/, m => searchView(m[1]), "home"],
-  [/^#\/admin(?:\/(\w+))?$/, m => adminView(m[1]), "admin"],
-  [/^#\/review(?:\/([\w-]+))?$/, m => reviewView(m[1]), "review"],
+  [/^#\/admin(?:\/(\w+))?$/, async m => (await admin()).adminView(m[1]), "admin"],
+  [/^#\/review(?:\/([\w-]+))?$/, async m => (await admin()).reviewView(m[1]), "review"],
   [/^#\/privacy$/, () => privacyView(), "home"],
   [/^#\/signin$/, () => signinView(), "account"],
   [/^#\/account$/, () => accountView(), "account"],
@@ -1443,7 +1476,7 @@ document.addEventListener("click", async e => {
       try { await navigator.share(navigator.canShare?.({ files: [f] }) ? { files: [f], title: "My Ascent certificate" } : { title: "Ascent", url: "https://wasiulbahar.com/ascent/" }); } catch { /* share cancelled */ } });
     return;
   }
-  if ("feedback" in d) { openReport("app", null); return; }
+  if ("feedback" in d) { (await admin()).openReport("app", null); return; }
   if ("deleteme" in d) {
     t.disabled = true; t.textContent = "Deleting…";
     const { error } = await sb.rpc("delete_my_account");
@@ -1471,7 +1504,7 @@ document.addEventListener("click", async e => {
     else confirming.add(k);
     refresh(); return;
   }
-  if (d.report) { openReport(slug, d.report); return; }
+  if (d.report) { (await admin()).openReport(slug, d.report); return; }
   if (d.story) { openStory(slug, d.story); return; }
   if (d.step) { const n = story.n + +d.step; if (n >= 0 && n < story.cards.length) { story.n = n; drawStory(+d.step); } return; }
   if ("close" in d) { closeLayer(); return; }
@@ -1496,7 +1529,6 @@ window.addEventListener("hashchange", () => { closeLayer(); route(); $("#view").
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
 const showOnline = () => ($("#offline").hidden = navigator.onLine);
 addEventListener("online", showOnline); addEventListener("offline", showOnline); showOnline();
-useHelpers({ esc, C, ico, inline, getPath, toast, refresh: () => refresh() });
 await initAuth(async () => { await Promise.all([loadProgress(), loadProfile()]); route({ keepScroll: true }); });
 await Promise.all([loadProgress(), loadProfile()]);
 route();

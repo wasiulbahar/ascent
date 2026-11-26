@@ -43,4 +43,11 @@ export const PATHS = [
   { slug: "business", title: "Business and management", color: "butter", icon: "briefcase", fields: ["business-administration", "management"], doms: ["economics-business-finance-and-management"] },
   { slug: "education", title: "Education", color: "sky", icon: "course", fields: ["educational-foundations", "pedagogy"], doms: ["education-and-learning-sciences"] },
   { slug: "art-history", title: "Art history", color: "peach", icon: "palette", fields: ["art-history"], doms: ["arts-design-and-creative-practice"] },
+  { slug: "environment", title: "Environmental science and climate", color: "mint", icon: "sun", fields: ["environmental-science", "climate-change"], doms: ["environmental-climate-and-sustainability-studies"] },
+  { slug: "engineering", title: "Engineering", color: "sky", icon: "gear", fields: ["mechanical-engineering", "civil-and-infrastructure-engineering", "systems-engineering"], doms: ["engineering-and-technology"] },
+  { slug: "political-science", title: "Political science", color: "butter", icon: "building", fields: ["political-science"], doms: ["social-and-behavioural-sciences"] },
+  { slug: "linguistics", title: "Linguistics", color: "rose", icon: "chat", fields: ["linguistics"], doms: ["languages-literature-and-linguistic-studies"] },
+  { slug: "anthropology", title: "Anthropology", color: "peach", icon: "people", fields: ["anthropology"], doms: ["social-and-behavioural-sciences"] },
+  { slug: "music-theory", title: "Music theory", color: "lilac", icon: "music", fields: ["music-theory"], doms: ["arts-design-and-creative-practice"] },
+  { slug: "film", title: "Film", color: "sky", icon: "watch", fields: ["film-studies"], doms: ["arts-design-and-creative-practice"] },
 ];

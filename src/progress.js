@@ -1,8 +1,8 @@
 // A learner's record: ticked works, best quiz scores, and stages they continued past.
 // Saved to their account when signed in; otherwise kept in this browser and moved into
 // the account at the next sign-in.
-import { sb, auth } from "./auth.js?v=21";
-import { PASS_MARK } from "./status.js?v=21";
+import { sb, auth } from "./auth.js?v=22";
+import { PASS_MARK } from "./status.js?v=22";
 
 const LOCAL = { done: "ascent-progress", attempts: "ascent-attempts", skips: "ascent-skips" };
 const key = (...parts) => parts.join(":");
