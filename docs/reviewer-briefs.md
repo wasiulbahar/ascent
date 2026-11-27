@@ -917,6 +917,534 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Link:** https://wasiulbahar.com/ascent/#/path/cartography
 - **Look first at:** The Gall–Peters controversy (ct10); Counter-mapping (ct16); Reading current research (ct24).
 
+## Programming
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** programmers and computing teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/programming
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Calculus
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and mathematics teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/calculus
+- **Look first at:** Newton and Leibniz (cc4).
+
+## Anatomy and physiology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** anatomists, physiologists and health educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/anatomy-physiology
+- **Also check:** “Not medical advice” message checked on every page
+- **Look first at:** Studying the body today and reading research (ap24).
+
+## Mechanical engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mechanical engineers and engineering educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/mechanical-engineering
+- **Look first at:** Engineering ethics (me22); The profession and reading research (me24).
+
+## Entrepreneurship
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** founders and entrepreneurship educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/entrepreneurship
+- **Look first at:** Reading current research (en24).
+
+## Civil engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** civil engineers and engineering educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/civil-engineering
+- **Look first at:** Reading current research (cv24).
+
+## Web development
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** web developers and educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/web-development
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Personal finance
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** financial educators and consumer protection experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/personal-finance
+- **Also check:** “Not financial advice” message checked on every page; no products recommended
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Biochemistry
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** biochemists and science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/biochemistry
+- **Also check:** “Not medical advice” message checked on every page
+- **Look first at:** The Vital Question (bc1); Oxidative phosphorylation (bc15); Reading current research (bc24).
+
+## Quantum physics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** physicists and physics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/quantum-physics
+- **Look first at:** Quantum: Einstein, Bohr and the Great Debate (qp1); Interpretations compared (qp20); Reading research and spotting hype (qp24).
+
+## Mental health and wellbeing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** clinicians, researchers and people with lived experience from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/mental-health
+- **Look first at:** How diagnoses are classified: ICD-11 and DSM-5-TR (mh8); Feeling Good (mh9); Cochrane reviews (mh21).
+
+## Academic writing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** writing teachers and researchers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/academic-writing
+- **Look first at:** The Craft of Research (aw9); Writing a literature review (aw12); Abstracts and summaries (aw20).
+
+## Linear algebra
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and mathematics teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/linear-algebra
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Organic chemistry
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** chemists and chemistry educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/organic-chemistry
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Leadership
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** leadership researchers and practitioners from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/leadership
+- **Look first at:** What Makes a Leader? (ld9); Radical Candor (ld12); Leadership on the Line (ld21).
+
+## Machine learning
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** machine learning researchers and engineers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/machine-learning
+- **Look first at:** ImageNet Classification with Deep Convolutional Neural Networks (ml14); Reading current research (ml24).
+
+## Algorithms and data structures
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** computer scientists and teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/algorithms
+- **Look first at:** Competitive Programmer's Handbook (ad21); Online judges (ad22).
+
+## Probability
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** probabilists, statisticians and teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/probability
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Electrical engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** electrical engineers and engineering educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/electrical-engineering
+- **Look first at:** Reading current research (ee24).
+
+## Epidemiology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** epidemiologists and public health educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/epidemiology
+- **Look first at:** Reading current research (ep24).
+
+## Immunology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** immunologists and biomedical educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/immunology
+- **Look first at:** Reading current research (im24).
+
+## Chemical engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** chemical engineers and engineering educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/chemical-engineering
+- **Look first at:** Carbon capture and storage (ce22); Reading current research (ce24).
+
+## Public speaking
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** speaking coaches and communication teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/public-speaking
+- **Look first at:** The Culture Map (ps18); Debating (ps21).
+
+## Project management
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** project managers and management educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/project-management
+- **Look first at:** Gantt charts and the critical path (pm6).
+
+## Differential equations
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and applied mathematics teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/differential-equations
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Cell biology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** cell biologists and biology educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cell-biology
+- **Look first at:** Reading current research (cb24).
+
+## Discrete mathematics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/discrete-mathematics
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Aerospace engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** aerospace engineers and engineering educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/aerospace-engineering
+- **Look first at:** Reading current research (ae24).
+
+## Computer networks
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** network engineers and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/computer-networks
+- **Look first at:** Reading current research (cn24).
+
+## Biotechnology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** biotechnologists, bioethicists and educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/biotechnology
+- **Look first at:** Golden Rice (bt14); The Asilomar Conference (bt21); Reading current research (bt24).
+
+## Databases
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** database engineers and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/databases
+- **Look first at:** Reading current research (db24).
+
+## Operating systems
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** systems engineers and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/operating-systems
+- **Look first at:** Reading current research (os24).
+
+## Supply chain management
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** supply chain professionals and educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/supply-chain
+- **Look first at:** Reading current research (sc24).
+
+## Real analysis
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and mathematics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/real-analysis
+- **Look first at:** Understanding Analysis (ra5).
+
+## Thermodynamics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** physicists, chemists and engineering educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/thermodynamics
+- **Look first at:** Phase transitions and critical points (th15); Reading current research (th24).
+
+## Software engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** software engineers and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/software-engineering
+- **Look first at:** Reading current research (se24).
+
+## Computer architecture
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** computer architects and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/computer-architecture
+- **Look first at:** Reading current research (ca24).
+
+## Human resource management
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** HR professionals and organisational psychologists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/human-resources
+- **Look first at:** Building a Practically Useful Theory of Goal Setting (hr10).
+
+## Environmental engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** environmental engineers and public health educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/environmental-engineering
+- **Look first at:** Reading current research (en24).
+
+## Macroeconomics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** economists and economics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/macroeconomics
+- **Look first at:** The Undercover Economist Strikes Back (mac1); The Asian financial crisis (mac20); Reading current research (mac24).
+
+## Microeconomics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** economists and economics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/microeconomics
+- **Look first at:** Reading current research (mi24).
+
+## Plant biology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** botanists and plant scientists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/plant-biology
+- **Look first at:** The Green Revolution (pb18); The Light Eaters (pb23); Reading current research (pb24).
+
+## Astrophysics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** astrophysicists and astronomy educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/astrophysics
+- **Look first at:** Reading current research (ap24).
+
+## Data visualisation
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** data journalists, designers and statisticians from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/data-visualisation
+- **Look first at:** Reading current research (dv24).
+
+## International law
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** international lawyers and law teachers from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/international-law
+- **Look first at:** The International Court of Justice (il4); The International Criminal Court at work (il16); WTO dispute settlement (il19); EJIL: Talk! (il22); Philip C. Jessup Moot Court Competition (il23); Reading current research (il24).
+
+## Zoology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** zoologists and biology educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/zoology
+- **Look first at:** The IUCN Red List (zo17); Wolves in Yellowstone (zo19); Reading current research (zo24).
+
+## First aid and emergency care
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** emergency physicians, paramedics and first aid trainers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/first-aid
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Graphic design
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** graphic designers and design educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/graphic-design
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Mobile app development
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mobile developers and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/mobile-development
+- **Look first at:** App store review guidelines (ma18); Reading current research (ma24).
+
+## Cloud computing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** cloud engineers and computer science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cloud-computing
+- **Look first at:** Reading current research (cc24).
+
+## Research methods
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** researchers and methods teachers from several disciplines and countries.
+- **Link:** https://wasiulbahar.com/ascent/#/path/research-methods
+- **Look first at:** How to Read a Paper (rm1); Survey methods (rm7); Cochrane Handbook for Systematic Reviews of Interventions (rm21).
+
+## Sustainable development
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** development and sustainability experts from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/sustainable-development
+- **Look first at:** The Limits to Growth (sd6); Less Is More (sd21); Reading current research (sd24).
+
+## Biomedical engineering
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** biomedical engineers and clinicians from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/biomedical-engineering
+- **Look first at:** Cochlear implants (be17); Reading current research (be24).
+
+## Negotiation
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** negotiators, mediators and teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/negotiation
+- **Look first at:** Program on Negotiation daily blog and reports (ng2); Reading current research (ng24).
+
+## Meteorology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** meteorologists and atmospheric science educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/meteorology
+- **Look first at:** Reading current research (me24).
+
+## Child development
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** developmental psychologists, paediatricians and educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/child-development
+- **Look first at:** Reading current research (cd24).
+
+## Digital literacy
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** librarians, educators and security experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/digital-literacy
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Oral health
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** dentists and oral health researchers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/oral-health
+- **Look first at:** Community water fluoridation (oh12); Reading current research (oh24).
+
+## Drawing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** artists and art teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/drawing
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Ageing
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** gerontologists, geriatricians and care experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/ageing
+- **Look first at:** Successful Aging (ag16); Reading current research (ag24).
+
+## Maternal and newborn health
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** midwives, obstetricians, paediatricians and global health experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/maternal-health
+- **Look first at:** Reading current research (mn24).
+
+## Music production
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** producers, engineers and music educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/music-production
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Animation
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** animators and animation teachers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/animation
+- **Look first at:** The 11 Second Club (an24).
+
+## Physiotherapy and rehabilitation
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** physiotherapists and rehabilitation experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/physiotherapy
+- **Look first at:** Reading current research (pt24).
+
+## Risk management
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** risk professionals and educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/risk-management
+- **Look first at:** The precautionary principle (rk22); Reading current research (rk24).
+
+## History of science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** historians of science from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/history-of-science
+- **Look first at:** Pathfinders: The Golden Age of Arabic Science (hs7); Reading current research (hs24).
+
+## Game theory
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** economists, mathematicians and political scientists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/game-theory
+- **Look first at:** Reading current research (gt24).
+
+## Abstract algebra
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and mathematics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/abstract-algebra
+- **Look first at:** no works are marked as contested; check the timeline and trivia first.
+
+## Number theory
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and mathematics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/number-theory
+- **Look first at:** PRIMES is in P (nt17).
+
+## Demography
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** demographers and population researchers from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/demography
+- **Look first at:** Empty Planet (dg11); Reading current research (dg24).
+
+## Tourism and hospitality
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** tourism researchers and professionals from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/tourism
+- **Look first at:** Pilgrimage (tu11); The effect of home-sharing on housing (tu13); Reading current research (tu24).
+
+## Topology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** mathematicians and mathematics educators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/topology
+- **Look first at:** Möbius strips and Klein bottles (tp3).
+
+## Bioethics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** bioethicists, clinicians and patient advocates from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/bioethics
+- **Look first at:** Bioethics Briefings (bx3); Assisted dying around the world (bx10); Reading current research (bx24).
+
+## Optics and photonics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** physicists and optical engineers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/optics
+- **Look first at:** Reading current research (op24).
+
+## Forensic science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** forensic scientists, lawyers and human rights investigators from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/forensic-science
+- **Look first at:** Reading current research (fs24).
+
 ## Film
 
 - **Size:** 6 stages, 24 works, 96 quiz questions.
