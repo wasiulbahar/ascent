@@ -1,11 +1,11 @@
 // The knowledge taxonomy: a graph, not a tree. One entity per field; a field can have several
 // homes (parents). Data: data/taxonomy.json, built from the knowledge-base spec.
-import { PATHS } from "./paths.js?v=28";
+import { PATHS } from "./paths.js?v=29";
 
 let T = null;
 export async function loadTax() {
   if (T) return T;
-  const [d, rows] = await Promise.all([fetch("data/taxonomy.json?v=28").then(r => r.json()), changes()]);
+  const [d, rows] = await Promise.all([fetch("data/taxonomy.json?v=29").then(r => r.json()), changes()]);
   return T = indexTax(applyTax(d, rows));
 }
 export function indexTax(d) {
@@ -68,7 +68,7 @@ const slugify = s => s.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-
 let P = null;
 export async function loadPoi() {
   if (P) return P;
-  const [d, rows] = await Promise.all([fetch("data/poi/index.json?v=28").then(r => r.json()), changes()]);
+  const [d, rows] = await Promise.all([fetch("data/poi/index.json?v=29").then(r => r.json()), changes()]);
   return P = applyPoi(indexPoi(d), rows);
 }
 export function indexPoi(d) {
@@ -92,7 +92,7 @@ export function searchPoi(p, q, limit = 20) {
 const details = {};
 export async function poiDetail(id) {
   const k = /^[a-z]/.test(id) ? id[0] : "0";
-  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=28`)).json();
+  details[k] ||= await (await fetch(`data/poi/d-${k}.json?v=29`)).json();
   return details[k][id];
 }
 export const POI_LABEL = { person: "Person", event: "Event", place: "Place", work: "Work", invention: "Invention or technology", law: "Law or legal text", species: "Species or organism", concept: "Concept or idea", institution: "Institution", object: "Object" };

@@ -1445,6 +1445,76 @@ Time: about 10 minutes per work to skim the introduction and quiz, so 4 to 5 hou
 - **Link:** https://wasiulbahar.com/ascent/#/path/forensic-science
 - **Look first at:** Reading current research (fs24).
 
+## Toxicology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** toxicologists and public health experts from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/toxicology
+- **Look first at:** Reading current research (tx24).
+
+## Sociolinguistics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** linguists and language educators from more than one region.
+- **Link:** https://wasiulbahar.com/ascent/#/path/sociolinguistics
+- **Look first at:** Language and Woman's Place (sl9); English as a global language (sl23); Reading current research (sl24).
+
+## Fluid mechanics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** engineers and physicists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/fluid-mechanics
+- **Look first at:** Reynolds's experiment (fm10); Reading current research (fm24).
+
+## Constitutional law
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** constitutional scholars from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/constitutional-law
+- **Look first at:** Interactive Constitution (cl4); Federalism explainers (cl17); Verfassungsblog (cl22); Reading current research (cl24).
+
+## Social psychology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** social psychologists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/social-psychology
+- **Look first at:** Reading current research (sp24).
+
+## Embedded systems
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** embedded engineers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/embedded-systems
+- **Look first at:** The Toyota throttle software case (es18); Reading current research (es24).
+
+## Computer graphics
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** graphics researchers and engineers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/computer-graphics
+- **Look first at:** Reading current research (cg24).
+
+## Cryptography
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** cryptographers from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/cryptography
+- **Look first at:** Reading current research (cr24).
+
+## Soil science
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** soil scientists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/soil-science
+- **Look first at:** The 4 per 1000 initiative (ss21); Reading current research (ss24).
+
+## Hydrology
+
+- **Size:** 6 stages, 24 works, 96 quiz questions.
+- **Ideal reviewers:** hydrologists from more than one country.
+- **Link:** https://wasiulbahar.com/ascent/#/path/hydrology
+- **Look first at:** Reading current research (hy24).
+
 ## Film
 
 - **Size:** 6 stages, 24 works, 96 quiz questions.
